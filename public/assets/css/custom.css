@@ -1,0 +1,236 @@
+/* Write your custom CSS here */
+
+/* Input field no padding */
+.row-input{
+    height: 4px;
+}
+
+/* Icon color */
+
+i.icon-success {
+    color: #53a850;
+}
+
+i.icon-danger {
+    color: #c43d25;
+}
+
+i.icon-info {
+    color: #3881d4;
+}
+
+i.icon-warning {
+    color:  #cfa415;
+}
+
+i.icon-default {
+    color:  #666561;
+}
+
+i.icon-white {
+    color:  #fff;
+}
+
+
+/* Label Badges */
+
+.label{
+    font-size: 12px;
+    line-height: 2;
+    font-weight: bold;
+    padding: 3px 7px;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+    border-radius: 4px;
+    display: inline;
+}
+
+.bg-success{
+    background-color: #53a850 !important;
+    color: #fff !important;
+}
+
+.bg-danger{
+    background-color: #c43d25 !important;
+    color: #fff !important;
+}
+
+.bg-info{
+    background-color: #3881d4 !important;
+    color: #fff !important;
+}
+
+.bg-warning{
+    background-color: #cfa415 !important;
+    color: #fff !important;
+}
+
+.bg-default{
+    background-color: #666561 !important;
+    color: #fff !important;
+}
+
+.bg-white{
+    background-color: #fff !important;
+    color: #666561 !important;
+}
+
+
+/* Margins */
+
+.margin-5{
+    margin: 5px 5px 5px 5px;
+}
+
+.margin-10{
+    margin: 10px 10px 10px 10px;
+}
+
+
+/* Paddings */
+
+.padding-top-10{
+    padding-top: 10px;
+}
+
+.padding-top-20{
+    padding-top: 20px;
+}
+
+.padding-top-30{
+    padding-top: 30px;
+}
+
+.padding-top-40{
+    padding-top: 40px;
+}
+
+.padding-top-50{
+    padding-top: 50px;
+}
+
+.padding-right-10{
+    padding-right: 10px;
+}
+
+.padding-right-20{
+    padding-right: 20px;
+}
+
+.padding-right-30{
+    padding-right: 30px;
+}
+
+.padding-right-40{
+    padding-right: 40px;
+}
+
+.padding-right-50{
+    padding-right: 50px;
+}
+
+.padding-bottom-10{
+    padding-bottom: 10px;
+}
+
+.padding-bottom-20{
+    padding-bottom: 20px;
+}
+
+.padding-bottom-30{
+    padding-bottom: 30px;
+}
+
+.padding-bottom-40{
+    padding-bottom: 40px;
+}
+
+.padding-bottom-50{
+    padding-bottom: 50px;
+}
+
+.padding-left-10{
+    padding-left: 10px;
+}
+
+.padding-left-20{
+    padding-left: 20px;
+}
+
+.padding-left-30{
+    padding-left: 30px;
+}
+
+.padding-left-40{
+    padding-left: 40px;
+}
+
+.padding-left-50{
+    padding-left: 50px;
+}
+
+
+/* Card title */
+
+.card-breadcrumb-link {
+    color: rgb(77, 143, 219) !important;
+}
+
+.card-breadcrumb-separator {
+    line-height: 10px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    color: rgba(0,0,0,0.24) !important;
+
+}
+
+
+/* Card chamado */
+
+.ticket-row {
+    margin-bottom: 0;
+    padding: 0 35.5px;
+}
+
+.ticket-header{
+    padding: 20px 0 20px 0;
+}
+
+.ticket-container {
+    margin-bottom: 0;
+}
+
+
+/* Alert bootstrap */
+.flash_message {
+    position: relative;
+    width: 100%;
+}
+
+.chip-message-success,
+.chip-message-info,
+.chip-message-warning,
+.chip-message-danger {
+    padding-bottom: 2px !important;
+    font-size: 12px !important;
+    width: 100%;
+    min-height: 30px;
+    border-radius: 5px;
+}
+
+.chip-message-success {
+    background-color: #99ce80 !important;
+}
+
+.chip-message-info {
+    background-color: #bbdefb !important;
+}
+
+.chip-message-warning {
+    background-color: #ffcc80 !important;
+}
+
+.chip-message-danger {
+    background-color: #ff8e9a !important;
+}

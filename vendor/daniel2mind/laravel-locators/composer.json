@@ -1,0 +1,27 @@
+{
+    "name": "daniel2mind/laravel-locators",
+    "description": "Estrutura de requisições para desacoplar Controllers e rotas para Laravel 5.5.*",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Barcelos",
+            "email": "daniel.barcelos@2mind.com.br"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php" : ">=5.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Daniel2mind\\LaravelLocators\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Daniel2mind\\LaravelLocators\\LaravelLocatorServiceProvider"
+            ]
+        }
+    }
+}
