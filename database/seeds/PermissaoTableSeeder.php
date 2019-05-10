@@ -23,10 +23,17 @@ class PermissaoTableSeeder extends Seeder
 
         foreach($paths as $path)
         {
-            //Busca todos os arquivos de controle de permissões de acordo com o ambiente
-            $arquivos = File::allFiles(base_path('app/Http/Permissions/'.$path.'/'));
+            try
+            {
+                //Busca todos os arquivos de controle de permissões de acordo com o ambiente
+                $arquivos = File::allFiles(base_path('app/Http/Permissions/'.$path.'/'));
 
-            $this->update($arquivos, $path);
+                $this->update($arquivos, $path);
+            }
+            catch(\Throwable $e)
+            {
+                //
+            }
         }
     }
 
