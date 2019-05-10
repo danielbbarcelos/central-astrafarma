@@ -194,7 +194,7 @@
                 $("#ipvenda").attr("hidden",false);
 
 
-                var prefix   = "vxfattabprc_"+this.value;
+                var prefix   = "vxfattabprc_"+tabela.value;
 
                 //exibe apenas os produtos cadastrados na tabela de preço
                 var produtos = JSON.parse($("#"+prefix+"_produtos").val());

@@ -55,19 +55,6 @@
                                 <div hidden>
                                     @foreach($tabelas as $item)
                                         <input id="vxfattabprc_{{$item->id}}_descricao" value="{{$item->descricao}}">
-                                        <input id="vxfattabprc_{{$item->id}}_preco_venda" value="{{$item->preco_venda}}">
-                                        <input id="vxfattabprc_{{$item->id}}_preco_maximo" value="{{$item->preco_maximo}}">
-                                        <input id="vxfattabprc_{{$item->id}}_valor_desconto" value="{{isset($item->valor_desconto) ? $item->valor_desconto : 0.00}}">
-                                        <input id="vxfattabprc_{{$item->id}}_fator" value="{{isset($item->fator) ? $item->fator : 0.00}}">
-                                        <input id="vxfattabprc_{{$item->id}}_produtos" value="{{json_encode($item->produtos,JSON_UNESCAPED_UNICODE)}}">
-                                    @endforeach
-                                </div>
-
-
-                                <!-- div para resgatar os dados da tabela selecionada -->
-                                <div hidden>
-                                    @foreach($tabelas as $item)
-                                        <input id="vxfattabprc_{{$item->id}}_descricao" value="{{$item->descricao}}">
                                         <input id="vxfattabprc_{{$item->id}}_produtos" value="{{json_encode($item->produtos,JSON_UNESCAPED_UNICODE)}}">
                                     @endforeach
                                 </div>
@@ -151,6 +138,7 @@
                 itens++;
             });
 
+
             if(parseInt(itens) === 0)
             {
                 alteraTabelaPreco(this)
@@ -182,7 +170,8 @@
                 $("#ipvenda").attr("hidden",false);
 
 
-                var prefix   = "vxfattabprc_"+this.value;
+                var prefix   = "vxfattabprc_"+tabela.value;
+
 
                 //exibe apenas os produtos cadastrados na tabela de preço
                 var produtos = JSON.parse($("#"+prefix+"_produtos").val());
