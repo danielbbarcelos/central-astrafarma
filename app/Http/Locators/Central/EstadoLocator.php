@@ -12,7 +12,7 @@ class EstadoLocator extends Controller
     //construct
     public function __construct()
     {
-        $this->middleware('permissions', [ 'except' => ['*']]);
+        $this->middleware('permissions', [ 'except' => ['buscaCidades']]);
     }
 
 
