@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('page-title', 'Pedido de venda')
+@section('page-title', 'Novo pedido de venda')
 
 @section('page-css')
 
@@ -8,7 +8,7 @@
 
 @section('page-content')
 
-    <form class="s12" method="post" id="form-pedido" action="{{url('/pedidos-vendas/'.$pedido->id.'/edit')}}">
+    <form class="s12" method="post" id="form-pedido">
 
         {{csrf_field()}}
 
@@ -23,15 +23,15 @@
                             <span class="card-title">
                                 <a href="{{url('/pedidos-vendas')}}" class="card-breadcrumb-link">Lista de pedidos</a>
                                 <i class="material-icons card-breadcrumb-separator">chevron_right</i>
-                                Pedido de venda
+                                Novo pedido de venda
                             </span><br>
                             <div class="row">
                                 <div class="row row-input">
                                     <div class="input-field col s12 m12">
-                                        <select name="vxglocli_id" id="vxglocli_id" @if($pedido->situacao_pedido !== 'A') disabled @endif>
+                                        <select name="vxglocli_id" id="vxglocli_id">
                                             <option value="">Selecione...</option>
                                             @foreach($clientes as $item)
-                                                <option value="{{$item->id}}" @if($item->erp_id == $pedido->vxglocli_erp_id) selected @endif>{{$item->razao_social}}</option>
+                                                <option value="{{$item->id}}">{{$item->razao_social}}</option>
                                             @endforeach
                                         </select>
                                         <label>Cliente</label>
@@ -41,16 +41,15 @@
 
                                 <div class="row row-input">
                                     <div class="input-field col s12 m12">
-                                        <select name="vxfattabprc_id" id="vxfattabprc_id" @if($pedido->situacao_pedido !== 'A') disabled @endif>
+                                        <select name="vxfattabprc_id" id="vxfattabprc_id">
                                             <option value="">Selecione...</option>
                                             @foreach($tabelas as $item)
-                                                <option value="{{$item->id}}" @if($item->erp_id == $pedido->vxfattabprc_erp_id) selected @endif>{{$item->descricao}}</option>
+                                                <option value="{{$item->id}}">{{$item->descricao}}</option>
                                             @endforeach
                                         </select>
                                         <label>Tabela de preços</label>
                                     </div>
                                 </div>
-
 
                                 <!-- div para resgatar os dados da tabela selecionada -->
                                 <div hidden>
@@ -61,16 +60,14 @@
                                 </div>
 
 
-                                <div id="ipvenda" class="col s12">
+                                <div id="ipvenda" class="col s12" hidden>
                                     <div class="col s12 row" style="margin-top: 20px">
                                         <label class="card-title" style="font-weight: 800; font-size: 14px;">
-                                            Itens do pedido <h5 class="padding-left-20">Valor total: R$ <span id="valor_total">{{number_format($pedido->valorTotal(),2,',','.')}}</span></h5>
+                                            Itens do pedido <h5 class="padding-left-20">Valor total: R$ <span id="valor_total">0,00</span></h5>
                                         </label>
-                                        @if($pedido->situacao_pedido == 'A')
-                                            <div class="right-align">
-                                                <a id="btn-produto" class="waves-effect waves-light btn blue modal-trigger" href="#modal-produto">+ ITEM</a>
-                                            </div>
-                                        @endif
+                                        <div class="right-align">
+                                            <a id="btn-produto" class="waves-effect waves-light btn blue modal-trigger" href="#modal-produto">+ ITEM</a>
+                                        </div>
                                     </div><br>
                                     <div class="row">
                                         <table class="display" cellspacing="0" width="100%">
@@ -82,43 +79,20 @@
                                                 <th>Valor unitário</th>
                                                 <th>Desconto</th>
                                                 <th>Valor total</th>
-                                                @if($pedido->situacao_pedido == 'A')
-                                                    <th>Funções</th>
-                                                @endif
+                                                <th>Funções</th>
                                             </tr>
                                             </thead>
                                             <tbody id="ipvenda-tbody">
-                                                @foreach($itens as $item)
-                                                    <tr>
-                                                        <td>
-                                                            <input type='hidden' name='vxfatipvend_id[]' value='{{$item->id}}'>
-                                                            <input type='hidden' name='produto_id[]' value='{{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}'>
-                                                            <input type='hidden' name='produto_quantidade[]' value='{{$item->quantidade}}'>
-                                                            <input type='hidden' name='produto_preco_unitario[]' value='{{number_format($item->preco_unitario,2,',','.')}}'>
-                                                            <input type='hidden' name='produto_valor_desconto[]' value='{{number_format($item->valor_desconto,2,',','.')}}'>
-                                                            <input type='hidden' name='produto_preco_total[]' value='{{number_format($item->valor_total,2,',','.')}}'>
-                                                            {{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}
-                                                        </td>
-                                                        <td>{{isset($item->produto) ? $item->produto->descricao : json_decode($item->produto_data)->descricao}}</td>
-                                                        <td>{{$item->quantidade}}</td>
-                                                        <td>{{number_format($item->preco_unitario,2,',','.')}}</td>
-                                                        <td>{{number_format($item->valor_desconto,2,',','.')}}</td>
-                                                        <td>{{number_format($item->valor_total,2,',','.')}}</td>
-                                                        @if($pedido->situacao_pedido == 'A')
-                                                            <td><a style='cursor: pointer' onclick='excluiProduto(this)'>Excluir</a></td>
-                                                        @endif
-                                                    </tr>
-                                                @endforeach
+
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
 
-                                @if($pedido->situacao_pedido == 'A')
-                                    <div class="col s12 right-align" style="margin-top: 30px">
-                                        <button type="button" id="btn-concluir" class="waves-effect waves-light btn blue">Concluir pedido</button>
-                                    </div>
-                                @endif
+
+                                <div class="col s12 right-align" style="margin-top: 30px">
+                                    <button type="button" id="btn-concluir" disabled class="waves-effect waves-light btn blue">Concluir pedido</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -152,8 +126,8 @@
                 selectMonths: true, // Creates a dropdown to control month
                 selectYears: 15 // Creates a dropdown of 15 years to control year
             });
-
         });
+
 
 
         $("#vxfattabprc_id").on("change",function(){
@@ -163,6 +137,7 @@
             $("#ipvenda-tbody input[name='produto_id[]']").each(function(){
                 itens++;
             });
+
 
             if(parseInt(itens) === 0)
             {
@@ -183,6 +158,7 @@
 
             calculaValorTotalPedido();
 
+
             if(tabela.value === '')
             {
                 $("#btn-concluir").attr("disabled",true);
@@ -195,6 +171,7 @@
 
 
                 var prefix   = "vxfattabprc_"+tabela.value;
+
 
                 //exibe apenas os produtos cadastrados na tabela de preço
                 var produtos = JSON.parse($("#"+prefix+"_produtos").val());
@@ -218,7 +195,6 @@
 
             }
         }
-
 
         $("#produto_id").on("change", function(){
             if(this.value === '')

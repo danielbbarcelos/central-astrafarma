@@ -135,7 +135,7 @@ class AuthController extends Controller
             }
             else
             {
-                $perfil = Perfil::find($user->vxwevperfil_id);
+                $perfil = Perfil::find($user->vxwebperfil_id);
 
                 //caso seja o primeiro acesso, executamos o db:seed para carregar as permissões
                 if(!isset($perfil))

@@ -22,7 +22,7 @@
 
     <!-- Theme Styles -->
     <link href="{{url('/assets/css/alpha.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{url('/assets/css/custom.c81e728d9d4c2f636f067f89cc14862c.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url('/assets/css/custom.eccbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{url('/assets/css/ribbon.css')}}" rel="stylesheet" type="text/css"/>
 
     <!-- Jquery -->
@@ -43,8 +43,11 @@
 
         <main class="mn-inner inner-active-sidebar">
 
-            @yield('breadcrumbs')
-
+            <div class="row">
+                <div class="middle col s12">
+                    @yield('page-breadcrumbs')
+                </div>
+            </div>
 
             @yield('page-content')
                

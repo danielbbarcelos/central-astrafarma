@@ -6,9 +6,21 @@
 
 @endsection
 
+
+@section('page-breadcrumbs')
+
+    <div class="middle breadcrumbs">
+        <ul class="breadcrumbs-itens breadcrumbs_chevron">
+            <li class="breadcrumbs__item"><a href="{{url('/suporte/chamados')}}" class="breadcrumbs__element">Lista de chamado</a></li>
+            <li class="breadcrumbs__item breadcrumbs__item_active"><span class="breadcrumbs__element">Chamado #{{$chamado->id}}</span></li>
+        </ul>
+    </div>
+
+@endsection
+
 @section('page-content')
 
-    <div class="card padding-right-30 padding-top-30 card-transparent no-m">
+    <div class="card padding-right-15 padding-left-15 card-transparent no-m">
         <div class="card-content no-s">
             <div class="z-depth-1 search-tabs">
                 <div class="search-tabs-container">
@@ -128,7 +140,7 @@
 
     @if(Permission::check('interagePost','Chamado','Central'))
         @if($chamado->status !== 'C' and $chamado->status !== 'F')
-            <div class="middle padding-top-20 padding-right-20">
+            <div class="middle padding-top-20 padding-right-15">
                 <div class="row">
                     <div class="col s12">
                         <div class="page-title"></div>
