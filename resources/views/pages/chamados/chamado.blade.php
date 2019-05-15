@@ -4,134 +4,6 @@
 
 @section('page-css')
 
-    <style>
-        .timeline {
-            list-style: none;
-            padding: 10px 0 10px;
-            position: relative;
-        }
-        .timeline:before {
-            top: 0;
-            bottom: 0;
-            position: absolute;
-            content: " ";
-            width: 5px;
-            background-color: #ffffff;
-            left: 50%;
-            margin-left: -1.5px;
-        }
-        .timeline > li {
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .timeline > li:before,
-        .timeline > li:after {
-            content: " ";
-            display: table;
-        }
-        .timeline > li:after {
-            clear: both;
-        }
-        .timeline > li:before,
-        .timeline > li:after {
-            content: " ";
-            display: table;
-        }
-        .timeline > li:after {
-            clear: both;
-        }
-        .timeline > li > .timeline-panel {
-            width: 45%;
-            float: left;
-            border: 1px solid #ffffff;
-            border-radius: 2px;
-            background-color: #fff;
-            padding: 20px;
-            position: relative;
-            -webkit-box-shadow: 0 1px 6px rgb(196, 196, 196);
-            box-shadow: 0 1px 6px rgb(196, 196, 196);
-        }
-        .timeline > li > .timeline-panel:before {
-            position: absolute;
-            top: 26px;
-            right: -8px;
-            display: inline-block;
-            border-top: 8px solid transparent;
-            border-left: 8px solid #fff;
-            border-right: 0 solid #fff;
-            border-bottom: 8px solid transparent;
-            content: " ";
-        }
-        .timeline > li > .timeline-panel:after {
-            position: absolute;
-            top: 27px;
-            right: -10px;
-            display: inline-block;
-            border-top: 8px solid transparent;
-            border-left: 8px solid #fff;
-            border-right: 0 solid #fff;
-            border-bottom: 8px solid transparent;
-            content: " ";
-        }
-        .timeline > li > .timeline-badge {
-            color: #35aab2;
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-            font-size: 1.4em;
-            text-align: center;
-            position: absolute;
-            top: 16px;
-            left: 50%;
-            margin-left: -25px;
-            background-color: #ffffff;
-            z-index: 100;
-            border-radius: 50%;
-            border: 2px solid #ededed
-        }
-        .timeline > li.timeline-inverted > .timeline-panel {
-            float: right;
-        }
-        .timeline > li.timeline-inverted > .timeline-panel:before {
-            border-left-width: 0;
-            border-right-width: 15px;
-            left: -15px;
-            right: auto;
-        }
-        .timeline > li.timeline-inverted > .timeline-panel:after {
-            border-left-width: 0;
-            border-right-width: 14px;
-            left: -14px;
-            right: auto;
-        }
-        .timeline-badge.primary {
-            background-color: #2e6da4 !important;
-        }
-        .timeline-badge.success {
-            background-color: #3f903f !important;
-        }
-        .timeline-badge.warning {
-            background-color: #f0ad4e !important;
-        }
-        .timeline-badge.danger {
-            background-color: #d9534f !important;
-        }
-        .timeline-badge.info {
-            background-color: #5bc0de !important;
-        }
-        .timeline-title {
-            margin-top: 0;
-            color: inherit;
-        }
-        .timeline-body > p,
-        .timeline-body > ul {
-            margin-bottom: 0;
-        }
-        .timeline-body > p + p {
-            margin-top: 5px;
-        }
-    </style>
-
 @endsection
 
 @section('page-content')
@@ -141,15 +13,11 @@
             <div class="z-depth-1 search-tabs">
                 <div class="search-tabs-container">
                     <div class="col s12 m12 l12">
-
                         <div class="row ticket-row padding-bottom-20">
                             <div class="ticket-header">
-                                <h5>Chamado #{{$chamado->id}}</h5>
+                                <h6><b>Chamado #{{$chamado->id.': '.$chamado->assunto}}</b></h6>
                             </div>
-                            <h6>Responsável: {{json_decode($chamado->responsavel)->name}}</h6>
-                            <h6>E-mail: {{json_decode($chamado->responsavel)->email}}</h6>
-                            <h6>Assunto: {{$chamado->assunto}}</h6>
-                            <h6>Mensagem: {{$chamado->mensagem}}</h6>
+                            <h6 class=" padding-bottom-20">Aberto por {{json_decode($chamado->responsavel)->name}} (<b>{{json_decode($chamado->responsavel)->email}}</b>)</h6>
                         </div>
 
                         <div class="row ticket-row ticket-container grey lighten-4">
@@ -180,9 +48,41 @@
 
 
 
-
     <div class="container">
         <ul class="timeline">
+            <!-- mensagem de abertura do chamado -->
+            <li>
+                <div class="timeline-badge">
+                    <img src="{{url('/assets/img/icons/tickets/I.png')}}" width="30" alt="Picture" style="padding-top: 8px">
+                </div>
+                <div class="timeline-panel">
+
+                    <div class="row padding-bottom-20">
+                        <div class="col s6 m6 l6 left-align">
+                            <label class="timeline-title tooltipped cursor-pointer" data-position="top" data-delay="10" data-tooltip="{{'Nome completo: '.json_decode($chamado->responsavel)->name}}">
+                                Por: {{explode(' ',json_decode($chamado->responsavel)->name)[0]}}
+                            </label>
+                        </div>
+                        <div class="col s6 m6 l6 right-align">
+                            <small class="text-muted right-align">{{Carbon::createFromFormat('Y-m-d H:i:s',$chamado->created_at)->format('d/m/Y à\s H:i:s')}}</small>
+                        </div>
+                    </div>
+
+                    <div class="timeline-body">
+                        <div class="col s12">
+                            <p>{!! str_replace("\n","<br>",$chamado->mensagem) !!}</p>
+                        </div>
+
+                        @if($chamado->upload !== null)
+                            <a href="{{$chamado->upload}}" class="waves-effect text-muted padding-top-30">
+                                <i class="material-icons text-primary">attachment</i>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </li>
+
+            <!-- interações -->
             @foreach($chamadoInteracoes as $item)
                 @if($item->oculto !== 1)
                     <li @if($item->empresa_user_id == null) class="timeline-inverted" @endif>
@@ -190,17 +90,28 @@
                             <img src="{{url('/assets/img/icons/tickets/'.$item->acao.'.png')}}" width="30" alt="Picture" style="padding-top: 8px">
                         </div>
                         <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <label class="timeline-title">Por: {{json_decode($item->responsavel)->name}}</label>
-                                <p><small class="text-muted">{{Carbon::createFromFormat('Y-m-d H:i:s',$item->created_at)->format('d/m/Y à\s H:i:s')}}</small></p>
+
+                            <div class="row padding-bottom-20">
+                                <div class="col s6 m6 l6 left-align">
+                                    <label class="timeline-title tooltipped cursor-pointer" data-position="top" data-delay="10" data-tooltip="{{'Nome completo: '.json_decode($item->responsavel)->name}}">
+                                        Por: {{explode(' ',json_decode($item->responsavel)->name)[0]}}
+                                    </label>
+                                </div>
+                                <div class="col s6 m6 l6 right-align">
+                                    <small class="text-muted right-align">{{Carbon::createFromFormat('Y-m-d H:i:s',$item->created_at)->format('d/m/Y à\s H:i:s')}}</small>
+                                </div>
                             </div>
+
+
                             <div class="timeline-body">
                                 <div class="col s12">
                                     <p>{!! str_replace("\n","<br>",$item->mensagem) !!}</p>
                                 </div>
 
                                 @if($item->upload !== null)
-                                    <a href="{{$item->upload}}" class="waves-effect waves-blue padding-top-30"><small>Baixar anexo</small></a>
+                                    <a href="{{$item->upload}}" class="waves-effect text-muted padding-top-30">
+                                        <i class="material-icons text-primary">attachment</i>
+                                    </a>
                                 @endif
                             </div>
                         </div>
@@ -251,13 +162,19 @@
                                             <div class="col s12">
                                                 <p class="">
                                                     <input class="with-gap" required value="I" name="acao" type="radio" id="tipo1" />
-                                                    <label for="tipo1" class="new badge warning">Apenas interagir</label>
+                                                    <label for="tipo1">
+                                                        <span class="label bg-warning">Apenas interagir</span>
+                                                    </label>
 
                                                     <input class="with-gap" value="C" name="acao" type="radio" id="tipo2" />
-                                                    <label for="tipo2">Cancelar</label>
+                                                    <label for="tipo2">
+                                                        <span class="label bg-danger">Cancelar</span>
+                                                    </label>
 
                                                     <input class="with-gap" value="F" name="acao" type="radio" id="tipo3" />
-                                                    <label for="tipo3">Solucionar</label>
+                                                    <label for="tipo3">
+                                                        <span class="label bg-primary">Solucionar</span>
+                                                    </label>
                                                 </p>
                                             </div>
                                         </div>

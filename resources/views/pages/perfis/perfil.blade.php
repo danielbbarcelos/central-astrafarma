@@ -37,11 +37,11 @@
 
                                 <div class="row row-input">
                                     <div class="input-field col s6">
-                                        <input type="text" name="nome" class="validate" maxlength="100" required value="{{$perfil->nome or old('nome')}}">
+                                        <input type="text" placeholder="" name="nome" class="validate" maxlength="100" required value="{{$perfil->nome or old('nome')}}">
                                         <label>Nome</label>
                                     </div>
                                     <div class="input-field col s6">
-                                        <input type="text" name="descricao" class="validate" maxlength="100" required value="{{$perfil->descricao or old('descricao')}}">
+                                        <input type="text" placeholder="" name="descricao" class="validate" maxlength="100" required value="{{$perfil->descricao or old('descricao')}}">
                                         <label>Descrição</label>
                                     </div>
                                 </div>
@@ -57,14 +57,15 @@
                                 </div>
 
 
-                                <hr>
+                                <hr class="hr-custom">
                                 <br>
-                                <div class="col-sm-12">
+
+                                <div class="col s12">
                                     <label class="text-semibold">Permissões de acesso</label><br><br>
 
-                                    <div class="row padding-top-10">
+                                    <div class="row">
                                         @foreach($permissoes as $permissao => $locator)
-                                            <div class="col s12 m4">
+                                            <div class="col s12 m4 card-permissao" style="margin-top: 30px; min-height: 250px">
                                                 <strong class="text-black-50">{!! str_replace(">",'<i class="material-icons card-breadcrumb-separator">chevron_right</i>',$permissao) !!}</strong><br><br>
                                                 @foreach($locator as $titulo)
                                                     @foreach($titulo as $function)

@@ -79,7 +79,7 @@
     <!-- Botão para adicionar -->
     @if(Permission::check('adiciona','User','Central'))
         <div class="fixed-action-btn tooltipped" data-position="top" data-delay="10" data-tooltip="Adicionar" style="bottom: 45px; right: 24px;">
-            <a class="btn-floating btn-large blue" href="{{url('/usuarios/add')}}">
+            <a class="btn-floating btn-large red" href="{{url('/usuarios/add')}}">
                 <i class="large material-icons">add</i>
             </a>
         </div>

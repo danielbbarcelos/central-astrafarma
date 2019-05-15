@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('page-title', 'Dispositivos')
+@section('page-title', 'Pedidos de venda')
 
 @section('page-css')
 
@@ -19,41 +19,43 @@
             <div class="col s12 ">
                 <div class="card-panel">
                     <div class="card-content">
-                        <span class="card-title">Dispositivos</span><br>
+                        <span class="card-title">Pedidos de venda</span><br>
                         <div class="row">
                             <table class="display responsive-table datatable" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Descrição</th>
-                                    <th>Device ID</th>
+                                    <th>Cliente</th>
+                                    <th>CPF/CNPJ</th>
+                                    <th>Valor total (R$)</th>
                                     <th>Status</th>
                                     <th>Funções</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($dispositivos as $item)
+                                @foreach($pedidos as $item)
                                     <tr>
                                         <td>{{$item->id}}</td>
-                                        <td>{{$item->descricao}}</td>
-                                        <td>{{$item->device_id}}</td>
+                                        <td>{{$item->cliente->razao_social}}</td>
+                                        <td>{{Helper::insereMascara($item->cliente->cnpj_cpf, $item->cliente->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##')}}</td>
+                                        <td>R$ {{number_format($item->valorTotal(),2,',','.')}}</td>
                                         <td>
-                                            @if($item->status == '1')
-                                                <span class="label bg-success">Ativo</span>
+                                            @if($item->situacao_pedido == 'A')
+                                                <span class="label bg-warning">Aguardando</span>
                                             @else
-                                                <span class="label bg-danger">Inativo</span>
+                                                <span class="label bg-success">Fechado</span>
                                             @endif
 
                                         </td>
                                         <td class="uk-text-center">
-                                            @if(Permission::check('edita','Dispositivo','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Editar" href="{{url('/dispositivos/'.$item->id.'/edit')}}">
-                                                    <i class="material-icons">edit</i>
+                                            @if(Permission::check('visualiza','PedidoVenda','Central'))
+                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar" href="{{url('/pedidos-vendas/'.$item->id.'/show')}}">
+                                                    <i class="material-icons">visibility</i>
                                                 </a>
                                             @endif
-                                            @if(Permission::check('excluiPost','Dispositivo','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Excluir" onclick="excluiItem('{!! url('/dispositivos/'.$item->id.'/del') !!}')">
-                                                    <i class="material-icons icon-danger">delete_forever</i>
+                                            @if(Permission::check('imprimePDF','PedidoVenda','Central'))
+                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Imprimir" href="{{url('/pedidos-vendas/'.$item->id.'/pdf')}}" target="_blank">
+                                                    <i class="material-icons">print</i>
                                                 </a>
                                             @endif
                                         </td>
@@ -68,22 +70,14 @@
         </div>
     </div>
 
-
     <!-- Botão para adicionar -->
-    @if(Permission::check('adiciona','Dispositivo','Central'))
+    @if(Permission::check('adiciona','Cliente','Central'))
         <div class="fixed-action-btn tooltipped" data-position="top" data-delay="20" data-tooltip="Adicionar" style="bottom: 45px; right: 24px;">
-            <a class="btn-floating btn-large red" href="{{url('/dispositivos/add')}}">
+            <a class="btn-floating btn-large red" href="{{url('/pedidos-vendas/add')}}">
                 <i class="large material-icons">add</i>
             </a>
         </div>
     @endif
-
-
-    <!-- form é submetido na confirmação de "onclick" presente na tag "a" de cada item. A action é gerada durante a confirmação da exclusão -->
-    <form id="form-delete" method="post" action="">
-        {{csrf_field()}}
-    </form>
-
 
 @endsection
 
@@ -96,12 +90,13 @@
         $(document).ready(function(){
 
             $('.datatable').DataTable({
+                order: [[ 1, "asc" ]],
                 language: {
                     searchPlaceholder: 'Procurar',
                     sSearch: '',
                     sLengthMenu: 'Exibir _MENU_',
                     sLength: 'dataTables_length',
-                    zeroRecords: "Nenhum dispositivo encontrado",
+                    zeroRecords: "Nenhum produto encontrado",
                     info: "Exibindo página _PAGE_ de _PAGES_",
                     infoEmpty: "",
                     infoFiltered: "(filtrado de _MAX_ itens)",

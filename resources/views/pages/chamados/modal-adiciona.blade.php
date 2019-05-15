@@ -9,18 +9,18 @@
 
             <div class="row row-input">
 
-                <div class="input-field col s6">
-                    <input type="text" name="assunto" class="validate" maxlength="100" required value="{{old('assunto')}}">
+                <div class="input-field col s7">
+                    <input type="text" name="assunto" class="validate" maxlength="100" placeholder="" required value="{{old('assunto')}}">
                     <label class="f-bold">Assunto</label>
                 </div>
 
-                <div class="file-field input-field col s6">
+                <div class="file-field input-field col s5">
                     <div class="btn teal lighten-1">
                         <input type="file" name="upload">
                         <span>Anexo</span>
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" placeholder="Envie o arquivo em formato ZIP">
+                        <input class="file-path validate" type="text" placeholder="Envie o arquivos ZIP ou RAR">
                     </div>
                 </div>
 
@@ -34,16 +34,24 @@
                     <div class="">
                         <p class="">
                             <input class="with-gap" required value="D" name="tipo" type="radio" id="tipo1" />
-                            <label for="tipo1" class="new badge warning">Dúvida</label>
+                            <label for="tipo1">
+                                <span class="label bg-warning">Dúvida</span>
+                            </label>
 
                             <input class="with-gap" value="E" name="tipo" type="radio" id="tipo2" />
-                            <label for="tipo2">Erro ou problema</label>
+                            <label for="tipo2">
+                                <span class="label bg-danger">Erro ou problema</span>
+                            </label>
 
                             <input class="with-gap" value="F" name="tipo" type="radio" id="tipo3" />
-                            <label for="tipo3">Solicitação de serviço</label>
+                            <label for="tipo3">
+                                <span class="label bg-info">Solicitação de serviço</span>
+                            </label>
 
                             <input class="with-gap" value="S" name="tipo" type="radio" id="tipo4" />
-                            <label for="tipo4">Sugestão</label>
+                            <label for="tipo4">
+                                <span class="label bg-success">Sugestão</span>
+                            </label>
                         </p>
                     </div>
                 </div>

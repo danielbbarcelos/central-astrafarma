@@ -40,7 +40,7 @@
 
                                 <div class="row row-input">
                                     <div class="input-field col s12 m8">
-                                        <input type="text" name="razao_social" id="razao_social" class="validate" maxlength="100" required value="{{$cliente->razao_social or old('razao_social')}}">
+                                        <input type="text" placeholder="" name="razao_social" id="razao_social" class="validate" maxlength="100" required value="{{$cliente->razao_social or old('razao_social')}}">
                                         <label id="label_razao_social">@if($cliente->tipo_pessoa == 'F') Nome completo @else Razão social @endif</label>
                                     </div>
                                     <div class="input-field col s12 m4">
@@ -53,7 +53,7 @@
 
                                 <div class="row row-input">
                                     <div class="input-field col s12 m6">
-                                        <input type="text" name="cnpj_cpf" id="cnpj_cpf" value="{{$cliente->cnpj_cpf or old('cnpj_cpf')}}"
+                                        <input type="text" placeholder="" name="cnpj_cpf" id="cnpj_cpf" value="{{$cliente->cnpj_cpf or old('cnpj_cpf')}}"
                                                class="mask-cpf-cnpj" required>
                                         <label>CNPJ/CPF</label>
                                     </div>
@@ -76,19 +76,19 @@
                                 <!-- Dados de contato -->
                                 <div class="row row-input">
                                     <div class="input-field col s12 m4">
-                                        <input type="text" required name="nome_contato" id="nome_contato" class="masked" maxlength="100" value="{{$cliente->nome_contato or old('nome_contato')}}">
+                                        <input type="text" placeholder="" required name="nome_contato" id="nome_contato" class="masked" maxlength="100" value="{{$cliente->nome_contato or old('nome_contato')}}">
                                         <label>Nome do contato</label>
                                     </div>
                                     <div class="input-field col s12 m4">
-                                        <input type="email" required name="email" id="email" class="validate" maxlength="100" value="{{$cliente->email or old('email')}}">
+                                        <input type="email" placeholder="" required name="email" id="email" class="validate" maxlength="100" value="{{$cliente->email or old('email')}}">
                                         <label>E-mail de contato</label>
                                     </div>
                                     <div class="input-field col s12 m1">
-                                        <input type="text" name="ddd" id="ddd" class="mask-ddd" maxlength="4" value="{{$cliente->ddd or old('ddd')}}">
+                                        <input type="text" placeholder="" name="ddd" id="ddd" class="mask-ddd" maxlength="4" value="{{$cliente->ddd or old('ddd')}}">
                                         <label>DDD</label>
                                     </div>
                                     <div class="input-field col s12 m3">
-                                        <input type="text" name="fone" id="fone" class="mask-fone" maxlength="10" value="{{$cliente->fone or old('fone')}}">
+                                        <input type="text" placeholder="" name="fone" id="fone" class="mask-fone" maxlength="10" value="{{$cliente->fone or old('fone')}}">
                                         <label>Fone</label>
                                     </div>
                                 </div>
@@ -97,26 +97,26 @@
                                 <!-- Endereço -->
                                 <div class="row row-input">
                                     <div class="input-field col s12 m6">
-                                        <input type="text" required name="endereco" id="endereco" class="validate" maxlength="200" value="{{$cliente->endereco or old('endereco')}}">
+                                        <input type="text" placeholder="" required name="endereco" id="endereco" class="validate" maxlength="200" value="{{$cliente->endereco or old('endereco')}}">
                                         <label>Endereço</label>
                                     </div>
                                     <div class="input-field col s12 m3">
-                                        <input type="text" required name="endereco_numero" id="endereco_numero" class="validate" maxlength="10" value="{{$cliente->endereco_numero or old('endereco_numero')}}">
+                                        <input type="text" placeholder="" required name="endereco_numero" id="endereco_numero" class="validate" maxlength="10" value="{{$cliente->endereco_numero or old('endereco_numero')}}">
                                         <label>Número</label>
                                     </div>
                                     <div class="input-field col s12 m3">
-                                        <input type="text" name="complemento" id="complemento" class="validate" maxlength="100" value="{{$cliente->complemento or old('complemento')}}">
+                                        <input type="text" placeholder="" name="complemento" id="complemento" class="validate" maxlength="100" value="{{$cliente->complemento or old('complemento')}}">
                                         <label>Complemento</label>
                                     </div>
                                 </div>
 
                                 <div class="row row-input">
                                     <div class="input-field col s12 m4">
-                                        <input type="text" required name="bairro" id="bairro" class="validate" maxlength="100" value="{{$cliente->bairro or old('bairro')}}">
+                                        <input type="text" placeholder="" required name="bairro" id="bairro" class="validate" maxlength="100" value="{{$cliente->bairro or old('bairro')}}">
                                         <label>Bairro</label>
                                     </div>
                                     <div class="input-field col s12 m2">
-                                        <input type="text" required name="cep" id="cep" class="mask-cep" maxlength="9" value="{{$cliente->cep or old('cep')}}">
+                                        <input type="text" placeholder="" required name="cep" id="cep" class="mask-cep" maxlength="9" value="{{$cliente->cep or old('cep')}}">
                                         <label>CEP</label>
                                     </div>
                                     <div class="input-field col s12 m3">

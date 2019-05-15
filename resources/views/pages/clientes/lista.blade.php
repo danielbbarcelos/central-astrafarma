@@ -65,9 +65,9 @@
 
 
     <!-- Botão para adicionar -->
-    @if(Permission::check('adiciona','Cliente','Central'))
+    @if(Permission::check('adiciona','PedidoVenda','Central'))
         <div class="fixed-action-btn tooltipped" data-position="top" data-delay="20" data-tooltip="Adicionar" style="bottom: 45px; right: 24px;">
-            <a class="btn-floating btn-large blue" href="{{url('/clientes/add')}}">
+            <a class="btn-floating btn-large red" href="{{url('/clientes/add')}}">
                 <i class="large material-icons">add</i>
             </a>
         </div>

@@ -28,20 +28,20 @@
 
                                 <div class="row row-input">
                                     <div class="input-field col s12">
-                                        <input type="text" name="name" class="validate" maxlength="100" required value="{{$user->name or old('name')}}">
+                                        <input type="text" placeholder="" name="name" class="validate" maxlength="100" required value="{{$user->name or old('name')}}">
                                         <label>Nome</label>
                                     </div>
                                 </div>
                           
                                 <div class="row row-input">
                                     <div class="input-field col s12 @if($action == 'create') m6 @endif">
-                                        <input type="email" name="email" class="validate" maxlength="100" required value="{{$user->email or old('email')}}">
+                                        <input type="email" placeholder="" name="email" class="validate" maxlength="100" required value="{{$user->email or old('email')}}">
                                         <label>E-mail de acesso</label>
                                     </div>
 
                                     @if($action == 'create')
                                         <div class="input-field col s12 m6">
-                                            <input type="password" name="password" class="validate" maxlength="30" required value="">
+                                            <input type="password" placeholder="" name="password" class="validate" maxlength="30" required value="">
                                             <label>Senha de acesso</label>
                                         </div>
                                     @endif
@@ -50,7 +50,7 @@
 
                                 <div class="row row-input">
                                     <div class="input-field col s12 m12">
-                                        <select name="vxwebperfil_id" id="vxwebperfil_id" required>
+                                        <select name="vxwebperfil_id" id="vxwebperfil_id" @if($user->type == 'A') disabled @endif required>
                                             @if($user->vxwebperfil_id == null)
                                                 <option value="" selected disabled>Selecione...</option>
                                             @endif

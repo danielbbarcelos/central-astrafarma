@@ -10,24 +10,12 @@
             </div>
             <div class="sidebar-profile-info">
                 <a href="javascript:void(0);" class="account-settings-link">
-                    <p>{{Auth::user()->name}}</p>
+                    {{Auth::user()->userEmpresaFilial->empfil->filial_erp_id .' - '}} {{strlen(Auth::user()->userEmpresaFilial->empfil->nome) > 16 ? substr(Helper::formataString(Auth::user()->userEmpresaFilial->empfil->nome),0,16).'...' : Auth::user()->userEmpresaFilial->empfil->nome}}
                     <span>
-                        {{strlen(Auth::user()->email) > 18 ? substr(Auth::user()->email,0,18).'...' : Auth::user()->email}}
-                        <i class="material-icons right">arrow_drop_down</i>
+                        {{Auth::user()->userEmpresaFilial->empfil->cnpj}}
                     </span>
                 </a>
             </div>
-        </div>
-        <div class="sidebar-account-settings">
-            <ul>
-                <li class="no-padding">
-                    <a class="waves-effect waves-grey" href="{{url('/senha')}}"><i class="material-icons">lock_outline</i>Alteração de senha</a>
-                </li>
-                <li class="divider"></li>
-                <li class="no-padding">
-                    <a class="waves-effect waves-grey" href="{{url('/logout')}}"><i class="material-icons">exit_to_app</i>Sair</a>
-                </li>
-            </ul>
         </div>
 
         <ul class="sidebar-menu collapsible collapsible-accordion" data-collapsible="accordion">
@@ -141,8 +129,8 @@
 
         </ul>
 
-        <div class="footer">
-            <p class="copyright">Vex Mobile ©</p>
+        <div class="footer row">
+            <p class="copyright">VEX Mobile ©</p>
             <a href="https://2mind.com.br" target="_blank">2Mind</a> &amp; <a href="http://sigaagis.com" target="_blank">Siga Agis</a>
         </div>
     </div>

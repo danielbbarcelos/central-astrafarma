@@ -38,7 +38,15 @@
                                     <tr>
                                         <td>{{$item->id}}</td>
                                         <td>
-                                            {{$item->tipo}}
+                                            @if($item->tipo == 'D')
+                                                <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Dúvida">contact_support</i>
+                                            @elseif($item->tipo == 'E')
+                                                <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Erro ou problema">report</i>
+                                            @elseif($item->tipo == 'F')
+                                                <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Solicitação de serviço">new_releases</i>
+                                            @elseif($item->tipo == 'S')
+                                                <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Sugestão">check_circle</i>
+                                            @endif
                                         </td>
                                         <td>{{$item->assunto}}</td>
                                         <td>{{json_decode($item->responsavel)->name}}</td>
@@ -80,7 +88,7 @@
     <!-- Botão para adicionar -->
     @if(Permission::check('adicionaPost','Chamado','Central'))
         <div class="fixed-action-btn tooltipped" data-position="top" data-delay="20" data-tooltip="Adicionar" style="bottom: 45px; right: 24px;">
-            <a class="btn-floating btn-large blue modal-trigger" href="#modal-adiciona">
+            <a class="btn-floating btn-large red modal-trigger" href="#modal-adiciona">
                 <i class="large material-icons">add</i>
             </a>
         </div>

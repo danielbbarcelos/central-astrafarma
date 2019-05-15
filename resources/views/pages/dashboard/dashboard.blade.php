@@ -58,7 +58,7 @@
                         <span class="stats-counter"><span class="counter">{{Carbon::createFromFormat('Y-m-d',$assinatura->data_final)->format('d/m/Y')}}</span></span>
                     </div>
                     <div class="progress stats-card-progress">
-                        <div class="indeterminate" style="width: 100%"></div>
+                        <div class="determinate" style="width: 100%"></div>
                     </div>
                 </div>
             </div>
