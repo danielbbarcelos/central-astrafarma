@@ -74,11 +74,11 @@ function excluiItem(action)
 {
     swal({
         title: "",
-        text: "<strong style='font-weight: 600; padding-bottom: 60px'>Deseja realmente excluir?</strong><br><strong>Não será possível recuperar o item selecionado</strong><br>",
+        text: "<br><strong style='font-weight: 700; font-family: Rubik, sans-serif; padding-bottom: 60px'>Deseja realmente excluir?</strong><br><br><strong  style='font-weight: 500; font-family: Rubik, sans-serif;'>Não será possível recuperar o item selecionado</strong><br><br>",
         type: "error",
         html: true,
         showCancelButton: true,
-        confirmButtonColor: "#b62a25",
+        confirmButtonColor: "rgba(249,27,40,0.78)",
         confirmButtonText: "Confirmar",
         cancelButtonText: "Voltar",
         closeOnConfirm: false,

@@ -55,7 +55,7 @@
                             </ul>
                         </div>
                         <span class="card-title">Assinatura válida até</span>
-                        <span class="stats-counter"><span class="counter">{{Carbon::createFromFormat('Y-m-d',$assinatura->data_final)->format('d/m/Y')}}</span></span>
+                        <span class="stats-counter"><span class="counter font-weight-400">{{Carbon::createFromFormat('Y-m-d',$assinatura->data_final)->format('d/m/Y')}}</span></span>
                     </div>
                     <div class="progress stats-card-progress">
                         <div class="determinate" style="width: 100%"></div>
@@ -75,7 +75,7 @@
                                 <li><a href="javascript:void(0)" class="card-refresh"><i class="material-icons">refresh</i></a></li>
                             </ul>
                         </div>
-                        <span class="card-title">Visitors<span class="secondary-title">Showing stats from the last week</span></span>
+                        <span class="card-title">Visitors<br><span class="secondary-title">Showing stats from the last week</span></span>
                         <div id="flotchart1"></div>
                     </div>
                 </div>

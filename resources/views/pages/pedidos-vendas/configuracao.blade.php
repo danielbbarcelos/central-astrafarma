@@ -82,7 +82,7 @@
 
 
                             <div class="col s12 right-align">
-                                <button type="submit" class="waves-effect waves-light btn blue">Confirmar</button>
+                                <button type="submit" class="waves-effect waves-light btn blue btn-submit">Confirmar</button>
                             </div>
                         </form>
                     </div>

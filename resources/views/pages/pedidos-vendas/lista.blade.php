@@ -96,7 +96,7 @@
                     sSearch: '',
                     sLengthMenu: 'Exibir _MENU_',
                     sLength: 'dataTables_length',
-                    zeroRecords: "Nenhum produto encontrado",
+                    zeroRecords: "Nenhum pedido encontrado",
                     info: "Exibindo página _PAGE_ de _PAGES_",
                     infoEmpty: "",
                     infoFiltered: "(filtrado de _MAX_ itens)",

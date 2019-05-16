@@ -1,5 +1,52 @@
 /* Write your custom CSS here */
 
+/* Cards */
+.card-simple-widget{
+    border-left: #0BA0BB 3px solid;
+    border-radius: 3px;
+}
+
+/* Fonts */
+h1, h2, h3, h4, h5, h6, label, p, span, small, strong, body {
+    /*font-family: 'Didact Gothic', sans-serif;*/
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+}
+
+.font-weight-400{
+    font-weight: 400 !important;
+}
+
+.font-weight-500{
+    font-weight: 500 !important;
+}
+
+.font-weight-600{
+    font-weight: 600 !important;
+}
+
+.font-weight-700{
+    font-weight: 700 !important;
+}
+
+.font-weight-800{
+    font-weight: 800 !important;
+}
+
+.font-size-12{
+    font-size: 12px !important;
+}
+
+.font-size-16{
+    font-size: 16px !important;
+}
+
+/* text color */
+.text-dark {
+    color: rgb(103, 103, 103) !important;
+}
+
+
 /* Input field no padding */
 .row-input{
     height: 4px;
@@ -8,6 +55,12 @@
 /* Wizard content */
 .wizard-content-300{
     height: 300px !important;
+}
+
+/* Buttons */
+.btn-submit{
+    border-radius: 4px;
+    font-weight: 500;
 }
 
 /* Breadcrumbs */
@@ -19,7 +72,8 @@
     margin-bottom: 20px;
     height: 40px;
     background-color: white;
-    box-shadow: 2px 2px 2px #b9b9b9;
+    border-radius: 5px;
+    box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.15);
 }
 
 .breadcrumbs-itens{
@@ -272,19 +326,14 @@ i.icon-white {
 
 
 /* Card title */
-
-.card-breadcrumb-link {
-    color: rgb(77, 143, 219) !important;
+.card-panel:hover {
+    box-shadow: 0px 8px 30px 0px rgba(0, 0, 0, 0.18);
 }
 
-.card-breadcrumb-separator {
-    line-height: 10px !important;
-    font-size: 16px !important;
-    font-weight: bold !important;
-    color: rgba(0,0,0,0.24) !important;
-
+.card-panel {
+    border-radius: 5px;
+    box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.15);
 }
-
 
 /* Card chamado */
 .ticket-row {
@@ -468,9 +517,9 @@ i.icon-white {
 
 
 /* hr */
-.hr-custom{
-    padding: 10px;
-    border-width: 0 0 2px 0
+hr{
+    padding: 10px !important;
+    border-width: 0 0 2px 0 !important;
 }
 
 

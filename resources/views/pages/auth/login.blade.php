@@ -16,25 +16,24 @@
         <!-- Styles -->
     <link type="text/css" rel="stylesheet" href="assets/plugins/materialize/css/materialize.v1.css"/>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{{url('/assets/plugins/material-preloader/css/materialPreloader.min.css')}}" rel="stylesheet">        
-        
+    <link href="{{url('/assets/plugins/material-preloader/css/materialPreloader.min.css')}}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Didact+Gothic|Rubik" rel="stylesheet">
+
     <!-- Theme Styles -->
-    <link href="{{url('/assets/css/alpha.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{url('/assets/css/custom.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url('/assets/css/alpha.c4ca4238a0b923820dcc509a6f75849b.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url('/assets/css/custom.eccbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
     
 
 </head>
 
 <body class="signin-page">
 
-    @include('layouts.gif-loader')
-
     <div class="mn-content valign-wrapper">
         <main class="mn-inner container">
             <div class="valign">
                 <div class="row">
                     <div class="col s12 m6 l6 offset-l3 offset-m3">
-                        <div class="card white darken-1">
+                        <div class="card-panel white darken-1">
                             <div class="card-content">
                                 <span class="card-title center-align">
                                     @if(env('LOGO_EMPRESA') !== '' and env('LOGO_EMPRESA') !== null)
@@ -49,15 +48,15 @@
                                         {{csrf_field()}}
 
                                         <div class="input-field col s12">
-                                            <input id="email" placeholder="" type="email" name="email" class="validate" value="{{old('email')}}" required>
+                                            <input id="email" type="email" name="email" class="validate" value="{{old('email')}}" placeholder="" required>
                                             <label for="email">E-mail</label>
                                         </div>
                                         <div class="input-field col s12">
-                                            <input id="password" type="password" placeholder="" name="password" class="validate" required>
+                                            <input id="password" type="password" name="password" class="validate" placeholder="" required>
                                             <label for="password">Senha</label>
                                         </div>
                                         <div class="col s12 center-align">
-                                            <button type="submit" class="waves-effect waves-light col s12 btn blue">Entrar</button>
+                                            <button type="submit" class="waves-effect waves-light col s12 btn blue btn-submit">Entrar</button>
                                         </div>
                                         <div class="col s12 center-align m-t-sm">
                                             <a href="{{url('/recuperacao-senha')}}" class="waves-effect col s12 waves-grey btn-flat">Esqueci minha senha</a>

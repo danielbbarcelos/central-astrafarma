@@ -932,7 +932,7 @@ var injectedHTML =
 "<div class=\"sweet-overlay\" tabIndex=\"-1\"></div>" +
 
 // Modal
-"<div class=\"sweet-alert\">" +
+"<div class=\"sweet-alert\"  style='border-radius: 5px; box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.15);'>" +
 
 // Error icon
 "<div class=\"sa-icon sa-error\">\n      <span class=\"sa-x-mark\">\n        <span class=\"sa-line sa-left\"></span>\n        <span class=\"sa-line sa-right\"></span>\n      </span>\n    </div>" +

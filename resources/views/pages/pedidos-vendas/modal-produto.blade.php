@@ -60,7 +60,7 @@
     </div>
     <div class="modal-footer">
         <div class="padding-bottom-10 padding-right-10">
-            <a class="modal-action waves-effect waves-blue btn-flat" onclick="adicionaProduto()">Confirmar</a>
+            <a class="modal-action waves-effect waves-blue btn-flat btn-submit" onclick="adicionaProduto()">Confirmar</a>
             <a class="modal-action modal-close waves-effect waves-red btn-flat ">Voltar</a>
         </div>
     </div>

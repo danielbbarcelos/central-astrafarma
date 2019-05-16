@@ -15,13 +15,14 @@
     <link href="{{url('/assets/plugins/materialize/css/materialize.v1.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{url('/assets/css/material-icons.css')}}" rel="stylesheet">
     <link href="{{url('/assets/plugins/material-preloader/css/materialPreloader.min.css')}}" rel="stylesheet">        
-    <link href="{{url('/assets/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" type="text/css"/>           
+    <link href="{{url('/assets/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Didact+Gothic|Rubik" rel="stylesheet">
 
     <!-- CSS especifico das paginas -->
     @yield('page-css')
 
     <!-- Theme Styles -->
-    <link href="{{url('/assets/css/alpha.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url('/assets/css/alpha.c4ca4238a0b923820dcc509a6f75849b.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{url('/assets/css/custom.eccbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{url('/assets/css/ribbon.css')}}" rel="stylesheet" type="text/css"/>
 

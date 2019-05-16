@@ -9,10 +9,10 @@
                 @endif
             </div>
             <div class="sidebar-profile-info">
-                <a href="javascript:void(0);" class="account-settings-link">
+                <a href="javascript:void(0);" class="account-settings-link text-dark font-weight-600">
                     {{Auth::user()->userEmpresaFilial->empfil->filial_erp_id .' - '}} {{strlen(Auth::user()->userEmpresaFilial->empfil->nome) > 16 ? substr(Helper::formataString(Auth::user()->userEmpresaFilial->empfil->nome),0,16).'...' : Auth::user()->userEmpresaFilial->empfil->nome}}
                     <span>
-                        {{Auth::user()->userEmpresaFilial->empfil->cnpj}}
+                        {{Helper::insereMascara(Auth::user()->userEmpresaFilial->empfil->cnpj,'##.###.###/####-##')}}
                     </span>
                 </a>
             </div>

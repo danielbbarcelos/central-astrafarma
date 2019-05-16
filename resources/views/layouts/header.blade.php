@@ -14,7 +14,7 @@
                 <li>
                     <a href="javascript:void(0)" data-activates="dropdown1" class="dropdown-button dropdown-right show-on-large">
                         <img src="{{url('/assets/img/icons/user.png')}}">
-                        <span class="">Olá, {{Auth::user()->name}}</span>
+                        <span class="font-weight-800">Olá, {{Auth::user()->name}}</span>
                     </a>
                 </li>
             </ul>

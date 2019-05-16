@@ -16,25 +16,24 @@
         <!-- Styles -->
     <link type="text/css" rel="stylesheet" href="assets/plugins/materialize/css/materialize.v1.css"/>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{{url('/assets/plugins/material-preloader/css/materialPreloader.min.css')}}" rel="stylesheet">        
-        
+    <link href="{{url('/assets/plugins/material-preloader/css/materialPreloader.min.css')}}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Didact+Gothic|Rubik" rel="stylesheet">
+
     <!-- Theme Styles -->
-    <link href="{{url('/assets/css/alpha.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{url('/assets/css/custom.css')}}" rel="stylesheet" type="text/css"/>
-    
+    <link href="{{url('/assets/css/alpha.c4ca4238a0b923820dcc509a6f75849b.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url('/assets/css/custom.eccbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
+
 
 </head>
 
 <body class="signin-page">
-
-    @include('layouts.gif-loader')
 
     <div class="mn-content valign-wrapper">
         <main class="mn-inner container">
             <div class="valign">
                 <div class="row">
                     <div class="col s12 m6 l6 offset-l3 offset-m3">
-                        <div class="card white darken-1">
+                        <div class="card-panel white darken-1">
                             <div class="card-content">
                                 <span class="card-title center-align">
                                     @if(env('LOGO_EMPRESA') !== '' and env('LOGO_EMPRESA') !== null)
@@ -54,7 +53,7 @@
                                         </div>
                                         
                                         <div class="col s12 center-align">
-                                            <button type="submit" class="waves-effect waves-light col s12 btn blue">Recuperar senha</button>
+                                            <button type="submit" class="waves-effect waves-light col s12 btn blue btn-submit">Recuperar senha</button>
                                         </div>
                                         <div class="col s12 center-align m-t-sm">
                                             <a href="{{url('/')}}" class="waves-effect waves-grey col s12 btn-flat">Voltar para login</a>
