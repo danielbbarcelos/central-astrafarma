@@ -70,27 +70,36 @@ $(document).ready(function(){
 // Função global para excluir um registro
 //
 // ==========================================================
-function excluiItem(action)
+function excluiItem(url)
 {
-    swal({
-        title: "",
-        text: "<br><strong style='font-weight: 700; font-family: Rubik, sans-serif; padding-bottom: 60px'>Deseja realmente excluir?</strong><br><br><strong  style='font-weight: 500; font-family: Rubik, sans-serif;'>Não será possível recuperar o item selecionado</strong><br><br>",
-        type: "error",
-        html: true,
-        showCancelButton: true,
-        confirmButtonColor: "rgba(249,27,40,0.78)",
-        confirmButtonText: "Confirmar",
-        cancelButtonText: "Voltar",
-        closeOnConfirm: false,
-        closeOnCancel: true
-    }, function(isConfirm){
-        if (isConfirm) {
-            $("#form-delete").attr('action', action).submit();
-        } else {
-            //
-        }
+    $("#form-delete").attr("action", url);
+
+    var type    = 'danger';
+    var action  = '$("#form-delete").submit();';
+    var title   = 'Deseja realmente excluir?';
+    var content = 'Não será possível recuperar o item selecionado';
+
+    modalDialogCustom(type, action, title, content)
+}
+
+
+// ==========================================================
+//
+// Função global para abertura de modal dialog custom
+//
+// ==========================================================
+function modalDialogCustom(type, actionConfirm, title, content)
+{
+    var prefix = "#modal_dialog_"+type;
+    $(prefix+"_btn_confirm").attr("onclick",actionConfirm);
+    $(prefix+"_title").html(title);
+    $(prefix+"_content").html(content);
+
+    $(prefix).openModal({
+        dismissible: false
     });
 }
+
 
 // ==========================================================
 //

@@ -1,10 +1,24 @@
 /* Write your custom CSS here */
 
+/* Modal dialog customizada */
+.modal_dialog_custom{
+    z-index: 999999;
+    display: none;
+    opacity: 0;
+    transform: scaleX(0.7);
+    top: 250.516304347826px;
+    background-color: #fff;
+    width: 400px;
+    height: 400px !important;
+}
+
+
 /* Cards */
 .card-simple-widget{
     border-left: #0BA0BB 3px solid;
     border-radius: 3px;
 }
+
 
 /* Fonts */
 h1, h2, h3, h4, h5, h6, label, p, span, small, strong, body {
@@ -37,8 +51,16 @@ h1, h2, h3, h4, h5, h6, label, p, span, small, strong, body {
     font-size: 12px !important;
 }
 
+.font-size-14{
+    font-size: 14px !important;
+}
+
 .font-size-16{
     font-size: 16px !important;
+}
+
+.font-size-18{
+    font-size: 18px !important;
 }
 
 /* text color */
@@ -62,6 +84,57 @@ h1, h2, h3, h4, h5, h6, label, p, span, small, strong, body {
     border-radius: 4px;
     font-weight: 500;
 }
+
+.btn-danger{
+    background-color: rgba(229, 0, 39, 0.76);
+    color: rgb(255, 255, 255);
+}
+
+.btn-danger:hover{
+    background-color: rgb(229, 0, 39);
+    color: rgb(255, 255, 255);
+}
+
+.btn-default{
+    background-color: rgba(205, 199, 208, 0.3);
+    color: rgba(0, 0, 0, 0.57);
+}
+
+.btn-default:hover{
+    background-color: rgba(205, 199, 208, 0.55);
+    color: rgba(0, 0, 0, 0.95);
+}
+
+.btn-info{
+    background-color: rgba(0, 172, 194, 0.74);
+    color: rgba(255, 255, 255, 0.57);
+}
+
+.btn-info:hover{
+    background-color: rgba(0, 172, 194, 0.95);
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.btn-success{
+    background-color: rgba(61, 194, 103, 0.86);
+    color: rgba(255, 255, 255, 0.57);
+}
+
+.btn-success:hover{
+    background-color: rgb(83, 194, 72);
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.btn-warning{
+    background-color: rgb(254, 140, 45);
+    color: rgba(255, 255, 255, 0.57);
+}
+
+.btn-warning:hover{
+    background-color: rgb(254, 123, 33);
+    color: rgba(255, 255, 255, 0.95);
+}
+
 
 /* Breadcrumbs */
 .breadcrumbs{

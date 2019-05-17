@@ -119,6 +119,9 @@
     </div>
 
 
+    <form id="form-delete" method="post" action="{{url('/teste-plugin')}}">
+        {{csrf_field()}}
+    </form>
 
 @endsection
 

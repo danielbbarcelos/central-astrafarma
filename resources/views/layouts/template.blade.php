@@ -15,7 +15,6 @@
     <link href="{{url('/assets/plugins/materialize/css/materialize.v1.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{url('/assets/css/material-icons.css')}}" rel="stylesheet">
     <link href="{{url('/assets/plugins/material-preloader/css/materialPreloader.min.css')}}" rel="stylesheet">        
-    <link href="{{url('/assets/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css?family=Didact+Gothic|Rubik" rel="stylesheet">
 
     <!-- CSS especifico das paginas -->
@@ -56,7 +55,8 @@
         
     </div>
     <div class="left-sidebar-hover"></div>
-        
+
+    @include("layouts.modal-dialog")
     @include("layouts.scripts")
     @include("layouts.notifications")
 
