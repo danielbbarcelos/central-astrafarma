@@ -57,7 +57,9 @@ class Main
          * Imprime garantia
          *
          */
-        $pdf->Output('garantia.pdf','I');
+        $file = 'pedido-venda'. (isset($pedido->erp_id) ? '-'.$pedido->erp_id : '');
+
+        $pdf->Output($file.'.pdf','I');
 
         exit;
 

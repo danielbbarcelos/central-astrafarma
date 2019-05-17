@@ -3,13 +3,14 @@
 namespace App\Utils;
 
 use App\EmpresaFilial;
+use Illuminate\Support\Facades\Auth;
 
 class Helper
 {
 
     //retira os campos exclusivos da central vex, para enviar para o ERP via vexsync
     public static function formataSyncObject($object, $camposExtras = [])
-    {   
+    {
         unset($object->id);
         unset($object->created_at);
         unset($object->updated_at);

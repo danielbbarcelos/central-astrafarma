@@ -64,6 +64,8 @@ class DispositivoLocator extends Controller
             return Redirect::back()->withInput()->with('log',$response['log']);
         }
 
+        $response['action'] = 'create';
+
         return view($this->basePathViews.'dispositivo', $response);
     }
 
@@ -107,6 +109,8 @@ class DispositivoLocator extends Controller
             return Redirect::back()->withInput()->with('log',$response['log']);
         }
 
+        $response['action'] = 'update';
+
         return view($this->basePathViews.'dispositivo', $response);
     }
 
@@ -149,6 +153,8 @@ class DispositivoLocator extends Controller
         {
             return Redirect::back()->withInput()->with('log',$response['log']);
         }
+
+        $response['action'] = 'read';
 
         return view($this->basePathViews.'dispositivo', $response);
     }

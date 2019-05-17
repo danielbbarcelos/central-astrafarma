@@ -3,7 +3,8 @@
 namespace App\Http\Locators\Central;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect; 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Central\PedidoVendaController;
 
@@ -23,6 +24,7 @@ class PedidoVendaLocator extends Controller
     public function __construct()
     {
         $this->middleware('permissions', [ 'except' => []]);
+        $this->middleware('uservend',    [ 'except' => ['configuracao','configuracaoPost']]);
     }
 
 
@@ -61,7 +63,6 @@ class PedidoVendaLocator extends Controller
         return Redirect::back()->withInput()->with('log',$response['log']);
 
     }
-
 
     /**
      * @description Listagem de pedidos de venda

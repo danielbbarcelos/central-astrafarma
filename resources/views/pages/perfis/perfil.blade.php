@@ -125,6 +125,14 @@
 
     @endif
 
+
+    @if($action == 'read')
+        <script>
+            $("input,textarea,select").attr('disabled',true);
+            $("button[type='submit']").css('display','none');
+        </script>
+    @endif
+
 @endsection
 
 

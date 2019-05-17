@@ -22,11 +22,39 @@
 
 @section('page-content')
 
+
+    <div class="row">
+        <div class="col l12 m12 s12">
+            <div class="card-panel" style="padding: 0 !important;" >
+                <div class="card-content">
+                    <div class="row padding-top-10">
+                        <div class="col s8 row">
+                            <h6 class="font-weight-500">Pedido de venda {{isset($pedido->erp_id) ? '#'.$pedido->erp_id : 'em sincronização'}}
+                                @if($pedido->situacao_pedido == 'A')
+                                    <span class="label bg-warning">Aguardando</span>
+                                @else
+                                    <span class="label bg-success">Fechado</span>
+                                @endif
+                            </h6>
+                        </div>
+                        <div class="col s4 right-align">
+                            <a class="waves-effect btn btn-default btn-submit"href="{{url('/pedidos-vendas/'.$pedido->id.'/pdf')}}" target="_blank">
+                                <label class="cursor-pointer text-dark font-weight-800"><i class="material-icons" style="font-size: 12px">print</i> IMPRIMIR</label>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="row">
         <div class="col l12 m12 s12">
             <div class="card-panel">
                 <div class="card-content">
-                    <form id="form-pedido" method="post">
+                    <form id="form-pedido" method="post" action="{{url('/pedidos-vendas/'.$pedido->id.'/edit')}}">
 
                         {{csrf_field()}}
 
@@ -43,12 +71,11 @@
                                                     <option value="">Selecione...</option>
                                                     @foreach($clientes as $item)
                                                         <option value="{{$item->id}}"
-                                                            data-razao-social="{{$item->razao_social}}"
-                                                            data-nome-fantasia="{{$item->nome_fantasia}}"
-                                                            data-cnpj-cpf="{{ Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##') }}"
-                                                            data-cidade-uf="{{$item->cidade.'/'.$item->uf}}"
-                                                        >{{$item->razao_social}}
-                                                        </option>
+                                                                data-razao-social="{{$item->razao_social}}"
+                                                                data-nome-fantasia="{{$item->nome_fantasia}}"
+                                                                data-cnpj-cpf="{{ Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##') }}"
+                                                                data-cidade-uf="{{$item->cidade.'/'.$item->uf}}"
+                                                                @if($item->erp_id == $pedido->vxglocli_erp_id) selected @endif>{{$item->razao_social}}</option>
                                                     @endforeach
                                                 </select>
                                                 <label>Cliente</label>
@@ -83,7 +110,9 @@
                                         </div>
                                     </div>
                                     <div class="step-actions">
-                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepOne">Próximo</button>
+                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" @if($pedido->situacao_pedido == 'A') data-validator="validateStepOne" @endif>
+                                            Próximo
+                                        </button>
                                     </div>
                                 </div>
                             </li>
@@ -100,7 +129,7 @@
                                                 <select name="vxfattabprc_id" id="vxfattabprc_id">
                                                     <option value="">Selecione...</option>
                                                     @foreach($tabelas as $item)
-                                                        <option value="{{$item->id}}">{{$item->descricao}}</option>
+                                                        <option value="{{$item->id}}" @if($item->erp_id == $pedido->vxfattabprc_erp_id) selected @endif>{{$item->descricao}}</option>
                                                     @endforeach
                                                 </select>
                                                 <label>Tabela de preços</label>
@@ -119,7 +148,9 @@
 
                                     </div>
                                     <div class="step-actions">
-                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepTwo">Próximo</button>
+                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" @if($pedido->situacao_pedido == 'A') data-validator="validateStepTwo" @endif>
+                                            Próximo
+                                        </button>
                                         <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
                                     </div>
                                 </div>
@@ -146,13 +177,35 @@
                                                             <th style="width: 15%">Valor unitário</th>
                                                             <th style="width: 15%">Desconto</th>
                                                             <th style="width: 15%">Valor total</th>
-                                                            <th style="width: 15%">
-                                                                <a id="btn-produto" class="waves-effect waves-light btn blue btn-submit modal-trigger" href="#modal-produto">+ ITEM</a>
-                                                            </th>
+                                                            @if($pedido->situacao_pedido == 'A')
+                                                                <th style="width: 15%">
+                                                                    <a id="btn-produto" class="waves-effect waves-light btn blue btn-submit modal-trigger" href="#modal-produto">+ ITEM</a>
+                                                                </th>
+                                                            @endif
                                                         </tr>
                                                         </thead>
                                                         <tbody id="ipvenda-tbody" style="display: inline-table; width: 100%">
-
+                                                            @foreach($itens as $item)
+                                                                <tr>
+                                                                    <td style="width: 10%;">
+                                                                        <input type='hidden' name='vxfatipvend_id[]' value='{{$item->id}}'>
+                                                                        <input type='hidden' name='produto_id[]' value='{{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}'>
+                                                                        <input type='hidden' name='produto_quantidade[]' value='{{$item->quantidade}}'>
+                                                                        <input type='hidden' name='produto_preco_unitario[]' value='{{number_format($item->preco_unitario,2,',','.')}}'>
+                                                                        <input type='hidden' name='produto_valor_desconto[]' value='{{number_format($item->valor_desconto,2,',','.')}}'>
+                                                                        <input type='hidden' name='produto_preco_total[]' value='{{number_format($item->valor_total,2,',','.')}}'>
+                                                                        {{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}
+                                                                    </td>
+                                                                    <td style="width: 30%">{{isset($item->produto) ? $item->produto->descricao : json_decode($item->produto_data)->descricao}}</td>
+                                                                    <td style="width: 15%">{{$item->quantidade}}</td>
+                                                                    <td style="width: 15%">{{number_format($item->preco_unitario,2,',','.')}}</td>
+                                                                    <td style="width: 15%">{{number_format($item->valor_desconto,2,',','.')}}</td>
+                                                                    <td style="width: 15%">{{number_format($item->valor_total,2,',','.')}}</td>
+                                                                    @if($pedido->situacao_pedido == 'A')
+                                                                        <td style="width: 12%"><a style='cursor: pointer' onclick='excluiProduto(this)'>Excluir</a></td>
+                                                                    @endif
+                                                                </tr>
+                                                            @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -160,7 +213,9 @@
                                         </div>
 
                                         <div class="step-actions" style="position: absolute; bottom: 0; ">
-                                            <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepThree">Próximo</button>
+                                            <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" @if($pedido->situacao_pedido == 'A') data-validator="validateStepThree" @endif>
+                                                Próximo
+                                            </button>
                                             <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
                                         </div>
                                     </div>
@@ -221,7 +276,9 @@
                                         </div>
                                     </div>
                                     <div class="step-actions">
-                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepFour">Concluir</button>
+                                        @if($pedido->situacao_pedido == 'A')
+                                            <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepFour">Concluir</button>
+                                        @endif
                                         <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
                                     </div>
                                 </div>
@@ -245,6 +302,11 @@
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
     <script src="/assets/js/pages/pedido-venda.0be6b81b730252dd35a634b41e295075.js"></script>
 
+    @if($pedido->situacao_pedido !== 'A')
+        <script>
+             $("input,textarea,select").attr('disabled',true);
+        </script>
+    @endif
 
 @endsection
 

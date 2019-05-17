@@ -13,7 +13,7 @@
             <div class="col s12">
                 <div class="page-title"></div>
             </div>
-            <div class="col l10 m10 s10">
+            <div class="col l12 m12 s12">
                 <div class="card">
                     <div class="card-content">
                         <span class="card-title padding-left-10">Alteração de senha</span><br>
@@ -32,7 +32,7 @@
                                     </div>
                                 </div>
                                 <div class="col s12 right-align">
-                                    <button type="submit" class="waves-effect waves-light btn blue">Confirmar</button>
+                                    <button type="submit" class="waves-effect waves-light btn blue btn-submit">Confirmar</button>
                                 </div>
                             </form>
                         </div>

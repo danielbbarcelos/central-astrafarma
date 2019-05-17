@@ -5,6 +5,7 @@
 <script src="{{url('/assets/plugins/jquery-blockui/jquery.blockui.js')}}"></script>
 <script src="{{url('/assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
 <script src="{{url('/assets/plugins/maskmoney/jquery.maskMoney.js')}}"></script>
+<script src="{{url('/assets/plugins/moment/moment.js')}}"></script>
 
 @yield("extra-scripts")
 

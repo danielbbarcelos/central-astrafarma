@@ -373,6 +373,11 @@ Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
                 $fillColor = ['r'=>180,'g'=>180,'b'=>180];
                 $textColor = ['r'=>255,'g'=>255,'b'=>255];
             }
+            elseif(strpos($this->configuracao->pdf_template, 'green'))
+            {
+                $fillColor = ['r'=>145,'g'=>176,'b'=>124];
+                $textColor = ['r'=>255,'g'=>255,'b'=>255];
+            }
             elseif(strpos($this->configuracao->pdf_template, 'red'))
             {
                 $fillColor = ['r'=>252,'g'=>84,'b'=>85];
