@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('page-title', 'Novo pedido de venda')
+@section('page-title', 'Pedido de venda'.(isset($pedido->erp_id) ? '#'.$pedido->erp_id : 'em sincronização'))
 
 @section('page-css')
 
@@ -62,7 +62,7 @@
 
                             <!-- Cliente-->
                             <li class="step active">
-                                <div class="step-title waves-effect waves-dark">Cliente</div>
+                                <div class="step-title waves-effect waves-dark" onclick="event.stopPropagation();">Cliente</div>
                                 <div class="step-content" style="overflow-y: hidden">
                                     <div class="row padding-top-30">
                                         <div class="row row-input">
@@ -121,7 +121,7 @@
 
                             <!-- Tabeça de preços -->
                             <li class="step">
-                                <div class="step-title waves-effect waves-dark">Tabela de preços</div>
+                                <div class="step-title waves-effect waves-dark" onclick="event.stopPropagation();">Tabela de preços</div>
                                 <div class="step-content" style="overflow-y: hidden">
                                     <div class="row padding-top-30">
                                         <div class="row row-input">
@@ -161,7 +161,7 @@
 
                             <!-- Produtos -->
                             <li class="step">
-                                <div class="step-title waves-effect waves-dark">Produtos</div>
+                                <div class="step-title waves-effect waves-dark" onclick="event.stopPropagation();">Produtos</div>
                                 <div class="step-content" style="overflow-y: hidden">
                                     <div class="row ">
 
@@ -224,7 +224,7 @@
 
                             <!-- Conclusão -->
                             <li class="step">
-                                <div class="step-title waves-effect waves-dark">Conclusão</div>
+                                <div class="step-title waves-effect waves-dark" onclick="event.stopPropagation();">Conclusão</div>
                                 <div class="step-content">
                                     <div class="row">
 
