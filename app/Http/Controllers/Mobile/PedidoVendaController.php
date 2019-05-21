@@ -286,7 +286,7 @@ class PedidoVendaController extends Controller
             $pedidoItem->quantidade       = (string) $item->quantidade;
             $pedidoItem->preco_unitario   = $item->preco_unitario;
             $pedidoItem->valor_desconto   = $item->valor_desconto;
-            $pedidoItem->valor_total      = $item->valor_total;
+            $pedidoItem->valor_total      = number_format($item->quantidade * $item->preco_unitario,2,'.','');
 
             $itens[] = $pedidoItem;
         }
