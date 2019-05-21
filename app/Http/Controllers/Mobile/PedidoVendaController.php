@@ -302,7 +302,7 @@ class PedidoVendaController extends Controller
 
 
             $registro  = "Iniciando VEX Sync do registro (ID) ".$sync->id."\n\n";
-            $registro .= "Dados a serem enviados ".$object."\n\n";
+            $registro .= "Dados a serem enviados ".json_encode($object)."\n\n";
 
 
             while($resultSuccess == null)
