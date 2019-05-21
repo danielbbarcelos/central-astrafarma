@@ -76,7 +76,7 @@ class ProdutoController extends Controller
         {
             $precos = [];
 
-            $tabelaPrecoProduto = TabelaPrecoProduto::where('vxgloprod_erp_id',$produto->erp_id)->get();
+            $tabelaPrecoProduto = TabelaPrecoProduto::where('vxgloprod_erp_id',$produto->erp_id)->orderBy('uf','asc')->get();
 
             foreach($tabelaPrecoProduto as $item)
             {
@@ -84,6 +84,7 @@ class ProdutoController extends Controller
 
                 if(isset($preco))
                 {
+                    $preco->uf             = $item->uf;
                     $preco->preco_venda    = $item->preco_venda;
                     $preco->preco_maximo   = $item->preco_maximo;
                     $preco->valor_desconto = $item->valor_desconto;

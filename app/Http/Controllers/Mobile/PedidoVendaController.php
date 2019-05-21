@@ -301,6 +301,10 @@ class PedidoVendaController extends Controller
             $resultSuccess = null;
 
 
+            $registro  = "Iniciando VEX Sync do registro (ID) ".$sync->id."\n\n";
+            $registro .= "Dados a serem enviados ".json_encode($object)."\n\n";
+
+
             while($resultSuccess == null)
             {
                 $guzzle  = new Client();
@@ -317,10 +321,7 @@ class PedidoVendaController extends Controller
 
                 if(isset($result->success))
                 {
-                    if($result->success == true)
-                    {
-                        $resultSuccess = $result->success;
-                    }
+                    $resultSuccess = $result->success;
                 }
             }
             
@@ -329,6 +330,9 @@ class PedidoVendaController extends Controller
             {
                 $success = false;
                 $log     = isset($result->log) ? $result->log : $result->message;
+
+
+                $registro .= "ERRO: $log";
             }
             else 
             {
@@ -345,8 +349,16 @@ class PedidoVendaController extends Controller
                 ]);
 
                 $log = 'Sincronização realizada com sucesso';
+
+
+                $registro .= "VEX Sync atualizado com sucesso na Central VEX: $log";
+
             }
-    
+
+
+            Helper::logFile('vex-sync-central.log', $registro);
+
+
         }
         catch(\Exception $e)
         {

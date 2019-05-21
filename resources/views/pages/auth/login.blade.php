@@ -76,8 +76,7 @@
     <script src="{{url('/assets/plugins/materialize/js/materialize.min.js')}}"></script>
     <script src="{{url('/assets/plugins/material-preloader/js/materialPreloader.min.js')}}"></script>
     <script src="{{url('/assets/plugins/jquery-blockui/jquery.blockui.js')}}"></script>
-    <script src="{{url('/assets/js/alpha.js')}}"></script>
-    <script src="{{url('/assets/js/templates/dialogs.js')}}"></script>
+    <script src="{{url('/assets/js/alpha.36c299926dedd08c3f48d5f546a683e6.js')}}"></script>
 
     @include("layouts.notifications")
 

@@ -100,6 +100,7 @@
                             <table class="display" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>UF</th>
                                     <th>Descrição</th>
                                     <th>Preço de venda</th>
                                     <th>Preço máximo</th>
@@ -108,6 +109,7 @@
                                 <tbody>
                                 @foreach($precos as $item)
                                     <tr>
+                                        <td>{{$item->uf}}</td>
                                         <td>{{$item->descricao}}</td>
                                         <td>R$ {{number_format($item->preco_venda,2,',','.')}}</td>
                                         <td>R$ {{number_format($item->preco_maximo,2,',','.')}}</td>

@@ -55,7 +55,7 @@
 
                             <div class="row row-input">
                                 <div class="input-field col s12 m12">
-                                    <select name="vxwebperfil_id" id="vxwebperfil_id" @if($user->type == 'A') disabled @endif required>
+                                    <select name="vxwebperfil_id" id="vxwebperfil_id" @if($user->type == 'A') disabled @endif required class="select2">
                                         @if($user->vxwebperfil_id == null)
                                             <option value="" selected disabled>Selecione...</option>
                                         @endif
@@ -70,7 +70,7 @@
 
                             <div class="row row-input">
                                 <div class="input-field col s12 m12">
-                                    <select name="empfil[]" id="empfil" multiple required>
+                                    <select name="empfil[]" id="empfil" multiple required class="select2">
                                         @if(count($userFiliais) == 0)
                                             <option value="" disabled selected>Selecione...</option>
                                         @endif
@@ -84,10 +84,12 @@
 
                             <div class="row row-input">
                                 <div class="input-field col s12 m12">
-                                    <select name="vxfatvend_id" id="vxfatvend_id">
+                                    <select name="vxfatvend_id" id="vxfatvend_id" class="select2">
                                         <option value="" selected>N/A</option>
                                         @foreach($vendedores as $item)
-                                            <option value="{{$item->id}}" @if($item->id == $user->vxfatvend_id) selected @endif>{{$item->nome.' - CPF: '.Helper::insereMascara($item->cpf,'###.###.###-##')}}</option>
+                                            <option value="{{$item->id}}" @if($item->id == $user->vxfatvend_id) selected @endif
+                                                >{{$item->nome.($item->cpf !== '' ? ' - CPF: '.Helper::insereMascara($item->cpf,'###.###.###-##') : ' - CPF não informado')}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <label>Vendedor vinculado ao usuário</label>

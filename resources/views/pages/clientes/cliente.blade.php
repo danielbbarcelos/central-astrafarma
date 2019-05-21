@@ -26,7 +26,7 @@
                     <span class="card-title">
                         Cadastro de cliente
                     </span><br>
-                    <div class="row">
+                    <div >
                         <form class="s12" method="post">
 
                             {{csrf_field()}}
@@ -63,10 +63,8 @@
                                     <label>CNPJ/CPF</label>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <select name="tipo_cliente" required>
-                                        @if(($cliente->tipo_cliente or old('tipo_cliente')) == null)
-                                            <option value="" disabled selected>Selecione</option>
-                                        @endif
+                                    <select name="tipo_cliente" class="select2" required style="width: 50%">
+                                        <option value="" disabled>Selecione o tipo de cliente</option>
                                         <option value="R" @if($cliente->tipo_cliente == 'R') selected @endif>Revendedor</option>
                                         <option value="F" @if($cliente->tipo_cliente == 'F') selected @endif>Final</option>
                                         <option value="L" @if($cliente->tipo_cliente == 'L') selected @endif>Produtor rural</option>
@@ -77,9 +75,8 @@
                                 </div>
                             </div>
 
-
                             <!-- Dados de contato -->
-                            <div class="row row-input">
+                            <div class="row row-input padding-top-20">
                                 <div class="input-field col s12 m4">
                                     <input type="text" placeholder="" required name="nome_contato" id="nome_contato" class="masked" maxlength="100" value="{{$cliente->nome_contato or old('nome_contato')}}">
                                     <label>Nome do contato</label>
@@ -125,10 +122,8 @@
                                     <label>CEP</label>
                                 </div>
                                 <div class="input-field col s12 m3">
-                                    <select name="uf" id="uf" required>
-                                        @if($cliente->uf == null)
-                                            <option value="">Selecione...</option>
-                                        @endif
+                                    <select class="select2" name="uf" id="uf" style="width: 100%" required>
+                                        <option value="" disabled selected>Selecione o estado</option>
                                         @foreach($estados as $item)
                                             <option value="{{$item->uf}}" @if($cliente->uf == $item->uf) selected @endif>{{$item->nome}}</option>
                                         @endforeach
@@ -136,9 +131,11 @@
                                     <label>UF</label>
                                 </div>
                                 <div class="input-field col s12 m3">
-                                    <select name="cidade" id="cidade" required>
+                                    <select class="select2" name="cidade" id="cidade" style="width: 100%" required>
                                         @if($cliente->uf == null)
                                             <option value="" disabled selected>Selecione o estado</option>
+                                        @elseif($cliente->cidade == null)
+                                            <option value="" disabled selected>Selecione a cidade</option>
                                         @endif
                                         @foreach($cidades as $item)
                                             <option value="{{$item->nome}}" @if($cliente->cod_mun == $item->cod_mun) selected @endif>{{$item->nome}}</option>

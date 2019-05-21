@@ -18,7 +18,7 @@
 
         <div class="row row-input padding-bottom-10">
             <div class="input-field col s12">
-                <select id="produto_id">
+                <select id="produto_id" class="select2">
                     <option value="">Selecione...</option>
                     @if($pedido->vxfattabprc_erp_id !== null)
                         @foreach($tabelas as $tabela)

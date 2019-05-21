@@ -15,6 +15,7 @@
     <link href="{{url('/assets/plugins/materialize/css/materialize.v1.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{url('/assets/css/material-icons.css')}}" rel="stylesheet">
     <link href="{{url('/assets/plugins/material-preloader/css/materialPreloader.min.css')}}" rel="stylesheet">        
+    <link href="{{url('/assets/plugins/select2/css/select2.custom.css')}}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Didact+Gothic|Rubik" rel="stylesheet">
 
     <!-- CSS especifico das paginas -->
@@ -36,10 +37,8 @@
 
         @include("layouts.header")
 
-
         <!-- Left Sidebar -->
         @include("layouts.menu")
-
 
         <main class="mn-inner inner-active-sidebar">
 

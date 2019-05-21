@@ -120,9 +120,6 @@ $("#vxfattabprc_id").on("change",function(){
     }
     else if(tabelaValue !== this.value)
     {
-        var tabela = this;
-
-
         var modalType    = 'warning';
         var modalAction  = '';
         var modalTitle   = 'Você adicionou itens ao pedido.';
@@ -167,7 +164,7 @@ function alteraTabelaPreco()
 
     $.each(produtos, function(index){
 
-        if(produtos[index].uf)
+        if(produtos[index].uf === $("#uf-tabela-preco").val())
         {
             $("#produto_id").append($('<option></option>')
                 .attr("value",produtos[index].id)

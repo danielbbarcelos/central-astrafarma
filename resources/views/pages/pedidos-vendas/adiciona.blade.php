@@ -39,7 +39,7 @@
                                     <div class="row padding-top-30">
                                         <div class="row row-input">
                                             <div class="input-field col s12 m12">
-                                                <select name="vxglocli_id" id="vxglocli_id">
+                                                <select name="vxglocli_id" id="vxglocli_id" class="select2">
                                                     <option value="">Selecione...</option>
                                                     @foreach($clientes as $item)
                                                         <option value="{{$item->id}}"
@@ -101,7 +101,7 @@
                                             <input type="hidden" id="uf-tabela-preco" value="">
 
                                             <div class="input-field col s12 m12">
-                                                <select name="vxfattabprc_id" id="vxfattabprc_id">
+                                                <select name="vxfattabprc_id" id="vxfattabprc_id" class="select2">
                                                     <option value="">Selecione...</option>
                                                     @foreach($tabelas as $item)
                                                         <option value="{{$item->id}}">{{$item->descricao}}</option>
@@ -202,7 +202,7 @@
                                         <div class="row row-input">
 
                                             <div class="input-field col s6">
-                                                <select name="vxglocpgto_id" id="vxglocpgto_id">
+                                                <select name="vxglocpgto_id" id="vxglocpgto_id" class="select2">
                                                     <option disabled selected>Selecione...</option>
                                                     @foreach($condicoes as $item)
                                                         <option value="{{$item->id}}" @if($item->erp_id == $pedido->vxglocpgto_erp_id) selected @endif>{{$item->descricao}}</option>

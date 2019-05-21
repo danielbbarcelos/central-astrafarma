@@ -2,7 +2,14 @@ $(document).ready(function(){
 
     // ========================================
     //
-    // Inicializa mÃ¡scaras dos campos
+    // Inicializa select2
+    //
+    // ========================================
+    //$('.select2').select2();
+
+    // ========================================
+    //
+    // Inicializa máscaras dos campos
     //
     // ========================================
     try

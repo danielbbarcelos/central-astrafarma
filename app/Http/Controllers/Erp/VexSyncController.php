@@ -63,7 +63,6 @@ class VexSyncController extends Controller
                 $objects = Helper::retornoERP($result->result);
                 $objects = json_decode($objects);
 
-
                 foreach($objects as $object)
                 {
 
