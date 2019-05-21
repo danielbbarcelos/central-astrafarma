@@ -3,10 +3,36 @@
 namespace App\Utils;
 
 use App\EmpresaFilial;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class Helper
 {
+
+    //Gera log em arquivo personalizado
+    public static function logFile($file, $message = '')
+    {
+        $content = '';
+
+        $path = storage_path('logs/'.$file);
+
+        if(File::exists($path))
+        {
+            $content  = file_get_contents($path);
+        }
+
+        $content .= "[".Carbon::now()->format('Y-m-d H:i:s')."] ".$message."\n\n";
+        $content .= str_repeat("=",1000);
+        $content .= "\n\n";
+
+        $file = fopen($path,'w+');
+        fwrite($file, $content);
+        fclose($file);
+
+        return $path;
+    }
+
 
     //retira os campos exclusivos da central vex, para enviar para o ERP via vexsync
     public static function formataSyncObject($object, $camposExtras = [])

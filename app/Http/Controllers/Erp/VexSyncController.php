@@ -64,8 +64,16 @@ class VexSyncController extends Controller
                 $objects = json_decode($objects);
 
 
+
+
+                Helper::logFile('contato.log', 'Mensagem enviada com sucesso: '.json_encode($request->all(),JSON_UNESCAPED_UNICODE));
+
                 foreach($objects as $object)
                 {
+
+                    $registro = "Iniciando VEX Sync do registro (ID) ".$object->id."\n\n";
+
+
                     if(strtolower($object->action) == 'create')
                     {
                         $return = VexSyncController::create($object);
@@ -86,10 +94,14 @@ class VexSyncController extends Controller
                         if($return['success'] == true)
                         {
                             $syncLog = ['data_hora' => Carbon::now()->format('Y-m-d H:i:s'), 'sucesso' => '1', 'mensagem' => 'Sincronizacao realizada com sucesso'];
+
+                            $registro .= "Sincronizacao realizada com sucesso \n\n";
                         }
                         else 
                         {
                             $syncLog = ['data_hora' => Carbon::now()->format('Y-m-d H:i:s'), 'sucesso' => '0', 'mensagem' => $return['log']];
+
+                            $registro .= "Erro ao sincronizar na Central VEX: {$return['log']} \n\n";
                         }
 
                         try 
@@ -107,12 +119,21 @@ class VexSyncController extends Controller
                                 ])
                             ]);
 
+
+                            $registro .= "VEX Sync atualizado com sucesso no ERP\n\n";
+
                         }
                         catch(\Exception $e2)
                         {
                             $success = false;
                             $log     = $e2->getMessage();
+
+                            $registro .= "\nERRO: Linha: {$e2->getLine()}\nArquivo: {$e2->getFile()}\nCódigo: {$e2->getCode()}\nMensagem {$e2->getMessage()}";
                         }
+
+
+                        Helper::logFile('vex-sync-erp.log', $registro);
+
                     }
                 }
             }
