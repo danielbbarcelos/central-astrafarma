@@ -39,10 +39,12 @@ class PedidoVendaController extends Controller
     }
 
 
-    public function lista()
+    public function lista(Request $request)
     {
         $success = true;
         $log     = [];
+
+        dd($request);
 
         $pedidos = WebService::pedidos();
 

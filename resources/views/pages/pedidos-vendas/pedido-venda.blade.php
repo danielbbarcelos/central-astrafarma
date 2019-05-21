@@ -202,9 +202,9 @@
                                                                     </td>
                                                                     <td style="width: 30%">{{isset($item->produto) ? $item->produto->descricao : json_decode($item->produto_data)->descricao}}</td>
                                                                     <td style="width: 15%">{{$item->quantidade}}</td>
-                                                                    <td style="width: 15%">{{number_format($item->preco_unitario,2,',','.')}}</td>
-                                                                    <td style="width: 15%">{{number_format($item->valor_desconto,2,',','.')}}</td>
-                                                                    <td style="width: 15%">{{number_format($item->valor_total,2,',','.')}}</td>
+                                                                    <td style="width: 15%">R$ {{number_format($item->preco_unitario,2,',','.')}}</td>
+                                                                    <td style="width: 15%">R$ {{number_format($item->valor_desconto,2,',','.')}}</td>
+                                                                    <td style="width: 15%">R$ {{number_format($item->valor_total,2,',','.')}}</td>
                                                                     @if($pedido->situacao_pedido == 'A')
                                                                         <td style="width: 12%"><a style='cursor: pointer' onclick='excluiProduto(this)'>Excluir</a></td>
                                                                     @endif
