@@ -52,6 +52,7 @@ class PedidoVendaController extends Controller
             if($filial !== null)
             {
                 $query->where('vxgloempfil_id',$filial->id);
+                $query->orWhere('vxgloempfil_id',null);
             }
         })->orderBy('created_at','desc')->get();
 

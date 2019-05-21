@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mobile;
 
 //models and controllers
 use App\Assinatura;
+use App\EmpresaFilial;
 use App\Produto;
 
 //mails
@@ -22,11 +23,12 @@ use App\Utils\Helper;
 
 class ProdutoController extends Controller
 {
+    protected $filial;
 
     //construct
-    public function __construct()
+    public function __construct($filialId = null)
     {
-         //
+        $this->filial = isset($filialId) ? EmpresaFilial::where('filial_erp_id',$filialId)->first() : null;
     }
 
 
@@ -35,7 +37,15 @@ class ProdutoController extends Controller
         $success = true;
         $log     = [];
 
-        $produtos = Produto::orderBy('descricao','asc')->get();
+        $filial  = $this->filial;
+
+        $produtos = Produto::where(function($query) use ($filial){
+            if($filial !== null)
+            {
+                $query->where('vxgloempfil_id',$filial->id);
+                $query->orWhere('vxgloempfil_id',null);
+            }
+        })->where('status','1')->orderBy('descricao','asc')->get();
 
         $response['success'] = $success;
         $response['log']     = $log;

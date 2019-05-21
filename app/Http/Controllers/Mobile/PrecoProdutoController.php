@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mobile;
 
 //models and controllers
 use App\Assinatura;
+use App\EmpresaFilial;
 use App\PrecoProduto;
 use App\Produto;
 
@@ -25,10 +26,12 @@ use App\Utils\Helper;
 class PrecoProdutoController extends Controller
 {
 
+    protected $filial;
+
     //construct
-    public function __construct()
+    public function __construct($filialId = null)
     {
-         //
+        $this->filial = isset($filialId) ? EmpresaFilial::where('filial_erp_id',$filialId)->first() : null;
     }
 
 

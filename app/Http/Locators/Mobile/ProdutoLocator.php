@@ -26,9 +26,9 @@ class ProdutoLocator extends Controller
      * @info Listagem de produtos via API
      * @return mixed
      */
-    public function lista()
+    public function lista(Request $request)
     {
-        $controller = new ProdutoController();
+        $controller = new ProdutoController($request->header('filial'));
 
         $response   = $controller->lista();
 

@@ -26,9 +26,9 @@ class CondicaoPagamentoLocator extends Controller
      * @info Listagem de condições de pagamento via API
      * @return mixed
      */
-    public function lista()
+    public function lista(Request $request)
     {
-        $controller = new CondicaoPagamentoController();
+        $controller = new CondicaoPagamentoController($request->header('filial'));
 
         $response   = $controller->lista();
 

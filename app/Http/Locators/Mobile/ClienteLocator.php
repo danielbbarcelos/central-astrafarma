@@ -26,9 +26,9 @@ class ClienteLocator extends Controller
      * @info Listagem de clientes via API
      * @return mixed
      */
-    public function lista()
+    public function lista(Request $request)
     {
-        $controller = new ClienteController();
+        $controller = new ClienteController($request->header('filial'));
         
         $response   = $controller->lista();
 

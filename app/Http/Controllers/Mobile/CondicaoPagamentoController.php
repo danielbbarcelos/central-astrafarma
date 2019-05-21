@@ -9,6 +9,7 @@ use App\CondicaoPagamento;
 //mails
 
 //framework
+use App\EmpresaFilial;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,11 +23,12 @@ use App\Utils\Helper;
 
 class CondicaoPagamentoController extends Controller
 {
+    protected $filial;
 
     //construct
-    public function __construct()
+    public function __construct($filialId = null)
     {
-         //
+        $this->filial = isset($filialId) ? EmpresaFilial::where('filial_erp_id',$filialId)->first() : null;
     }
 
 
@@ -35,7 +37,15 @@ class CondicaoPagamentoController extends Controller
         $success = true;
         $log     = [];
 
-        $condicoes = CondicaoPagamento::all();
+        $filial  = $this->filial;
+
+        $condicoes = CondicaoPagamento::where(function($query) use ($filial){
+            if($filial !== null)
+            {
+                $query->where('vxgloempfil_id',$filial->id);
+                $query->orWhere('vxgloempfil_id',null);
+            }
+        })->where('status','1')->orderBy('nome_fantasia','asc')->get();
 
         $response['success']   = $success;
         $response['log']       = $log;
