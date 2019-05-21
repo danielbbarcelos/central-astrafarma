@@ -285,6 +285,7 @@ class PedidoVendaController extends Controller
             $pedidoItem->vxgloprod_erp_id = $item->vxgloprod_erp_id;
             $pedidoItem->quantidade       = (string) $item->quantidade;
             $pedidoItem->preco_unitario   = $item->preco_unitario;
+            $pedidoItem->valor_desconto   = $item->valor_desconto;
             $pedidoItem->valor_total      = $item->valor_total;
 
             $itens[] = $pedidoItem;
