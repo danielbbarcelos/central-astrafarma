@@ -296,15 +296,17 @@ class PedidoVendaController extends Controller
         //formata objeto para enviar no vexsync
         $object = Helper::formataSyncObject($object);
 
+
+        //tratamento de log
+        $registro  = "Iniciando VEX Sync do registro (ID) ".$sync->id."\n\n";
+        $registro .= "Dados a serem enviados ".json_encode($object)."\n\n";
+
+
+
         //insere item no ERP
         try 
         {
             $resultSuccess = null;
-
-
-            $registro  = "Iniciando VEX Sync do registro (ID) ".$sync->id."\n\n";
-            $registro .= "Dados a serem enviados ".json_encode($object)."\n\n";
-
 
             while($resultSuccess == null)
             {
@@ -355,17 +357,20 @@ class PedidoVendaController extends Controller
 
             }
 
-
-            Helper::logFile('vex-sync-central.log', $registro);
-
-
         }
         catch(\Exception $e)
         {
             $success = false;
             $log     = $e->getMessage();
+
+
+            $registro .= "\nERRO: Linha: {$e->getLine()}\nArquivo: {$e->getFile()}\nCódigo: {$e->getCode()}\nMensagem {$e->getMessage()}";
+
         }
-        
+
+        Helper::logFile('vex-sync-central.log', $registro);
+
+
         $response['success'] = $success;
         $response['log']     = $log;
         return $response;
