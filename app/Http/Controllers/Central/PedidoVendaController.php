@@ -168,6 +168,7 @@ class PedidoVendaController extends Controller
 
                     if(isset($produto))
                     {
+                        $produto->uf             = $item->uf;
                         $produto->preco_venda    = $item->preco_venda;
                         $produto->preco_maximo   = $item->preco_maximo;
                         $produto->valor_desconto = $item->valor_desconto;
@@ -358,6 +359,7 @@ class PedidoVendaController extends Controller
 
                     if(isset($produto))
                     {
+                        $produto->uf             = $item->uf;
                         $produto->preco_venda    = $item->preco_venda;
                         $produto->preco_maximo   = $item->preco_maximo;
                         $produto->valor_desconto = $item->valor_desconto;

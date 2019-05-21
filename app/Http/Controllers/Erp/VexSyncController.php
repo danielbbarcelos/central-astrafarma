@@ -63,7 +63,7 @@ class VexSyncController extends Controller
                 $objects = Helper::retornoERP($result->result);
                 $objects = json_decode($objects);
 
-                
+
                 foreach($objects as $object)
                 {
 
@@ -105,7 +105,7 @@ class VexSyncController extends Controller
                             $guzzle  = new Client();
                             $result  = $guzzle->request('PUT', $assinatura->webservice_base . $vexSync->getWebservice(), [
                                 'headers'     => [
-                                    'Content-Type'    => 'application/json',
+                                    'Content-Type' => 'application/json',
                                 ], 
                                 'body' => json_encode([
                                     'id'      => (int)$object->id,
