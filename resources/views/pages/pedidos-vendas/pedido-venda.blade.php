@@ -178,7 +178,7 @@
                                                             <th style="width: 10%">Cód. produto</th>
                                                             <th style="width: 30%">Descrição</th>
                                                             <th style="width: 15%">Quantidade</th>
-                                                            <th style="width: 15%">Valor unitário</th>
+                                                            <th style="width: 15%">Preço venda</th>
                                                             <th style="width: 15%">Desconto</th>
                                                             <th style="width: 15%">Valor total</th>
                                                             @if($pedido->situacao_pedido == 'A')
@@ -196,13 +196,14 @@
                                                                         <input type='hidden' name='produto_id[]' value='{{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}'>
                                                                         <input type='hidden' name='produto_quantidade[]' value='{{$item->quantidade}}'>
                                                                         <input type='hidden' name='produto_preco_unitario[]' value='{{number_format($item->preco_unitario,2,',','.')}}'>
+                                                                        <input type='hidden' name='produto_preco_venda[]' value='{{number_format($item->preco_venda,2,',','.')}}'>
                                                                         <input type='hidden' name='produto_valor_desconto[]' value='{{number_format($item->valor_desconto,2,',','.')}}'>
                                                                         <input type='hidden' name='produto_preco_total[]' value='{{number_format($item->valor_total,2,',','.')}}'>
                                                                         {{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}
                                                                     </td>
                                                                     <td style="width: 30%">{{isset($item->produto) ? $item->produto->descricao : json_decode($item->produto_data)->descricao}}</td>
                                                                     <td style="width: 15%">{{$item->quantidade}}</td>
-                                                                    <td style="width: 15%">R$ {{number_format($item->preco_unitario,2,',','.')}}</td>
+                                                                    <td style="width: 15%">R$ {{number_format($item->preco_venda,2,',','.')}}</td>
                                                                     <td style="width: 15%">R$ {{number_format($item->valor_desconto,2,',','.')}}</td>
                                                                     <td style="width: 15%">R$ {{number_format($item->valor_total,2,',','.')}}</td>
                                                                     @if($pedido->situacao_pedido == 'A')
@@ -304,7 +305,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.347e0798ea6471be938052625de34ea1.js"></script>
+    <script src="/assets/js/pages/pedido-venda.m1uc5jkis921034m4asas7134bx.js"></script>
 
     @if($pedido->situacao_pedido !== 'A')
         <script>

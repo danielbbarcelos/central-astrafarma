@@ -147,7 +147,7 @@
                                                             <th style="width: 10%">Cód. produto</th>
                                                             <th style="width: 30%">Descrição</th>
                                                             <th style="width: 15%">Quantidade</th>
-                                                            <th style="width: 15%">Valor unitário</th>
+                                                            <th style="width: 15%">Preço de venda</th>
                                                             <th style="width: 15%">Desconto</th>
                                                             <th style="width: 15%">Valor total</th>
                                                             <th style="width: 15%">
@@ -247,7 +247,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.347e0798ea6471be938052625de34ea1.js"></script>
+    <script src="/assets/js/pages/pedido-venda.m1uc5jkis921034m4asas7134bx.js"></script>
 
 
 @endsection

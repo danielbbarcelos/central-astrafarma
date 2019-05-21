@@ -267,6 +267,7 @@ class PedidoVendaController extends Controller
                     $pedidoItem->produto_data     = json_encode($produto, JSON_UNESCAPED_UNICODE);
                     $pedidoItem->quantidade       = $request['produto_quantidade'][$i];
                     $pedidoItem->preco_unitario   = number_format(Helper::formataDecimal($request['produto_preco_unitario'][$i]),2,'.','');
+                    $pedidoItem->preco_venda      = number_format(Helper::formataDecimal($request['produto_preco_venda'][$i]),2,'.','');
                     $pedidoItem->valor_desconto   = number_format(Helper::formataDecimal($request['produto_valor_desconto'][$i]),2,'.','');
                     $pedidoItem->valor_total      = number_format(Helper::formataDecimal($request['produto_preco_total'][$i]),2,'.','');
                     $pedidoItem->created_at       = new \DateTime();
@@ -498,6 +499,7 @@ class PedidoVendaController extends Controller
                         $pedidoItem->produto_data     = json_encode($produto, JSON_UNESCAPED_UNICODE);
                         $pedidoItem->quantidade       = $request['produto_quantidade'][$i];
                         $pedidoItem->preco_unitario   = number_format(Helper::formataDecimal($request['produto_preco_unitario'][$i]),2,'.','');
+                        $pedidoItem->preco_venda      = number_format(Helper::formataDecimal($request['produto_preco_venda'][$i]),2,'.','');
                         $pedidoItem->valor_desconto   = number_format(Helper::formataDecimal($request['produto_valor_desconto'][$i]),2,'.','');
                         $pedidoItem->valor_total      = number_format(Helper::formataDecimal($request['produto_preco_total'][$i]),2,'.','');
                         $pedidoItem->updated_at       = new \DateTime();

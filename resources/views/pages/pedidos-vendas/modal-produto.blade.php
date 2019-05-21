@@ -10,7 +10,7 @@
         </div>
 
         <!-- Itens padrões da tabela de preço selecionada -->
-        <input type="hidden" value="" id="produto_preco_venda">
+        <input type="hidden" value="" id="produto_preco_unitario">
         <input type="hidden" value="" id="produto_preco_maximo">
         <input type="hidden" value="" id="produto_desconto_maximo">
         <input type="hidden" value="" id="produto_fator">
@@ -43,8 +43,8 @@
         </div>
 
         <div class="input-field col s3">
-            <input type="text" value="" class="mask-decimal" placeholder="" id="produto_preco_unitario" onkeyup="calculaPrecoTotalProduto()">
-            <label>Preço unitário (R$)</label>
+            <input type="text" value="" class="mask-decimal" placeholder="" id="produto_preco_venda" onkeyup="calculaPrecoTotalProduto()">
+            <label>Preço de venda (R$)</label>
         </div>
 
         <div class="input-field col s3">
@@ -52,7 +52,7 @@
             <label>Valor desconto (R$)</label>
         </div>
 
-        <div class="input-field col s3">
+        <div class="input-field col s3 right-align">
             <input type="text" value="" readonly placeholder="" id="produto_preco_total">
             <label>Preço final (R$)</label>
         </div>
