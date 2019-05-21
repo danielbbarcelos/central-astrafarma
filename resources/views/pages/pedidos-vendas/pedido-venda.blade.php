@@ -75,6 +75,7 @@
                                                                 data-nome-fantasia="{{$item->nome_fantasia}}"
                                                                 data-cnpj-cpf="{{ Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##') }}"
                                                                 data-cidade-uf="{{$item->cidade.'/'.$item->uf}}"
+                                                                data-uf="{{$item->uf}}"
                                                                 @if($item->erp_id == $pedido->vxglocli_erp_id) selected @endif>{{$item->razao_social}}</option>
                                                     @endforeach
                                                 </select>
@@ -125,6 +126,9 @@
                                 <div class="step-content" style="overflow-y: hidden">
                                     <div class="row padding-top-30">
                                         <div class="row row-input">
+
+                                            <input type="hidden" id="uf-tabela-preco" value="">
+
                                             <div class="input-field col s12 m12">
                                                 <select name="vxfattabprc_id" id="vxfattabprc_id">
                                                     <option value="">Selecione...</option>
@@ -300,13 +304,26 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.0be6b81b730252dd35a634b41e295075.js"></script>
+    <script src="/assets/js/pages/pedido-venda.347e0798ea6471be938052625de34ea1.js"></script>
 
     @if($pedido->situacao_pedido !== 'A')
         <script>
              $("input,textarea,select").attr('disabled',true);
         </script>
     @endif
+
+    <script>
+        $(document).ready(function(){
+            $("#data-cliente").attr("hidden",false);
+            $("#cliente-razao-social").html($("#vxglocli_id option:selected").attr("data-razao-social"));
+            $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
+            $("#cliente-cnpj-cpf").html($("#vxglocli_id option:selected").attr("data-cnpj-cpf"));
+            $("#cliente-cidade-uf").html($("#vxglocli_id option:selected").attr("data-cidade-uf"));
+
+            //armazena valor para listar produtos da tabela de preço (produtos do mesmo estado do cliente)
+            $("#uf-tabela-preco").val($("#vxglocli_id option:selected").attr("data-uf"));
+        })
+    </script>
 
 @endsection
 

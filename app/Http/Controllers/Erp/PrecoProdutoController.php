@@ -93,6 +93,7 @@ class PrecoProdutoController extends Controller
                 $preco->vxfattabprc_erp_id  = $tabela->erp_id;
                 $preco->vxgloprod_id        = $produto->id;
                 $preco->vxgloprod_erp_id    = $produto->erp_id;
+                $preco->uf                  = $item->uf;
                 $preco->preco_venda         = number_format((float) $item->preco_venda,2,'.','');
                 $preco->preco_maximo        = number_format((float) $item->preco_maximo,2,'.','');
                 $preco->valor_desconto      = number_format((float) $item->valor_desconto,2,'.','');
@@ -181,6 +182,7 @@ class PrecoProdutoController extends Controller
                 $preco->vxfattabprc_erp_id  = $tabela->erp_id;
                 $preco->vxgloprod_id        = $produto->id;
                 $preco->vxgloprod_erp_id    = $produto->erp_id;
+                $preco->uf                  = $item->uf;
                 $preco->preco_venda         = number_format((float) $item->preco_venda,2,'.','');
                 $preco->preco_maximo        = number_format((float) $item->preco_maximo,2,'.','');
                 $preco->valor_desconto      = number_format((float) $item->valor_desconto,2,'.','');

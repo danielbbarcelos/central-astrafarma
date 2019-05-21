@@ -96,6 +96,9 @@ $("#vxglocli_id").on("change",function(){
         $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
         $("#cliente-cnpj-cpf").html($("#vxglocli_id option:selected").attr("data-cnpj-cpf"));
         $("#cliente-cidade-uf").html($("#vxglocli_id option:selected").attr("data-cidade-uf"));
+
+        //armazena valor para listar produtos da tabela de preço (produtos do mesmo estado do cliente)
+        $("#uf-tabela-preco").val($("#vxglocli_id option:selected").attr("data-uf"));
     }
 });
 
@@ -164,13 +167,16 @@ function alteraTabelaPreco()
 
     $.each(produtos, function(index){
 
-        $("#produto_id").append($('<option></option>')
-            .attr("value",produtos[index].id)
-            .attr("preco_venda",produtos[index].preco_venda)
-            .attr("preco_maximo",produtos[index].preco_maximo)
-            .attr("valor_desconto",produtos[index].valor_desconto)
-            .attr("fator",produtos[index].fator)
-            .text(produtos[index].descricao));
+        if(produtos[index].uf)
+        {
+            $("#produto_id").append($('<option></option>')
+                .attr("value",produtos[index].id)
+                .attr("preco_venda",produtos[index].preco_venda)
+                .attr("preco_maximo",produtos[index].preco_maximo)
+                .attr("valor_desconto",produtos[index].valor_desconto)
+                .attr("fator",produtos[index].fator)
+                .text(produtos[index].descricao));
+        }
     });
 
     $("#produto_id").material_select('update');

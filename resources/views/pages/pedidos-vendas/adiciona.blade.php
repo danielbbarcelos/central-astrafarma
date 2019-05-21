@@ -47,6 +47,7 @@
                                                             data-nome-fantasia="{{$item->nome_fantasia}}"
                                                             data-cnpj-cpf="{{ Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##') }}"
                                                             data-cidade-uf="{{$item->cidade.'/'.$item->uf}}"
+                                                            data-uf="{{$item->uf}}"
                                                         >{{$item->razao_social}}
                                                         </option>
                                                     @endforeach
@@ -96,6 +97,9 @@
                                 <div class="step-content" style="overflow-y: hidden">
                                     <div class="row padding-top-30">
                                         <div class="row row-input">
+
+                                            <input type="hidden" id="uf-tabela-preco" value="">
+
                                             <div class="input-field col s12 m12">
                                                 <select name="vxfattabprc_id" id="vxfattabprc_id">
                                                     <option value="">Selecione...</option>
@@ -243,7 +247,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.0be6b81b730252dd35a634b41e295075.js"></script>
+    <script src="/assets/js/pages/pedido-venda.347e0798ea6471be938052625de34ea1.js"></script>
 
 
 @endsection

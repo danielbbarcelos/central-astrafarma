@@ -84,7 +84,7 @@ class ClienteController extends Controller
     {
         $success = true;
         $log     = [];
-        
+
         $request['cnpj_cpf'] = Helper::removeMascara($request['cnpj_cpf']);
 
         $rules = [
