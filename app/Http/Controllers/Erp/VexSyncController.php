@@ -63,11 +63,7 @@ class VexSyncController extends Controller
                 $objects = Helper::retornoERP($result->result);
                 $objects = json_decode($objects);
 
-
-
-
-                Helper::logFile('contato.log', 'Mensagem enviada com sucesso: '.json_encode($request->all(),JSON_UNESCAPED_UNICODE));
-
+                
                 foreach($objects as $object)
                 {
 
