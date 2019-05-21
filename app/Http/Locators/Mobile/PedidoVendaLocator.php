@@ -26,9 +26,9 @@ class PedidoVendaLocator extends Controller
      * @info Listagem de pedidos de venda cadastrado através da plataforma VEX
      * @return mixed
      */
-    public function lista()
+    public function lista(Request $request)
     {
-        $controller = new PedidoVendaController();
+        $controller = new PedidoVendaController($request->header('filial'));
         
         $response   = $controller->lista();
 

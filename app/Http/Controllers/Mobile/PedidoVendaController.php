@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Mobile;
 use App\Assinatura;
 use App\Cliente;
 use App\CondicaoPagamento;
+use App\EmpresaFilial;
 use App\PedidoVenda;
 use App\PedidoItem;
 use App\PrecoProduto;
@@ -31,22 +32,28 @@ use App\Utils\Helper;
 
 class PedidoVendaController extends Controller
 {
+    protected $filial;
 
     //construct
-    public function __construct()
+    public function __construct($filialId = null)
     {
-         //
+         $this->filial = isset($filialId) ? EmpresaFilial::where('filial_erp_id',$filialId)->first() : null;
     }
 
 
-    public function lista(Request $request)
+    public function lista()
     {
         $success = true;
         $log     = [];
 
-        dd($request);
+        $filial = $this->filial;
 
-        $pedidos = WebService::pedidos();
+        $pedidos = PedidoVenda::where(function($query) use ($filial){
+            if($filial !== null)
+            {
+                $query->where('vxgloempfil_id',$filial->id);
+            }
+        })->orderBy('created_at','desc')->get();
 
         $response['success'] = $success;
         $response['log']     = $log;
