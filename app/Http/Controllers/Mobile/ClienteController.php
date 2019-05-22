@@ -41,12 +41,11 @@ class ClienteController extends Controller
         $success = true;
         $log     = [];
 
-        $filial  = $this->filial;
 
-        $clientes = Cliente::where(function($query) use ($filial){
-            if($filial !== null)
+        $clientes = Cliente::where(function($query){
+            if($this->filial !== null)
             {
-                $query->where('vxgloempfil_id',$filial->id);
+                $query->where('vxgloempfil_id',$this->filial->id);
                 $query->orWhere('vxgloempfil_id',null);
             }
         })->where('status','1')->orderBy('nome_fantasia','asc')->get();
@@ -92,7 +91,6 @@ class ClienteController extends Controller
             $cliente->cnpj_cpf          = $request['cnpj_cpf'];
             $cliente->tipo_cliente      = strtoupper($request['tipo_cliente']);
             $cliente->endereco          = $request['endereco'];
-            $cliente->endereco_numero   = $request['endereco_numero'];
             $cliente->bairro            = $request['bairro'];
             $cliente->cep               = $request['cep'];
             $cliente->cod_mun           = $request['cod_mun'];
@@ -175,7 +173,6 @@ class ClienteController extends Controller
                 $cliente->cnpj_cpf          = $request['cnpj_cpf'];
                 $cliente->tipo_cliente      = strtoupper($request['tipo_cliente']);
                 $cliente->endereco          = $request['endereco'];
-                $cliente->endereco_numero   = $request['endereco_numero'];
                 $cliente->bairro            = $request['bairro'];
                 $cliente->cep               = $request['cep'];
                 $cliente->cod_mun           = $request['cod_mun'];

@@ -102,11 +102,7 @@
                                     <input type="text" placeholder="" required name="endereco" id="endereco" class="validate" maxlength="200" value="{{$cliente->endereco or old('endereco')}}">
                                     <label>Endereço</label>
                                 </div>
-                                <div class="input-field col s12 m3">
-                                    <input type="text" placeholder="" required name="endereco_numero" id="endereco_numero" class="validate" maxlength="10" value="{{$cliente->endereco_numero or old('endereco_numero')}}">
-                                    <label>Número</label>
-                                </div>
-                                <div class="input-field col s12 m3">
+                                <div class="input-field col s12 m6">
                                     <input type="text" placeholder="" name="complemento" id="complemento" class="validate" maxlength="100" value="{{$cliente->complemento or old('complemento')}}">
                                     <label>Complemento</label>
                                 </div>

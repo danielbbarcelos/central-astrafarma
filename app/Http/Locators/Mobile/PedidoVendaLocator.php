@@ -72,9 +72,9 @@ class PedidoVendaLocator extends Controller
      * @param $pedido_id
      * @return mixed
      */
-    public function visualiza($pedido_id)
+    public function visualiza(Request $request, $pedido_id)
     {
-        $controller = new PedidoVendaController();
+        $controller = new PedidoVendaController($request->header('filial'));
 
         $response   = $controller->visualiza($pedido_id);
 

@@ -37,12 +37,10 @@ class CondicaoPagamentoController extends Controller
         $success = true;
         $log     = [];
 
-        $filial  = $this->filial;
-
-        $condicoes = CondicaoPagamento::where(function($query) use ($filial){
-            if($filial !== null)
+        $condicoes = CondicaoPagamento::where(function($query){
+            if($this->filial !== null)
             {
-                $query->where('vxgloempfil_id',$filial->id);
+                $query->where('vxgloempfil_id',$this->filial->id);
                 $query->orWhere('vxgloempfil_id',null);
             }
         })->where('status','1')->orderBy('nome_fantasia','asc')->get();

@@ -53,7 +53,7 @@ class AuthController extends Controller
         {
             $success = false;
 
-            if(env('AUTO_DEVICE') == true)
+            if(env('AUTO_DEVICE') == true and $request['device_id'] !== null)
             {
                 $observacao  = 'Dispositivo cadastrado automaticamente, após tentativa de login com e-mail '.$request['email'].', em '.Carbon::now()->format('d/m/Y à\s H:i:s').'.';
                 $observacao .= "\nEndereço IP: ".$request->ip();
