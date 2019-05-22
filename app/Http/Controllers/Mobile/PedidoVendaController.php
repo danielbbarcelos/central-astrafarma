@@ -448,5 +448,122 @@ class PedidoVendaController extends Controller
     }
 
 
+    //put via vexsync
+    public static function syncPut($sync)
+    {
+        $success = true;
+        $log     = '';
+
+        //busca dados da assinatura
+        $assinatura = Assinatura::first();
+
+        //busca item da tabela que será adiciona no ERP
+        $object = DB::table($sync->tabela)->where('id', $sync->tabela_id)->first();
+
+
+        //busca os pedidos itens, do registro em questão
+        $itens = [];
+
+        $pedidosItens = PedidoItem::where('vxfatpvenda_id',$object->id)->get();
+
+        foreach($pedidosItens as $item)
+        {
+            $pedidoItem = new \stdClass();
+            $pedidoItem->vxgloprod_erp_id = $item->vxgloprod_erp_id;
+            $pedidoItem->quantidade       = (string) $item->quantidade;
+            $pedidoItem->preco_unitario   = $item->preco_unitario;
+            $pedidoItem->preco_venda      = $item->preco_venda;
+            $pedidoItem->valor_desconto   = $item->valor_desconto;
+            $pedidoItem->valor_total      = $item->valor_total;
+
+            $itens[] = $pedidoItem;
+        }
+
+        $object->itens = $itens;
+
+        //formata objeto para enviar no vexsync
+        $object = Helper::formataSyncObject($object);
+
+
+        //tratamento de log
+        $registro  = "Iniciando VEX Sync do registro (ID) ".$sync->id."\n\n";
+        $registro .= "Dados a serem enviados ".json_encode($object)."\n\n";
+
+
+
+        //insere item no ERP
+        try
+        {
+            $resultSuccess = null;
+
+            while($resultSuccess == null)
+            {
+                $guzzle  = new Client();
+                $result  = $guzzle->request('POST', $assinatura->webservice_base . $sync->webservice, [
+                    'headers'     => [
+                        'Content-Type'    => 'application/json',
+                        'tenantId'        => $sync->tenant
+                    ],
+                    'body' => json_encode($object)
+                ]);
+
+                $result = json_decode($result->getBody());
+
+                if(isset($result->success))
+                {
+                    $resultSuccess = $result->success;
+                }
+            }
+
+
+            if($resultSuccess == false)
+            {
+                $success = false;
+                $log     = isset($result->log) ? $result->log : $result->message;
+
+
+                $registro .= "ERRO: $log";
+            }
+            else
+            {
+                //atualiza o registro com o erp_id
+                $object = Helper::retornoERP($result->result);
+                $object = json_decode($object);
+
+                DB::table($sync->tabela)->where('id', $sync->tabela_id)->update([
+                    'erp_id' => $object->erp_id,
+                ]);
+
+                DB::table('vx_fat_ipvend')->where('vxfatpvenda_id', $sync->tabela_id)->update([
+                    'vxfatpvenda_erp_id' => $object->erp_id,
+                ]);
+
+                $log = 'Sincronização realizada com sucesso';
+
+
+                $registro .= "VEX Sync atualizado com sucesso na Central VEX: $log";
+
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            $success = false;
+            $log     = $e->getMessage();
+
+
+            $registro .= "\nERRO: Linha: {$e->getLine()}\nArquivo: {$e->getFile()}\nCódigo: {$e->getCode()}\nMensagem {$e->getMessage()}";
+
+        }
+
+        Helper::logFile('vex-sync-central.log', $registro);
+
+
+        $response['success'] = $success;
+        $response['log']     = $log;
+        return $response;
+    }
+
+
 
 }

@@ -437,7 +437,7 @@ class PedidoVendaController extends Controller
                     $result = Helper::retornoERP($result->result);
                     $result = json_decode($result, true);
 
-                    if($result->situacao_pedido == 'F')
+                    if($result->situacao_pedido !== 'A')
                     {
                         $liberado = false;
                         $success  = false;
@@ -508,7 +508,7 @@ class PedidoVendaController extends Controller
                 }
 
                 //gera vex sync
-                VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'post',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('edit')); // edit,get,delete: rest/ped_venda/$erp_id
+                VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'put',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('edit')); // edit,get,delete: rest/ped_venda/$erp_id
 
                 $log[]   = ['success' => 'Pedido atualizado com sucesso'];
             }
