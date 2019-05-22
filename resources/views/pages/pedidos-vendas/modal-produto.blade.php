@@ -25,8 +25,12 @@
                             @if($tabela->erp_id == $pedido->vxfattabprc_erp_id)
                                 @foreach($tabela->produtos as $item)
                                     @if($item->uf == json_decode($pedido->cliente_data)->uf)
-                                        <option value="{{$item->id}}" preco_venda="{{$item->preco_venda}}" preco_maximo="{{$item->preco_maximo}}" valor_desconto="{{$item->valor_desconto}}" fator="{{$item->fator}}">
-                                            {{$item->descricao}}
+                                        <option value="{{$item->id}}"
+                                                preco_unitario="{{$item->preco_venda}}"
+                                                preco_maximo="{{$item->preco_maximo}}"
+                                                valor_desconto="{{$item->valor_desconto}}"
+                                                fator="{{$item->fator}}"
+                                                >{{$item->descricao}}
                                         </option>
                                     @endif
                                 @endforeach
