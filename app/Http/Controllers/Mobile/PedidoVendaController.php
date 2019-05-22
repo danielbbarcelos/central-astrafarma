@@ -107,7 +107,6 @@ class PedidoVendaController extends Controller
             {
                 $item->produto_data   = json_decode($item->produto_data);
                 $item->preco_unitario = number_format($item->preco_unitario,2,',','.');
-                $item->preco_venda    = number_format($item->preco_venda,2,',','.');
                 $item->valor_desconto = number_format($item->valor_desconto,2,',','.');
                 $item->valor_total    = number_format($item->valor_total,2,',','.');
             }

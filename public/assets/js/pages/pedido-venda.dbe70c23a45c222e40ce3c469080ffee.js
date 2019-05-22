@@ -168,7 +168,7 @@ function alteraTabelaPreco()
         {
             $("#produto_id").append($('<option></option>')
                 .attr("value",produtos[index].id)
-                .attr("preco_venda",produtos[index].preco_venda)
+                .attr("preco_unitario",produtos[index].preco_venda)
                 .attr("preco_maximo",produtos[index].preco_maximo)
                 .attr("valor_desconto",produtos[index].valor_desconto)
                 .attr("fator",produtos[index].fator)
@@ -194,8 +194,9 @@ $("#produto_id").on("change", function(){
     else
     {
         $("#produto_quantidade").val(1);
-        $("#produto_preco_unitario").val(number_format($('option:selected', this).attr('preco_venda'),2,',','.'));
-        $("#produto_preco_venda").val(number_format($('option:selected', this).attr('preco_venda'),2,',','.'));
+        $("#produto_preco_unitario").val(number_format($('option:selected', this).attr('preco_unitario'),2,',','.'));
+        $("#produto_preco_venda").val(number_format($('option:selected', this).attr('preco_unitario'),2,',','.'));
+        $("#produto_preco_total").val(number_format($('option:selected', this).attr('preco_unitario'),2,',','.'));
         $("#produto_preco_maximo").val(number_format($('option:selected', this).attr('preco_maximo'),2,',','.'));
         $("#produto_desconto_maximo").val(number_format($('option:selected', this).attr('valor_desconto'),2,',','.'));
         $("#produto_valor_desconto").val('0,00');
@@ -208,12 +209,46 @@ $("#produto_id").on("change", function(){
 function calculaPrecoTotalProduto()
 {
     var quantidade     = $("#produto_quantidade").val().replace(".","").replace(",",".");
-    var preco_venda    = $("#produto_preco_venda").val().replace(".","").replace(",",".");
+    var preco_unitario = $("#produto_preco_unitario").val().replace(".","").replace(",",".");
     var valor_desconto = $("#produto_valor_desconto").val().replace(".","").replace(",",".");
 
-    var preco_total    = quantidade * preco_venda - valor_desconto;
+    var preco_total    = quantidade * preco_unitario - valor_desconto;
+
     $("#produto_preco_total").val(number_format(preco_total,2,',','.'));
+
+
+    //recalcula preço unitário com base no preço total encontrado
+    if(parseInt(quantidade) > 0)
+    {
+        preco_unitario = parseFloat(preco_total) / parseInt(quantidade);
+        $("#produto_preco_venda").val(number_format(preco_unitario.toFixed(2),2,',','.'));
+    }
 }
+
+
+function validaDesconto()
+{
+    var quantidade  = $("#produto_quantidade").val().replace(".","").replace(",",".");
+    var preco_venda = $("#produto_preco_venda").val().replace(".","").replace(",",".");
+    var preco_total = $("#produto_preco_total").val().replace(".","").replace(",",".");
+
+    if(parseInt(quantidade) > 0)
+    {
+        if(parseFloat(parseFloat(preco_venda) * parseInt(quantidade)) !== parseFloat(preco_total))
+        {
+            var ajuste = parseFloat(preco_total) - (parseFloat(preco_venda) * parseInt(quantidade));
+
+            var valor_desconto = $("#produto_valor_desconto").val().replace(".","").replace(",",".");
+
+            $("#produto_valor_desconto").val(number_format(parseFloat(parseFloat(valor_desconto) + parseFloat(ajuste.toFixed(2))),2,',','.'))
+
+            calculaPrecoTotalProduto();
+
+        }
+    }
+
+}
+
 
 function adicionaProduto()
 {
@@ -233,7 +268,7 @@ function adicionaProduto()
         $("#erro-produto").attr("hidden",false);
         $("#erro-produto span").html("A quantidade do produto não pode ser menor que 1");
     }
-    else if(parseFloat($("#produto_preco_venda").val().replace(".","").replace(",",".")) > parseFloat($("#produto_preco_maximo").val()))
+    else if(parseFloat($("#produto_preco_unitario").val().replace(".","").replace(",",".")) > parseFloat($("#produto_preco_maximo").val()))
     {
         success = false;
         $("#erro-produto").attr("hidden",false);
@@ -248,6 +283,9 @@ function adicionaProduto()
 
     if(success)
     {
+
+        validaDesconto();
+
 
         var row = "<tr>";
         row    += "<td style='width: 10%'>";
@@ -303,7 +341,7 @@ function calculaTotalPedido()
     });
     $(".pedido-quantidade-produto").html(quantidade);
 
-    //valor unitario
+    //valor de venda
     var valorUnitario = 0.00;
     $("#ipvenda-tbody input[name='produto_preco_venda[]']").each(function(){
         valorUnitario = parseFloat(valorUnitario) + parseFloat($(this).val().replace('.','').replace(',','.'));

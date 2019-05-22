@@ -247,7 +247,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.m1uc5jkis921034m4asas7134bx.js"></script>
+    <script src="/assets/js/pages/pedido-venda.dbe70c23a45c222e40ce3c469080ffee.js"></script>
 
 
 @endsection

@@ -27,14 +27,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-    
-        $schedule->call(function(){
-            MobileVexSync::sincroniza();
-        })->everyMinute();
-    
-        $schedule->call(function(){
-            ErpVexSync::buscaPendencia();
-        })->everyMinute();
+        if(env('VEXSYNC') == true)
+        {
+            $schedule->call(function(){
+                MobileVexSync::sincroniza();
+            })->everyMinute();
+
+            $schedule->call(function(){
+                ErpVexSync::buscaPendencia();
+            })->everyMinute();
+        }
 
     }
 

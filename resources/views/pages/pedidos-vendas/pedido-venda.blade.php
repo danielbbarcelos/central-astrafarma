@@ -178,7 +178,7 @@
                                                             <th style="width: 10%">Cód. produto</th>
                                                             <th style="width: 30%">Descrição</th>
                                                             <th style="width: 15%">Quantidade</th>
-                                                            <th style="width: 15%">Preço venda</th>
+                                                            <th style="width: 15%">Preço de venda</th>
                                                             <th style="width: 15%">Desconto</th>
                                                             <th style="width: 15%">Valor total</th>
                                                             @if($pedido->situacao_pedido == 'A')
@@ -305,7 +305,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.m1uc5jkis921034m4asas7134bx.js"></script>
+    <script src="/assets/js/pages/pedido-venda.dbe70c23a45c222e40ce3c469080ffee.js"></script>
 
     @if($pedido->situacao_pedido !== 'A')
         <script>
