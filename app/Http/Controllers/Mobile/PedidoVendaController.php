@@ -59,6 +59,10 @@ class PedidoVendaController extends Controller
 
         foreach($pedidos as $pedido)
         {
+            $pedido->condicao_pagamento = CondicaoPagamento::where('erp_id',$pedido->vxglocpgto_erp_id)->first()->descricao;
+            $pedido->tabela_preco = PrecoProduto::where('erp_id',$pedido->vxfattabprc_erp_id)->first()->descricao;
+            $pedido->data_pedido  = Carbon::createFromFormat('Y-m-d H:i:s',$pedido->created_at)->format('d/m/Y');
+            $pedido->hora_pedido  = Carbon::createFromFormat('Y-m-d H:i:s',$pedido->created_at)->format('H:i:s');
             $pedido->data_entrega = $pedido->data_entrega !== null ? Carbon::createFromFormat('Y-m-d',$pedido->data_entrega)->format('d/m/Y') : null;
             $pedido->cliente_data = json_decode($pedido->cliente_data);
             $pedido->valor_total  = number_format($pedido->valorTotal(),2,',','.');
@@ -96,6 +100,10 @@ class PedidoVendaController extends Controller
         }
         else
         {
+            $pedido->condicao_pagamento = CondicaoPagamento::where('erp_id',$pedido->vxglocpgto_erp_id)->first()->descricao;
+            $pedido->tabela_preco = PrecoProduto::where('erp_id',$pedido->vxfattabprc_erp_id)->first()->descricao;
+            $pedido->data_pedido  = Carbon::createFromFormat('Y-m-d H:i:s',$pedido->created_at)->format('d/m/Y');
+            $pedido->hora_pedido  = Carbon::createFromFormat('Y-m-d H:i:s',$pedido->created_at)->format('H:i:s');
             $pedido->data_entrega = $pedido->data_entrega !== null ? Carbon::createFromFormat('Y-m-d',$pedido->data_entrega)->format('d/m/Y') : null;
             $pedido->cliente_data = json_decode($pedido->cliente_data);
             $pedido->valor_total  = number_format($pedido->valorTotal(),2,',','.');
