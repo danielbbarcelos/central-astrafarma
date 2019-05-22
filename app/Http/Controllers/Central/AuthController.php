@@ -135,6 +135,14 @@ class AuthController extends Controller
             }
             else
             {
+                //salva o token de autenticação para bloquear acesso do mesmo usuários em dois computadores
+                $user->auth_token = md5($request->ip().' at '.Carbon::now()->format('Y-m-d H:i:s')) . str_random(50);
+                $user->save();
+
+                session(['auth.token' => $user->auth_token]);
+
+
+
                 $perfil = Perfil::find($user->vxwebperfil_id);
 
                 //caso seja o primeiro acesso, executamos o db:seed para carregar as permissões

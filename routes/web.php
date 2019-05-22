@@ -38,7 +38,7 @@ Route::group(['middleware' => 'throttle:6,1'], function() {
 
 
 
-Route::group(['middleware' => ['auth','status']], function() {
+Route::group(['middleware' => ['auth','status','session']], function() {
 
     /**
      * Home Dashboard
