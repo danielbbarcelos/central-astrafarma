@@ -25,7 +25,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Tipo</th>
+                                    <th>Acesso</th>
                                     <th>Nome</th>
                                     <th>E-mail</th>
                                     <th>Status</th>
@@ -36,14 +36,24 @@
                                 @foreach($users as $item)
                                     <tr>
                                         <td>{{$item->id}}</td>
-                                        <td>
-                                            @if($item->type == 'A')
-                                                <i class="material-icons icon-warning tooltipped" data-position="top" data-delay="20" data-tooltip="Administrador">grade</i>
-                                            @else 
-                                                <i class="material-icons icon-default tooltipped" data-position="top" data-delay="20" data-tooltip="Usuário comum">person_pin</i>
+                                        <td class="text-center">
+                                            @if($item->mobile == '1' and $item->web == '1')
+                                                <i class="material-icons icon-default tooltipped cursor-pointer" data-position="top" data-delay="20" data-tooltip="Mobile e Web">phonelink</i>
+                                            @elseif($item->mobile == '1' and $item->web == '0')
+                                                <i class="material-icons icon-default tooltipped cursor-pointer" data-position="top" data-delay="20" data-tooltip="Apenas mobile">phone_android</i>
+                                            @elseif($item->mobile == '0' and $item->web == '1')
+                                                <i class="material-icons icon-default tooltipped cursor-pointer" data-position="top" data-delay="20" data-tooltip="Apenas web">desktop_mac</i>
+                                            @else
+                                                <i class="material-icons icon-default tooltipped cursor-pointer" data-position="top" data-delay="20" data-tooltip="Nenhum acesso configurado">phonelink_off</i>
                                             @endif
                                         </td>
-                                        <td>{{$item->name}}</td>
+                                        <td>
+                                            {{$item->name}}
+
+                                            @if($item->type == 'A')
+                                                <i class="material-icons icon-warning font-size-14">grade</i>
+                                            @endif
+                                        </td>
                                         <td>{{$item->email}}</td>
                                         <td>
                                             @if($item->status == '1')

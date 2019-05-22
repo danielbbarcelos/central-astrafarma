@@ -26,7 +26,7 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
      * Auth::routes
      *
      */
-    Route::group(['middleware'=>['jwt.auth']], function(){
+    Route::group(['middleware'=>['jwt.auth','status']], function(){
 
         //armazens
         Route::get ('/armazens',              'Mobile\ArmazemLocator@lista');

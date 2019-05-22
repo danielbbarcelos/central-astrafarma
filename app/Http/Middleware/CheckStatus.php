@@ -8,6 +8,7 @@ use App\Atendente;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 
 class CheckStatus
 {
@@ -22,17 +23,41 @@ class CheckStatus
     {
         $success = true;
         $log     = [];
+        $route   = substr(strtolower($request->getRequestUri()),0,4) == '/api' ? 'api' : 'web';
 
         if((int)Auth::user()->status == 0)
         {
             $success = false;
         }
 
+
+        if($route == 'api')
+        {
+            if((int)Auth::user()->mobile == 0)
+            {
+                $success = false;
+            }
+        }
+        else
+        {
+            if((int)Auth::user()->web == 0)
+            {
+                $success = false;
+            }
+        }
+
         if(!$success)
         {
-            $log[] = ['error' => 'O seu acesso foi desativado. Em caso de dúvidas, entre em contato com o administrador do seu sistema'];
+            if($route == 'api')
+            {
+                return \Response::make(['error' => true, 'success' => false, 'log' => ['Sessão expirada']], 401);
+            }
+            else
+            {
+                $log[] = ['error' => 'Acesso expirado'];
 
-            return \redirect('/')->with('log',$log);
+                return \redirect('/')->with('log',$log);
+            }
         }
 
         return $next($request);

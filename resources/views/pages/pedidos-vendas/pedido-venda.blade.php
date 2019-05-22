@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('page-title', 'Pedido de venda'.(isset($pedido->erp_id) ? '#'.$pedido->erp_id : 'em sincronização'))
+@section('page-title', 'Pedido de venda '.(isset($pedido->erp_id) ? '#'.$pedido->erp_id : 'em sincronização'))
 
 @section('page-css')
 
