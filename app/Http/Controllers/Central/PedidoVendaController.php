@@ -437,7 +437,7 @@ class PedidoVendaController extends Controller
                     $result = Helper::retornoERP($result->result);
                     $result = json_decode($result, true);
 
-                    if($result->situacao_pedido !== 'A')
+                    if($result['situacao_pedido'] !== 'A')
                     {
                         $liberado = false;
                         $success  = false;
