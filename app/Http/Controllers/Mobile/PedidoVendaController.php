@@ -507,7 +507,7 @@ class PedidoVendaController extends Controller
             while($resultSuccess == null)
             {
                 $guzzle  = new Client();
-                $result  = $guzzle->request('POST', $assinatura->webservice_base . $sync->webservice, [
+                $result  = $guzzle->request('PUT', $assinatura->webservice_base . $sync->webservice, [
                     'headers'     => [
                         'Content-Type'    => 'application/json',
                         'tenantId'        => $sync->tenant
