@@ -476,7 +476,7 @@ class PedidoVendaController extends Controller
                 $pedido->save();
 
                 //exclui os itens de pedido que não foram enviados na requisição
-                PedidoItem::where('vxfatpvenda_id',$pedido_venda_id)->whereNotIn('id',$request['vxfatipvend_id'])->delete();
+                PedidoItem::where('vxfatpvenda_id',$pedido_venda_id)->delete();
 
                 if(isset($request['produto_id']))
                 {
@@ -484,16 +484,7 @@ class PedidoVendaController extends Controller
                     {
                         $produto = Produto::find($request['produto_id'][$i]);
 
-                        if($request['vxfatipvend_id'][$i] !== null)
-                        {
-                            $pedidoItem = PedidoItem::find($request['vxfatipvend_id'][$i]);
-                        }
-                        else
-                        {
-                            $pedidoItem = new PedidoItem();
-                            $pedidoItem->created_at   = new \DateTime();
-                        }
-
+                        $pedidoItem = new PedidoItem();
                         $pedidoItem->vxfatpvenda_id   = $pedido->id;
                         $pedidoItem->vxgloprod_erp_id = $produto->erp_id;
                         $pedidoItem->produto_data     = json_encode($produto, JSON_UNESCAPED_UNICODE);
@@ -502,13 +493,14 @@ class PedidoVendaController extends Controller
                         $pedidoItem->preco_venda      = number_format(Helper::formataDecimal($request['produto_preco_venda'][$i]),2,'.','');
                         $pedidoItem->valor_desconto   = number_format(Helper::formataDecimal($request['produto_valor_desconto'][$i]),2,'.','');
                         $pedidoItem->valor_total      = number_format(Helper::formataDecimal($request['produto_preco_total'][$i]),2,'.','');
+                        $pedidoItem->created_at       = new \DateTime();
                         $pedidoItem->updated_at       = new \DateTime();
                         $pedidoItem->save();
                     }
                 }
 
                 //gera vex sync
-                VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'put',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('edit')); // edit,get,delete: rest/ped_venda/$erp_id
+                VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'put',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('edit/'.$pedido->erp_id));
 
                 $log[]   = ['success' => 'Pedido atualizado com sucesso'];
             }

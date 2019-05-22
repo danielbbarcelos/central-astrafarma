@@ -234,7 +234,7 @@ class ClienteController extends Controller
 
 
                 //gera vex sync
-                VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'put', $cliente->getTable(), $cliente->id, $cliente->getWebservice('edit'));
+                VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'put', $cliente->getTable(), $cliente->id, $cliente->getWebservice('edit/'.$cliente->erp_id));
 
                 $log[]   = ['success' => 'Cliente atualizado com sucesso'];
 
