@@ -406,7 +406,7 @@ class PedidoVendaController extends Controller
     {
         $success = true;
         $log     = [];
-        
+
         $pedido = PedidoVenda::where('id',$pedido_venda_id)->where(function($query){
 
             $query->where('vxgloempfil_id',$this->empfilId);
