@@ -385,29 +385,20 @@ class PedidoVendaController extends Controller
         //insere item no ERP
         try 
         {
-            $resultSuccess = null;
 
-            while($resultSuccess == null)
-            {
-                $guzzle  = new Client();
-                $result  = $guzzle->request('POST', $assinatura->webservice_base . $sync->webservice, [
-                    'headers'     => [
-                        'Content-Type'    => 'application/json',
-                        'tenantId'        => $sync->tenant
-                    ], 
-                    'body' => json_encode($object)
-                ]);
-                
-                $result = json_decode($result->getBody());
+            $guzzle  = new Client();
+            $result  = $guzzle->request('POST', $assinatura->webservice_base . $sync->webservice, [
+                'headers'     => [
+                    'Content-Type'    => 'application/json',
+                    'tenantId'        => $sync->tenant
+                ],
+                'body' => json_encode($object)
+            ]);
 
-                if(isset($result->success))
-                {
-                    $resultSuccess = $result->success;
-                }
-            }
-            
+            $result = json_decode($result->getBody());
+
     
-            if($resultSuccess == false)
+            if($result->success == false)
             {
                 $success = false;
                 $log     = isset($result->log) ? $result->log : $result->message;
@@ -502,29 +493,19 @@ class PedidoVendaController extends Controller
         //insere item no ERP
         try
         {
-            $resultSuccess = null;
+            $guzzle  = new Client();
+            $result  = $guzzle->request('PUT', $assinatura->webservice_base . $sync->webservice, [
+                'headers'     => [
+                    'Content-Type'    => 'application/json',
+                    'tenantId'        => $sync->tenant
+                ],
+                'body' => json_encode($object)
+            ]);
 
-            while($resultSuccess == null)
-            {
-                $guzzle  = new Client();
-                $result  = $guzzle->request('PUT', $assinatura->webservice_base . $sync->webservice, [
-                    'headers'     => [
-                        'Content-Type'    => 'application/json',
-                        'tenantId'        => $sync->tenant
-                    ],
-                    'body' => json_encode($object)
-                ]);
-
-                $result = json_decode($result->getBody());
-
-                if(isset($result->success))
-                {
-                    $resultSuccess = $result->success;
-                }
-            }
+            $result = json_decode($result->getBody());
 
 
-            if($resultSuccess == false)
+            if($result->success == false)
             {
                 $success = false;
                 $log     = isset($result->log) ? $result->log : $result->message;
@@ -534,18 +515,6 @@ class PedidoVendaController extends Controller
             }
             else
             {
-                //atualiza o registro com o erp_id
-                $object = Helper::retornoERP($result->result);
-                $object = json_decode($object);
-
-                DB::table($sync->tabela)->where('id', $sync->tabela_id)->update([
-                    'erp_id' => $object->erp_id,
-                ]);
-
-                DB::table('vx_fat_ipvend')->where('vxfatpvenda_id', $sync->tabela_id)->update([
-                    'vxfatpvenda_erp_id' => $object->erp_id,
-                ]);
-
                 $log = 'Sincronização realizada com sucesso';
 
 
