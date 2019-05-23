@@ -20,6 +20,7 @@ use App\Http\Controllers\Erp\VexSyncController as ErpVexSync;
 
 //framework
 use App\Http\Controllers\Controller;
+use App\VexSync;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -421,6 +422,15 @@ class PedidoVendaController extends Controller
                 ]);
 
                 $log = 'Sincronização realizada com sucesso';
+
+
+                //verifica se existe vex sync pendente para editar esse item, e então adicionamos o ERP_ID no webservice
+                $pedido = new PedidoVenda();
+
+                VexSync::where('action','put')->where('tabela_id',$sync->tabela_id)->where('tabela',$pedido->getTable())->update([
+                    'webservice' => $pedido->getWebservice('edit/'.$object->erp_id),
+                    'updated_at' => new \DateTime()
+                ]);
 
 
                 $registro .= "VEX Sync atualizado com sucesso na Central VEX: $log";
