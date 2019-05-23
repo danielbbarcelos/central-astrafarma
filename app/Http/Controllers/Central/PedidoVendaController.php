@@ -554,7 +554,6 @@ class PedidoVendaController extends Controller
                 $result = Helper::retornoERP($result->result);
                 $result = json_decode($result, true);
 
-
                 if($result['situacao_pedido'] !== 'A')
                 {
                     $liberado = false;
@@ -582,7 +581,7 @@ class PedidoVendaController extends Controller
                     $assinatura = Assinatura::first();
 
                     $guzzle  = new Client();
-                    $result  = $guzzle->request('DELETE', $assinatura->webservice_base . $pedido->getWebservice() . 'delete/'. $pedido->erp_id, [
+                    $result  = $guzzle->request('DELETE', $assinatura->webservice_base . $pedido->getWebservice() . $pedido->erp_id, [
                         'headers'     => [
                             'Content-Type'  => 'application/json',
                             'tenantId'      => Helper::formataTenantId($pedido->vxgloempfil_id)
@@ -593,8 +592,9 @@ class PedidoVendaController extends Controller
                             'vxglocli_loja'   => json_decode($pedido->cliente_data)->loja,
                         ])
                     ]);
+                   $result  = json_decode($result->getBody());
 
-
+//dd($result,$assinatura->webservice_base . $pedido->getWebservice() . 'delete/'. $pedido->erp_id);
                     if($result->success !== true)
                     {
                         $success  = false;
@@ -603,7 +603,7 @@ class PedidoVendaController extends Controller
                 }
                 catch(\Exception $e)
                 {
-                    $success  = false;
+                    $success  = false;dd($e);
                     $log[]    = ['error' => 'Não foi possível excluir o pedido. Por favor acione a equipe de suporte'];
                 }
 

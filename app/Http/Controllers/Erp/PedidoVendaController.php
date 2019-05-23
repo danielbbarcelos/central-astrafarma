@@ -84,21 +84,22 @@ class PedidoVendaController extends Controller
                 PedidoItem::where('vxfatpvenda_id', $pedido->id)->forceDelete();
 
                 if(isset($itens))
-                {
+                { 
                     $itens = Helper::retornoERP($itens);
-
-                    foreach($itens as $item)
-                    {
+		
+                    foreach(json_decode($itens) as $item)
+		    {
                         $pedidoItem = new PedidoItem();
                         $pedidoItem->vxfatpvenda_id     = $pedido->id;
                         $pedidoItem->vxfatpvenda_erp_id = $vars['erp_id'];
-                        $pedidoItem->vxgloprod_erp_id   = $item['vxgloprod_erp_id'];
-                        $pedidoItem->quantidade         = $item['quantidade'];
-                        $pedidoItem->preco_unitario     = Helper::formataDecimal($item['preco_unitario']);
-                        $pedidoItem->preco_venda        = Helper::formataDecimal($item['preco_venda']);
-                        $pedidoItem->valor_total        = Helper::formataDecimal($item['valor_total']);
-                        $pedidoItem->nota_fiscal        = isset($item['nota_fiscal']) ? $item['nota_fiscal'] : null;
-                        $pedidoItem->serienf            = isset($item['serienf']) ? $item['serienf'] : null;
+                        $pedidoItem->vxgloprod_erp_id   = $item->vxgloprod_erp_id;
+                        $pedidoItem->quantidade         = $item->quantidade;
+                        $pedidoItem->preco_unitario     = Helper::formataDecimal($item->preco_unitario);
+                        $pedidoItem->preco_venda        = Helper::formataDecimal($item->preco_venda);
+			$pedidoItem->valor_desconto     = Helper::formataDecimal($item->valor_desconto);
+			$pedidoItem->valor_total        = Helper::formataDecimal($item->valor_total);
+                        $pedidoItem->nota_fiscal        = isset($item->nota_fiscal) ? $item->nota_fiscal : null;
+                        $pedidoItem->serienf            = isset($item->serienf) ? $item->serienf : null;
                         $pedidoItem->created_at         = new \DateTime();
                         $pedidoItem->updated_at         = new \DateTime();
                         $pedidoItem->save();
@@ -109,9 +110,7 @@ class PedidoVendaController extends Controller
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
-
-	        Log::info($e->getFile().' : '.$e->getLine().' - '.$e->getMessage());
+            $log     = 'Ocorreu um erro ao processar os itens';	        
         }
         
         $response['success'] = $success;
