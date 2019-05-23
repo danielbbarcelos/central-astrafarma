@@ -85,10 +85,10 @@ class PedidoVendaController extends Controller
 
                 if(isset($itens))
                 {
+                    $itens = Helper::retornoERP($itens);
+
                     foreach($itens as $item)
                     {
-			            $item = Helper::retornoERP($item);
-
                         $pedidoItem = new PedidoItem();
                         $pedidoItem->vxfatpvenda_id     = $pedido->id;
                         $pedidoItem->vxfatpvenda_erp_id = $vars['erp_id'];
@@ -110,7 +110,7 @@ class PedidoVendaController extends Controller
         {
             $success = false;
             $log     = 'Ocorreu um erro ao processar os itens';
-            
+
 	        Log::info($e->getFile().' : '.$e->getLine().' - '.$e->getMessage());
         }
         
