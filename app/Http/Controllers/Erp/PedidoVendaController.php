@@ -88,7 +88,7 @@ class PedidoVendaController extends Controller
                     $itens = Helper::retornoERP($itens);
 		
                     foreach(json_decode($itens) as $item)
-		    {
+                    {
                         $pedidoItem = new PedidoItem();
                         $pedidoItem->vxfatpvenda_id     = $pedido->id;
                         $pedidoItem->vxfatpvenda_erp_id = $vars['erp_id'];
@@ -96,8 +96,8 @@ class PedidoVendaController extends Controller
                         $pedidoItem->quantidade         = $item->quantidade;
                         $pedidoItem->preco_unitario     = Helper::formataDecimal($item->preco_unitario);
                         $pedidoItem->preco_venda        = Helper::formataDecimal($item->preco_venda);
-			$pedidoItem->valor_desconto     = Helper::formataDecimal($item->valor_desconto);
-			$pedidoItem->valor_total        = Helper::formataDecimal($item->valor_total);
+                        $pedidoItem->valor_desconto     = Helper::formataDecimal($item->valor_desconto);
+                        $pedidoItem->valor_total        = Helper::formataDecimal($item->valor_total);
                         $pedidoItem->nota_fiscal        = isset($item->nota_fiscal) ? $item->nota_fiscal : null;
                         $pedidoItem->serienf            = isset($item->serienf) ? $item->serienf : null;
                         $pedidoItem->created_at         = new \DateTime();

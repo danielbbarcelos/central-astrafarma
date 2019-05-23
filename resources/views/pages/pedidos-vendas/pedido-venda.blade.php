@@ -281,7 +281,7 @@
 
 
                                             <div class="input-field col s12">
-                                                <textarea class="materialize-textarea" name="observacao" style="height: 6rem"
+                                                <textarea class="materialize-textarea" name="observacao" style="height: 6rem" required
                                                           maxlength="10000" length="10000">{{$pedido->observacao or old('observacao')}}</textarea>
                                                 <label>Observação</label>
                                             </div>

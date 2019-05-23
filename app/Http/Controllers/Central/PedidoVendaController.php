@@ -594,7 +594,6 @@ class PedidoVendaController extends Controller
                     ]);
                    $result  = json_decode($result->getBody());
 
-//dd($result,$assinatura->webservice_base . $pedido->getWebservice() . 'delete/'. $pedido->erp_id);
                     if($result->success !== true)
                     {
                         $success  = false;
