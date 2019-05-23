@@ -7,13 +7,13 @@ use App\Assinatura;
 use App\Cliente;
 use App\CondicaoPagamento;
 use App\EmpresaFilial;
+use App\Http\Controllers\Mobile\VexSyncController;
 use App\PedidoVenda;
 use App\PedidoItem;
 use App\PrecoProduto;
 use App\Produto;
 use App\TabelaPrecoProduto;
 use App\Vendedor;
-use App\Http\Controllers\Mobile\VexSyncController;
 use App\Http\Controllers\Erp\VexSyncController as ErpVexSync;
 
 //mails
@@ -290,10 +290,7 @@ class PedidoVendaController extends Controller
                     $pedido->updated_at          = new \DateTime();
                     $pedido->save();
 
-                    /**
-                     * TODO: verificar se serão apagados todos os itens e cadastrados novamente
-                     *
-                     */
+
                     if(isset($request['itens']))
                     {
                         $itens = [];
@@ -310,6 +307,8 @@ class PedidoVendaController extends Controller
                             $pedidoItem->vxgloprod_erp_id = $produto->erp_id;
                             $pedidoItem->quantidade       = $item['quantidade'];
                             $pedidoItem->preco_unitario   = number_format(Helper::formataDecimal($item['preco_unitario']),2,'.','');
+                            $pedidoItem->preco_venda      = number_format(Helper::formataDecimal($item['preco_venda']),2,'.','');
+                            $pedidoItem->valor_desconto   = number_format(Helper::formataDecimal($item['valor_desconto']),2,'.','');
                             $pedidoItem->valor_total      = number_format(Helper::formataDecimal($item['valor_total']),2,'.','');
                             $pedidoItem->created_at       = new \DateTime();
                             $pedidoItem->updated_at       = new \DateTime();
@@ -322,9 +321,12 @@ class PedidoVendaController extends Controller
                     }
 
                     //gera vex sync
-                    VexSyncController::adiciona('99,01', 'post',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('add')); // edit,get,delete: rest/ped_venda/$erp_id
+                    if(isset($pedido->erp_id))
+                    {
+                        VexSyncController::adiciona(Helper::formataTenantId($pedido->vxgloempfil_id), 'put',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('edit/'.$pedido->erp_id));
+                    }
 
-                    $log[]   = ['success' => 'Pedido cadastrado com sucesso'];
+                    $log[]   = ['success' => 'Pedido atualizado com sucesso'];
 
                 }
             }
@@ -422,15 +424,6 @@ class PedidoVendaController extends Controller
                 ]);
 
                 $log = 'Sincronização realizada com sucesso';
-
-
-                //verifica se existe vex sync pendente para editar esse item, e então adicionamos o ERP_ID no webservice
-                $pedido = new PedidoVenda();
-
-                VexSync::where('action','put')->where('tabela_id',$sync->tabela_id)->where('tabela',$pedido->getTable())->update([
-                    'webservice' => $pedido->getWebservice('edit/'.$object->erp_id),
-                    'updated_at' => new \DateTime()
-                ]);
 
 
                 $registro .= "VEX Sync atualizado com sucesso na Central VEX: $log";

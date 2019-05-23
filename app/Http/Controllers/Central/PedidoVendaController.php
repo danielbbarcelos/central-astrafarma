@@ -502,7 +502,10 @@ class PedidoVendaController extends Controller
                 }
 
                 //gera vex sync
-                VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'put',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('edit/'.$pedido->erp_id));
+                if(isset($pedido->erp_id))
+                {
+                    VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'put',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('edit/'.$pedido->erp_id));
+                }
 
                 $log[]   = ['success' => 'Pedido atualizado com sucesso'];
             }
