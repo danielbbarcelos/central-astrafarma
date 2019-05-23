@@ -17,11 +17,11 @@ class EstadoLocator extends Controller
 
 
     //retorna cidades através do estado selecionado
-    public function buscaCidades($uf)
+    public function buscaCidades(Request $request, $uf)
     {
         $controller = new EstadoController();
 
-        $response   = $controller->buscaCidades($uf);
+        $response   = $controller->buscaCidades($request, $uf);
 
         return $response;
     }

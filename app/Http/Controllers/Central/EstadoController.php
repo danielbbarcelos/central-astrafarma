@@ -21,7 +21,7 @@ class EstadoController extends Controller
 
 
     //retorna cidades através do estado selecionado
-    public function buscaCidades($uf)
+    public function buscaCidades(Request $request, $uf)
     {
         $success = true;
         $log     = '';
@@ -40,7 +40,14 @@ class EstadoController extends Controller
 
             $result->estado  = $estado;
 
-            $result->cidades = Cidade::where('vxgloestado_id',$estado->id)->orderBy('nome','asc')->get();
+            $result->cidades = Cidade::where('vxgloestado_id',$estado->id)->where(function($query) use ($request){
+
+                if(isset($request['cidade']))
+                {
+                    $query->whereRaw('nome like "%'.$request['cidade'].'%"');
+                }
+
+            })->orderBy('nome','asc')->get();
         }
 
 

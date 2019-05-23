@@ -81,6 +81,7 @@ class PedidoVendaController extends Controller
                     $pedidoItem->vxgloprod_erp_id   = $item->produto_erp_id;
                     $pedidoItem->quantidade         = $item->quantidade;
                     $pedidoItem->preco_unitario     = Helper::formataDecimal($item->preco_unitario);
+                    $pedidoItem->preco_venda        = Helper::formataDecimal($item->preco_venda);
                     $pedidoItem->valor_total        = Helper::formataDecimal($item->valor_total);
                     $pedidoItem->nota_fiscal        = isset($item->nota_fiscal) ? $item->nota_fiscal : null;
                     $pedidoItem->serienf            = isset($item->serienf) ? $item->serienf : null;
@@ -96,6 +97,38 @@ class PedidoVendaController extends Controller
             $log     = 'Ocorreu um erro ao processar os itens';
         }
         
+        $response['success'] = $success;
+        $response['log']     = $log;
+        return $response;
+    }
+
+
+
+
+    //model delete
+    public static function delete($vars, EmpresaFilial $empfil = null)
+    {
+        $success = true;
+        $log     = '';
+
+        try
+        {
+            $pedido = PedidoVenda::where('vxgloempfil_id', isset($empfil) ? $empfil->id : null)
+                ->where('erp_id',$vars['erp_id'])
+                ->first();
+
+            $id = $pedido->id;
+
+            $pedido->delete();
+
+            PedidoItem::where('vxfatpvenda_id', $id)->delete();
+        }
+        catch(\Exception $e)
+        {
+            $success = false;
+            $log     = 'Ocorreu um erro ao processar os itens';
+        }
+
         $response['success'] = $success;
         $response['log']     = $log;
         return $response;
