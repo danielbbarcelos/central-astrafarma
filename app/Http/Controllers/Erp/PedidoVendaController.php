@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\DB;
 //packages
 
 //extras
-use Validator; 
+use Illuminate\Support\Facades\Log;
+use Validator;
 use Carbon\Carbon;
 
 class PedidoVendaController extends Controller
@@ -67,9 +68,11 @@ class PedidoVendaController extends Controller
             $pedido = PedidoVenda::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                 ->where('erp_id',$vars['erp_id'])
                 ->update($vars);
+            Log::info(json_encode($itens));
 
             //exclui os itens do pedido para adicioná-los novamente
-            PedidoItem::where('vxfatpvenda_id', $pedido->id)->delete();
+            PedidoItem::where('vxfatpvenda_id', $pedido->id)->forceDelete();
+
 
             if(isset($itens))
             {
@@ -95,6 +98,9 @@ class PedidoVendaController extends Controller
         {
             $success = false;
             $log     = 'Ocorreu um erro ao processar os itens';
+
+            Log::info('erro');
+            Log::info($e->getMessage());
         }
         
         $response['success'] = $success;
