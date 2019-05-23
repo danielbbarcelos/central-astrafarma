@@ -23,11 +23,12 @@ class PedidoVendaPermission
        'edita'         => [ 'codigo' => 'CENPVE004', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Tela de edição de pedido de venda'],
        'editaPost'     => [ 'codigo' => 'CENPVE005', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Editar pedido de venda'],
        'visualiza'     => [ 'codigo' => 'CENPVE006', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Visualizar pedido de venda'],
-       'imprimePDF'    => [ 'codigo' => 'CENPVE007', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Gerar PDF de pedido de venda'],
+       'excluiPost'    => [ 'codigo' => 'CENPVE007', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Gerar PDF de pedido de venda'],
+       'imprimePDF'    => [ 'codigo' => 'CENPVE008', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Gerar PDF de pedido de venda'],
 
         //configurações
-       'configuracao'     => [ 'codigo' => 'CENPVE008', 'prioridade' => '1', 'superior' => null,        'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Tela de configurações de pedidos de venda'],
-       'configuracaoPost' => [ 'codigo' => 'CENPVE009', 'prioridade' => '0', 'superior' => 'CENPVE008', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Configurar parâmetros de pedidos de venda'],
+       'configuracao'     => [ 'codigo' => 'CENPVE009', 'prioridade' => '1', 'superior' => null,        'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Tela de configurações de pedidos de venda'],
+       'configuracaoPost' => [ 'codigo' => 'CENPVE010', 'prioridade' => '0', 'superior' => 'CENPVE008', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Configurar parâmetros de pedidos de venda'],
 
     ];
 

@@ -96,7 +96,7 @@ Route::group(['middleware' => ['auth','status','session']], function() {
     Route::post('/pedidos-vendas/{pedido_venda_id}/edit',    'Central\PedidoVendaLocator@editaPost');
     Route::get ('/pedidos-vendas/{pedido_venda_id}/show',    'Central\PedidoVendaLocator@visualiza');
     Route::post('/pedidos-vendas/{pedido_venda_id}/del',     'Central\PedidoVendaLocator@excluiPost');
-    Route::get ('/pedidos-vendas/{pedido_venda_id}/pdf',    'Central\PedidoVendaLocator@imprimePDF');
+    Route::get ('/pedidos-vendas/{pedido_venda_id}/pdf',     'Central\PedidoVendaLocator@imprimePDF');
 
 
     /**

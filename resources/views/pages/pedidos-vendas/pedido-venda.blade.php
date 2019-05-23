@@ -38,9 +38,16 @@
                             </h6>
                         </div>
                         <div class="col s4 right-align">
-                            <a class="waves-effect btn btn-default btn-submit"href="{{url('/pedidos-vendas/'.$pedido->id.'/pdf')}}" target="_blank">
-                                <label class="cursor-pointer text-dark font-weight-800"><i class="material-icons" style="font-size: 12px">print</i> IMPRIMIR</label>
-                            </a>
+                            @if(Permission::check('imprimePDF','PedidoVenda','Central'))
+                                <a class="waves-effect btn btn-default btn-submit"href="{{url('/pedidos-vendas/'.$pedido->id.'/pdf')}}" target="_blank">
+                                    <label class="cursor-pointer text-dark font-weight-800"><i class="material-icons" style="font-size: 12px">print</i> IMPRIMIR</label>
+                                </a>
+                            @endif
+                            @if(Permission::check('excluiPost','PedidoVenda','Central') and $pedido->situacao_pedido == 'A' and $pedido->erp_id !== null)
+                                <a class="waves-effect btn btn-default red btn-submit" onclick="excluiItem('{!! url('/pedidos-vendas/'.$pedido->id.'/del') !!}')">
+                                    <label class="cursor-pointer font-weight-800" style="color: white"><i class="material-icons" style="font-size: 12px">print</i> EXCLUIR</label>
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -296,7 +303,15 @@
         </div>
     </div>
 
+
     @include('pages.pedidos-vendas.modal-produto')
+
+
+    <!-- form é submetido na confirmação de "onclick" presente na tag "a" de cada item. A action é gerada durante a confirmação da exclusão -->
+    <form id="form-delete" method="post" action="">
+        {{csrf_field()}}
+    </form>
+
 
 @endsection
 

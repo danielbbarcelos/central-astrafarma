@@ -161,8 +161,30 @@ class PedidoVendaLocator extends Controller
             return Redirect::back()->withInput()->with('log',$response['log']);
         }
 
-        return \redirect('/pedidos-vendas')->withInput()->with('log',$response['log']);
+        return \redirect('/pedidos-vendas')->with('log',$response['log']);
     }
+
+
+
+    /**
+     * @description Exclusão de pedido de venda
+     * @info Exclusão de pedido de venda na CentralVEX
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function excluiPost(Request $request, $pedido_venda_id)
+    {
+        $controller = new PedidoVendaController();
+
+        $response   = $controller->excluiPost($request, $pedido_venda_id);
+
+        if(!$response['success'])
+        {
+            return Redirect::back()->withInput()->with('log',$response['log']);
+        }
+
+        return \redirect('/pedidos-vendas')->with('log',$response['log']);
+    }
+
 
 
     /**

@@ -9,7 +9,7 @@
 
     <link rel="shortcut icon" href="{{ url('/assets/img/logo/vex_icon.png') }}" type="image/x-icon"/>
 
-    <title>@yield('page-title') | Central Vex</title>
+    <title>@yield('page-title') | Central VEX</title>
 
     <!-- Styles -->
     <link href="{{url('/assets/plugins/materialize/css/materialize.v1.css')}}" rel="stylesheet" type="text/css"/>

@@ -437,6 +437,7 @@ class PedidoVendaController extends Controller
                     $result = Helper::retornoERP($result->result);
                     $result = json_decode($result, true);
 
+
                     if($result['situacao_pedido'] !== 'A')
                     {
                         $liberado = false;
@@ -446,6 +447,7 @@ class PedidoVendaController extends Controller
                         //atualizamos os dados do pedido e dos itens, de acordo com o ERP
                         \App\Http\Controllers\Erp\PedidoVendaController::update($result);
                     }
+
                 }
 
             }
@@ -512,6 +514,118 @@ class PedidoVendaController extends Controller
         $response['pedido']    = isset($pedido) ? $pedido : null;
         return $response;
     }
+
+
+
+    //post para excluir pedido de venda
+    public function excluiPost(Request $request, $pedido_venda_id)
+    {
+        $success = true;
+        $log     = [];
+
+        $pedido = PedidoVenda::where('id',$pedido_venda_id)->where(function($query){
+
+            $query->where('vxgloempfil_id',$this->empfilId);
+            $query->orWhere('vxgloempfil_id','=',null);
+
+        })->where('erp_id','!=',null)->first();
+
+        if(!isset($pedido))
+        {
+            $success = false;
+            $log[]   = ['error' => 'Item não encontrado'];
+        }
+        else
+        {
+            //verificamos se o pedido já foi processado no ERP
+            $liberado = true;
+
+            try
+            {
+                $assinatura = Assinatura::first();
+
+                $guzzle  = new Client();
+                $result  = $guzzle->request('GET', $assinatura->webservice_base . $pedido->getWebservice() . $pedido->erp_id);
+                $result  = json_decode($result->getBody());
+
+                $result = Helper::retornoERP($result->result);
+                $result = json_decode($result, true);
+
+
+                if($result['situacao_pedido'] !== 'A')
+                {
+                    $liberado = false;
+                    $success  = false;
+                    $log[]    = ['error' => 'Não foi possível excluir o pedido, pois este já se encontra fechado'];
+
+                    //atualizamos os dados do pedido e dos itens, de acordo com o ERP
+                    \App\Http\Controllers\Erp\PedidoVendaController::update($result);
+                }
+
+            }
+            catch(\Exception $e)
+            {
+                $liberado = false;
+                $success  = false;
+                $log[]    = ['error' => 'Não foi possível excluir o pedido. Por favor acione a equipe de suporte'];
+            }
+
+
+            if($liberado)
+            {
+
+                try
+                {
+                    $assinatura = Assinatura::first();
+
+                    $guzzle  = new Client();
+                    $result  = $guzzle->request('DELETE', $assinatura->webservice_base . $pedido->getWebservice() . 'delete/'. $pedido->erp_id, [
+                        'headers'     => [
+                            'Content-Type'  => 'application/json',
+                            'tenantId'      => Helper::formataTenantId($pedido->vxgloempfil_id)
+                        ],
+                        'body' => json_encode([
+                            'erp_id'          => $pedido->erp_id,
+                            'vxglocli_erp_id' => $pedido->vxglocli_erp_id,
+                            'vxglocli_loja'   => json_decode($pedido->cliente_data)->loja,
+                        ])
+                    ]);
+
+
+                    if($result->success !== true)
+                    {
+                        $success  = false;
+                        $log[]    = ['error' => 'Não foi possível excluir o pedido. Por favor acione a equipe de suporte'];
+                    }
+                }
+                catch(\Exception $e)
+                {
+                    $success  = false;
+                    $log[]    = ['error' => 'Não foi possível excluir o pedido. Por favor acione a equipe de suporte'];
+                }
+
+
+
+                if($success)
+                {
+                    //exclui o pedido no banco de dados
+                    $pedido->delete();
+
+                    //exclui os itens de pedido que não foram enviados na requisição
+                    PedidoItem::where('vxfatpvenda_id',$pedido_venda_id)->delete();
+
+
+                    $log[]   = ['success' => 'Pedido excluído com sucesso'];
+                }
+            }
+        }
+
+
+        $response['success']   = $success;
+        $response['log']       = $log;
+        return $response;
+    }
+
 
 
     //chamada para imprimir pedido de venda
