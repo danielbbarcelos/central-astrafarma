@@ -67,30 +67,40 @@ class PedidoVendaController extends Controller
 
             $pedido = PedidoVenda::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                 ->where('erp_id',$vars['erp_id'])
-                ->update($vars);
-            Log::info(json_encode($itens));
+                ->first();
 
-            //exclui os itens do pedido para adicioná-los novamente
-            PedidoItem::where('vxfatpvenda_id', $pedido->id)->forceDelete();
-
-
-            if(isset($itens))
+            if(!isset($pedido))
             {
-                foreach($itens as $item)
+                $success = false;
+                $log     = 'Pedido não encontrado';
+            }
+            else
+            {
+                PedidoVenda::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
+                    ->where('erp_id',$vars['erp_id'])
+                    ->update($vars);
+
+                //exclui os itens do pedido para adicioná-los novamente
+                PedidoItem::where('vxfatpvenda_id', $pedido->id)->forceDelete();
+
+                if(isset($itens))
                 {
-                    $pedidoItem = new PedidoItem();
-                    $pedidoItem->vxfatpvenda_id     = $pedido->id;
-                    $pedidoItem->vxfatpvenda_erp_id = $vars['erp_id'];
-                    $pedidoItem->vxgloprod_erp_id   = $item->produto_erp_id;
-                    $pedidoItem->quantidade         = $item->quantidade;
-                    $pedidoItem->preco_unitario     = Helper::formataDecimal($item->preco_unitario);
-                    $pedidoItem->preco_venda        = Helper::formataDecimal($item->preco_venda);
-                    $pedidoItem->valor_total        = Helper::formataDecimal($item->valor_total);
-                    $pedidoItem->nota_fiscal        = isset($item->nota_fiscal) ? $item->nota_fiscal : null;
-                    $pedidoItem->serienf            = isset($item->serienf) ? $item->serienf : null;
-                    $pedidoItem->created_at         = new \DateTime();
-                    $pedidoItem->updated_at         = new \DateTime();
-                    $pedidoItem->save();
+                    foreach($itens as $item)
+                    {
+                        $pedidoItem = new PedidoItem();
+                        $pedidoItem->vxfatpvenda_id     = $pedido->id;
+                        $pedidoItem->vxfatpvenda_erp_id = $vars['erp_id'];
+                        $pedidoItem->vxgloprod_erp_id   = $item->produto_erp_id;
+                        $pedidoItem->quantidade         = $item->quantidade;
+                        $pedidoItem->preco_unitario     = Helper::formataDecimal($item->preco_unitario);
+                        $pedidoItem->preco_venda        = Helper::formataDecimal($item->preco_venda);
+                        $pedidoItem->valor_total        = Helper::formataDecimal($item->valor_total);
+                        $pedidoItem->nota_fiscal        = isset($item->nota_fiscal) ? $item->nota_fiscal : null;
+                        $pedidoItem->serienf            = isset($item->serienf) ? $item->serienf : null;
+                        $pedidoItem->created_at         = new \DateTime();
+                        $pedidoItem->updated_at         = new \DateTime();
+                        $pedidoItem->save();
+                    }
                 }
             }
         }
@@ -99,8 +109,6 @@ class PedidoVendaController extends Controller
             $success = false;
             $log     = 'Ocorreu um erro ao processar os itens';
 
-            Log::info('erro');
-            Log::info($e->getMessage());
         }
         
         $response['success'] = $success;
