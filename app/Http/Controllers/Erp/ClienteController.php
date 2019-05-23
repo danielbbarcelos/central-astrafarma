@@ -104,9 +104,22 @@ class ClienteController extends Controller
             //inclui timestamps
             $vars['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
-            Cliente::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
+            $cliente = Cliente::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                 ->where('erp_id',$vars['erp_id'])
-                ->update($vars);
+                ->first();
+
+            if(!isset($cliente))
+            {
+
+                Cliente::insert($vars);
+            }
+            else
+            {
+                Cliente::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
+                    ->where('erp_id',$vars['erp_id'])
+                    ->update($vars);
+            }
+
         }
         catch(\Exception $e)
         {
