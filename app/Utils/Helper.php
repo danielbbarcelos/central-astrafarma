@@ -140,25 +140,53 @@ class Helper
             {   
                 $array = [];
 
-                foreach(get_object_vars($item) as $key => $value)
+                try
                 {
-                    $array[strtolower($key)] = $value;
-
-                    //converte valor sim/nao caso seja campo status. Os valores referem-se a "bloqueado sim ou nao"
-                    if(strtolower($key) == 'status')
+                    foreach(get_object_vars($item) as $key => $value)
                     {
-                        if(strtolower($value) == 'sim')
+                        $array[strtolower($key)] = $value;
+
+                        //converte valor sim/nao caso seja campo status. Os valores referem-se a "bloqueado sim ou nao"
+                        if(strtolower($key) == 'status')
                         {
-                            $array[strtolower($key)] = '0';
-                        }
-                        elseif(strtolower($value) == 'nao')
-                        {
-                            $array[strtolower($key)] = '1';
+                            if(strtolower($value) == 'sim')
+                            {
+                                $array[strtolower($key)] = '0';
+                            }
+                            elseif(strtolower($value) == 'nao')
+                            {
+                                $array[strtolower($key)] = '1';
+                            }
                         }
                     }
+
+                    $new[] = $array;
+
+                }
+                catch(\Exception $e)
+                {
+                    foreach($item as $key => $value)
+                    {
+                        $array[strtolower($key)] = $value;
+
+                        //converte valor sim/nao caso seja campo status. Os valores referem-se a "bloqueado sim ou nao"
+                        if(strtolower($key) == 'status')
+                        {
+                            if(strtolower($value) == 'sim')
+                            {
+                                $array[strtolower($key)] = '0';
+                            }
+                            elseif(strtolower($value) == 'nao')
+                            {
+                                $array[strtolower($key)] = '1';
+                            }
+                        }
+                    }
+
+                    $new[] = $array;
+
                 }
 
-                $new[] = $array;
             }
         }
         //retorno em json object
