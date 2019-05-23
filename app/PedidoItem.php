@@ -5,9 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model; 
 use App\Assinatura;
 use App\Utils\Helper;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PedidoItem extends Model
 {
+    use SoftDeletes;
 
     //The attributes that should be not changed 
     protected $primaryKey = "id";

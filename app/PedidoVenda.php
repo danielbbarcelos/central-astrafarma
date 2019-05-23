@@ -2,8 +2,9 @@
 
 namespace App; 
 
-use Illuminate\Database\Eloquent\Model; 
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log; 
 use Carbon\Carbon; 
 use App\Assinatura;
@@ -12,6 +13,7 @@ use App\Utils\Helper;
 
 class PedidoVenda extends Model
 {
+    use SoftDeletes;
 
     //The webservice's prefix of this model
     protected $webservice = "/rest/vxfatpvenda";
