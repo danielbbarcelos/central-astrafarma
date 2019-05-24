@@ -85,13 +85,15 @@ class ClienteController extends Controller
             $cliente = new Cliente();
             $cliente->erp_id            = null;
             $cliente->loja              = null;
+            $cliente->vxgloempfil_id    = $this->filial->id;
             $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
             $cliente->razao_social      = $request['razao_social'];
             $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
             $cliente->cnpj_cpf          = $request['cnpj_cpf'];
-            $cliente->tipo_cliente      = strtoupper($request['tipo_cliente']);
+            $cliente->tipo_cliente      = 'F';
             $cliente->endereco          = $request['endereco'];
             $cliente->bairro            = $request['bairro'];
+            $cliente->complemento       = $request['complemento'];
             $cliente->cep               = $request['cep'];
             $cliente->cod_mun           = $request['cod_mun'];
             $cliente->cidade            = $request['cidade'];
@@ -167,13 +169,15 @@ class ClienteController extends Controller
     
             if($success)
             {
+                $cliente->vxgloempfil_id    = $this->filial->id;
                 $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
                 $cliente->razao_social      = $request['razao_social'];
                 $cliente->nome_fantasia     = $request['nome_fantasia'];
                 $cliente->cnpj_cpf          = $request['cnpj_cpf'];
-                $cliente->tipo_cliente      = strtoupper($request['tipo_cliente']);
+                //$cliente->tipo_cliente      = strtoupper($request['tipo_cliente']); utilizado apenas em adicionaPost
                 $cliente->endereco          = $request['endereco'];
                 $cliente->bairro            = $request['bairro'];
+                $cliente->complemento       = $request['complemento'];
                 $cliente->cep               = $request['cep'];
                 $cliente->cod_mun           = $request['cod_mun'];
                 $cliente->cidade            = $request['cidade'];
