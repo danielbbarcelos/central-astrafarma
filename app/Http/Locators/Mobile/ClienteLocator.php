@@ -56,7 +56,7 @@ class ClienteLocator extends Controller
      * @param $cliente_id
      * @return mixed
      */
-    public function visualiza($cliente_id)
+    public function visualiza(Request $request, $cliente_id)
     {
         $controller = new ClienteController($request->header('filial'));
 
