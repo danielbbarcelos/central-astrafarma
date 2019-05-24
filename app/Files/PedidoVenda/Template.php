@@ -134,11 +134,6 @@ class Template extends FPDF
         //endereço formatado
         $endereco = $this->clienteInfo->endereco;
 
-        if($this->clienteInfo->endereco_numero !== null and $this->clienteInfo->endereco_numero !== '')
-        {
-            $endereco .= ', '.$this->clienteInfo->endereco_numero;
-        }
-
         $bairro = '';
 
         if($this->clienteInfo->bairro !== null and $this->clienteInfo->bairro !== '')
