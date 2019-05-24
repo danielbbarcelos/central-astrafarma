@@ -102,7 +102,7 @@ class ClienteController extends Controller
             $cliente->fone              = $request['fone'];
             $cliente->nome_contato      = $request['nome_contato'];
             $cliente->email             = $request['email'];
-            $cliente->status            = isset($request['status']) ? $request['status'] : 0;
+            $cliente->status            = '1';
             $cliente->created_at        = new \DateTime();
             $cliente->updated_at        = new \DateTime();
             $cliente->save();
@@ -186,7 +186,6 @@ class ClienteController extends Controller
                 $cliente->fone              = $request['fone'];
                 $cliente->nome_contato      = $request['nome_contato'];
                 $cliente->email             = $request['email'];
-                $cliente->status            = $request['status'];
                 $cliente->updated_at        = new \DateTime();
                 $cliente->save();
     

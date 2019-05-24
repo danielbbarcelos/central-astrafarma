@@ -43,7 +43,7 @@ class ClienteLocator extends Controller
      */
     public function adicionaPost(Request $request)
     {
-        $controller = new ClienteController();
+        $controller = new ClienteController($request->header('filial'));
 
         $response   = $controller->adicionaPost($request);
 
@@ -58,7 +58,7 @@ class ClienteLocator extends Controller
      */
     public function visualiza($cliente_id)
     {
-        $controller = new ClienteController();
+        $controller = new ClienteController($request->header('filial'));
 
         $response   = $controller->visualiza($cliente_id);
 
@@ -74,7 +74,7 @@ class ClienteLocator extends Controller
      */
     public function editaPost(Request $request, $cliente_id)
     {
-        $controller = new ClienteController();
+        $controller = new ClienteController($request->header('filial'));
 
         $response   = $controller->editaPost($request, $cliente_id);
 
