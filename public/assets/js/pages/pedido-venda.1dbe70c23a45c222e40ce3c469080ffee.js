@@ -73,6 +73,13 @@ function validateStepFour() {
         success = false;
     }
 
+    if($("#observacao").val() === '')
+    {
+        Materialize.toast('Insira as observações do pedido para continuar', 5000, 'red');
+
+        success = false;
+    }
+
     if(!success)
     {
         return false;
@@ -92,6 +99,7 @@ $("#vxglocli_id").on("change",function(){
     else
     {
         $("#data-cliente").attr("hidden",false);
+        $("#cliente-erp-id").html($("#vxglocli_id option:selected").attr("data-erp-id"));
         $("#cliente-razao-social").html($("#vxglocli_id option:selected").attr("data-razao-social"));
         $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
         $("#cliente-cnpj-cpf").html($("#vxglocli_id option:selected").attr("data-cnpj-cpf"));
@@ -168,11 +176,13 @@ function alteraTabelaPreco()
         {
             $("#produto_id").append($('<option></option>')
                 .attr("value",produtos[index].id)
+                .attr("erp_id",produtos[index].erp_id)
+                .attr("descricao",produtos[index].descricao)
                 .attr("preco_unitario",produtos[index].preco_venda)
                 .attr("preco_maximo",produtos[index].preco_maximo)
                 .attr("valor_desconto",produtos[index].valor_desconto)
                 .attr("fator",produtos[index].fator)
-                .text(produtos[index].descricao));
+                .text(produtos[index].erp_id+': '+produtos[index].descricao));
         }
     });
 
@@ -185,6 +195,10 @@ function alteraTabelaPreco()
 $("#produto_id").on("change", function(){
     if(this.value === '')
     {
+        $("#div-produto-data").attr("hidden",true);
+
+        $("#produto_erp_id").val("");
+        $("#produto_descricao").val("");
         $("#produto_quantidade").val("");
         $("#produto_preco_unitario").val("");
         $("#produto_preco_venda").val("");
@@ -193,6 +207,12 @@ $("#produto_id").on("change", function(){
     }
     else
     {
+        $("#div-produto-data").attr("hidden",false);
+        $("#produto_preco_padrao").html("R$ "+number_format($('option:selected', this).attr('preco_unitario'),2,',','.'));
+
+
+        $("#produto_erp_id").val($('option:selected', this).attr('erp_id'));
+        $("#produto_descricao").val($('option:selected', this).attr('descricao'));
         $("#produto_quantidade").val(1);
         $("#produto_preco_unitario").val(number_format($('option:selected', this).attr('preco_unitario'),2,',','.'));
         $("#produto_preco_venda").val(number_format($('option:selected', this).attr('preco_unitario'),2,',','.'));
@@ -286,9 +306,8 @@ function adicionaProduto()
 
         validaDesconto();
 
-
         var row = "<tr>";
-        row    += "<td style='width: 10%'>";
+        row    += "<td style='width: 40%'>";
         row    += "<input type='hidden' name='vxfatipvend_id[]' value=''>";
         row    += "<input type='hidden' name='produto_id[]' value='"+$("#produto_id").val()+"'>";
         row    += "<input type='hidden' name='produto_quantidade[]' value='"+$("#produto_quantidade").val()+"'>";
@@ -296,10 +315,9 @@ function adicionaProduto()
         row    += "<input type='hidden' name='produto_preco_venda[]' value='"+$("#produto_preco_venda").val()+"'>";
         row    += "<input type='hidden' name='produto_valor_desconto[]' value='"+$("#produto_valor_desconto").val()+"'>";
         row    += "<input type='hidden' name='produto_preco_total[]' value='"+$("#produto_preco_total").val()+"'>";
-        row    += $("#produto_id").val();
+        row    += "<a title='"+$("#produto_erp_id").val()+"' href='/produtos/"+$("#produto_id").val()+"/show' target='_blank'>"+$("#produto_descricao").val()+"</a>";
         row    += "</td>";
-        row    += "<td style='width: 30%'>"+$("#produto_id option:selected").text()+"</td>";
-        row    += "<td style='width: 15%'>"+$("#produto_quantidade").val()+"</td>";
+        row    += "<td style='width: 10%'>"+$("#produto_quantidade").val()+"</td>";
         row    += "<td style='width: 15%'>R$ "+$("#produto_preco_venda").val()+"</td>";
         row    += "<td style='width: 15%'>R$ "+$("#produto_valor_desconto").val()+"</td>";
         row    += "<td style='width: 15%'>R$ "+$("#produto_preco_total").val()+"</td>";
@@ -314,6 +332,8 @@ function adicionaProduto()
         $('#produto_id').find('option[value=""]').prop('selected', true);
         $("#produto_id").material_select();
 
+        $("#produto_erp_id").val("");
+        $("#produto_descricao").val("");
         $("#produto_quantidade").val("");
         $("#produto_preco_unitario").val("");
         $("#produto_preco_venda").val("");

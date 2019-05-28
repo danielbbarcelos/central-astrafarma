@@ -1,19 +1,21 @@
 <div id="modal-produto" class="modal modal-fixed-footer" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
     <div class="modal-content">
-        <h4 class="padding-bottom-20">Adicionar item</h4>
+        <h4 class="">Adicionar item</h4>
 
-        <div class="flash-message" id="erro-produto" hidden>
+        <div class="flash-message" id="erro-produto" hidden style="margin-bottom: 20px">
             <div class="chip chip-message-danger padding-bottom-20">
                 <span></span>
                 <i class="close material-icons">close</i>
             </div>
         </div>
 
-        <!-- Itens padrões da tabela de preço selecionada -->
+        <!-- Itens padrões da tabela de preço selecionada e do produto selecionado -->
         <input type="hidden" value="" id="produto_preco_unitario">
         <input type="hidden" value="" id="produto_preco_maximo">
         <input type="hidden" value="" id="produto_desconto_maximo">
         <input type="hidden" value="" id="produto_fator">
+        <input type="hidden" value="" id="produto_erp_id">
+        <input type="hidden" value="" id="produto_descricao">
 
 
         <div class="row row-input padding-bottom-10">
@@ -26,11 +28,13 @@
                                 @foreach($tabela->produtos as $item)
                                     @if($item->uf == json_decode($pedido->cliente_data)->uf)
                                         <option value="{{$item->id}}"
+                                                erp_id="{{$item->erp_id}}"
+                                                descricao="{{$item->descricao}}"
                                                 preco_unitario="{{$item->preco_venda}}"
                                                 preco_maximo="{{$item->preco_maximo}}"
                                                 valor_desconto="{{$item->valor_desconto}}"
                                                 fator="{{$item->fator}}"
-                                                >{{$item->descricao}}
+                                                >{{$item->erp_id.': '.$item->descricao}}
                                         </option>
                                     @endif
                                 @endforeach
@@ -64,9 +68,9 @@
             </div>
         </div>
 
-        <div class="row row-input padding-top-30">
+        <div class="row row-input padding-top-30" id="div-produto-data" hidden>
             <div class="input-field col s12">
-                <label>Preço padrão do produto: R$ 0,00</label>
+                <label>Preço padrão do produto: <span class="font-weight-600" id="produto_preco_padrao">R$ 0,00</span></label>
             </div>
         </div>
     </div>

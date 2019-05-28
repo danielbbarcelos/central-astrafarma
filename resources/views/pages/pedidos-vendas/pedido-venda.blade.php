@@ -78,17 +78,22 @@
                                                     <option value="">Selecione...</option>
                                                     @foreach($clientes as $item)
                                                         <option value="{{$item->id}}"
+                                                                data-erp-id="{{$item->erp_id}}"
                                                                 data-razao-social="{{$item->razao_social}}"
                                                                 data-nome-fantasia="{{$item->nome_fantasia}}"
                                                                 data-cnpj-cpf="{{ Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##') }}"
                                                                 data-cidade-uf="{{$item->cidade.'/'.$item->uf}}"
                                                                 data-uf="{{$item->uf}}"
-                                                                @if($item->erp_id == $pedido->vxglocli_erp_id) selected @endif>{{$item->razao_social}}</option>
+                                                                @if($item->erp_id == $pedido->vxglocli_erp_id) selected @endif>{{$item->erp_id.' - '.$item->razao_social}}</option>
                                                     @endforeach
                                                 </select>
                                                 <label>Cliente</label>
 
                                                 <div id="data-cliente" class="padding-top-20" hidden>
+                                                    <div class="row">
+                                                        <div class="col s2 font-weight-800">Cód. ERP:</div>
+                                                        <div class="col s10" id="cliente-erp-id"></div>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col s2 font-weight-800">Razão social:</div>
                                                         <div class="col s10" id="cliente-razao-social"></div>
@@ -140,7 +145,7 @@
                                                 <select name="vxfattabprc_id" id="vxfattabprc_id" class="select2">
                                                     <option value="">Selecione...</option>
                                                     @foreach($tabelas as $item)
-                                                        <option value="{{$item->id}}" @if($item->erp_id == $pedido->vxfattabprc_erp_id) selected @endif>{{$item->descricao}}</option>
+                                                        <option value="{{$item->id}}" @if($item->erp_id == $pedido->vxfattabprc_erp_id) selected @endif>{{$item->erp_id.' - '.$item->descricao}}</option>
                                                     @endforeach
                                                 </select>
                                                 <label>Tabela de preços</label>
@@ -182,9 +187,8 @@
                                                     <table class="display" style="padding-right: 20px; display: inline-block; overflow-y: auto; width: 100%;margin: 0 auto; max-height:270px;" cellspacing="0">
                                                         <thead style="display: inline-table; width: 100%">
                                                         <tr>
-                                                            <th style="width: 10%">Cód. produto</th>
-                                                            <th style="width: 30%">Descrição</th>
-                                                            <th style="width: 15%">Quantidade</th>
+                                                            <th style="width: 40%">Produto</th>
+                                                            <th style="width: 10%">Quantidade</th>
                                                             <th style="width: 15%">Preço de venda</th>
                                                             <th style="width: 15%">Desconto</th>
                                                             <th style="width: 15%">Valor total</th>
@@ -198,7 +202,7 @@
                                                         <tbody id="ipvenda-tbody" style="display: inline-table; width: 100%">
                                                             @foreach($itens as $item)
                                                                 <tr>
-                                                                    <td style="width: 10%;">
+                                                                    <td style="width: 40%;">
                                                                         <input type='hidden' name='vxfatipvend_id[]' value='{{$item->id}}'>
                                                                         <input type='hidden' name='produto_id[]' value='{{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}'>
                                                                         <input type='hidden' name='produto_quantidade[]' value='{{$item->quantidade}}'>
@@ -206,10 +210,11 @@
                                                                         <input type='hidden' name='produto_preco_venda[]' value='{{number_format($item->preco_venda,2,',','.')}}'>
                                                                         <input type='hidden' name='produto_valor_desconto[]' value='{{number_format($item->valor_desconto,2,',','.')}}'>
                                                                         <input type='hidden' name='produto_preco_total[]' value='{{number_format($item->valor_total,2,',','.')}}'>
-                                                                        {{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}
+                                                                        <a href="/produtos/{{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}/show" target="_blank" title="{{isset($item->produto) ? $item->produto->erp_id : json_decode($item->produto_data)->erp_id}}">
+                                                                            {{isset($item->produto) ? $item->produto->descricao : json_decode($item->produto_data)->descricao}}
+                                                                        </a>
                                                                     </td>
-                                                                    <td style="width: 30%">{{isset($item->produto) ? $item->produto->descricao : json_decode($item->produto_data)->descricao}}</td>
-                                                                    <td style="width: 15%">{{$item->quantidade}}</td>
+                                                                    <td style="width: 10%">{{$item->quantidade}}</td>
                                                                     <td style="width: 15%">R$ {{number_format($item->preco_venda,2,',','.')}}</td>
                                                                     <td style="width: 15%">R$ {{number_format($item->valor_desconto,2,',','.')}}</td>
                                                                     <td style="width: 15%">R$ {{number_format($item->valor_total,2,',','.')}}</td>
@@ -266,7 +271,7 @@
 
                                             <div class="input-field col s6">
                                                 <select name="vxglocpgto_id" id="vxglocpgto_id" class="select2">
-                                                    <option disabled selected>Selecione...</option>
+                                                    <option value="">Selecione...</option>
                                                     @foreach($condicoes as $item)
                                                         <option value="{{$item->id}}" @if($item->erp_id == $pedido->vxglocpgto_erp_id) selected @endif>{{$item->descricao}}</option>
                                                     @endforeach
@@ -281,7 +286,7 @@
 
 
                                             <div class="input-field col s12">
-                                                <textarea class="materialize-textarea" name="observacao" style="height: 6rem" required
+                                                <textarea class="materialize-textarea" name="observacao" id="observacao" style="height: 6rem" required
                                                           maxlength="10000" length="10000">{{$pedido->observacao or old('observacao')}}</textarea>
                                                 <label>Observação</label>
                                             </div>
@@ -320,7 +325,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.dbe70c23a45c222e40ce3c469080ffee.js"></script>
+    <script src="/assets/js/pages/pedido-venda.1dbe70c23a45c222e40ce3c469080ffee.js"></script>
 
     @if($pedido->situacao_pedido !== 'A')
         <script>
@@ -331,6 +336,7 @@
     <script>
         $(document).ready(function(){
             $("#data-cliente").attr("hidden",false);
+            $("#cliente-erp-id").html($("#vxglocli_id option:selected").attr("data-erp-id"));
             $("#cliente-razao-social").html($("#vxglocli_id option:selected").attr("data-razao-social"));
             $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
             $("#cliente-cnpj-cpf").html($("#vxglocli_id option:selected").attr("data-cnpj-cpf"));

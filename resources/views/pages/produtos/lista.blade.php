@@ -25,6 +25,7 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Cód. ERP</th>
                                     <th>Descrição</th>
                                     <th>Unidade principal</th>
                                     <th>Preço de venda</th>
@@ -36,6 +37,7 @@
                                 @foreach($produtos as $item)
                                     <tr>
                                         <td>{{$item->id}}</td>
+                                        <td>{{$item->erp_id !== null ? $item->erp_id : '-'}}</td>
                                         <td>{{$item->descricao}}</td>
                                         <td>{{$item->unidade_principal}}</td>
                                         <td>R$ {{number_format($item->preco_venda,2,',','.')}}</td>

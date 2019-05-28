@@ -25,6 +25,7 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Cód. ERP</th>
                                     <th>Razão Social/Nome</th>
                                     <th>CNPJ/CPF</th>
                                     <th>Status</th>
@@ -35,6 +36,7 @@
                                 @foreach($clientes as $item)
                                     <tr>
                                         <td>{{$item->id}}</td>
+                                        <td>{{$item->erp_id !== null ? $item->erp_id : '-'}}</td>
                                         <td>{{$item->razao_social}}</td>
                                         <td>{{Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'F' ? '###.###.###-##' : '##.###.###/####-##')}}</td>
                                         <td>

@@ -75,7 +75,7 @@ class ProdutoController extends Controller
         {
             $tabelas = [];
 
-            $tabelaPrecoProduto = TabelaPrecoProduto::where('vxgloprod_erp_id',$produto->erp_id)->orderBy('uf','asc')->get();
+            $tabelaPrecoProduto = TabelaPrecoProduto::where('vxgloprod_erp_id',$produto->erp_id)->orderBy('vxfattabprc_erp_id','asc')->orderBy('uf','asc')->get();
 
             foreach($tabelaPrecoProduto as $item)
             {

@@ -25,6 +25,7 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Cód. ERP</th>
                                     <th>Cliente</th>
                                     <th>CPF/CNPJ</th>
                                     <th>Valor total (R$)</th>
@@ -36,6 +37,7 @@
                                 @foreach($pedidos as $item)
                                     <tr>
                                         <td>{{$item->id}}</td>
+                                        <td>{{$item->erp_id !== null ? $item->erp_id : '-'}}</td>
                                         <td>{{$item->cliente->razao_social}}</td>
                                         <td>{{Helper::insereMascara($item->cliente->cnpj_cpf, $item->cliente->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##')}}</td>
                                         <td>R$ {{number_format($item->valorTotal(),2,',','.')}}</td>

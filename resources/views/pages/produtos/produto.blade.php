@@ -100,6 +100,7 @@
                             <table class="display" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>Cód. ERP</th>
                                     <th>UF</th>
                                     <th>Descrição</th>
                                     <th>Preço de venda</th>
@@ -109,6 +110,7 @@
                                 <tbody>
                                 @foreach($tabelas as $item)
                                     <tr>
+                                        <td>{{$item->erp_id !== null ? $item->erp_id : '-'}}</td>
                                         <td>{{$item->uf}}</td>
                                         <td>{{$item->descricao}}</td>
                                         <td>R$ {{number_format($item->preco_venda,2,',','.')}}</td>
