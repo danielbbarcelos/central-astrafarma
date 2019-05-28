@@ -7,7 +7,7 @@
                 </a>
             </section>
             <div class="header-title col s3">
-                <img src="{{url('/assets/img/logo/logo_vex_horizontal_cinza.png')}}" width="100">
+                <img src="{{url('/assets/img/logo/logo_vex_horizontal_colorida.png')}}" width="100">
             </div>
 
             <ul class="right col s9 m3 nav-right-menu">

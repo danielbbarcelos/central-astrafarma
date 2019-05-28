@@ -1,14 +1,19 @@
 <aside id="slide-out" class="side-nav white fixed">
     <div class="side-nav-wrapper">
         <div class="sidebar-profile">
-            <div class="sidebar-profile-image">
+            <div class="text-center">
+
                 @if(env('LOGO_EMPRESA') !== '' and env('LOGO_EMPRESA') !== null)
-                    <img src="{{env('ADMIN_URL') . env('LOGO_EMPRESA')}}" class="circle" alt="">
-                @else 
-                    <img src="{{url('/assets/img/logo/vex_icon.png')}}" class="circle" alt="">
+                    @if(env('LOGO_LOCAL') == 'true')
+                        <img src="{{env('LOGO_EMPRESA')}}" style="max-height: 100px; height: auto; max-width: 100%;">
+                    @else
+                        <img src="{{env('ADMIN_URL') . env('LOGO_EMPRESA')}}" style="max-height: 100px; height: 100%; width: auto">
+                    @endif
+                @else
+                    <img src="{{url('/assets/img/logo/vex_large_splash.png')}}" style="max-height: 100px; height: 100%; width: auto">
                 @endif
             </div>
-            <div class="sidebar-profile-info">
+            <div class="sidebar-profile-info text-center">
                 <a href="javascript:void(0);" class="account-settings-link text-dark font-weight-600">
                     {{Auth::user()->userEmpresaFilial->empfil->filial_erp_id .' - '}} {{strlen(Auth::user()->userEmpresaFilial->empfil->nome) > 16 ? substr(Helper::formataString(Auth::user()->userEmpresaFilial->empfil->nome),0,16).'...' : Auth::user()->userEmpresaFilial->empfil->nome}}
                     <span>

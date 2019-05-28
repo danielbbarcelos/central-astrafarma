@@ -21,7 +21,7 @@
 
     <!-- Theme Styles -->
     <link href="{{url('/assets/css/alpha.c4ca4238a0b923820dcc509a6f75849b.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{url('/assets/css/custom.aeccbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url('/assets/css/custom.ceccbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
 
 
 </head>
@@ -36,11 +36,7 @@
                         <div class="card-panel white darken-1">
                             <div class="card-content">
                                 <span class="card-title center-align">
-                                    @if(env('LOGO_EMPRESA') !== '' and env('LOGO_EMPRESA') !== null)
-                                        <img src="{{env('ADMIN_URL') . env('LOGO_EMPRESA')}}" width="140">
-                                    @else 
-                                        <img src="{{url('/assets/img/logo/vex_large_splash.png')}}" width="140">
-                                    @endif
+                                    <img src="{{url('/assets/img/logo/vex_large_splash.png')}}" width="140">
                                 </span>
                                 <div class="row">
                                     <form class="col s12" method="post">

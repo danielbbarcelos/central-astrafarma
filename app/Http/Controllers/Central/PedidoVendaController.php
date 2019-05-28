@@ -599,7 +599,6 @@ class PedidoVendaController extends Controller
             }
             catch(\Exception $exception)
             {
-                dd($exception);
                 $success = false;
                 $log[]   = ['error' => 'Não foi possível imprimir o PDF'];
             }

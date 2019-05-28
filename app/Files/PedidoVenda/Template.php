@@ -63,8 +63,32 @@ class Template extends FPDF
 
 
         //logo da empresa
-        $logo = isset($configuracao) ? base_path("public".$this->configuracao->pdf_template) : base_path("public/assets/img/logo/vex_splash.png");
-        $this->Image($logo, 140, 0, 80, 80);
+
+        if(! isset($this->configuracao->logo_empresa))
+        {
+            $logo = base_path("public/assets/img/logo/vex_splash.png");
+
+            $this->Image($logo, 140, 0, 80, 80);
+        }
+        else
+        {
+            $logo = base_path("public".$this->configuracao->logo_empresa);
+
+            list($width, $height) = getimagesize(base_path("public".$this->configuracao->logo_empresa));
+
+            if($width <= 80)
+            {
+                $this->Image($logo, 140, 0, $width, $height);
+            }
+            else
+            {
+                $h = ($height * 40) / $width;
+
+                $this->Image($logo, 155, 20, 40, $h);
+
+            }
+
+        }
 
         $y = $y + 4;
 

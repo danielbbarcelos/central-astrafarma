@@ -1,5 +1,9 @@
 /* Write your custom CSS here */
 
+/* Posicionamento */
+.text-center{
+    text-align: center !important;
+}
 
 /* Estilização para formulário desabilitado */
 input:disabled {
@@ -849,3 +853,33 @@ hr{
         display: none !important;
     }
 }
+
+
+/* Logo da empresa em configurações gerais */
+#logo-empresa-div{
+    background-color: #fff;
+    height: auto;
+    width: 100%;
+    max-width: 200px;
+    border-radius: 10px;
+}
+
+#logo-empresa-img{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    transition: color 0.5s linear; /* vendorless fallback */
+    -o-transition: color 0.5s linear; /* opera */
+    -ms-transition: color 0.5s linear; /* IE 10 */
+    -moz-transition: color 0.5s linear; /* Firefox */
+    -webkit-transition: color 0.5s linear; /*safari and chrome */
+}
+
+#logo-empresa-img:hover{
+    border-radius: 10px;
+    filter: brightness(50%);
+    background-color: #c6c6c6;
+    cursor: pointer;
+    -webkit-transition : -webkit-filter 600ms linear
+}
+
