@@ -37,7 +37,7 @@ class TabelaPrecoController extends Controller
     }
 
 
-    public function lista()
+    public function lista(Request $request)
     {
         $success = true;
         $log     = [];
@@ -48,6 +48,14 @@ class TabelaPrecoController extends Controller
                 $query->where('vxgloempfil_id',$this->filial->id);
                 $query->orWhere('vxgloempfil_id',null);
             }
+        })->where(function ($query) use ($request){
+
+            if(isset($request['termo']))
+            {
+                $query->orWhereRaw('erp_id like "%'.$request['termo'].'%"');
+                $query->orWhereRaw('descricao like "%'.$request['termo'].'%"');
+            }
+
         })->where('status','1')->orderBy('descricao','asc')->get();
 
 
