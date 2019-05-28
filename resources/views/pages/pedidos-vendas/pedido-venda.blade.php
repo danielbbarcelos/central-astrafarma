@@ -28,12 +28,23 @@
             <div class="card-panel" style="padding: 0 !important;" >
                 <div class="card-content">
                     <div class="row padding-top-10">
-                        <div class="col s8 row">
-                            <h6 class="font-weight-500">Pedido de venda {{isset($pedido->erp_id) ? '#'.$pedido->erp_id : 'em sincronização'}}
+                        <div class="col s8">
+                            <h6 class="font-weight-500 padding-bottom-10">
+
+                                <span style="position: absolute; padding-top: 5px" class="padding-left-30">
+                                    Pedido de venda {{isset($pedido->erp_id) ? '#'.$pedido->erp_id : 'em sincronização'}}
+                                </span>
+
                                 @if($pedido->situacao_pedido == 'A')
-                                    <span class="label bg-warning">Aguardando</span>
-                                @else
-                                    <span class="label bg-success">Fechado</span>
+                                    <i class="tooltipped material-icons font-size" style="z-index: 9999; color: #72bc6e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Aberto">fiber_manual_record</i>
+                                @elseif($pedido->situacao_pedido == 'B')
+                                    <i class="tooltipped material-icons" style="z-index: 9999; color: #fe8c2d; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio de crédito">fiber_manual_record</i>
+                                @elseif($pedido->situacao_pedido == 'C')
+                                    <i class="tooltipped material-icons" style="z-index: 9999; color: #fbe053; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio comercial">fiber_manual_record</i>
+                                @elseif($pedido->situacao_pedido == 'E')
+                                    <i class="tooltipped material-icons" style="z-index: 9999; color: #1f9dc2; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio de estoque">fiber_manual_record</i>
+                                @elseif($pedido->situacao_pedido == 'F')
+                                    <i class="tooltipped material-icons" style="z-index: 9999; color: #e6493e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Faturado">fiber_manual_record</i>
                                 @endif
                             </h6>
                         </div>

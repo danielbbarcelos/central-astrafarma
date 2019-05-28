@@ -43,11 +43,16 @@
                                         <td>R$ {{number_format($item->valorTotal(),2,',','.')}}</td>
                                         <td>
                                             @if($item->situacao_pedido == 'A')
-                                                <span class="label bg-warning">Aguardando</span>
-                                            @else
-                                                <span class="label bg-success">Fechado</span>
+                                                <i class="tooltipped material-icons" style="color: #72bc6e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Aberto">fiber_manual_record</i>
+                                            @elseif($item->situacao_pedido == 'B')
+                                                <i class="tooltipped material-icons" style="color: #fe8c2d; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio de crédito">fiber_manual_record</i>
+                                            @elseif($item->situacao_pedido == 'C')
+                                                <i class="tooltipped material-icons" style="color: #fbe053; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio comercial">fiber_manual_record</i>
+                                            @elseif($item->situacao_pedido == 'E')
+                                                <i class="tooltipped material-icons" style="color: #1f9dc2; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio de estoque">fiber_manual_record</i>
+                                            @elseif($item->situacao_pedido == 'F')
+                                                <i class="tooltipped material-icons" style="color: #e6493e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Faturado">fiber_manual_record</i>
                                             @endif
-
                                         </td>
                                         <td class="uk-text-center">
                                             @if(Permission::check('visualiza','PedidoVenda','Central'))
