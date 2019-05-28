@@ -172,7 +172,7 @@ class PedidoVendaController extends Controller
             $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
             $pedido->vxfatvend_erp_id    = $vendedor->erp_id;
             $pedido->vxfattabprc_erp_id  = $preco->erp_id;
-            $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('d/m/Y',$request['data_entrega'])->format('Y-m-d') : null;
+            $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('Y-m-d',$request['data_entrega'])->format('Y-m-d') : null;
             $pedido->observacao          = isset($request['observacao']) ? $request['observacao'] : '';
             $pedido->created_at          = new \DateTime();
             $pedido->updated_at          = new \DateTime();
@@ -284,7 +284,7 @@ class PedidoVendaController extends Controller
                     $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
                     $pedido->vxfatvend_erp_id    = $vendedor->erp_id;
                     $pedido->vxfattabprc_erp_id  = $preco->erp_id;
-                    $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('d/m/Y',$request['data_entrega'])->format('Y-m-d') : null;
+                    $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('Y-m-d',$request['data_entrega'])->format('Y-m-d') : null;
                     $pedido->observacao          = isset($request['observacao']) ? $request['observacao'] : '';
                     $pedido->created_at          = new \DateTime();
                     $pedido->updated_at          = new \DateTime();

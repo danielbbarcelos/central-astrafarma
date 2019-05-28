@@ -36,7 +36,7 @@ class ClienteController extends Controller
         $this->filial = isset($filialId) ? EmpresaFilial::where('filial_erp_id',$filialId)->first() : null;
     }
 
-    public function lista()
+    public function lista(Request $request)
     {
         $success = true;
         $log     = [];
@@ -48,6 +48,15 @@ class ClienteController extends Controller
                 $query->where('vxgloempfil_id',$this->filial->id);
                 $query->orWhere('vxgloempfil_id',null);
             }
+        })->where(function ($query) use ($request){
+
+            if(isset($request['termo']))
+            {
+                $query->orWhereRaw('razao_social like "%'.$request['termo'].'%"');
+                $query->orWhereRaw('nome_fantasia like "%'.$request['termo'].'%"');
+                $query->orWhereRaw('cnpj_cpf like "'.$request['termo'].'"');
+            }
+
         })->where('status','1')->orderBy('nome_fantasia','asc')->get();
 
         $response['success']  = $success;

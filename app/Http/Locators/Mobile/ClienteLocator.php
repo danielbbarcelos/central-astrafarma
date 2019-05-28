@@ -30,7 +30,7 @@ class ClienteLocator extends Controller
     {
         $controller = new ClienteController($request->header('filial'));
         
-        $response   = $controller->lista();
+        $response   = $controller->lista($request);
 
         return Helper::retornoMobile($response);
     }
