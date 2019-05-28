@@ -60,18 +60,18 @@
                             <div class="row row-input">
                                 <div class="col s12">
                                     <p class="p-v-xs">
-                                        <input type="checkbox" class="filled-in" id="atom_bi_status" name="atom_bi_status" value="1" @if($dashboard->atom_bi_status == '1') checked @endif />
-                                        <label for="atom_bi_status" class="font-weight-500 text-dark">Exibição de AtomBI do usuário</label>
+                                        <input type="checkbox" class="filled-in" id="bi_status" name="bi_status" value="1" @if($dashboard->bi_status == '1') checked @endif />
+                                        <label for="bi_status" class="font-weight-500 text-dark">Exibição de BI do usuário</label>
                                     </p>
                                 </div>
                             </div>
 
 
-                            <div class="row row-input padding-top-40" @if($dashboard->atom_bi_url == null) hidden @endif id="div-atom-bi">
+                            <div class="row row-input padding-top-40" @if($dashboard->bi_url == null) hidden @endif id="div-bi">
                                 <div class="input-field col s12">
-                                    <input type="text" placeholder="" name="atom_bi_url" id="atom_bi_url" class="validate" @if($dashboard->atom_bi_url == null) disabled @else required @endif
-                                           value="{{$dashboard->atom_bi_url or old('atom_bi_url')}}">
-                                    <label>URL do Atom BI</label>
+                                    <input type="text" placeholder="" name="bi_url" id="bi_url" class="validate" @if($dashboard->bi_url == null) disabled @else required @endif
+                                           value="{{$dashboard->bi_url or old('bi_url')}}">
+                                    <label>URL do BI</label>
                                 </div>
                             </div>
 
@@ -102,17 +102,17 @@
     @endif
 
     <script>
-        $("#atom_bi_status").on("change",function(){
+        $("#bi_status").on("change",function(){
 
             if($(this).prop('checked') === true)
             {
-                $("#div-atom-bi").attr("hidden",false);
-                $("#atom_bi_url").attr("disabled",false).attr("required",true).val("");
+                $("#div-bi").attr("hidden",false);
+                $("#bi_url").attr("disabled",false).attr("required",true).val("");
             }
             else
             {
-                $("#div-atom-bi").attr("hidden",true);
-                $("#atom_bi_url").attr("disabled",true).attr("required",false).val("");
+                $("#div-bi").attr("hidden",true);
+                $("#bi_url").attr("disabled",true).attr("required",false).val("");
             }
         });
     </script>
