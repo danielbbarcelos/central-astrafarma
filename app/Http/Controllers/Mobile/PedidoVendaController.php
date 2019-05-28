@@ -54,8 +54,8 @@ class PedidoVendaController extends Controller
             ->where(function($query){
                 if($this->filial !== null)
                 {
-                    $query->where('vxgloempfil_id',$this->filial->id);
-                    $query->orWhere('vxgloempfil_id',null);
+                    $query->where('vx_fat_pvenda.vxgloempfil_id',$this->filial->id);
+                    $query->orWhere('vx_fat_pvenda.vxgloempfil_id',null);
                 }
             })->where(function ($query) use ($request){
 
