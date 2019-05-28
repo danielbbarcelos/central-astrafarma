@@ -10,7 +10,7 @@ use App\Files\PedidoVenda\Main;
 use App\Http\Controllers\Mobile\VexSyncController;
 use App\PedidoItem;
 use App\PedidoVenda;
-use App\PedidoVendaConfiguracao;
+use App\Configuracao;
 
 //mails
 
@@ -45,58 +45,6 @@ class PedidoVendaController extends Controller
         $this->empfilId   = Auth::user()->userEmpresaFilial->empfil->id;
         $this->vendedorId = isset(Auth::user()->vendedor) ? Auth::user()->vendedor->id : '1';
     }
-
-
-    //chamada da tela para configurar pedidos de venda
-    public function configuracao()
-    {
-        $success = true;
-        $log     = [];
-
-        $configuracao = PedidoVendaConfiguracao::where('vxgloempfil_id',$this->empfilId)->first();
-
-        if(!isset($configuracao))
-        {
-            $configuracao = new PedidoVendaConfiguracao();
-            $configuracao->vxgloempfil_id   = $this->empfilId;
-            $configuracao->created_at       = new \DateTime();
-            $configuracao->updated_at       = new \DateTime();
-            $configuracao->save();
-        }
-
-        $response['success']      = $success;
-        $response['log']          = $log;
-        $response['configuracao'] = $configuracao;
-        return $response;
-    }
-
-    //post para configurar pedidos de venda
-    public function configuracaoPost(Request $request)
-    {
-        $success = true;
-        $log     = [];
-
-        $configuracao = PedidoVendaConfiguracao::where('vxgloempfil_id',$this->empfilId)->first();
-
-        if(!isset($configuracao))
-        {
-            $configuracao = new PedidoVendaConfiguracao();
-            $configuracao->created_at = new \DateTime();
-        }
-
-        $configuracao->pdf_template = $request['pdf_template'];
-        $configuracao->pdf_logo     = $request['pdf_logo']; //tratar upload da logo
-        $configuracao->updated_at   = new \DateTime();
-        $configuracao->save();
-
-        $log[] = ['success' => 'Configurações atualizadas com sucesso'];
-
-        $response['success']      = $success;
-        $response['log']          = $log;
-        $response['configuracao'] = $configuracao;
-        return $response;
-    }
-
 
     //retorna array do objeto
     public function lista()
@@ -642,7 +590,8 @@ class PedidoVendaController extends Controller
         {
             try
             {
-                $configuracao = $this->configuracao();
+                $controller   = new ConfiguracaoController();
+                $configuracao = $controller->visualiza();
                 $configuracao = $configuracao['configuracao'];
 
                 $pdf = new Main();
@@ -650,8 +599,9 @@ class PedidoVendaController extends Controller
             }
             catch(\Exception $exception)
             {
+                dd($exception);
                 $success = false;
-                $log[]   = 'Não foi possível imprimir o PDF';
+                $log[]   = ['error' => 'Não foi possível imprimir o PDF'];
             }
 
         }

@@ -71,6 +71,13 @@ Route::group(['middleware' => ['auth','status','session']], function() {
     Route::get ('/clientes/{cliente_id}/show',    'Central\ClienteLocator@visualiza');
 
     /**
+     *  CRUD de configurações gerais
+     *
+     */
+    Route::get ('/configuracoes',             'Central\ConfiguracaoLocator@visualiza');
+    Route::post('/configuracoes',             'Central\ConfiguracaoLocator@editaPost');
+
+    /**
      * CRUD de dispositivos
      *
      */
@@ -87,8 +94,6 @@ Route::group(['middleware' => ['auth','status','session']], function() {
      * CRUD de pedidos
      *
      */
-    Route::get ('/pedidos-vendas/configuracoes',             'Central\PedidoVendaLocator@configuracao');
-    Route::post('/pedidos-vendas/configuracoes',             'Central\PedidoVendaLocator@configuracaoPost');
     Route::get ('/pedidos-vendas',                           'Central\PedidoVendaLocator@lista');
     Route::get ('/pedidos-vendas/add',                       'Central\PedidoVendaLocator@adiciona');
     Route::post('/pedidos-vendas/add',                       'Central\PedidoVendaLocator@adicionaPost');

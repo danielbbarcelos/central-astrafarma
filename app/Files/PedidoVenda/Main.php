@@ -9,12 +9,12 @@ namespace App\Files\PedidoVenda;
 require(base_path('vendor/anouar/fpdf/src/Anouar/Fpdf/makefont/makefont.php'));
 
 use App\PedidoVenda;
-use App\PedidoVendaConfiguracao;
+use App\Configuracao;
 use Illuminate\Support\Facades\File;
 
 class Main
 {
-    public function generate(PedidoVenda $pedido, PedidoVendaConfiguracao $configuracao)
+    public function generate(PedidoVenda $pedido, Configuracao $configuracao)
     {
         /*
          *      PAISAGEM = TOTAL HORIZONTAL É 276

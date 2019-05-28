@@ -26,7 +26,7 @@
                                     <div class="template-selected template-ribbon-aqua ribbon ribbon-top-right" @if(strpos($configuracao->pdf_template, 'aqua') == false) hidden @endif>
                                         <span>Selecionado</span>
                                     </div>
-                                    <img src="/assets/img/pdf/pvconf/border-aqua.png" width="100%">
+                                    <img src="/assets/img/pdf/border-aqua.png" width="100%">
                                 </div>
                             </div>
 
@@ -35,7 +35,7 @@
                                     <div class="template-selected template-ribbon-green ribbon ribbon-top-right" @if(strpos($configuracao->pdf_template, 'green') == false) hidden @endif>
                                         <span>Selecionado</span>
                                     </div>
-                                    <img src="/assets/img/pdf/pvconf/border-green.png" width="100%">
+                                    <img src="/assets/img/pdf/border-green.png" width="100%">
                                 </div>
                             </div>
 
@@ -44,7 +44,7 @@
                                     <div class="template-selected template-ribbon-grey ribbon ribbon-top-right" @if(strpos($configuracao->pdf_template, 'grey') == false) hidden @endif>
                                         <span>Selecionado</span>
                                     </div>
-                                    <img src="/assets/img/pdf/pvconf/border-grey.png" width="100%">
+                                    <img src="/assets/img/pdf/border-grey.png" width="100%">
                                 </div>
                             </div>
 
@@ -53,7 +53,7 @@
                                     <div class="template-selected template-ribbon-red ribbon ribbon-top-right" @if(strpos($configuracao->pdf_template, 'red') == false) hidden @endif>
                                         <span>Selecionado</span>
                                     </div>
-                                    <img src="/assets/img/pdf/pvconf/border-red.png" width="100%">
+                                    <img src="/assets/img/pdf/border-red.png" width="100%">
                                 </div>
                             </div>
 
@@ -62,7 +62,7 @@
                                     <div class="template-selected template-ribbon-transparent ribbon ribbon-top-right" @if(strpos($configuracao->pdf_template, 'transparent') == false) hidden @endif>
                                         <span>Selecionado</span>
                                     </div>
-                                    <img src="/assets/img/pdf/pvconf/border-transparent.png" width="100%">
+                                    <img src="/assets/img/pdf/border-transparent.png" width="100%">
                                 </div>
                             </div>
 
@@ -71,7 +71,7 @@
                                     <div class="template-selected template-ribbon-yellow ribbon ribbon-top-right" @if(strpos($configuracao->pdf_template, 'yellow') == false) hidden @endif>
                                         <span>Selecionado</span>
                                     </div>
-                                    <img src="/assets/img/pdf/pvconf/border-yellow.png" width="100%">
+                                    <img src="/assets/img/pdf/border-yellow.png" width="100%">
                                 </div>
                             </div>
 
@@ -103,7 +103,7 @@
         {
             $(".template-selected").attr("hidden",true);
             $(".template-ribbon-"+color).attr("hidden",false);
-            $("#pdf_template").val("/assets/img/pdf/pvconf/border-"+color+".png");
+            $("#pdf_template").val("/assets/img/pdf/border-"+color+".png");
         }
 
         function exibeTemplate()

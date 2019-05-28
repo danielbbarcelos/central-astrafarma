@@ -24,43 +24,7 @@ class PedidoVendaLocator extends Controller
     public function __construct()
     {
         $this->middleware('permissions', [ 'except' => []]);
-        $this->middleware('uservend',    [ 'except' => ['configuracao','configuracaoPost']]);
-    }
-
-    /**
-     * @description Tela de configuração de pedidos de venda
-     * @info Tela de configuração geral de pedidos de venda na CentralVEX
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function configuracao()
-    {
-        $controller = new PedidoVendaController();
-
-        $response   = $controller->configuracao();
-
-        if(!$response['success'])
-        {
-            return Redirect::back()->withInput()->with('log',$response['log']);
-        }
-
-        return view($this->basePathViews.'configuracao', $response);
-    }
-
-    /**
-     * @description Configuração de pedidos de venda
-     * @info Configuração de pedidos de venda na CentralVEX
-     * @param Request $request
-     * @return mixed
-     */
-    public function configuracaoPost(Request $request)
-    {
-        $controller = new PedidoVendaController();
-
-        $response   = $controller->configuracaoPost($request);
-
-        return Redirect::back()->withInput()->with('log',$response['log']);
-
+        $this->middleware('uservend',    [ 'except' => []]);
     }
 
     /**

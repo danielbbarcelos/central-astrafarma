@@ -25,11 +25,6 @@ class PedidoVendaPermission
        'visualiza'     => [ 'codigo' => 'CENPVE006', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Visualizar pedido de venda'],
        'excluiPost'    => [ 'codigo' => 'CENPVE007', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Gerar PDF de pedido de venda'],
        'imprimePDF'    => [ 'codigo' => 'CENPVE008', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Gerar PDF de pedido de venda'],
-
-        //configurações
-       'configuracao'     => [ 'codigo' => 'CENPVE009', 'prioridade' => '1', 'superior' => null,        'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Tela de configurações de pedidos de venda'],
-       'configuracaoPost' => [ 'codigo' => 'CENPVE010', 'prioridade' => '0', 'superior' => 'CENPVE008', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Configurar parâmetros de pedidos de venda'],
-
     ];
 
 }

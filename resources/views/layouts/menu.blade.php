@@ -65,11 +65,6 @@
                     </a>
                     <div class="collapsible-body">
                         <ul>
-                            @if(Permission::check('configuracao','PedidoVenda','Central'))
-                                <li>
-                                    <a href="{{url('/pedidos-vendas/configuracoes')}}">Configurações</a>
-                                </li>
-                            @endif
                             @if(Permission::check('lista','PedidoVenda','Central'))
                                 <li>
                                     <a href="{{url('/pedidos-vendas')}}">Lista de pedidos</a>
@@ -96,6 +91,11 @@
                     </a>
                     <div class="collapsible-body">
                         <ul>
+                            @if(Permission::check('visualiza','Configuracao','Central'))
+                                <li>
+                                    <a href="{{url('/configuracoes')}}">Configurações</a>
+                                </li>
+                            @endif
                             @if(Permission::check('lista','Dispositivo','Central'))
                                 <li>
                                     <a href="{{url('/dispositivos')}}">Dispositivos</a>

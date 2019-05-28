@@ -5,7 +5,7 @@ namespace App\Files\PedidoVenda;
 use Anouar\Fpdf\Fpdf;
 use App\Models\Site\Garantia;
 use App\PedidoVenda;
-use App\PedidoVendaConfiguracao;
+use App\Configuracao;
 use Illuminate\Support\Facades\Auth;
 use App\Utils\Helper;
 use Carbon\Carbon;
@@ -16,7 +16,7 @@ class Template extends FPDF
     public $clienteInfo;
     public $configuracao;
 
-    function __construct($orientation='P', $unit='mm', $size='A4', PedidoVenda $pedido, PedidoVendaConfiguracao $configuracao)
+    function __construct($orientation='P', $unit='mm', $size='A4', PedidoVenda $pedido, Configuracao $configuracao)
     {
         parent::__construct($orientation, $unit, $size);
 

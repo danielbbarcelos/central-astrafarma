@@ -3,14 +3,9 @@
 namespace App; 
 
 use Illuminate\Database\Eloquent\Model; 
-use Illuminate\Support\Facades\DB; 
-use Illuminate\Support\Facades\Log; 
-use Carbon\Carbon; 
-use App\Assinatura;
-use App\PedidoItem;
-use App\Utils\Helper;
 
-class PedidoVendaConfiguracao extends Model
+
+class Configuracao extends Model
 {
 
     //The webservice's prefix of this model
@@ -20,7 +15,7 @@ class PedidoVendaConfiguracao extends Model
     protected $primaryKey = "id";
 
     //Table's name of the model 
-    protected $table = "vx_fat_pvconf";
+    protected $table = "vx_web_config";
 
     //The attributes that are table's timestamps 
     public $timestamps = ["created_at", "updated_at"];
