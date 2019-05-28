@@ -43,7 +43,7 @@ class CondicaoPagamentoController extends Controller
                 $query->where('vxgloempfil_id',$this->filial->id);
                 $query->orWhere('vxgloempfil_id',null);
             }
-        })->where('status','1')->orderBy('nome_fantasia','asc')->get();
+        })->where('status','1')->orderBy('descricao','asc')->get();
 
         $response['success']   = $success;
         $response['log']       = $log;

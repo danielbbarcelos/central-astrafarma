@@ -39,7 +39,7 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
         Route::post('/clientes/{cliente_id}/edit', 'Mobile\ClienteLocator@editaPost');
 
         //condições de pagamento
-        Route::get ('/condicoes',    'Mobile\CondicaoPagamentoLocator@lista');
+        Route::get ('/condicoes-pagamentos',    'Mobile\CondicaoPagamentoLocator@lista');
 
         //empresas/filiais
         Route::get ('/empresas-filiais',                        'Mobile\EmpresaFilialLocator@lista');
@@ -55,9 +55,10 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
         Route::get ('/produtos',                'Mobile\ProdutoLocator@lista');
         Route::get ('/produtos/{produto_id}',   'Mobile\ProdutoLocator@visualiza');
 
-        //preços de produtos
-        Route::get ('/precos-produtos/produto/{produto_id}',  'Mobile\PrecoProdutoLocator@listaPorProduto');
-        Route::get ('/precos-produtos/{preco_produto_id}',    'Mobile\PrecoProdutoLocator@visualiza');
+        //tabela de preços
+        Route::get ('/tabelas-precos',                     'Mobile\TabelaPrecoLocator@lista');
+        Route::get ('/tabelas-precos/{id}/{uf}/produtos',  'Mobile\TabelaPrecoLocator@visualiza');
+
 
         //vendedores
         Route::get ('/vendedores',               'Mobile\VendedorLocator@lista');
