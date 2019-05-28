@@ -49,7 +49,7 @@ class PedidoVendaController extends Controller
         $log     = [];
 
 
-        $pedidos = PedidoVenda::join('vx_glo_cli','vx_glo_cli.id','=','vx_fat_pvenda.vxglocli_id')
+        $pedidos = PedidoVenda::join('vx_glo_cli','vx_glo_cli.erp_id','=','vx_fat_pvenda.vxglocli_erp_id')
             ->select('vx_fat_pvenda.*')
             ->where(function($query){
                 if($this->filial !== null)
