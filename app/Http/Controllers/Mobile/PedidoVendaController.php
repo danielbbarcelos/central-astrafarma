@@ -10,8 +10,8 @@ use App\EmpresaFilial;
 use App\Http\Controllers\Mobile\VexSyncController;
 use App\PedidoVenda;
 use App\PedidoItem;
-use App\PrecoProduto;
 use App\Produto;
+use App\TabelaPreco;
 use App\TabelaPrecoProduto;
 use App\Vendedor;
 use App\Http\Controllers\Erp\VexSyncController as ErpVexSync;
@@ -61,7 +61,7 @@ class PedidoVendaController extends Controller
         foreach($pedidos as $pedido)
         {
             $pedido->condicao_pagamento = CondicaoPagamento::where('erp_id',$pedido->vxglocpgto_erp_id)->first()->descricao;
-            $pedido->tabela_preco = PrecoProduto::where('erp_id',$pedido->vxfattabprc_erp_id)->first()->descricao;
+            $pedido->tabela_preco = TabelaPreco::where('erp_id',$pedido->vxfattabprc_erp_id)->first()->descricao;
             $pedido->data_pedido  = Carbon::createFromFormat('Y-m-d H:i:s',$pedido->created_at)->format('d/m/Y');
             $pedido->hora_pedido  = Carbon::createFromFormat('Y-m-d H:i:s',$pedido->created_at)->format('H:i:s');
             $pedido->data_entrega = $pedido->data_entrega !== null ? Carbon::createFromFormat('Y-m-d',$pedido->data_entrega)->format('d/m/Y') : null;
@@ -102,7 +102,7 @@ class PedidoVendaController extends Controller
         else
         {
             $pedido->condicao_pagamento = CondicaoPagamento::where('erp_id',$pedido->vxglocpgto_erp_id)->first()->descricao;
-            $pedido->tabela_preco = PrecoProduto::where('erp_id',$pedido->vxfattabprc_erp_id)->first()->descricao;
+            $pedido->tabela_preco = TabelaPreco::where('erp_id',$pedido->vxfattabprc_erp_id)->first()->descricao;
             $pedido->data_pedido  = Carbon::createFromFormat('Y-m-d H:i:s',$pedido->created_at)->format('d/m/Y');
             $pedido->hora_pedido  = Carbon::createFromFormat('Y-m-d H:i:s',$pedido->created_at)->format('H:i:s');
             $pedido->data_entrega = $pedido->data_entrega !== null ? Carbon::createFromFormat('Y-m-d',$pedido->data_entrega)->format('d/m/Y') : null;
@@ -162,7 +162,7 @@ class PedidoVendaController extends Controller
             $cliente  = Cliente::find($request['cliente_id']);
             $condicao = CondicaoPagamento::find($request['condicao_pagamento_id']);
             $vendedor = Vendedor::find($request['vendedor_id']);
-            $preco    = PrecoProduto::find($request['tabela_preco_id']);
+            $preco    = TabelaPreco::find($request['tabela_preco_id']);
 
 
             $pedido = new PedidoVenda();
@@ -276,7 +276,7 @@ class PedidoVendaController extends Controller
                     $cliente  = Cliente::find($request['cliente_id']);
                     $condicao = CondicaoPagamento::find($request['condicao_pagamento_id']);
                     $vendedor = Vendedor::find($request['vendedor_id']);
-                    $preco    = PrecoProduto::find($request['tabela_preco_id']);
+                    $preco    = TabelaPreco::find($request['tabela_preco_id']);
 
 
                     $pedido->situacao_pedido     = "A";
