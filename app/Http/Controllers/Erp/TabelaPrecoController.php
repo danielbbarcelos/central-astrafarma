@@ -65,6 +65,10 @@ class TabelaPrecoController extends Controller
             $vars['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
             $vars['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
+            //status automatico
+            $vars['status'] = '1';
+
+
             $tabela = new TabelaPreco();
             $id     = $tabela->insertGetId($vars);
             $tabela = TabelaPreco::find($id);
@@ -149,6 +153,8 @@ class TabelaPrecoController extends Controller
             //inclui timestamps
             $vars['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
+            //status automatico
+            $vars['status'] = '1';
 
             TabelaPreco::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                 ->where('erp_id',$vars['erp_id'])

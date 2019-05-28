@@ -58,6 +58,10 @@ class CondicaoPagamentoController extends Controller
             $vars['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
             $vars['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
+
+            //status automatico
+            $vars['status'] = '1';
+
             $condicao = new CondicaoPagamento();
 
             $condicao->insert($vars);
@@ -102,6 +106,9 @@ class CondicaoPagamentoController extends Controller
 
             //inclui timestamps
             $vars['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
+            
+            //status automatico
+            $vars['status'] = '1';
 
             CondicaoPagamento::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                 ->where('erp_id',$vars['erp_id'])
