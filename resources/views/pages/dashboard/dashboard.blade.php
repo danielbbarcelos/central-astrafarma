@@ -12,65 +12,72 @@
 
 @section('page-content')
 
-    <div class="middle padding-top-20 padding-right-20">
-        <div class="row no-m-t no-m-b">
-            <div class="col s12 m12 l4">
-                <div class="card stats-card">
-                    <div class="card-content">
-                        <div class="card-options">
-                            <ul>
-                                <li><a href="{{url('/dispositivos')}}"><i class="material-icons">phone_android</i></a></li>
-                            </ul>
+    @if($dashboard->assinatura_status == '1')
+        <div class="middle padding-top-20 padding-right-20">
+            <div class="row no-m-t no-m-b">
+                <div class="col s12 m12 l4">
+                    <div class="card stats-card">
+                        <div class="card-content">
+                            <div class="card-options">
+                                <ul>
+                                    <li><a href="{{url('/dispositivos')}}"><i class="material-icons">phone_android</i></a></li>
+                                </ul>
+                            </div>
+                            <span class="card-title">Dispositivos permitidos</span>
+                            <span class="stats-counter"><span class="counter">{{$assinatura->quantidade_dispositivo}}</span></span>
                         </div>
-                        <span class="card-title">Dispositivos permitidos</span>
-                        <span class="stats-counter"><span class="counter">{{$assinatura->quantidade_dispositivo}}</span></span>
-                    </div>
-                    <div class="progress stats-card-progress">
-                        <div class="determinate" style="width: 100%"></div>
+                        <div class="progress stats-card-progress">
+                            <div class="determinate" style="width: 100%"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col s12 m12 l4">
-                <div class="card stats-card">
-                    <div class="card-content">
-                        <div class="card-options">
-                            <ul>
-                                <li><a href="{{url('/usuarios/web')}}"><i class="large material-icons">desktop_windows</i></a></li>
-                            </ul>
+                <div class="col s12 m12 l4">
+                    <div class="card stats-card">
+                        <div class="card-content">
+                            <div class="card-options">
+                                <ul>
+                                    <li><a href="{{url('/usuarios/web')}}"><i class="large material-icons">desktop_windows</i></a></li>
+                                </ul>
+                            </div>
+                            <span class="card-title">Usuários web</span>
+                            <span class="stats-counter"><span class="counter">{{$assinatura->quantidade_web_user}}</span></span>
                         </div>
-                        <span class="card-title">Usuários web</span>
-                        <span class="stats-counter"><span class="counter">{{$assinatura->quantidade_web_user}}</span></span>
-                    </div>
-                    <div class="progress stats-card-progress">
-                        <div class="determinate" style="width: 100%"></div>
+                        <div class="progress stats-card-progress">
+                            <div class="determinate" style="width: 100%"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col s12 m12 l4">
-                <div class="card stats-card">
-                    <div class="card-content">
-                        <div class="card-options">
-                            <ul>
-                                <li><a href="{{url('/assinatura')}}"><i class="material-icons">date_range</i></a></li>
-                            </ul>
+                <div class="col s12 m12 l4">
+                    <div class="card stats-card">
+                        <div class="card-content">
+                            <div class="card-options">
+                                <ul>
+                                    <li><a href="{{url('/assinatura')}}"><i class="material-icons">date_range</i></a></li>
+                                </ul>
+                            </div>
+                            <span class="card-title">Assinatura válida até</span>
+                            <span class="stats-counter"><span class="counter font-weight-400">{{Carbon::createFromFormat('Y-m-d',$assinatura->data_final)->format('d/m/Y')}}</span></span>
                         </div>
-                        <span class="card-title">Assinatura válida até</span>
-                        <span class="stats-counter"><span class="counter font-weight-400">{{Carbon::createFromFormat('Y-m-d',$assinatura->data_final)->format('d/m/Y')}}</span></span>
-                    </div>
-                    <div class="progress stats-card-progress">
-                        <div class="determinate" style="width: 100%"></div>
+                        <div class="progress stats-card-progress">
+                            <div class="determinate" style="width: 100%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+
+
+    @if($dashboard->bi_status == '1')
+        <div class="middle padding-top-20 padding-right-20 padding-left-15">
+            <iframe id="bi-dashboard" width="100%" height="600" src="{{$dashboard->bi_url}}" frameborder="0" allowFullScreen="true"></iframe>
+        </div>
+    @endif
 
     <div class="middle padding-top-20 padding-right-20" hidden>
         <div class="row no-m-t no-m-b">
-
             @include('pages.dashboard.pedido-venda')
             @include('pages.dashboard.conexao')
-
         </div>
     </div>
 
@@ -103,6 +110,12 @@
 
         @include('layouts.filial')
 
+    @endif
+
+    @if($dashboard->bi_status == '1')
+        <script>
+            $('#page-main').position();
+        </script>
     @endif
 
 @endsection

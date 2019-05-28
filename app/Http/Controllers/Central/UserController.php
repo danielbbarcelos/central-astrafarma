@@ -12,6 +12,7 @@ use App\User;
 
 //framework
 use App\Http\Controllers\Controller;
+use App\UserDashboard;
 use App\UserEmpresaFilial;
 use App\Vendedor;
 use Illuminate\Http\Request;
@@ -390,6 +391,77 @@ class UserController extends Controller
         $response['log']     = $log;
         return $response;
     }
+
+
+
+    //chamada da tela para configurar itens gerais do usuário
+    public function configuracao($user_id)
+    {
+        $success = true;
+        $log     = [];
+
+        $user = User::find($user_id);
+
+        if(!isset($user))
+        {
+            $success = false;
+            $log[]   = ['error' => 'Item não encontrado'];
+        }
+        else
+        {
+            $dashboard = UserDashboard::where('vxwebuser_id',$user_id)->first();
+
+            if(!isset($dashboard))
+            {
+                $dashboard = new UserDashboard();
+                $dashboard->vxwebuser_id   = $user_id;
+                $dashboard->assinatura_status = '0';
+                $dashboard->bi_status      = '0';
+                $dashboard->bi_url         = null;
+                $dashboard->created_at     = new \DateTime();
+                $dashboard->updated_at     = new \DateTime();
+                $dashboard->save();
+            }
+        }
+
+        $response['success']   = $success;
+        $response['log']       = $log;
+        $response['user']      = $user;
+        $response['dashboard'] = isset($dashboard) ? $dashboard : null;
+        return $response;
+    }
+
+    //post para configurar pedidos de venda
+    public function configuracaoPost(Request $request, $user_id)
+    {
+        $success = true;
+        $log     = [];
+
+
+        $user = User::find($user_id);
+
+        if(!isset($user))
+        {
+            $success = false;
+            $log[]   = ['error' => 'Item não encontrado'];
+        }
+        else
+        {
+            $dashboard = UserDashboard::where('vxwebuser_id',$user_id)->first();
+            $dashboard->assinatura_status = isset($request['assinatura_status']) ? '1' : '0';
+            $dashboard->bi_status         = isset($request['bi_status']) ? '1' : '0';
+            $dashboard->bi_url            = $request['bi_url'];
+            $dashboard->updated_at        = new \DateTime();
+            $dashboard->save();
+        }
+
+        $log[] = ['success' => 'Configurações atualizadas com sucesso'];
+
+        $response['success']      = $success;
+        $response['log']          = $log;
+        return $response;
+    }
+
 
 
 }

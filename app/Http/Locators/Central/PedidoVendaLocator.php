@@ -27,7 +27,6 @@ class PedidoVendaLocator extends Controller
         $this->middleware('uservend',    [ 'except' => ['configuracao','configuracaoPost']]);
     }
 
-
     /**
      * @description Tela de configuração de pedidos de venda
      * @info Tela de configuração geral de pedidos de venda na CentralVEX
@@ -206,6 +205,5 @@ class PedidoVendaLocator extends Controller
 
         //
     }
-
 
 }

@@ -181,5 +181,39 @@ class UserLocator extends Controller
         return \redirect('/usuarios')->with('log',$response['log']);
     }
 
+    /**
+     * @description Tela de configuração do usuário
+     * @info Tela de configuração geral de usuários na CentralVEX
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function configuracao($user_id)
+    {
+        $controller = new UserController();
 
+        $response   = $controller->configuracao($user_id);
+
+        if(!$response['success'])
+        {
+            return Redirect::back()->withInput()->with('log',$response['log']);
+        }
+
+        return view($this->basePathViews.'configuracao', $response);
+    }
+
+    /**
+     * @description Configuração do usuário
+     * @info Configuração geral de usuários na CentralVEX
+     * @param Request $request
+     * @return mixed
+     */
+    public function configuracaoPost(Request $request, $user_id)
+    {
+        $controller = new UserController();
+
+        $response   = $controller->configuracaoPost($request, $user_id);
+
+        return Redirect::back()->withInput()->with('log',$response['log']);
+
+    }
 }

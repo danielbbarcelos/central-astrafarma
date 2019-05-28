@@ -31,7 +31,6 @@
 
 </head>
 <body>
-    @include('layouts.gif-loader')
 
     <div class="mn-content fixed-sidebar">
 
@@ -40,7 +39,7 @@
         <!-- Left Sidebar -->
         @include("layouts.menu")
 
-        <main class="mn-inner inner-active-sidebar">
+        <main class="mn-inner inner-active-sidebar" id="page-main">
 
             <div class="row">
                 <div class="middle col s12">

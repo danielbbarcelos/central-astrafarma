@@ -133,13 +133,15 @@ Route::group(['middleware' => ['auth','status','session']], function() {
      * CRUD de usuários
      *
      */
-    Route::get ('/usuarios',                   'Central\UserLocator@lista');
-    Route::get ('/usuarios/add',               'Central\UserLocator@adiciona');
-    Route::post('/usuarios/add',               'Central\UserLocator@adicionaPost');
-    Route::get ('/usuarios/{user_id}/edit',    'Central\UserLocator@edita');
-    Route::post('/usuarios/{user_id}/edit',    'Central\UserLocator@editaPost');
-    Route::get ('/usuarios/{user_id}/show',    'Central\UserLocator@visualiza');
-    Route::post('/usuarios/{user_id}/del',     'Central\UserLocator@excluiPost');
+    Route::get ('/usuarios',                         'Central\UserLocator@lista');
+    Route::get ('/usuarios/add',                     'Central\UserLocator@adiciona');
+    Route::post('/usuarios/add',                     'Central\UserLocator@adicionaPost');
+    Route::get ('/usuarios/{user_id}/edit',          'Central\UserLocator@edita');
+    Route::post('/usuarios/{user_id}/edit',          'Central\UserLocator@editaPost');
+    Route::get ('/usuarios/{user_id}/show',          'Central\UserLocator@visualiza');
+    Route::post('/usuarios/{user_id}/del',           'Central\UserLocator@excluiPost');
+    Route::get ('/usuarios/{user_id}/configuracoes', 'Central\UserLocator@configuracao');
+    Route::post('/usuarios/{user_id}/configuracoes', 'Central\UserLocator@configuracaoPost');
 
 });
 

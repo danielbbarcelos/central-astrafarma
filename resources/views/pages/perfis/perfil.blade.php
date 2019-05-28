@@ -53,7 +53,7 @@
                             </div>
 
 
-                            <hr class="hr-custom">
+                            <hr style="border: 1px solid #e3e3e3">
                             <br>
 
                             <div class="col s12">

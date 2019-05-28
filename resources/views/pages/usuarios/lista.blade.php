@@ -63,9 +63,9 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if(Permission::check('visualiza','User','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar" href="{{url('/usuarios/'.$item->id.'/show')}}">
-                                                    <i class="material-icons">visibility</i>
+                                            @if(Permission::check('configuracao','User','Central'))
+                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Configurações gerais" href="{{url('/usuarios/'.$item->id.'/configuracoes')}}">
+                                                    <i class="material-icons">settings</i>
                                                 </a>
                                             @endif
                                             @if(Permission::check('edita','User','Central'))
@@ -73,7 +73,7 @@
                                                     <i class="material-icons">edit</i>
                                                 </a>
                                             @endif
-                                            @if(Permission::check('exclui','User','Central'))
+                                            @if(Permission::check('excluiPost','User','Central'))
                                                 <a class="waves-effect margin-5 white @if($item->type !== 'A') tooltipped @endif waves-light btn m-b-xs" @if($item->type == 'A') disabled="" @else data-position="top" data-delay="10" data-tooltip="Excluir" onclick="excluiItem('{!! url('/usuarios/'.$item->id.'/del') !!}')" @endif>
                                                     <i class="material-icons icon-danger">delete_forever</i>
                                                 </a>

@@ -10,6 +10,7 @@ use App\Assinatura;
 //framework
 use App\EmpresaFilial;
 use App\Http\Controllers\Controller;
+use App\UserDashboard;
 use App\UserEmpresaFilial;
 use App\Utils\Helper;
 use Illuminate\Http\Request;
@@ -39,10 +40,22 @@ class DashboardController extends Controller
         $success = true;
         $log     = [];
 
-        /*
-         * Busca dados da assinatura da empresa
-         *
-         */
+        //dashboard
+        $dashboard = UserDashboard::where('vxwebuser_id',Auth::user()->id)->first();
+
+        if(!isset($dashboard))
+        {
+            $dashboard = new UserDashboard();
+            $dashboard->vxwebuser_id   = Auth::user()->id;
+            $dashboard->assinatura_status = '0';
+            $dashboard->bi_status         = '0';
+            $dashboard->bi_url            = null;
+            $dashboard->created_at        = new \DateTime();
+            $dashboard->updated_at        = new \DateTime();
+            $dashboard->save();
+        }
+
+        //Busca dados da assinatura da empresa
         $assinatura = Assinatura::first();
 
         //busca as filiais cadastradas
@@ -50,6 +63,7 @@ class DashboardController extends Controller
 
         $response['success']    = $success;
         $response['log']        = $log;
+        $response['dashboard']  = $dashboard;
         $response['assinatura'] = $assinatura;
         $response['filiais']    = $filiais;
         return $response;

@@ -100,7 +100,7 @@
                                 <div class="col s12">
                                     <p class="p-v-xs">
                                         <input type="checkbox" class="filled-in" id="web" name="web" value="1" @if($user->web == '1') checked @endif />
-                                        <label for="web">Usuário com acesso a web</label>
+                                        <label for="web" class="font-weight-500 text-dark">Usuário com acesso a web</label>
                                     </p>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                                 <div class="col s12">
                                     <p class="p-v-xs">
                                         <input type="checkbox" class="filled-in" id="mobile" name="mobile" value="1" @if($user->mobile == '1') checked @endif />
-                                        <label for="mobile">Usuário com acesso ao aplicativo</label>
+                                        <label for="mobile" class="font-weight-500 text-dark">Usuário com acesso ao aplicativo</label>
                                     </p>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
                                 <div class="col s12 padding-top-10">
                                     <p class="p-v-xs">
                                         <input type="checkbox" class="filled-in" id="status" name="status" value="1" @if($user->status == '1') checked @endif />
-                                        <label for="status">Usuário ativo</label>
+                                        <label for="status" class="font-weight-500 text-dark">Usuário ativo</label>
                                     </p>
                                 </div>
                             </div>
