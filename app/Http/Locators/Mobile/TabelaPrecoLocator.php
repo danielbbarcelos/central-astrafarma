@@ -46,7 +46,7 @@ class TabelaPrecoLocator extends Controller
     {
         $controller = new TabelaPrecoController($request->header('filial'));
 
-        $response   = $controller->visualiza($tabela_preco_id, $uf);
+        $response   = $controller->visualiza($request, $tabela_preco_id, $uf);
 
         return Helper::retornoMobile($response);
     }

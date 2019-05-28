@@ -58,7 +58,7 @@ class TabelaPrecoController extends Controller
     }
 
 
-    public function visualiza($tabela_preco_id, $uf)
+    public function visualiza(Request $request, $tabela_preco_id, $uf)
     {
         $success = true;
         $log     = [];
@@ -80,7 +80,18 @@ class TabelaPrecoController extends Controller
         {
             $itens = [];
 
-            $precos = TabelaPrecoProduto::where('vxfattabprc_id',$tabela_preco_id)->where('uf',$uf)->get();
+            $precos = TabelaPrecoProduto::join('vx_glo_prod','vx_glo_prod.id','=','vx_fat_tpprod.vxgloprod_id')
+                ->select('vx_fat_tpprod.*')
+                ->where('vxfattabprc_id',$tabela_preco_id)
+                ->where('uf',$uf)
+                ->where(function ($query) use ($request){
+                    if(isset($request['termo']))
+                    {
+                        $query->orWhereRaw('vx_glo_prod.erp_id like "%'.$request['termo'].'%"');
+                        $query->orWhereRaw('vx_glo_prod.descricao like "%'.$request['termo'].'%"');
+                    }
+                })
+                ->get();
 
             foreach ($precos as $preco)
             {
