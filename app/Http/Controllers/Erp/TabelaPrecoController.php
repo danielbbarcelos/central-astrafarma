@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Erp;
 
 //models and controllers
 use App\EmpresaFilial;
-use App\PrecoProduto;
+use App\TabelaPreco;
 
 //mails
 
@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\DB;
 use Validator; 
 use Carbon\Carbon;
 
-class PrecoProdutoController extends Controller
+class TabelaPrecoController extends Controller
 {
     //construct
     public function __construct()
@@ -65,9 +65,9 @@ class PrecoProdutoController extends Controller
             $vars['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
             $vars['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
-            $tabela = new PrecoProduto();
+            $tabela = new TabelaPreco();
             $id     = $tabela->insertGetId($vars);
-            $tabela = PrecoProduto::find($id);
+            $tabela = TabelaPreco::find($id);
 
             //gera o relacionamento entre produtos e tabela de preço
             foreach($produtos as $item)
@@ -150,11 +150,11 @@ class PrecoProdutoController extends Controller
             $vars['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
 
-            PrecoProduto::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
+            TabelaPreco::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                 ->where('erp_id',$vars['erp_id'])
                 ->update($vars);
 
-            $tabela = PrecoProduto::where('erp_id',$vars['erp_id'])->first();
+            $tabela = TabelaPreco::where('erp_id',$vars['erp_id'])->first();
 
             //exclui o relacionamento com os produtos e os cadastra novamente
             TabelaPrecoProduto::where('vxfattabprc_id',$tabela->id)->forceDelete();
@@ -223,7 +223,7 @@ class PrecoProdutoController extends Controller
                 $produto_erp_id = null;
             }
 
-            $tabela = PrecoProduto::where('vxgloempfil_id', isset($empfil) ? $empfil->id : null)
+            $tabela = TabelaPreco::where('vxgloempfil_id', isset($empfil) ? $empfil->id : null)
                 ->where('erp_id',$vars['erp_id'])
                 ->first();
 

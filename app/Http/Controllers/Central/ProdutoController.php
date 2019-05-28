@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Central; 
 
 //models and controllers
-use App\Assinatura;
-use App\PrecoProduto;
 use App\Produto;
 
 //mails
 
 //framework
 use App\Http\Controllers\Controller;
+use App\TabelaPreco;
 use App\TabelaPrecoProduto;
 use Illuminate\Http\Request;
 
@@ -74,23 +73,23 @@ class ProdutoController extends Controller
         }
         else
         {
-            $precos = [];
+            $tabelas = [];
 
             $tabelaPrecoProduto = TabelaPrecoProduto::where('vxgloprod_erp_id',$produto->erp_id)->orderBy('uf','asc')->get();
 
             foreach($tabelaPrecoProduto as $item)
             {
-                $preco = PrecoProduto::find($item->vxfattabprc_id);
+                $tabela = TabelaPreco::find($item->vxfattabprc_id);
 
-                if(isset($preco))
+                if(isset($tabela))
                 {
-                    $preco->uf             = $item->uf;
-                    $preco->preco_venda    = $item->preco_venda;
-                    $preco->preco_maximo   = $item->preco_maximo;
-                    $preco->valor_desconto = $item->valor_desconto;
-                    $preco->fator          = $item->fator;
+                    $tabela->uf             = $item->uf;
+                    $tabela->preco_venda    = $item->preco_venda;
+                    $tabela->preco_maximo   = $item->preco_maximo;
+                    $tabela->valor_desconto = $item->valor_desconto;
+                    $tabela->fator          = $item->fator;
 
-                    $precos[] = $preco;
+                    $tabelas[] = $tabela;
                 }
 
             }
@@ -100,7 +99,7 @@ class ProdutoController extends Controller
         $response['success'] = $success;
         $response['log']     = $log;
         $response['produto'] = $produto;
-        $response['precos']  = isset($precos) ? $precos : [];
+        $response['tabelas'] = isset($tabelas) ? $tabelas : [];
         return $response;
     }
 

@@ -16,8 +16,8 @@ use App\PedidoVendaConfiguracao;
 
 //framework
 use App\Http\Controllers\Controller;
-use App\PrecoProduto;
 use App\Produto;
+use App\TabelaPreco;
 use App\TabelaPrecoProduto;
 use App\Utils\Helper;
 use App\Vendedor;
@@ -142,7 +142,7 @@ class PedidoVendaController extends Controller
 
         $tabelas = [];
 
-        $precos  = PrecoProduto::where(function($query){
+        $precos = TabelaPreco::where(function($query){
 
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
@@ -156,9 +156,9 @@ class PedidoVendaController extends Controller
         }
         else
         {
-            foreach($precos as $preco)
+            foreach($precos as $tabela)
             {
-                $tabelaPrecoProduto = TabelaPrecoProduto::where('vxfattabprc_id',$preco->id)->get();
+                $tabelaPrecoProduto = TabelaPrecoProduto::where('vxfattabprc_id',$tabela->id)->get();
 
                 $produtos = [];
 
@@ -180,13 +180,12 @@ class PedidoVendaController extends Controller
 
                 if(count($produtos) > 0)
                 {
-                    $preco->produtos = $produtos;
+                    $tabela->produtos = $produtos;
 
-                    $tabelas[] = $preco;
+                    $tabelas[] = $tabela;
                 }
             }
         }
-
 
         if(count($tabelas) == 0)
         {
@@ -238,7 +237,7 @@ class PedidoVendaController extends Controller
             $cliente  = Cliente::find($request['vxglocli_id']);
             $condicao = CondicaoPagamento::find($request['vxglocpgto_id']);
             $vendedor = Vendedor::find($this->vendedorId);
-            $preco    = PrecoProduto::find($request['vxfattabprc_id']);
+            $tabela   = TabelaPreco::find($request['vxfattabprc_id']);
 
 
             $pedido = new PedidoVenda();
@@ -247,7 +246,7 @@ class PedidoVendaController extends Controller
             $pedido->vxglocli_erp_id     = $cliente->erp_id;
             $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
             $pedido->vxfatvend_erp_id    = $vendedor->erp_id;
-            $pedido->vxfattabprc_erp_id  = $preco->erp_id;
+            $pedido->vxfattabprc_erp_id  = $tabela->erp_id;
             $pedido->cliente_data        = json_encode($cliente, JSON_UNESCAPED_UNICODE);
             $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('d/m/Y',$request['data_entrega'])->format('Y-m-d') : null;
             $pedido->observacao          = isset($request['observacao']) ? $request['observacao'] : '';
@@ -336,21 +335,17 @@ class PedidoVendaController extends Controller
             //busca as tabelas de preço cadastradas
             $tabelas = [];
 
-            $precos  = PrecoProduto::where(function($query){
+            $precos  = TabelaPreco::where(function($query){
 
                 $query->where('vxgloempfil_id',$this->empfilId);
                 $query->orWhere('vxgloempfil_id','=',null);
 
-            })->where(function($query) use ($pedido){
-
-                $query->orWhere('erp_id','=',$pedido->vxfattabprc_erp_id);
-
             })->orderBy('descricao','asc')->get();
 
 
-            foreach($precos as $preco)
+            foreach($precos as $tabela)
             {
-                $tabelaPrecoProduto = TabelaPrecoProduto::where('vxfattabprc_id',$preco->id)->get();
+                $tabelaPrecoProduto = TabelaPrecoProduto::where('vxfattabprc_id',$tabela->id)->get();
 
                 $produtos = [];
 
@@ -372,9 +367,9 @@ class PedidoVendaController extends Controller
 
                 if(count($produtos) > 0)
                 {
-                    $preco->produtos = $produtos;
+                    $tabela->produtos = $produtos;
 
-                    $tabelas[] = $preco;
+                    $tabelas[] = $tabela;
                 }
             }
 
@@ -464,13 +459,13 @@ class PedidoVendaController extends Controller
                 $cliente  = Cliente::find($request['vxglocli_id']);
                 $condicao = CondicaoPagamento::find($request['vxglocpgto_id']);
                 $vendedor = Vendedor::find($this->vendedorId);
-                $preco    = PrecoProduto::find($request['vxfattabprc_id']);
+                $tabela   = TabelaPreco::find($request['vxfattabprc_id']);
 
                 $pedido->vxgloempfil_id      = $this->empfilId;
                 $pedido->vxglocli_erp_id     = $cliente->erp_id;
                 $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
                 $pedido->vxfatvend_erp_id    = $vendedor->erp_id;
-                $pedido->vxfattabprc_erp_id  = $preco->erp_id;
+                $pedido->vxfattabprc_erp_id  = $tabela->erp_id;
                 $pedido->cliente_data        = json_encode($cliente, JSON_UNESCAPED_UNICODE);
                 $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('d/m/Y',$request['data_entrega'])->format('Y-m-d') : null;
                 $pedido->observacao          = isset($request['observacao']) ? $request['observacao'] : '';

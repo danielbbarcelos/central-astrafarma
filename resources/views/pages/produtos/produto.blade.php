@@ -94,7 +94,7 @@
                     </span><br>
                     <div class="row">
 
-                        @if(count($precos) == 0)
+                        @if(count($tabelas) == 0)
                             Nenhum registro encontrado
                         @else
                             <table class="display" cellspacing="0" width="100%">
@@ -107,7 +107,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($precos as $item)
+                                @foreach($tabelas as $item)
                                     <tr>
                                         <td>{{$item->uf}}</td>
                                         <td>{{$item->descricao}}</td>
