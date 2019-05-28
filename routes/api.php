@@ -9,7 +9,6 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
 
     //sincroniza banco de dados
     Route::get ('/vex-sync/sincroniza', 'Mobile\VexSyncLocator@sincroniza');
-    Route::get ('/vex-sync/pendencias', 'Erp\VexSyncLocator@buscaPendencia');
 
     //retorna todas as funções do projeto
     Route::get('/project/functions', function(){

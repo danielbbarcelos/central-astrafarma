@@ -6,7 +6,8 @@ use App\Utils\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect; 
 use App\Http\Controllers\Controller; 
-use App\Http\Controllers\Mobile\VexSyncController;
+use App\Http\Controllers\Mobile\VexSyncController as MobileVexSyncController;
+use App\Http\Controllers\Erp\VexSyncController as ErpVexSyncController;
 
 /**
  * @description VEX Sync
@@ -29,10 +30,16 @@ class VexSyncLocator extends Controller
      */
     public function sincroniza(Request $request)
     {
-        $controller = new VexSyncController();
+        $controller = new MobileVexSyncController();
 
-        $response   = $controller::sincroniza();
+        $controller::sincroniza();
 
+        $controller = new ErpVexSyncController();
+
+        $controller::buscaPendencia();
+
+        $response['success'] = true;
+        $response['log']     = [];
         return Helper::retornoMobile($response);
     }
 }

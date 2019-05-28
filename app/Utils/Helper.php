@@ -30,6 +30,8 @@ class Helper
         fwrite($file, $content);
         fclose($file);
 
+        chmod($path, 0777);  //changed to add the zero
+
         return $path;
     }
 
