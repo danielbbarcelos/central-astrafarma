@@ -30,7 +30,7 @@ class ProdutoLocator extends Controller
     {
         $controller = new ProdutoController($request->header('filial'));
 
-        $response   = $controller->lista();
+        $response   = $controller->lista($request);
 
         return Helper::retornoMobile($response);
     }
