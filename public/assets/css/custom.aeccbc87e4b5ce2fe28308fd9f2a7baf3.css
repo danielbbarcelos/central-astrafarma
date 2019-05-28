@@ -1,5 +1,21 @@
 /* Write your custom CSS here */
 
+
+/* Estilização para formulário desabilitado */
+input:disabled {
+    color: #525252 !important;
+}
+input:disabled + label{
+    color: #525252 !important;
+}
+textarea:disabled {
+    color: #525252 !important;
+}
+textarea:disabled + label{
+    color: #525252 !important;
+}
+
+
 /* Modal dialog customizada */
 .modal_dialog_custom{
     z-index: 999999;

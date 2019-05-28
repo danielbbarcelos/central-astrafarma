@@ -45,14 +45,13 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if(Permission::check('visualiza','Perfil','Central'))
+                                            @if(Permission::check('edita','Perfil','Central'))
+                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Cadastro" href="{{url('/perfis/'.$item->id.'/edit')}}">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                            @elseif(Permission::check('visualiza','Perfil','Central'))
                                                 <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar" href="{{url('/perfis/'.$item->id.'/show')}}">
                                                     <i class="material-icons">visibility</i>
-                                                </a>
-                                            @endif
-                                            @if(Permission::check('edita','Perfil','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Editar" href="{{url('/perfis/'.$item->id.'/edit')}}">
-                                                    <i class="material-icons">edit</i>
                                                 </a>
                                             @endif
                                             @if(Permission::check('exclui','Perfil','Central'))

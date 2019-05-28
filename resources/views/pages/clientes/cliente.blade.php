@@ -4,6 +4,10 @@
 
 @section('page-css')
 
+    <style>
+
+    </style>
+
 @endsection
 
 @section('page-breadcrumbs')

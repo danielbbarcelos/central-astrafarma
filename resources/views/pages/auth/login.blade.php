@@ -21,7 +21,7 @@
 
     <!-- Theme Styles -->
     <link href="{{url('/assets/css/alpha.c4ca4238a0b923820dcc509a6f75849b.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{url('/assets/css/custom.accbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url('/assets/css/custom.aeccbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
     
 
 </head>

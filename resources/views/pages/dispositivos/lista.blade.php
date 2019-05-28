@@ -46,14 +46,13 @@
 
                                         </td>
                                         <td class="uk-text-center">
-                                            @if(Permission::check('visualiza','Dispositivo','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar" href="{{url('/dispositivos/'.$item->id.'/show')}}">
-                                                    <i class="material-icons">visibility</i>
-                                                </a>
-                                            @endif
                                             @if(Permission::check('edita','Dispositivo','Central'))
                                                 <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Editar" href="{{url('/dispositivos/'.$item->id.'/edit')}}">
                                                     <i class="material-icons">edit</i>
+                                                </a>
+                                            @elseif(Permission::check('visualiza','Dispositivo','Central'))
+                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar" href="{{url('/dispositivos/'.$item->id.'/show')}}">
+                                                    <i class="material-icons">visibility</i>
                                                 </a>
                                             @endif
                                             @if(Permission::check('excluiPost','Dispositivo','Central'))
