@@ -30,7 +30,7 @@ class PedidoVendaLocator extends Controller
     {
         $controller = new PedidoVendaController($request->header('filial'));
         
-        $response   = $controller->lista();
+        $response   = $controller->lista($request);
 
         return Helper::retornoMobile($response);
     }

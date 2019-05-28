@@ -43,19 +43,30 @@ class PedidoVendaController extends Controller
     }
 
 
-    public function lista()
+    public function lista(Request $request)
     {
         $success = true;
         $log     = [];
 
 
-        $pedidos = PedidoVenda::where(function($query){
-            if($this->filial !== null)
-            {
-                $query->where('vxgloempfil_id',$this->filial->id);
-                $query->orWhere('vxgloempfil_id',null);
-            }
-        })->orderBy('created_at','desc')->get();
+        $pedidos = PedidoVenda::join('vx_glo_cli','vx_glo_cli.id','=','vx_fat_pvenda.vxglocli_id')
+            ->select('vx_fat_pvenda.*')
+            ->where(function($query){
+                if($this->filial !== null)
+                {
+                    $query->where('vxgloempfil_id',$this->filial->id);
+                    $query->orWhere('vxgloempfil_id',null);
+                }
+            })->where(function ($query) use ($request){
+
+                if(isset($request['termo']))
+                {
+                    $query->orWhereRaw('vx_fat_pvenda.erp_id like "%'.$request['termo'].'%"');
+                    $query->orWhereRaw('vx_glo_cli.razao_social like "%'.$request['termo'].'%"');
+                    $query->orWhereRaw('vx_glo_cli.nome_fantasia like "%'.$request['termo'].'%"');
+                }
+
+            })->orderBy('created_at','desc')->get();
 
 
         foreach($pedidos as $pedido)
