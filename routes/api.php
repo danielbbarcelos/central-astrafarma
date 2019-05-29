@@ -52,12 +52,11 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
         Route::post('/pedidos/add',                 'Mobile\PedidoVendaLocator@adicionaPost');
         Route::get ('/pedidos/{pedido_id}',         'Mobile\PedidoVendaLocator@visualiza');
         Route::post('/pedidos/{pedido_id}/edit',    'Mobile\PedidoVendaLocator@editaPost');
+        Route::post('/pedidos/{pedido_id}/del',     'Mobile\PedidoVendaLocator@excluiPost');
 
         //produtos
         Route::get ('/produtos',                   'Mobile\ProdutoLocator@lista');
         Route::get ('/produtos/{produto_id}',      'Mobile\ProdutoLocator@visualiza');
-        Route::post('/produtos/{produto_id}/edit', 'Mobile\ProdutoLocator@editaPost');
-        Route::post('/produtos/{produto_id}/del',  'Mobile\ProdutoLocator@excluiPost');
 
         //tabela de preços
         Route::get ('/tabelas-precos',                     'Mobile\TabelaPrecoLocator@lista');
