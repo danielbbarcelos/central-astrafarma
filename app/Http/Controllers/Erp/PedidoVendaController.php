@@ -11,6 +11,7 @@ use App\PedidoItem;
 
 //framework
 use App\Http\Controllers\Controller;
+use App\Produto;
 use App\Utils\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; 
@@ -89,11 +90,14 @@ class PedidoVendaController extends Controller
 		
                     foreach(json_decode($itens) as $item)
                     {
+                        $produto = Produto::where('erp_id',$item->vxgloprod_erp_id)->first();
+
                         $pedidoItem = new PedidoItem();
                         $pedidoItem->vxfatpvenda_id     = $pedido->id;
                         $pedidoItem->vxfatpvenda_erp_id = $vars['erp_id'];
                         $pedidoItem->vxgloprod_erp_id   = $item->vxgloprod_erp_id;
                         $pedidoItem->quantidade         = $item->quantidade;
+                        $pedidoItem->produto_data       = json_encode($produto, JSON_UNESCAPED_UNICODE);
                         $pedidoItem->preco_unitario     = Helper::formataDecimal($item->preco_unitario);
                         $pedidoItem->preco_venda        = Helper::formataDecimal($item->preco_venda);
                         $pedidoItem->valor_desconto     = Helper::formataDecimal($item->valor_desconto);

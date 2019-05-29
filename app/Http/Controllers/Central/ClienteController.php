@@ -109,7 +109,7 @@ class ClienteController extends Controller
             $cliente = new Cliente();
             $cliente->erp_id            = null;
             $cliente->vxgloempfil_id    = $this->empfilId;
-            $cliente->loja              = null;
+            $cliente->loja              = '01';
             $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
             $cliente->razao_social      = $request['razao_social'];
             $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
@@ -212,7 +212,6 @@ class ClienteController extends Controller
 
             if ($success)
             {
-                $cliente->loja              = null;
                 $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
                 $cliente->razao_social      = $request['razao_social'];
                 $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];

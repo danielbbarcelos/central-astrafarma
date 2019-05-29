@@ -68,6 +68,8 @@ class VexSyncController extends Controller
             })->orderBy('updated_at','desc')->get();
         }
 
+        //dd($syncs);
+
         $response['success'] = $success;
         $response['log']     = $log;
         $response['syncs']   = isset($syncs) ? $syncs : [];

@@ -126,7 +126,7 @@
         $(document).ready(function(){
 
             $('.datatable').DataTable({
-                order: [[ 0, "desc" ]],
+                order: [[ 5, "desc" ]],
                 language: {
                     searchPlaceholder: 'Procurar',
                     sSearch: '',

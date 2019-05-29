@@ -545,7 +545,7 @@ class PedidoVendaController extends Controller
                 }
                 catch(\Exception $e)
                 {
-                    $success  = false;dd($e);
+                    $success  = false;
                     $log[]    = ['error' => 'Não foi possível excluir o pedido. Por favor acione a equipe de suporte'];
                 }
 

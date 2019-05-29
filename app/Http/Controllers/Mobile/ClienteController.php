@@ -93,7 +93,7 @@ class ClienteController extends Controller
         {
             $cliente = new Cliente();
             $cliente->erp_id            = null;
-            $cliente->loja              = null;
+            $cliente->loja              = '01';
             $cliente->vxgloempfil_id    = $this->filial->id;
             $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
             $cliente->razao_social      = $request['razao_social'];
