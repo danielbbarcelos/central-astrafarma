@@ -398,7 +398,7 @@ class PedidoVendaController extends Controller
             }
 
 
-            $nfEmitida = PedidoItem::where('vxfatpvenda_id',$pedido_id)->where('nota_fiscal','!=',null)->first();
+            $nfEmitida = PedidoItem::where('vxfatpvenda_id',$pedido_id)->where('nota_fiscal','!=',null)->where('nota_fiscal','!=',"")->first();
 
             if(isset($nfEmitida))
             {
