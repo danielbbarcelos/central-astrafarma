@@ -388,11 +388,15 @@ class PedidoVendaController extends Controller
              * Busca atualizações da nota fiscal no ERP, para verificar se já foi emitida nota fiscal para esse pedido
              *
              */
-            $object = new \stdClass();
-            $object->ws     = '/rest/vxfatpvenda/'.$pedido->erp_id;
-            $object->tabela = 'vx_fat_pvenda';
+            if(isset($pedido->erp_id))
+            {
+                $object = new \stdClass();
+                $object->ws     = '/rest/vxfatpvenda/'.$pedido->erp_id;
+                $object->tabela = 'vx_fat_pvenda';
 
-            ErpVexSync::update($object);
+                ErpVexSync::update($object);
+            }
+
 
             $nfEmitida = PedidoItem::where('vxfatpvenda_id',$pedido_id)->where('nota_fiscal','!=',null)->first();
 
