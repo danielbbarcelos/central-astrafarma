@@ -69,6 +69,17 @@ class Handler extends ExceptionHandler
         {
             return $this->renderHttpException($exception);
         }
+        /*
+         * Exceptions na API
+         *
+         */
+        elseif($request->is('api/*') == true)
+        {
+            $response['success']   = false;
+            $response['log']       = 'Exception na API. Código: '.$exception->getCode().' - mensagem: '.$exception->getMessage() .' - Ln: '.$exception->getLine().' - File: '.$exception->getFile();
+            return $response;
+        }
+
 
 
         ///Exceptions web
