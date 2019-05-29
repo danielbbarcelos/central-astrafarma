@@ -1,6 +1,6 @@
 $("#upload").on("change",function(){
 
-    var fileTypes = ['zip','rar'];
+    var fileTypes = ['zip'];
 
     if (this.files && this.files[0]) {
         var reader = new FileReader();
@@ -10,7 +10,7 @@ $("#upload").on("change",function(){
         {
             $("#upload").val("");
 
-            Materialize.toast('Arquivo inválido. Extensões permitidas: zip ou rar', 5000, 'red');
+            Materialize.toast('Arquivo inválido. Extensões permitidas: zip', 5000, 'red');
         }
     }
 });
