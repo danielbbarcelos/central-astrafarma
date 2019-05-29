@@ -30,13 +30,12 @@ class Kernel extends ConsoleKernel
         if(env('VEXSYNC') == true)
         {
             $schedule->call(function(){
-                MobileVexSync::sincroniza();
-            })->everyMinute();
-
-            $schedule->call(function(){
                 ErpVexSync::buscaPendencia();
             })->everyMinute();
 
+            $schedule->call(function(){
+                MobileVexSync::sincroniza();
+            })->everyMinute();
         }
 
     }
