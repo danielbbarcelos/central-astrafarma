@@ -64,4 +64,41 @@ class Aliases
             return null;
         }
     }
+
+    //retorna o nome entidade com base no nome da tabela
+    public static function entityByTable($table)
+    {
+        $tables = [
+            'vx_fat_ipvend' => 'Itens de pedidos de vendas',
+            'vx_fat_pvenda' => 'Pedidos de vendas',
+            'vx_fat_tabprc' => 'Tabelas de preços',
+            'vx_fat_tpprod' => 'Produtos das tabelas de preços',
+            'vx_fat_vend'   => 'Vendedores',
+            'vx_glo_cidade' => 'Cadastro de cidades',
+            'vx_glo_cli'    => 'Cliente',
+            'vx_glo_cpgto'  => 'Condição de pagamento',
+            'vx_glo_empfil' => 'Empresas e filiais',
+            'vx_glo_estado' => 'Cadastro de estados',
+            'vx_glo_prod'   => 'Produtos',
+            'vx_glo_sync'   => 'VEX Sync',
+            'vx_web_assina' => 'Assinatura da empresa',
+            'vx_web_config' => 'Configurações gerais',
+            'vx_web_disp'   => 'Dispositivos',
+            'vx_web_perfil' => 'Perfis de acesso',
+            'vx_web_permis' => 'Permissões do sistema',
+            'vx_web_ppermi' => 'Permissões dos perfis de acesso',
+            'vx_web_user'   => 'Usuários',
+            'vx_web_userds' => 'Dashboards dos usuários',
+            'vx_web_useref' => 'Filiais dos usuários',
+        ];
+
+        if(isset($tables[$table]))
+        {
+            return $tables[$table];
+        }
+        else
+        {
+            return $table;
+        }
+    }
 }

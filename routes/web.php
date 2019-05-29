@@ -148,6 +148,13 @@ Route::group(['middleware' => ['auth','status','session']], function() {
     Route::get ('/usuarios/{user_id}/configuracoes', 'Central\UserLocator@configuracao');
     Route::post('/usuarios/{user_id}/configuracoes', 'Central\UserLocator@configuracaoPost');
 
+
+    /**
+     * VEX SYNC
+     *
+     */
+    Route::get ('/vex-sync/logs/{situacao}', 'Central\VexSyncLocator@lista');
+
 });
 
 

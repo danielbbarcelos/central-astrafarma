@@ -64,7 +64,7 @@ class VexSyncController extends Controller
         $success = true;
         $log     = [];
 
-        $syncs = VexSync::where('status','0')->get();
+        $syncs = VexSync::where('sucesso','0')->get();
 
         foreach($syncs as $sync)
         {

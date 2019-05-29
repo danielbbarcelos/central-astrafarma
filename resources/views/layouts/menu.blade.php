@@ -5,12 +5,12 @@
 
                 @if(env('LOGO_EMPRESA') !== '' and env('LOGO_EMPRESA') !== null)
                     @if(env('LOGO_LOCAL') == 'true')
-                        <img src="{{env('LOGO_EMPRESA')}}" style="max-height: 100px; height: auto; max-width: 100%;">
+                        <img src="{{env('LOGO_EMPRESA')}}" style="max-height: 70px; height: auto; max-width: 100%;">
                     @else
-                        <img src="{{env('ADMIN_URL') . env('LOGO_EMPRESA')}}" style="max-height: 100px; height: 100%; width: auto">
+                        <img src="{{env('ADMIN_URL') . env('LOGO_EMPRESA')}}" style="max-height: 70px; height: 100%; width: auto">
                     @endif
                 @else
-                    <img src="{{url('/assets/img/logo/vex_large_splash.png')}}" style="max-height: 100px; height: 100%; width: auto">
+                    <img src="{{url('/assets/img/logo/vex_large_splash.png')}}" style="max-height: 70px; height: 100%; width: auto">
                 @endif
             </div>
             <div class="sidebar-profile-info text-center">
@@ -104,6 +104,11 @@
                             @if(Permission::check('lista','Dispositivo','Central'))
                                 <li>
                                     <a href="{{url('/dispositivos')}}">Dispositivos</a>
+                                </li>
+                            @endif
+                            @if(Permission::check('lista','VexSync','Central'))
+                                <li>
+                                    <a href="{{url('/vex-sync/logs/sem-sucesso')}}">Logs de sincronização</a>
                                 </li>
                             @endif
                             @if(Permission::check('lista','Perfil','Central') or Permission::check('lista','User','Central'))

@@ -234,6 +234,7 @@ return [
         'Carbon' => \Carbon\Carbon::class,
         'Permission' => \App\Http\Middleware\CheckPermission::class,
         'Helper' => \App\Utils\Helper::class,
+        'Aliases' => \App\Utils\Aliases::class,
 
         /*
          * Api Packages
