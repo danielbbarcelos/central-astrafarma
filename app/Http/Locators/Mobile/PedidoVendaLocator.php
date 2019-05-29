@@ -28,7 +28,7 @@ class PedidoVendaLocator extends Controller
      */
     public function lista(Request $request)
     {
-        $controller = new PedidoVendaController($request->header('filial'));
+        $controller = new PedidoVendaController($request->header('filial'), Helper::JWTAuthorization($request->header('Authorization')));
         
         $response   = $controller->lista($request);
 
@@ -43,7 +43,7 @@ class PedidoVendaLocator extends Controller
      */
     public function adicionaPost(Request $request)
     {
-        $controller = new PedidoVendaController();
+        $controller = new PedidoVendaController($request->header('filial'), Helper::JWTAuthorization($request->header('Authorization')));
 
         $response   = $controller->adicionaPost($request);
 
@@ -59,7 +59,7 @@ class PedidoVendaLocator extends Controller
      */
     public function editaPost(Request $request, $pedido_id)
     {
-        $controller = new PedidoVendaController();
+        $controller = new PedidoVendaController($request->header('filial'), Helper::JWTAuthorization($request->header('Authorization')));
 
         $response   = $controller->editaPost($request, $pedido_id);
 
@@ -74,7 +74,7 @@ class PedidoVendaLocator extends Controller
      */
     public function visualiza(Request $request, $pedido_id)
     {
-        $controller = new PedidoVendaController($request->header('filial'));
+        $controller = new PedidoVendaController($request->header('filial'), Helper::JWTAuthorization($request->header('Authorization')));
 
         $response   = $controller->visualiza($pedido_id);
 

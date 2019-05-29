@@ -6,6 +6,7 @@ use App\EmpresaFilial;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use JWTAuth;
 
 class Helper
 {
@@ -214,6 +215,13 @@ class Helper
         }
         
         return json_encode($new);
+    }
+
+
+    //conversão de jwt token authorization em usuário
+    public static function JWTAuthorization($authorization)
+    {
+        return JWTAuth::toUser(str_replace('Bearer ','',$authorization));
     }
 
 

@@ -44,6 +44,9 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
         Route::get ('/empresas-filiais',                        'Mobile\EmpresaFilialLocator@lista');
         Route::get ('/empresas-filiais/{empresa_filial_id}',    'Mobile\EmpresaFilialLocator@visualiza');
 
+        //faturamento
+        Route::get ('/faturamento/dashboard', 'Mobile\FaturamentoLocator@dashboard');
+
         //pedidos
         Route::get ('/pedidos',                     'Mobile\PedidoVendaLocator@lista');
         Route::post('/pedidos/add',                 'Mobile\PedidoVendaLocator@adicionaPost');
@@ -58,10 +61,10 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
         Route::get ('/tabelas-precos',                     'Mobile\TabelaPrecoLocator@lista');
         Route::get ('/tabelas-precos/{id}/{uf}/produtos',  'Mobile\TabelaPrecoLocator@visualiza');
 
-
         //vendedores
         Route::get ('/vendedores',               'Mobile\VendedorLocator@lista');
         Route::get ('/vendedores/{vendedor_id}', 'Mobile\VendedorLocator@visualiza');
+
 
     });
 

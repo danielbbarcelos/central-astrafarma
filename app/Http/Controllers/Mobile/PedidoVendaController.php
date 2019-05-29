@@ -35,11 +35,13 @@ use App\Utils\Helper;
 class PedidoVendaController extends Controller
 {
     protected $filial;
+    protected $vendedor;
 
     //construct
-    public function __construct($filialId = null)
+    public function __construct($filialId = null, $user = null)
     {
-         $this->filial = isset($filialId) ? EmpresaFilial::where('filial_erp_id',$filialId)->first() : null;
+         $this->filial   = isset($filialId)           ? EmpresaFilial::where('filial_erp_id',$filialId)->first() : null;
+         $this->vendedor = isset($user->vxfatvend_id) ? Vendedor::find($user->vxfatvend_id) : null;
     }
 
 
@@ -51,6 +53,7 @@ class PedidoVendaController extends Controller
 
         $pedidos = PedidoVenda::join('vx_glo_cli','vx_glo_cli.erp_id','=','vx_fat_pvenda.vxglocli_erp_id')
             ->select('vx_fat_pvenda.*')
+            ->where('vxfatvend_erp_id',$this->vendedor->erp_id)
             ->where(function($query){
                 if($this->filial !== null)
                 {
@@ -66,7 +69,14 @@ class PedidoVendaController extends Controller
                     $query->orWhereRaw('vx_glo_cli.nome_fantasia like "%'.$request['termo'].'%"');
                 }
 
-            })->orderBy('created_at','desc')->get();
+            })->where(function($query){
+
+                //listamos os pedidos dos últimos 15 dias e os pedidos em aberto
+                $query->orWhere('vx_fat_pvenda.created_at','>=',Carbon::now()->subDays(15)->format('Y-m-d 00:00:00'));
+                $query->orWhere('situacao_pedido','=','A');
+
+            })->orderBy('vx_fat_pvenda.created_at','desc')->get();
+
 
 
         foreach($pedidos as $pedido)
@@ -102,7 +112,7 @@ class PedidoVendaController extends Controller
                 $query->orWhere('vxgloempfil_id',null);
             }
 
-        })->first();
+        })->where('vxfatvend_erp_id',$this->vendedor->erp_id)->first();
 
 
         if(!isset($pedido))
@@ -152,7 +162,6 @@ class PedidoVendaController extends Controller
             'cliente_id'             => ['required'],
             'condicao_pagamento_id'  => ['required'],
             'tabela_preco_id'        => ['required'],
-            'vendedor_id'            => ['required'],
         ];
 
         $validator = Validator::make($request->all(), $rules, PedidoVenda::$messages);
@@ -172,7 +181,7 @@ class PedidoVendaController extends Controller
             //busca os dados para incluir o ERP ID
             $cliente  = Cliente::find($request['cliente_id']);
             $condicao = CondicaoPagamento::find($request['condicao_pagamento_id']);
-            $vendedor = Vendedor::find($request['vendedor_id']);
+            $vendedor = $this->vendedor;
             $preco    = TabelaPreco::find($request['tabela_preco_id']);
 
 
@@ -266,7 +275,6 @@ class PedidoVendaController extends Controller
                     'cliente_id'             => ['required'],
                     'condicao_pagamento_id'  => ['required'],
                     'tabela_preco_id'        => ['required'],
-                    'vendedor_id'            => ['required'],
                 ];
 
                 $validator = Validator::make($request->all(), $rules, PedidoVenda::$messages);
@@ -286,7 +294,7 @@ class PedidoVendaController extends Controller
                     //busca os dados para incluir o ERP ID
                     $cliente  = Cliente::find($request['cliente_id']);
                     $condicao = CondicaoPagamento::find($request['condicao_pagamento_id']);
-                    $vendedor = Vendedor::find($request['vendedor_id']);
+                    $vendedor = $this->vendedor;
                     $preco    = TabelaPreco::find($request['tabela_preco_id']);
 
 
