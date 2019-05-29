@@ -187,11 +187,13 @@ class PedidoVendaController extends Controller
 
             $pedido = new PedidoVenda();
             $pedido->erp_id              = null;
-            $pedido->situacao_pedido     = "A";
+            $pedido->vxgloempfil_id      = $this->filial->id;
             $pedido->vxglocli_erp_id     = $cliente->erp_id;
             $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
             $pedido->vxfatvend_erp_id    = $vendedor->erp_id;
             $pedido->vxfattabprc_erp_id  = $preco->erp_id;
+            $pedido->situacao_pedido     = "A";
+            $pedido->cliente_data        = json_encode($cliente,JSON_UNESCAPED_UNICODE);
             $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('Y-m-d',$request['data_entrega'])->format('Y-m-d') : null;
             $pedido->observacao          = isset($request['observacao']) ? $request['observacao'] : '';
             $pedido->created_at          = new \DateTime();
@@ -303,11 +305,13 @@ class PedidoVendaController extends Controller
                     $preco    = TabelaPreco::find($request['tabela_preco_id']);
 
 
-                    $pedido->situacao_pedido     = "A";
+                    $pedido->vxgloempfil_id      = $this->filial->id;
                     $pedido->vxglocli_erp_id     = $cliente->erp_id;
                     $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
                     $pedido->vxfatvend_erp_id    = $vendedor->erp_id;
                     $pedido->vxfattabprc_erp_id  = $preco->erp_id;
+                    $pedido->situacao_pedido     = "A";
+                    $pedido->cliente_data        = json_encode($cliente,JSON_UNESCAPED_UNICODE);
                     $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('Y-m-d',$request['data_entrega'])->format('Y-m-d') : null;
                     $pedido->observacao          = isset($request['observacao']) ? $request['observacao'] : '';
                     $pedido->updated_at          = new \DateTime();
