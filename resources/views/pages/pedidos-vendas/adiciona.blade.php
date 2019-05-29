@@ -53,7 +53,7 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                <label>Cliente</label>
+                                                <label class="active">Cliente</label>
 
                                                 <div id="data-cliente" class="padding-top-20" hidden>
                                                     <div class="row">
@@ -112,7 +112,7 @@
                                                         <option value="{{$item->id}}">{{$item->erp_id.' - '.$item->descricao}}</option>
                                                     @endforeach
                                                 </select>
-                                                <label>Tabela de preços</label>
+                                                <label class="active">Tabela de preços</label>
                                             </div>
                                         </div>
 
@@ -212,7 +212,7 @@
                                                         <option value="{{$item->id}}" @if($item->erp_id == $pedido->vxglocpgto_erp_id) selected @endif>{{$item->descricao}}</option>
                                                     @endforeach
                                                 </select>
-                                                <label>Condição de pagamento</label>
+                                                <label class="active">Condição de pagamento</label>
                                             </div>
 
                                             <div class="input-field col s6">
@@ -251,8 +251,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.1dbe70c23a45c222e40ce3c469080ffee.js"></script>
-
+    <script src="/assets/js/pages/pedido-venda.a1dbe70c23a45c222e40ce3c469080ffee.js"></script>
 
 @endsection
 

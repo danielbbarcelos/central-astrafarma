@@ -164,9 +164,7 @@ $( document ).ready(function() {
     });
     // Modal
     $('.modal-trigger').leanModal();
-    
-    // Select
-    $('select').material_select();
+
     
     // Material Preloader
     preloader = new $.materialPreloader({

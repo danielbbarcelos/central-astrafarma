@@ -3,7 +3,7 @@
 <form method="post" enctype="multipart/form-data" action="{{url('/suporte/chamados/add')}}">
     {{csrf_field()}}
 
-    <div id="modal-adiciona" class="modal modal-fixed-footer" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
+    <div id="modal-adiciona" class="modal modal-fixed-footer" style="background-color: #fff; z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
         <div class="modal-content">
             <h4 class="padding-bottom-20">Novo chamado</h4>
 

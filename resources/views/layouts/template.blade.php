@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en">
-
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
@@ -15,7 +14,7 @@
     <link href="{{url('/assets/plugins/materialize/css/materialize.v1.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{url('/assets/css/material-icons.css')}}" rel="stylesheet">
     <link href="{{url('/assets/plugins/material-preloader/css/materialPreloader.min.css')}}" rel="stylesheet">        
-    <link href="{{url('/assets/plugins/select2/css/select2.custom.css')}}" rel="stylesheet">
+    <link href="{{url('/assets/plugins/select2/css/select2.87e4b5ce2fe28308fd9f2a7ba.css')}}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Didact+Gothic|Rubik" rel="stylesheet">
 
     <!-- CSS especifico das paginas -->

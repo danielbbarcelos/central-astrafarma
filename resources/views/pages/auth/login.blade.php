@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="pt-br">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="description" content="Central Vex"/>
     <meta name="author" content="2Mind"/>
-    <title>Login | Central Vex</title>
+    <title>Login | Central VEX</title>
 
     <!-- FAVICON -->
     <link rel="shortcut icon" href="{{ url('/assets/img/logo/vex_icon.png') }}" type="image/x-icon"/>
@@ -72,7 +70,7 @@
     <script src="{{url('/assets/plugins/materialize/js/materialize.min.js')}}"></script>
     <script src="{{url('/assets/plugins/material-preloader/js/materialPreloader.min.js')}}"></script>
     <script src="{{url('/assets/plugins/jquery-blockui/jquery.blockui.js')}}"></script>
-    <script src="{{url('/assets/js/alpha.36c299926dedd08c3f48d5f546a683e6.js')}}"></script>
+    <script src="{{url('/assets/js/alpha.a36c299926dedd08c3f48d5f546a683e6.js')}}"></script>
 
     @include("layouts.notifications")
 

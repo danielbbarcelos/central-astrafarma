@@ -63,14 +63,14 @@
                                             <option value="{{$item->id}}" @if($item->id == $user->vxwebperfil_id) selected @endif>{{$item->nome}}</option>
                                         @endforeach
                                     </select>
-                                    <label>Perfil de acesso</label>
+                                    <label class="active">Perfil de acesso</label>
                                 </div>
                             </div>
 
 
                             <div class="row row-input">
                                 <div class="input-field col s12 m12">
-                                    <select name="empfil[]" id="empfil" multiple required class="select2">
+                                    <select name="empfil[]" id="empfil" multiple required class="select-material">
                                         @if(count($userFiliais) == 0)
                                             <option value="" disabled selected>Selecione...</option>
                                         @endif
@@ -92,7 +92,7 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <label>Vendedor vinculado ao usuário</label>
+                                    <label class="active">Vendedor vinculado ao usuário</label>
                                 </div>
                             </div>
 

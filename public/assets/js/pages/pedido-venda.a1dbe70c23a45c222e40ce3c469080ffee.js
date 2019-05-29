@@ -144,8 +144,7 @@ $("#modal_dialog_warning_btn_confirm").on("click", function(){
 
 $("#modal_dialog_warning_btn_close").on("click", function(){
 
-    $('#vxfattabprc_id').find('option[value="'+tabelaValue+'"]').prop('selected', true);
-    $("#vxfattabprc_id").material_select();
+    $('#vxfattabprc_id').find('option[value="'+tabelaValue+'"]').prop('selected', true).trigger("change");
 
     $("#modal_dialog_warning").closeModal();
 });
@@ -166,28 +165,19 @@ function alteraTabelaPreco()
     //exibe apenas os produtos cadastrados na tabela de preço
     var produtos = JSON.parse($("#"+prefix+"_produtos").val());
 
-    $("#produto_id").empty().html('');
 
-    $("#produto_id").append($('<option selected></option>').attr("value","").text("Selecione..."));
+    var options = "<option value='' disabled selected>Selecione...</option>";
+
 
     $.each(produtos, function(index){
 
         if(produtos[index].uf === $("#uf-tabela-preco").val())
         {
-            $("#produto_id").append($('<option></option>')
-                .attr("value",produtos[index].id)
-                .attr("erp_id",produtos[index].erp_id)
-                .attr("descricao",produtos[index].descricao)
-                .attr("preco_unitario",produtos[index].preco_venda)
-                .attr("preco_maximo",produtos[index].preco_maximo)
-                .attr("valor_desconto",produtos[index].valor_desconto)
-                .attr("fator",produtos[index].fator)
-                .text(produtos[index].erp_id+': '+produtos[index].descricao));
+            options += '<option value="'+produtos[index].id+'" erp_id="'+produtos[index].erp_id+'" descricao="'+produtos[index].descricao+'" preco_unitario="'+produtos[index].preco_venda+'" preco_maximo="'+produtos[index].preco_maximo+'" valor_desconto="'+produtos[index].valor_desconto+'" fator="'+produtos[index].fator+'">'+produtos[index].erp_id+': '+produtos[index].descricao+'</option>';
         }
     });
 
-    $("#produto_id").material_select('update');
-
+    $("#produto_id").html(options).trigger("change");
 }
 
 

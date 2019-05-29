@@ -5,7 +5,9 @@ $(document).ready(function(){
     // Inicializa select2
     //
     // ========================================
-    //$('.select2').select2();
+
+    $('.select-material').material_select();
+    $('.select2').select2();
 
     // ========================================
     //

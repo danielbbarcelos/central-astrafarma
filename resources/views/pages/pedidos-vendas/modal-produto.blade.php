@@ -1,4 +1,4 @@
-<div id="modal-produto" class="modal modal-fixed-footer" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
+<div id="modal-produto" class="modal modal-fixed-footer" style="background-color: #fff; z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
     <div class="modal-content">
         <h4 class="">Adicionar item</h4>
 
@@ -20,7 +20,7 @@
 
         <div class="row row-input padding-bottom-10">
             <div class="input-field col s12">
-                <select id="produto_id" class="select2">
+                <select id="produto_id" class="select2" style="width: 100%">
                     <option value="">Selecione...</option>
                     @if($pedido->vxfattabprc_erp_id !== null and $pedido->vxglocli_erp_id !== null)
                         @foreach($tabelas as $tabela)
@@ -42,7 +42,7 @@
                         @endforeach
                     @endif
                 </select>
-                <label>Produto</label>
+                <label class="active">Produto</label>
             </div>
         </div>
 

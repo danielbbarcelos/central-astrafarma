@@ -27,7 +27,7 @@ function novoChamado(id, metodo, entidade, entidade_id, webservice, updated_at, 
     mensagem    += "Última atualização: "+updated_at+"\n\n";
     mensagem    += "Mensagem de erro: "+log+"\n\n";
 
-    $("#assunto").val("VEX Sync com erros - ID "+id).attr('readonly',true);
+    $("#assunto").val("VEX Sync com erros - ID "+id);
     $("#mensagem").val(mensagem);
     $("#tipo2").attr("checked",true);
     $("#modal-adiciona").openModal();

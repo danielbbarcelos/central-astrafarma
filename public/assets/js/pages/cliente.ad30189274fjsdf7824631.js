@@ -20,13 +20,9 @@ $("#uf").on("change", function (){
 
     if(this.value === '')
     {
-        $("#cidade").empty().html('');
+        var options = "<option disabled selected>Selecione o estado</option>";
 
-        $("#cidade").append(
-            $("<option disabled selected></option>").attr("value","").text("Selecione o estado")
-        );
-
-        $("#cidade").material_select('update');
+        $("#cidade").html(options).trigger("change");
     }
     else
     {
@@ -37,15 +33,15 @@ $("#uf").on("change", function (){
             dataType: 'json',
             success: function(data) {
 
-                $("#cidade").empty().html('');
+                var options = "";
 
                 $.each(data.result.cidades, function(i, cidade) {
-                    $("#cidade").append(
-                        $("<option></option>").attr("value",cidade.nome).text(cidade.nome)
-                    );
+
+                    options += "<option value='"+cidade.nome+"'>"+cidade.nome+"</option>";
+
                 });
 
-                $("#cidade").material_select('update');
+                $("#cidade").html(options).trigger("change");
 
             },
         });

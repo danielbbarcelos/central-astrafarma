@@ -30,7 +30,7 @@
                     <span class="card-title">
                         Cadastro de cliente
                     </span><br>
-                    <div >
+                    <div class="row">
                         <form class="s12" method="post">
 
                             {{csrf_field()}}
@@ -67,15 +67,15 @@
                                     <label>CNPJ/CPF</label>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <select name="tipo_cliente" class="select2" required style="width: 50%">
-                                        <option value="" disabled>Selecione o tipo de cliente</option>
+                                    <select name="tipo_cliente" class="select2" required style="">
+                                        <option value="" disabled selected>Selecione o tipo de cliente</option>
                                         <option value="R" @if($cliente->tipo_cliente == 'R') selected @endif>Revendedor</option>
                                         <option value="F" @if($cliente->tipo_cliente == 'F') selected @endif>Final</option>
                                         <option value="L" @if($cliente->tipo_cliente == 'L') selected @endif>Produtor rural</option>
                                         <option value="S" @if($cliente->tipo_cliente == 'S') selected @endif>Solidário</option>
                                         <option value="X" @if($cliente->tipo_cliente == 'X') selected @endif>Exportação</option>
                                     </select>
-                                    <label>Tipo de cliente</label>
+                                    <label class="active">Tipo de cliente</label>
                                 </div>
                             </div>
 
@@ -128,7 +128,7 @@
                                             <option value="{{$item->uf}}" @if($cliente->uf == $item->uf) selected @endif>{{$item->nome}}</option>
                                         @endforeach
                                     </select>
-                                    <label>UF</label>
+                                    <label class="active">UF</label>
                                 </div>
                                 <div class="input-field col s12 m3">
                                     <select class="select2" name="cidade" id="cidade" style="width: 100%" required>
@@ -141,7 +141,7 @@
                                             <option value="{{$item->nome}}" @if($cliente->cod_mun == $item->cod_mun) selected @endif>{{$item->nome}}</option>
                                         @endforeach
                                     </select>
-                                    <label>Cidade</label>
+                                    <label class="active">Cidade</label>
                                 </div>
                             </div>
 
@@ -155,7 +155,7 @@
                                 </div>
                             </div>
 
-                            <div class="col s12 right-align">
+                            <div class="col s12 right-align padding-top-40">
                                 <button type="submit" class="waves-effect waves-light btn blue btn-submit">Confirmar</button>
                             </div>
                         </form>
@@ -172,7 +172,7 @@
 
 @section('page-scripts')
 
-    <script src="/assets/js/pages/cliente.d30189274fjsdf7824631.js"></script>
+    <script src="/assets/js/pages/cliente.ad30189274fjsdf7824631.js"></script>
 
 
     @if($action == 'read')
