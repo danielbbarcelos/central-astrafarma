@@ -204,14 +204,19 @@ class PedidoVendaController extends Controller
 
                 foreach($request['itens'] as $item)
                 {
+                    $item = json_decode($item, true);
+
                     $produto = Produto::find($item['produto_id']);
 
                     $pedidoItem = new PedidoItem();
                     $pedidoItem->vxfatpvenda_id   = $pedido->id;
                     $pedidoItem->vxgloprod_erp_id = $produto->erp_id;
+                    $pedidoItem->produto_data     = json_encode($produto, JSON_UNESCAPED_UNICODE);
                     $pedidoItem->quantidade       = $item['quantidade'];
                     $pedidoItem->preco_unitario   = number_format(Helper::formataDecimal($item['preco_unitario']),2,'.','');
-                    $pedidoItem->valor_total      = number_format(Helper::formataDecimal($item['valor_total']),2,'.','');
+                    $pedidoItem->preco_venda      = number_format(Helper::formataDecimal($item['preco_venda']),2,'.','');
+                    $pedidoItem->valor_desconto   = number_format(Helper::formataDecimal($item['valor_desconto']),2,'.','');
+                    $pedidoItem->valor_total      = number_format(Helper::formataDecimal($item['preco_total']),2,'.','');
                     $pedidoItem->created_at       = new \DateTime();
                     $pedidoItem->updated_at       = new \DateTime();
                     $pedidoItem->save();
@@ -305,7 +310,6 @@ class PedidoVendaController extends Controller
                     $pedido->vxfattabprc_erp_id  = $preco->erp_id;
                     $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('Y-m-d',$request['data_entrega'])->format('Y-m-d') : null;
                     $pedido->observacao          = isset($request['observacao']) ? $request['observacao'] : '';
-                    $pedido->created_at          = new \DateTime();
                     $pedido->updated_at          = new \DateTime();
                     $pedido->save();
 
@@ -319,11 +323,14 @@ class PedidoVendaController extends Controller
 
                         foreach($request['itens'] as $item)
                         {
+                            $item = json_decode($item, true);
+
                             $produto = Produto::find($item['produto_id']);
 
                             $pedidoItem = new PedidoItem();
                             $pedidoItem->vxfatpvenda_id   = $pedido->id;
                             $pedidoItem->vxgloprod_erp_id = $produto->erp_id;
+                            $pedidoItem->produto_data     = json_encode($produto, JSON_UNESCAPED_UNICODE);
                             $pedidoItem->quantidade       = $item['quantidade'];
                             $pedidoItem->preco_unitario   = number_format(Helper::formataDecimal($item['preco_unitario']),2,'.','');
                             $pedidoItem->preco_venda      = number_format(Helper::formataDecimal($item['preco_venda']),2,'.','');
