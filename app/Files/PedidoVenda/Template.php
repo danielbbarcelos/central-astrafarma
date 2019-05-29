@@ -265,7 +265,7 @@ class Template extends FPDF
 
 
 
-        $this->y = $this->y + 15;
+        $this->y = $this->y + 10;
         $this->SetFont( "MontserratSemibold", "", 7);
         $this->SetDrawColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
         $this->SetFillColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
@@ -288,7 +288,7 @@ class Template extends FPDF
         $this->SetFillColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
 
         //linha
-        $this->RoundedRect(22, $this->y, 171, 0.03, 0, 'DF');
+        $this->RoundedRect(22, $this->y + 2, 171, 0.03, 0, 'DF');
 
         $subtotal = 0.00;
         $desconto = 0.00;
@@ -300,12 +300,12 @@ class Template extends FPDF
             $desconto = $desconto + $item->valor_desconto;
             $total    = $total    + $item->valor_total;
 
-            $y = $this->y;
+            $y = $this->y + 3;
 
 
             $this->SetFont( "MontserratSemibold", "", 7);
             $this->SetTextColor(72,72,70);
-            $this->SetXY( 22, $this->y);
+            $this->SetXY( 22, $this->y + 3);
             $this->Cell(92,8,utf8_decode(json_decode($item->produto_data)->descricao),0,0,'L');
 
             $this->SetXY( 22, $y + 7);
@@ -323,7 +323,8 @@ class Template extends FPDF
             $this->Cell(25,7,utf8_decode(number_format($item->valor_total,2,',','.')),0,1,'C');
 
             //linha
-            $this->RoundedRect(22, $this->y + 3, 171, 0.03, 0, 'DF');
+	    $this->RoundedRect(22, $this->y + 3, 171, 0.03, 0, 'DF');
+
         }
 
 
