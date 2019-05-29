@@ -370,6 +370,96 @@ class PedidoVendaController extends Controller
 
 
 
+    public function excluiPost(Request $request, $pedido_id)
+    {
+        $success = true;
+        $log     = [];
+
+        $pedido = PedidoVenda::find($pedido_id);
+
+        if(!isset($pedido))
+        {
+            $success = false;
+            $log[]   = ['error' => 'Item não encontrado'];
+        }
+        else
+        {
+            /**
+             * Busca atualizações da nota fiscal no ERP, para verificar se já foi emitida nota fiscal para esse pedido
+             *
+             */
+            $object = new \stdClass();
+            $object->ws     = '/rest/vxfatpvenda/'.$pedido->erp_id;
+            $object->tabela = 'vx_fat_pvenda';
+
+            ErpVexSync::update($object);
+
+            $nfEmitida = PedidoItem::where('vxfatpvenda_id',$pedido_id)->where('nota_fiscal','!=',null)->first();
+
+            if(isset($nfEmitida))
+            {
+                $success = false;
+                $log[]   = ['error' => 'Já foi emitida alguma nota fiscal para esse pedido'];
+            }
+
+            if($success)
+            {
+                try
+                {
+                    $assinatura = Assinatura::first();
+
+                    $guzzle  = new Client();
+                    $result  = $guzzle->request('DELETE', $assinatura->webservice_base . $pedido->getWebservice() . $pedido->erp_id, [
+                        'headers'     => [
+                            'Content-Type'  => 'application/json',
+                            'tenantId'      => Helper::formataTenantId($pedido->vxgloempfil_id)
+                        ],
+                        'body' => json_encode([
+                            'erp_id'          => $pedido->erp_id,
+                            'vxglocli_erp_id' => $pedido->vxglocli_erp_id,
+                            'vxglocli_loja'   => json_decode($pedido->cliente_data)->loja,
+                        ])
+                    ]);
+                    $result  = json_decode($result->getBody());
+
+                    if($result->success !== true)
+                    {
+                        $success  = false;
+                        $log[]    = ['error' => 'Não foi possível excluir o pedido. Por favor acione a equipe de suporte'];
+                    }
+                }
+                catch(\Exception $e)
+                {
+                    $success  = false;
+                    $log[]    = ['error' => 'Não foi possível excluir o pedido. Por favor acione a equipe de suporte'];
+                }
+
+
+
+                if($success)
+                {
+                    //exclui o pedido no banco de dados
+                    $pedido->delete();
+
+                    //exclui os itens de pedido que não foram enviados na requisição
+                    PedidoItem::where('vxfatpvenda_id',$pedido_id)->delete();
+
+
+                    $log[]   = ['success' => 'Pedido excluído com sucesso'];
+                }
+            }
+        }
+
+
+
+        $response['success'] = $success;
+        $response['log']     = $log;
+        $response['pedido']  = isset($pedido) ? $pedido : null;
+        return $response;
+    }
+
+
+
     //post via vexsync
     public static function syncPost($sync)
     {

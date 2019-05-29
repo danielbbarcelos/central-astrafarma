@@ -323,7 +323,7 @@ class Template extends FPDF
             $this->Cell(25,7,utf8_decode(number_format($item->valor_total,2,',','.')),0,1,'C');
 
             //linha
-	    $this->RoundedRect(22, $this->y + 3, 171, 0.03, 0, 'DF');
+            $this->RoundedRect(22, $this->y + 3, 171, 0.03, 0, 'DF');
 
         }
 

@@ -80,4 +80,21 @@ class PedidoVendaLocator extends Controller
 
         return Helper::retornoMobile($response);
     }
+
+
+    /**
+     * @description Exclusão de pedido de venda
+     * @info Exclusão de pedido de venda via API
+     * @param Request $request
+     * @param $cliente_id
+     * @return mixed
+     */
+    public function excluiPost(Request $request, $pedido_id)
+    {
+        $controller = new PedidoVendaController($request->header('filial'), Helper::JWTAuthorization($request->header('Authorization')));
+
+        $response   = $controller->excluiPost($request, $pedido_id);
+
+        return Helper::retornoMobile($response);
+    }
 }
