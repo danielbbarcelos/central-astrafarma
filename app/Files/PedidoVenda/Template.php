@@ -253,7 +253,7 @@ class Template extends FPDF
         $this->Cell(55,8,'Valor total (R$)',1,1,'C',1);
 
         $this->SetTextColor(72,72,70);
-        $this->SetFont( "MontserratSemibold", "", 10);
+        $this->SetFont( "MontserratSemibold", "", 8);
         $this->SetXY( 22, $this->y);
         $this->Cell(55,8,Carbon::createFromFormat('Y-m-d',$this->pedido->data_entrega)->format('d/m/Y'),1,0,'C',0);
         $this->SetXY( 77, $this->y);
@@ -266,22 +266,20 @@ class Template extends FPDF
 
 
         $this->y = $this->y + 15;
-        $this->SetFont( "MontserratSemibold", "", 8);
+        $this->SetFont( "MontserratSemibold", "", 7);
         $this->SetDrawColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
         $this->SetFillColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
         $this->SetTextColor($textColor['r'], $textColor['g'], $textColor['b']);
         $this->SetXY( 22, $this->y);
-        $this->Cell(15,8,utf8_decode('ID'),0,0,'C',1);
-        $this->SetXY( 37, $this->y);
-        $this->Cell(50,8,utf8_decode('Descrição'),0,0,'L',1);
-        $this->SetXY( 87, $this->y);
-        $this->Cell(15,8,utf8_decode('UM'),0,0,'C',1);
-        $this->SetXY( 102, $this->y);
-        $this->Cell(30,8,utf8_decode('Preço un. (R$)'),0,0,'C',1);
-        $this->SetXY( 132, $this->y);
-        $this->Cell(30,8,utf8_decode('Desconto (R$)'),0,0,'C',1);
-        $this->SetXY( 162, $this->y);
-        $this->Cell(30,8,utf8_decode('Preço final (R$)'),0,1,'C',1);
+        $this->Cell(92,8,utf8_decode('Produto'),0,0,'L',1);
+        $this->SetXY( 114, $this->y);
+        $this->Cell(10,8,utf8_decode('UM'),0,0,'C',1);
+        $this->SetXY( 124, $this->y);
+        $this->Cell(22,8,utf8_decode('Pç unit (R$)'),0,0,'C',1);
+        $this->SetXY( 146, $this->y);
+        $this->Cell(22,8,utf8_decode('Desc. (R$)'),0,0,'C',1);
+        $this->SetXY( 168, $this->y);
+        $this->Cell(25,8,utf8_decode('Pç final (R$)'),0,1,'C',1);
 
 
 
@@ -290,7 +288,7 @@ class Template extends FPDF
         $this->SetFillColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
 
         //linha
-        $this->RoundedRect(22, $this->y, 170, 0.03, 0, 'DF');
+        $this->RoundedRect(22, $this->y, 171, 0.03, 0, 'DF');
 
         $subtotal = 0.00;
         $desconto = 0.00;
@@ -302,22 +300,30 @@ class Template extends FPDF
             $desconto = $desconto + $item->valor_desconto;
             $total    = $total    + $item->valor_total;
 
+            $y = $this->y;
+
+
+            $this->SetFont( "MontserratSemibold", "", 7);
             $this->SetTextColor(72,72,70);
             $this->SetXY( 22, $this->y);
-            $this->Cell(15,8,utf8_decode($item->id),0,0,'C');
-            $this->SetXY( 37, $this->y);
-            $this->Cell(50,8,utf8_decode(json_decode($item->produto_data)->descricao),0,0,'L');
-            $this->SetXY( 87, $this->y );
-            $this->Cell(15,8,utf8_decode(json_decode($item->produto_data)->unidade_principal),0,0,'C');
-            $this->SetXY( 102, $this->y);
-            $this->Cell(30,8,utf8_decode(number_format($item->preco_unitario,2,',','.')),0,0,'C');
-            $this->SetXY( 132, $this->y);
-            $this->Cell(30,8,utf8_decode(number_format($item->valor_desconto,2,',','.')),0,0,'C');
-            $this->SetXY( 162, $this->y);
-            $this->Cell(30,8,utf8_decode(number_format($item->valor_total,2,',','.')),0,1,'C');
+            $this->Cell(92,8,utf8_decode(json_decode($item->produto_data)->descricao),0,0,'L');
+
+            $this->SetXY( 22, $y + 7);
+            $this->SetFont( "MontserratRegular", "", 7);
+            $this->Cell(92,2,utf8_decode('Cod: '. json_decode($item->produto_data)->erp_id),0,0,'L');
+
+            $this->SetXY( 114, $y + 2);
+            $this->SetFont( "MontserratSemibold", "", 7);
+            $this->Cell(10,7,utf8_decode(json_decode($item->produto_data)->unidade_principal),0,0,'C');
+            $this->SetXY( 124, $y + 2);
+            $this->Cell(22,7,utf8_decode(number_format($item->preco_unitario,2,',','.')),0,0,'C');
+            $this->SetXY( 146, $y + 2);
+            $this->Cell(22,7,utf8_decode(number_format($item->valor_desconto,2,',','.')),0,0,'C');
+            $this->SetXY( 168, $y + 2);
+            $this->Cell(25,7,utf8_decode(number_format($item->valor_total,2,',','.')),0,1,'C');
 
             //linha
-            $this->RoundedRect(22, $this->y, 170, 0.03, 0, 'DF');
+            $this->RoundedRect(22, $this->y + 3, 171, 0.03, 0, 'DF');
         }
 
 
