@@ -408,13 +408,6 @@ class PedidoVendaController extends Controller
         //formata objeto para enviar no vexsync
         $object = Helper::formataSyncObject($object);
 
-
-        //tratamento de log
-        $registro  = "Iniciando VEX Sync do registro (ID) ".$sync->id."\n\n";
-        $registro .= "Dados a serem enviados ".json_encode($object)."\n\n";
-
-
-
         //insere item no ERP
         try 
         {
@@ -436,8 +429,6 @@ class PedidoVendaController extends Controller
                 $success = false;
                 $log     = isset($result->log) ? $result->log : $result->message;
 
-
-                $registro .= "ERRO: $log";
             }
             else 
             {
@@ -455,9 +446,6 @@ class PedidoVendaController extends Controller
 
                 $log = 'Sincronização realizada com sucesso';
 
-
-                $registro .= "VEX Sync atualizado com sucesso na Central VEX: $log";
-
             }
 
         }
@@ -465,14 +453,7 @@ class PedidoVendaController extends Controller
         {
             $success = false;
             $log     = $e->getMessage();
-
-
-            $registro .= "\nERRO: Linha: {$e->getLine()}\nArquivo: {$e->getFile()}\nCódigo: {$e->getCode()}\nMensagem {$e->getMessage()}";
-
         }
-
-        Helper::logFile('vex-sync-central.log', $registro);
-
 
         $response['success'] = $success;
         $response['log']     = $log;
@@ -517,12 +498,6 @@ class PedidoVendaController extends Controller
         $object = Helper::formataSyncObject($object);
 
 
-        //tratamento de log
-        $registro  = "Iniciando VEX Sync do registro (ID) ".$sync->id."\n\n";
-        $registro .= "Dados a serem enviados ".json_encode($object)."\n\n";
-
-
-
         //insere item no ERP
         try
         {
@@ -542,17 +517,10 @@ class PedidoVendaController extends Controller
             {
                 $success = false;
                 $log     = isset($result->log) ? $result->log : $result->message;
-
-
-                $registro .= "ERRO: $log";
             }
             else
             {
                 $log = 'Sincronização realizada com sucesso';
-
-
-                $registro .= "VEX Sync atualizado com sucesso na Central VEX: $log";
-
             }
 
         }
@@ -560,14 +528,7 @@ class PedidoVendaController extends Controller
         {
             $success = false;
             $log     = $e->getMessage();
-
-
-            $registro .= "\nERRO: Linha: {$e->getLine()}\nArquivo: {$e->getFile()}\nCódigo: {$e->getCode()}\nMensagem {$e->getMessage()}";
-
         }
-
-        Helper::logFile('vex-sync-central.log', $registro);
-
 
         $response['success'] = $success;
         $response['log']     = $log;

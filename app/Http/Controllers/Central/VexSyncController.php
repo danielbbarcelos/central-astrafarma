@@ -68,7 +68,15 @@ class VexSyncController extends Controller
             })->orderBy('updated_at','desc')->get();
         }
 
-        //dd($syncs);
+
+        //trata as mensagens com erro no vex sync
+        if($situacao == 'sem-sucesso')
+        {
+            foreach($syncs as $sync)
+            {
+                $sync->log = str_replace(["\n",'"','`',"'"],[' ', '','',''],json_decode($sync->log)->mensagem);
+            }
+        }
 
         $response['success'] = $success;
         $response['log']     = $log;

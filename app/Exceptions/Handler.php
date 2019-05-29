@@ -75,9 +75,7 @@ class Handler extends ExceptionHandler
          */
         elseif($request->is('api/*') == true)
         {
-            $response['success']   = false;
-            $response['log']       = 'Exception na API. Código: '.$exception->getCode().' - mensagem: '.$exception->getMessage() .' - Ln: '.$exception->getLine().' - File: '.$exception->getFile();
-            return $response;
+            return parent::render($request, $exception);
         }
 
 

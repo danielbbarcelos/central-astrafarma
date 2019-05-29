@@ -88,7 +88,7 @@
                                         </td>
                                         @if((strpos(Request::getRequestUri(), 'sem-sucesso') == true) and Permission::check('adicionaPost','Chamado','Central'))
                                             <td class="uk-text-center">
-                                                <a onclick="novoChamado('{!! $item->id !!}','{!! strtoupper($item->action) !!}','{!! Aliases::entityByTable($item->tabela) !!}','{!! $item->tabela_id !!}','{!! $item->webservice !!}','{!! Carbon::createFromFormat('Y-m-d H:i:s',$item->updated_at)->format('d/m/Y - H:i:s') !!}','{!! str_replace(["\n",'"'],["",""],json_decode($item->log)->mensagem) !!}')"
+                                                <a onclick="novoChamado('{!! $item->id !!}','{!! strtoupper($item->action) !!}','{!! Aliases::entityByTable($item->tabela) !!}','{!! $item->tabela_id !!}','{!! $item->webservice !!}','{!! Carbon::createFromFormat('Y-m-d H:i:s',$item->updated_at)->format('d/m/Y - H:i:s') !!}','{!! $item->log !!}')"
                                                    class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Abrir chamado">
                                                     <i class="material-icons">help</i>
                                                 </a>
@@ -120,7 +120,7 @@
 @section('page-scripts')
 
     <script src="{{url('/assets/plugins/datatables/js/jquery.dataTables.js')}}"></script>
-    <script src="{{url('/assets/js/pages/chamado.a28ee5703ea4d40ddd04cccd6a5f99f9f.js')}}"></script>
+    <script src="{{url('/assets/js/pages/chamado.b28ee5703ea4d40ddd04cccd6a5f99f9f.js')}}"></script>
     <script>
 
         $(document).ready(function(){
