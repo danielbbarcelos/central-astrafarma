@@ -206,8 +206,7 @@ class PedidoVendaController extends Controller
 
                 foreach($request['itens'] as $item)
                 {
-                    $item = json_decode($item, true);
-
+                   
                     $produto = Produto::find($item['produto_id']);
 
                     $pedidoItem = new PedidoItem();
@@ -327,8 +326,7 @@ class PedidoVendaController extends Controller
 
                         foreach($request['itens'] as $item)
                         {
-                            $item = json_decode($item, true);
-
+                            
                             $produto = Produto::find($item['produto_id']);
 
                             $pedidoItem = new PedidoItem();
