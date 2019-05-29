@@ -36,6 +36,7 @@ class Kernel extends ConsoleKernel
             $schedule->call(function(){
                 ErpVexSync::buscaPendencia();
             })->everyMinute();
+
         }
 
     }

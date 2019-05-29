@@ -29,6 +29,8 @@ $("#logo-empresa-input").change(function (){
         }
         else
         {
+            $("#logo-empresa-input").val("");
+
             Materialize.toast('Arquivo inválido. Extensões permitidas: jpg, jpeg e png', 5000, 'red');
         }
     }

@@ -16,11 +16,11 @@
 
                 <div class="file-field input-field col s5">
                     <div class="btn teal lighten-1">
-                        <input type="file" name="upload">
+                        <input type="file" name="upload" id="upload">
                         <span>Anexo</span>
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" placeholder="Envie o arquivos ZIP ou RAR">
+                        <input class="file-path validate" type="text" placeholder="Extensões permitidas: ZIP ou RAR">
                     </div>
                 </div>
 

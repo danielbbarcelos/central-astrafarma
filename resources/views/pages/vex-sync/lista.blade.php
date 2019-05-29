@@ -120,6 +120,7 @@
 @section('page-scripts')
 
     <script src="{{url('/assets/plugins/datatables/js/jquery.dataTables.js')}}"></script>
+    <script src="{{url('/assets/js/pages/chamado.28ee5703ea4d40ddd04cccd6a5f99f9f.js')}}"></script>
     <script>
 
         $(document).ready(function(){
@@ -146,24 +147,6 @@
             $('.dataTables_length select').addClass('browser-default');
 
         });
-
-
-        function novoChamado(id, metodo, entidade, entidade_id, webservice, updated_at, log)
-        {
-
-            var mensagem = "VEX Sync ID "+id+" apresentando erros.\n\n";
-            mensagem    += "Chamada: "+metodo+" - "+webservice+"\n";
-            mensagem    += "Entidade: "+entidade+"\n";
-            mensagem    += "ID da entidade: "+entidade_id+"\n";
-            mensagem    += "Última atualização: "+updated_at+"\n\n";
-            mensagem    += "Mensagem de erro: "+log+"\n\n";
-
-            $("#assunto").val("VEX Sync com erros - ID "+id).attr('readonly',true);
-            $("#mensagem").val(mensagem);
-            $("#tipo2").attr("checked",true);
-            $("#modal-adiciona").openModal();
-            $("#mensagem").focus();
-        }
 
     </script>
 
