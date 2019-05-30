@@ -463,7 +463,7 @@ class PedidoVendaController extends Controller
     }
 
 
-    
+
     //chamada para visualizar item do pedido de venda
     public function visualizaItem($pedido_venda_id, $item_id)
     {
@@ -494,6 +494,10 @@ class PedidoVendaController extends Controller
             {
                 $success = false;
                 $log[]   = ['error' => 'Item não encontrado'];
+            }
+            else
+            {
+                $item->produto_data = json_decode($item->produto_data, true);
             }
         }
 
