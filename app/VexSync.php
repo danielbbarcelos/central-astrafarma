@@ -2,10 +2,12 @@
 
 namespace App; 
 
-use Illuminate\Database\Eloquent\Model; 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class VexSync extends Model
 {
+    use SoftDeletes;
 
     //The webservice's prefix of this model
     protected $webservice = "/rest/vxglosync";

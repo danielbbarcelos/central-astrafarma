@@ -22,7 +22,7 @@
                         <div class="row">
                             <div class="col s8">
                                 <h6 class="card-title font-weight-600 font-size-16">
-                                    Logs de syncronização
+                                    Logs de sincronização
 
                                     @if(strpos(Request::getRequestUri(), 'com-sucesso') == true)
                                         com sucesso
