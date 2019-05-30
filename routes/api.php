@@ -48,11 +48,15 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
         Route::get ('/faturamento/dashboard', 'Mobile\FaturamentoLocator@dashboard');
 
         //pedidos
-        Route::get ('/pedidos',                     'Mobile\PedidoVendaLocator@lista');
-        Route::post('/pedidos/add',                 'Mobile\PedidoVendaLocator@adicionaPost');
-        Route::get ('/pedidos/{pedido_id}',         'Mobile\PedidoVendaLocator@visualiza');
-        Route::post('/pedidos/{pedido_id}/edit',    'Mobile\PedidoVendaLocator@editaPost');
-        Route::post('/pedidos/{pedido_id}/del',     'Mobile\PedidoVendaLocator@excluiPost');
+        Route::get ('/pedidos',                                 'Mobile\PedidoVendaLocator@lista');
+        Route::post('/pedidos/add',                             'Mobile\PedidoVendaLocator@adicionaPost');
+        Route::get ('/pedidos/{pedido_id}',                     'Mobile\PedidoVendaLocator@visualiza');
+        Route::post('/pedidos/{pedido_id}/edit',                'Mobile\PedidoVendaLocator@editaPost');
+        Route::post('/pedidos/{pedido_id}/del',                 'Mobile\PedidoVendaLocator@excluiPost');
+        //itens do pedido
+        Route::get ('/pedidos/{pedido_id}/itens/{item_id}',      'Mobile\PedidoVendaLocator@visualizaItem');
+        //Route::get ('/pedidos/{pedido_id}/itens/{item_id}/edit', 'Mobile\PedidoVendaLocator@editaItemPost');
+        //Route::get ('/pedidos/{pedido_id}/itens/{item_id}/del',  'Mobile\PedidoVendaLocator@excluiItemPost');
 
         //produtos
         Route::get ('/produtos',                   'Mobile\ProdutoLocator@lista');

@@ -463,6 +463,52 @@ class PedidoVendaController extends Controller
     }
 
 
+    
+    //chamada para visualizar item do pedido de venda
+    public function visualizaItem($pedido_venda_id, $item_id)
+    {
+        $success = true;
+        $log     = [];
+
+        $pedido = PedidoVenda::where('id',$pedido_venda_id)->where(function($query){
+
+            if($this->filial !== null)
+            {
+                $query->where('vxgloempfil_id',$this->filial->id);
+                $query->orWhere('vxgloempfil_id',null);
+            }
+
+        })->where('vxfatvend_erp_id',$this->vendedor->erp_id)->first();
+
+
+        if(!isset($pedido))
+        {
+            $success = false;
+            $log[]   = ['error' => 'Pedido não encontrado'];
+        }
+        else
+        {
+            $item = PedidoItem::where('id',$item_id)->where('vxfatpvenda_id',$pedido_venda_id)->first();
+
+            if(!isset($item))
+            {
+                $success = false;
+                $log[]   = ['error' => 'Item não encontrado'];
+            }
+        }
+
+
+        $response['success']   = $success;
+        $response['log']       = $log;
+        $response['pedido']    = isset($pedido) ? $pedido : null;
+        $response['item']      = isset($item)   ? $item   : null;
+        return $response;
+    }
+
+
+
+
+
 
     //post via vexsync
     public static function syncPost($sync)

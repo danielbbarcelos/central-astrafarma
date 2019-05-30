@@ -97,4 +97,21 @@ class PedidoVendaLocator extends Controller
 
         return Helper::retornoMobile($response);
     }
+
+
+
+    /**
+     * @description Visualização do item do pedido de venda
+     * @info Obter dados de um item do pedido de venda via API
+     * @param $pedido_id
+     * @return mixed
+     */
+    public function visualizaItem(Request $request, $pedido_id, $item_id)
+    {
+        $controller = new PedidoVendaController($request->header('filial'), Helper::JWTAuthorization($request->header('Authorization')));
+
+        $response   = $controller->visualizaItem($pedido_id, $item_id);
+
+        return Helper::retornoMobile($response);
+    }
 }
