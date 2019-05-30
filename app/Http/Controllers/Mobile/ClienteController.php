@@ -199,7 +199,7 @@ class ClienteController extends Controller
                 $cliente->save();
     
                 //gera vex sync
-                VexSyncController::adiciona('99,01', 'put', $cliente->getTable(), $cliente->id, $cliente->getWebservice('edit'));
+                VexSyncController::adiciona('99,01', 'put', $cliente->getTable(), $cliente->id, $cliente->getWebservice('edit/'.$cliente->erp_id));
     
                 $log[]   = ['success' => 'Cliente atualizado com sucesso'];
     
