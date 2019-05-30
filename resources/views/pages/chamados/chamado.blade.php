@@ -157,7 +157,7 @@
                                         <div class="row row-input">
                                             <div class="file-field input-field col s12">
                                                 <div class="btn teal lighten-1">
-                                                    <input type="file" name="upload">
+                                                    <input type="file" name="upload" id="upload">
                                                     <span>Anexo</span>
                                                 </div>
                                                 <div class="file-path-wrapper">
@@ -210,6 +210,8 @@
 
 
 @section('page-scripts')
+
+    <script src="{{url('/assets/js/pages/chamado.b28ee5703ea4d40ddd04cccd6a5f99f9f.js')}}"></script>
 
 
 @endsection
