@@ -103,7 +103,7 @@
 @section('page-scripts')
 
     <script src="{{url('/assets/plugins/datatables/js/jquery.dataTables.js')}}"></script>
-    <script src="{{url('/assets/js/pages/chamado.a28ee5703ea4d40ddd04cccd6a5f99f9f.js')}}"></script>
+    <script src="{{url('/assets/js/pages/chamado.b28ee5703ea4d40ddd04cccd6a5f99f9f.js')}}"></script>
     <script>
 
         $(document).ready(function(){
