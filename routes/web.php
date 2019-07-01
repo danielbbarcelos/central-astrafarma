@@ -155,6 +155,13 @@ Route::group(['middleware' => ['auth','status','session']], function() {
      */
     Route::get ('/vex-sync/logs/{situacao}', 'Central\VexSyncLocator@lista');
 
+
+    if(env('DATA_MIGRATION_ACTIVE') == true)
+    {
+        Route::get ('/migracao-dados', 'Central\MigracaoLocator@index');
+        Route::post('/migracao-dados', 'Central\MigracaoLocator@migracaoPost');
+    }
+
 });
 
 

@@ -16,6 +16,11 @@ use App\Http\Controllers\Mobile\TabelaPrecoController as MobileTabelaPrecoContro
 use App\Http\Controllers\Mobile\ProdutoController as MobileProdutoController;
 use App\Http\Controllers\Mobile\VendedorController as MobileVendedorController;
 use App\Http\Controllers\Mobile\VexSyncController as MobileVexSyncController;
+use App\Http\Controllers\Migracao\ClienteController as MigracaoClienteController;
+use App\Http\Controllers\Migracao\CondicaoPagamentoController as MigracaoCondicaoPagamentoController;
+use App\Http\Controllers\Migracao\ProdutoController as MigracaoProdutoController;
+use App\Http\Controllers\Migracao\TabelaPrecoController as MigracaoTabelaPrecoController;
+use App\Http\Controllers\Migracao\VendedorController as MigracaoVendedorController;
 
 class Aliases
 {
@@ -60,6 +65,28 @@ class Aliases
             return $tables[$table];
         }
         else 
+        {
+            return null;
+        }
+    }
+
+
+    //retorna o nome da controller de migração, de acordo com o nome da tabela
+    public static function migracaoControllerByTable($table)
+    {
+        $tables = [
+            'vx_glo_cli'    => new MigracaoClienteController(),
+            'vx_glo_cpgto'  => new MigracaoCondicaoPagamentoController(),
+            'vx_fat_tabprc' => new MigracaoTabelaPrecoController(),
+            'vx_glo_prod'   => new MigracaoProdutoController(),
+            'vx_fat_vend'   => new MigracaoVendedorController(),
+        ];
+
+        if(isset($tables[$table]))
+        {
+            return $tables[$table];
+        }
+        else
         {
             return null;
         }
