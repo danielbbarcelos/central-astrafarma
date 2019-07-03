@@ -14,7 +14,7 @@
                 @endif
             </div>
             <div class="sidebar-profile-info text-center">
-                <a href="javascript:void(0);" class="account-settings-link text-dark font-weight-600">
+                <a class="text-dark font-weight-600">
                     {{Auth::user()->userEmpresaFilial->empfil->filial_erp_id .' - '}} {{strlen(Auth::user()->userEmpresaFilial->empfil->nome) > 11 ? substr(Helper::formataString(Auth::user()->userEmpresaFilial->empfil->nome),0,11).'...' : Auth::user()->userEmpresaFilial->empfil->nome}}
                     <span>
                         {{Helper::insereMascara(Auth::user()->userEmpresaFilial->empfil->cnpj,'##.###.###/####-##')}}

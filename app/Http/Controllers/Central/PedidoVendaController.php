@@ -74,6 +74,7 @@ class PedidoVendaController extends Controller
 
         $pedido = new PedidoVenda();
 
+        // Busca os clientes cadastrados
         $clientes = Cliente::where(function($query){
 
             $query->where('vxgloempfil_id',$this->empfilId);
@@ -87,61 +88,36 @@ class PedidoVendaController extends Controller
             $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não há clientes ativos cadastrados'];
         }
 
+        // Busca os produtos cadastrados
+        $produtos = Produto::where(function($query){
 
-        $tabelas = [];
+            $query->where('vxgloempfil_id',$this->empfilId);
+            $query->orWhere('vxgloempfil_id','=',null);
 
-        $precos = TabelaPreco::where(function($query){
+        })->where('status','1')->orderBy('descricao','asc')->get();
+
+        if(count($produtos) == 0)
+        {
+            $success = false;
+            $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não há produtos cadastrados'];
+        }
+
+        // Busca as tabelas de preços cadastradas
+        $tabelas = TabelaPreco::where(function($query){
 
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
 
         })->orderBy('descricao','asc')->get();
 
-        if(count($precos) == 0)
+        if(count($tabelas) == 0)
         {
             $success = false;
             $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não há tabelas de preços cadastradas'];
         }
-        else
-        {
-            foreach($precos as $tabela)
-            {
-                $tabelaPrecoProduto = TabelaPrecoProduto::where('vxfattabprc_id',$tabela->id)->get();
 
-                $produtos = [];
-
-                foreach($tabelaPrecoProduto as $item)
-                {
-                    $produto = Produto::find($item->vxgloprod_id);
-
-                    if(isset($produto))
-                    {
-                        $produto->uf             = $item->uf;
-                        $produto->preco_venda    = $item->preco_venda;
-                        $produto->preco_maximo   = $item->preco_maximo;
-                        $produto->valor_desconto = $item->valor_desconto;
-                        $produto->fator          = $item->fator;
-
-                        $produtos[] = $produto;
-                    }
-                }
-
-                if(count($produtos) > 0)
-                {
-                    $tabela->produtos = $produtos;
-
-                    $tabelas[] = $tabela;
-                }
-            }
-        }
-
-        if(count($tabelas) == 0)
-        {
-            $success = false;
-            $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não há produtos vincualdos as tabelas de preços'];
-        }
-
-        $condicoes = CondicaoPagamento::where('vxgloempfil_id',$this->empfilId)->where('status','1')->orderBy('descricao','asc')->get();
+        // Busca as condições de pagamento cadastradas
+        $condicoes = CondicaoPagamento::where('vxgloempfil_id',$this->empfilId)->where('web','1')->where('status','1')->orderBy('descricao','asc')->get();
 
         if(count($condicoes) == 0)
         {
@@ -153,6 +129,7 @@ class PedidoVendaController extends Controller
         $response['log']       = $log;
         $response['pedido']    = $pedido;
         $response['clientes']  = $clientes;
+        $response['produtos']  = $produtos;
         $response['tabelas']   = $tabelas;
         $response['condicoes'] = $condicoes;
         return $response;

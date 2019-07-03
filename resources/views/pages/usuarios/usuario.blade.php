@@ -88,7 +88,7 @@
                                         <option value="" selected>N/A</option>
                                         @foreach($vendedores as $item)
                                             <option value="{{$item->id}}" @if($item->id == $user->vxfatvend_id) selected @endif
-                                                >{{$item->nome.($item->cpf !== '' ? ' - CPF: '.Helper::insereMascara($item->cpf,'###.###.###-##') : ' - CPF não informado')}}
+                                                >{{$item->erp_id .': '. $item->nome.(($item->cpf !== '' and $item->cpf !== null) ? ' - CPF: '.Helper::insereMascara($item->cpf,'###.###.###-##') : ' - CPF não informado')}}
                                             </option>
                                         @endforeach
                                     </select>

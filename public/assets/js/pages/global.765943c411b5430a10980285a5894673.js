@@ -76,6 +76,29 @@ $(document).ready(function(){
 
 // ==========================================================
 //
+// Função para retornar token do ajax
+//
+// ==========================================================
+function hashGenerator(length, current)
+{
+    current = current || '';
+    return length ? hashGenerator(--length, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz".charAt(Math.floor(Math.random() * 60)) + current) : current;
+}
+
+
+// ==========================================================
+//
+// Função para retornar token do ajax
+//
+// ==========================================================
+function ajaxToken()
+{
+    return 'f173af42772a2e3917694f26bd756c90'
+}
+
+
+// ==========================================================
+//
 // Função global para excluir um registro
 //
 // ==========================================================

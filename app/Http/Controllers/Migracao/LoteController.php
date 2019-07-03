@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 //packages
 
 //extras
+use Illuminate\Support\Facades\Log;
 use Validator;
 use Carbon\Carbon;
 
@@ -63,7 +64,9 @@ class LoteController extends Controller
         }
         else
         {
-            Lote::truncate();
+            Lote::where('id','>','0')->delete();
+
+            $error = 0;
 
             foreach($result['result'] as $item)
             {
@@ -94,6 +97,13 @@ class LoteController extends Controller
                         $lote->updated_at         = new \DateTime();
                         $lote->save();
                     }
+                    else
+                    {
+                        $error++;
+
+                        Log::info($error.') ERP ID '.$item['ERP_ID'].' já encontrado no lote ID '.$lote->id);
+                    }
+
                 }
             }
 

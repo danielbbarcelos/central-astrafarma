@@ -15,7 +15,7 @@ class CreateVxestloteTable extends Migration
     {
         Schema::create('vx_est_lote', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('erp_id',30)->nullable();
+            $table->string('erp_id',30)->nullable()->comment('Cód. ERP do armazém + Cód. ERP do lote');
             $table->integer('vxgloempfil_id')->nullable();
             $table->integer('vxestarmz_id')->nullable();
             $table->string('vxestarmz_erp_id',30)->nullable();

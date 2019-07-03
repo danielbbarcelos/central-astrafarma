@@ -12,6 +12,15 @@ class Helper
 {
 
     //Gera log em arquivo personalizado
+    public static function validaRequisicaoAjax($header)
+    {
+        list($token, $md5) = explode(' ',$header);
+
+        return env('AJAX_MD5') == md5($md5);
+    }
+
+
+    //Gera log em arquivo personalizado
     public static function logFile($file, $message = '')
     {
         $content = '';

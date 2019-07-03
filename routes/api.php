@@ -25,7 +25,7 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
      * Auth::routes
      *
      */
-    Route::group(['middleware'=>['jwt.auth','status']], function(){
+    Route::group(['middleware'=>['api.auth','status']], function(){
 
         //armazens
         Route::get ('/armazens',              'Mobile\ArmazemLocator@lista');
@@ -53,18 +53,26 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
         Route::get ('/pedidos/{pedido_id}',                     'Mobile\PedidoVendaLocator@visualiza');
         Route::post('/pedidos/{pedido_id}/edit',                'Mobile\PedidoVendaLocator@editaPost');
         Route::post('/pedidos/{pedido_id}/del',                 'Mobile\PedidoVendaLocator@excluiPost');
+
         //itens do pedido
         Route::get ('/pedidos/{pedido_id}/itens/{item_id}',      'Mobile\PedidoVendaLocator@visualizaItem');
         //Route::get ('/pedidos/{pedido_id}/itens/{item_id}/edit', 'Mobile\PedidoVendaLocator@editaItemPost');
         //Route::get ('/pedidos/{pedido_id}/itens/{item_id}/del',  'Mobile\PedidoVendaLocator@excluiItemPost');
 
+
+        //lotes
+        Route::post('/lotes/pedidos-itens',  'Mobile\LoteLocator@calculaPorItemPost');
+
+
         //produtos
         Route::get ('/produtos',                   'Mobile\ProdutoLocator@lista');
         Route::get ('/produtos/{produto_id}',      'Mobile\ProdutoLocator@visualiza');
+        Route::get ('/produtos/{produto_id}',      'Mobile\ProdutoLocator@visualiza');
 
         //tabela de preços
-        Route::get ('/tabelas-precos',                     'Mobile\TabelaPrecoLocator@lista');
-        Route::get ('/tabelas-precos/{id}/{uf}/produtos',  'Mobile\TabelaPrecoLocator@visualiza');
+        Route::get ('/tabelas-precos',                                'Mobile\TabelaPrecoLocator@lista');
+        Route::get ('/tabelas-precos/{id}/{uf}/produtos',             'Mobile\TabelaPrecoLocator@visualiza');
+        Route::get ('/tabelas-precos/{id}/{uf}/{produto_id}/precos',  'Mobile\TabelaPrecoProdutoLocator@busca');
 
         //vendedores
         Route::get ('/vendedores',               'Mobile\VendedorLocator@lista');

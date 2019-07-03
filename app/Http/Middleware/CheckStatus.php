@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Empresa;
 use App\Medico;
 use App\Atendente;
+use App\Utils\Helper;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,42 +26,62 @@ class CheckStatus
         $log     = [];
         $route   = substr(strtolower($request->getRequestUri()),0,4) == '/api' ? 'api' : 'web';
 
-        if((int)Auth::user()->status == 0)
-        {
-            $success = false;
-        }
 
 
-        if($route == 'api')
+        if($request->header('request-ajax') !== null)
         {
-            if((int)Auth::user()->mobile == 0)
+            $ajax = Helper::validaRequisicaoAjax($request->header('request-ajax'));
+
+            if(!$ajax)
             {
-                $success = false;
+                return ['success' => false, 'log' => ['A requisição ajax não foi permitida']];
+            }
+            else
+            {
+                return $next($request);
             }
         }
         else
         {
-            if((int)Auth::user()->web == 0)
+
+            if((int)Auth::user()->status == 0)
             {
                 $success = false;
             }
-        }
 
-        if(!$success)
-        {
+
             if($route == 'api')
             {
-                return \Response::make(['error' => true, 'success' => false, 'log' => ['Sessão expirada']], 401);
+                if((int)Auth::user()->mobile == 0)
+                {
+                    $success = false;
+                }
             }
             else
             {
-                $log[] = ['error' => 'Acesso expirado'];
-
-                return \redirect('/')->with('log',$log);
+                if((int)Auth::user()->web == 0)
+                {
+                    $success = false;
+                }
             }
+
+            if(!$success)
+            {
+                if($route == 'api')
+                {
+                    return \Response::make(['error' => true, 'success' => false, 'log' => ['Sessão expirada']], 401);
+                }
+                else
+                {
+                    $log[] = ['error' => 'Acesso expirado'];
+
+                    return \redirect('/')->with('log',$log);
+                }
+            }
+
+            return $next($request);
         }
 
-        return $next($request);
     }
 
 }

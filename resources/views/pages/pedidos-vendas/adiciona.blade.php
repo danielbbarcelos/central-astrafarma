@@ -34,7 +34,7 @@
 
                             <!-- Cliente-->
                             <li class="step active">
-                                <div class="step-title waves-effect waves-dark" onclick="event.stopPropagation();">Cliente</div>
+                                <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">Cliente</div>
                                 <div class="step-content" style="overflow-y: hidden">
                                     <div class="row padding-top-30">
                                         <div class="row row-input">
@@ -49,7 +49,7 @@
                                                             data-cnpj-cpf="{{ Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##') }}"
                                                             data-cidade-uf="{{$item->cidade.'/'.$item->uf}}"
                                                             data-uf="{{$item->uf}}"
-                                                        >{{$item->erp_id.' - '.$item->razao_social}}
+                                                        >{{$item->erp_id.' - '.($item->razao_social !== '' ? $item->razao_social : 'Razão social não identificada')}}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -76,14 +76,14 @@
                                                         <div class="col s2 font-weight-600">Cidade:</div>
                                                         <div class="col s10" id="cliente-cidade-uf"></div>
                                                     </div>
-                                                    <div class="row">
+                                                    <!--div class="row">
                                                         <div class="col s2 font-weight-800">Limite de crédito:</div>
                                                         <div class="col s10" id="cliente-email">R$ 25.000,00</div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col s2 font-weight-800">Saldo devedor:</div>
                                                         <div class="col s10" id="cliente-email">R$ 5.350,00</div>
-                                                    </div>
+                                                    </div-->
                                                 </div>
                                             </div>
                                         </div>
@@ -96,50 +96,9 @@
 
 
 
-                            <!-- Tabeça de preços -->
-                            <li class="step">
-                                <div class="step-title waves-effect waves-dark" onclick="event.stopPropagation();">Tabela de preços</div>
-                                <div class="step-content" style="overflow-y: hidden">
-                                    <div class="row padding-top-30">
-                                        <div class="row row-input">
-
-                                            <input type="hidden" id="uf-tabela-preco" value="">
-
-                                            <div class="input-field col s12 m12">
-                                                <select name="vxfattabprc_id" id="vxfattabprc_id" class="select2">
-                                                    <option value="">Selecione...</option>
-                                                    @foreach($tabelas as $item)
-                                                        <option value="{{$item->id}}">{{$item->erp_id.' - '.$item->descricao}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <label class="active">Tabela de preços</label>
-                                            </div>
-                                        </div>
-
-
-                                        <!-- div para resgatar os dados da tabela selecionada -->
-                                        <div hidden>
-                                            @foreach($tabelas as $item)
-                                                <input id="vxfattabprc_{{$item->id}}_descricao" value="{{$item->descricao}}">
-                                                <input id="vxfattabprc_{{$item->id}}_produtos" value="{{json_encode($item->produtos,JSON_UNESCAPED_UNICODE)}}">
-                                            @endforeach
-                                        </div>
-
-
-                                    </div>
-                                    <div class="step-actions">
-                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepTwo">Próximo</button>
-                                        <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
-                                    </div>
-                                </div>
-                            </li>
-
-
-
-
                             <!-- Produtos -->
                             <li class="step">
-                                <div class="step-title waves-effect waves-dark" onclick="event.stopPropagation();">Produtos</div>
+                                <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">Produtos</div>
                                 <div class="step-content" style="overflow-y: hidden">
                                     <div class="row ">
 
@@ -168,7 +127,7 @@
                                         </div>
 
                                         <div class="step-actions" style="position: absolute; bottom: 0; ">
-                                            <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepThree">Próximo</button>
+                                            <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepTwo">Próximo</button>
                                             <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
                                         </div>
                                     </div>
@@ -229,7 +188,7 @@
                                         </div>
                                     </div>
                                     <div class="step-actions">
-                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepFour">Concluir</button>
+                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepThree">Concluir</button>
                                         <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
                                     </div>
                                 </div>
@@ -251,7 +210,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.a1dbe70c23a45c222e40ce3c469080ffee.js"></script>
+    <script src="/assets/js/pages/pedido-venda.646288ba278e6c8687646fe3f358d557.js"></script>
 
 @endsection
 

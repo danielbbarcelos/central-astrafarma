@@ -1,3 +1,8 @@
+//---------------------------------------------------------------------------
+//
+// Inicializa os plugins
+//
+//---------------------------------------------------------------------------
 $(document).ready(function() {
     $('.stepper').activateStepper();
 
@@ -17,6 +22,11 @@ $(document).ready(function() {
 });
 
 
+//---------------------------------------------------------------------------
+//
+// Validação do passo 1 (seleção de cliente)
+//
+//---------------------------------------------------------------------------
 function validateStepOne() {
 
     if($("#vxglocli_id").val() === '')
@@ -29,21 +39,16 @@ function validateStepOne() {
     return true;
 }
 
+
+//---------------------------------------------------------------------------
+//
+// Validação do passo 2 (itens do pedido)
+//
+//---------------------------------------------------------------------------
 function validateStepTwo() {
 
-    if($("#vxfattabprc_id").val() === '')
-    {
-        Materialize.toast('Selecione a tabela de preços para continuar', 5000, 'red');
-
-        return false;
-    }
-
-    return true;
-}
-
-function validateStepThree() {
-
     var valor = $('.pedido-valor-total').html().replace('R$ ','').replace('.','').replace(',','.');
+
     if(parseFloat(valor) <= 0.00)
     {
         Materialize.toast('O valor total dos produtos deve ser maior que R$ 0,00', 5000, 'red');
@@ -52,10 +57,15 @@ function validateStepThree() {
     }
 
     return true;
-
 }
 
-function validateStepFour() {
+
+//---------------------------------------------------------------------------
+//
+// Validação do passo 3 (condição de pagamento, data de entrega e conclusão)
+//
+//---------------------------------------------------------------------------
+function validateStepThree() {
 
     var success = true;
 
@@ -84,12 +94,28 @@ function validateStepFour() {
     {
         return false;
     }
+    else
+    {
+        //valida se ainda tem lotes disponíveis para os produtos do pedido
+        success = validaLotes();
 
-    $("#form-pedido").submit();
+        if(success)
+        {
+            //$("#form-pedido").submit();
+
+        }
+    }
+
 
 }
 
 
+
+//---------------------------------------------------------------------------
+//
+// Exibe o resumo do cliente no primeiro passo
+//
+//---------------------------------------------------------------------------
 $("#vxglocli_id").on("change",function(){
 
     if(this.value === '')
@@ -104,118 +130,121 @@ $("#vxglocli_id").on("change",function(){
         $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
         $("#cliente-cnpj-cpf").html($("#vxglocli_id option:selected").attr("data-cnpj-cpf"));
         $("#cliente-cidade-uf").html($("#vxglocli_id option:selected").attr("data-cidade-uf"));
-
-        //armazena valor para listar produtos da tabela de preço (produtos do mesmo estado do cliente)
-        $("#uf-tabela-preco").val($("#vxglocli_id option:selected").attr("data-uf"));
     }
 });
 
 
 
-var tabelaValue = $("#vxfattabprc_id").val();
+//---------------------------------------------------------------------------------------------------------
+//
+// Atualiza/Esconde os valores do produto, verificando qual produto e tabela de preço estão selecionados
+//
+//---------------------------------------------------------------------------------------------------------
+$("#produto_id").on("change", function(){
 
-$("#vxfattabprc_id").on("change",function(){
-
-    var itens = 0;
-
-    $("#ipvenda-tbody input[name='produto_id[]']").each(function(){
-        itens++;
-    });
-
-    if(parseInt(itens) === 0)
+    if(this.value === '')
     {
-        alteraTabelaPreco()
+        alteraValoresPorItem(true);
     }
-    else if(tabelaValue !== this.value)
+    else
     {
-        var modalType    = 'warning';
-        var modalAction  = '';
-        var modalTitle   = 'Você adicionou itens ao pedido.';
-        var modalContent = 'Ao confirmar a alteração da tabela, todos os itens serão perdidos. Deseja continuar?';
-        modalDialogCustom(modalType, modalAction, modalTitle, modalContent);
-
-    }
-});
-
-$("#modal_dialog_warning_btn_confirm").on("click", function(){
-    $("#modal_dialog_warning").closeModal();
-    alteraTabelaPreco();
-});
-
-$("#modal_dialog_warning_btn_close").on("click", function(){
-
-    $('#vxfattabprc_id').find('option[value="'+tabelaValue+'"]').prop('selected', true).trigger("change");
-
-    $("#modal_dialog_warning").closeModal();
-});
 
 
-function alteraTabelaPreco()
-{
-    tabelaValue = $("#vxfattabprc_id").val();
-
-    $("#ipvenda-tbody").html('');
-
-    calculaTotalPedido();
-
-    $("#btn-concluir").attr("disabled",false);
-
-    var prefix   = "vxfattabprc_"+$("#vxfattabprc_id").val();
-
-    //exibe apenas os produtos cadastrados na tabela de preço
-    var produtos = JSON.parse($("#"+prefix+"_produtos").val());
-
-
-    var options = "<option value='' disabled selected>Selecione...</option>";
-
-
-    $.each(produtos, function(index){
-
-        if(produtos[index].uf === $("#uf-tabela-preco").val())
+        if($("#tabela_preco_id").val() === '')
         {
-            options += '<option value="'+produtos[index].id+'" erp_id="'+produtos[index].erp_id+'" descricao="'+produtos[index].descricao+'" preco_unitario="'+produtos[index].preco_venda+'" preco_maximo="'+produtos[index].preco_maximo+'" valor_desconto="'+produtos[index].valor_desconto+'" fator="'+produtos[index].fator+'">'+produtos[index].erp_id+': '+produtos[index].descricao+'</option>';
+            alteraValoresPorItem(true);
         }
-    });
+        else
+        {
+            alteraValoresPorItem(false);
+        }
 
-    $("#produto_id").html(options).trigger("change");
+    }
+});
+$("#tabela_preco_id").on("change", function(){
+
+    if(this.value === '')
+    {
+        alteraValoresPorItem(true);
+    }
+    else
+    {
+        if($("#produto_id").val() === '')
+        {
+            alteraValoresPorItem(true);
+        }
+        else
+        {
+            alteraValoresPorItem(false);
+        }
+
+    }
+});
+
+
+function alteraValoresPorItem(hidden)
+{
+    $("#div-valores-item").attr('hidden',hidden);
+
+    if(hidden === true)
+    {
+        $("#produto_quantidade").val('0');
+        $("#produto_preco_venda").val('0,00');
+        $("#produto_valor_desconto").val('0,00');
+        $("#produto_preco_total").val('0,00');
+    }
+    else
+    {
+        $("#produto_erp_id").val($('#produto_id option:selected').attr('erp_id'));
+        $("#produto_descricao").val($('#produto_id option:selected').attr('descricao'));
+
+
+        var produto_id = $("#produto_id").val();
+        var tabela_id  = $("#tabela_preco_id").val();
+        var uf         = $('#vxglocli_id option:selected').attr('data-uf');
+        var call       = '/api/v1/tabelas-precos/'+tabela_id+'/'+uf+'/'+produto_id+'/precos';
+
+        var settings = {
+            "url": call,
+            "method": "GET",
+            "headers": {
+                "request-ajax": "Token "+ ajaxToken()
+            }
+        };
+
+        $.ajax(settings).done(function (response) {
+            if(response.success === false)
+            {
+                $("#produto_quantidade").val(1);
+                $("#produto_preco_unitario").val(number_format(0.00,2,',','.'));
+                $("#produto_preco_venda").val(number_format(0.00,2,',','.'));
+                $("#produto_preco_total").val(number_format(0.00,2,',','.'));
+                $("#produto_valor_desconto").val('0,00');
+                $("#produto_fator").val(number_format(0.00,2,',','.'));
+            }
+            else
+            {
+                $("#produto_quantidade").val(1);
+                $("#produto_preco_unitario").val(number_format(response.preco.preco_venda,2,',','.'));
+                $("#produto_preco_venda").val(number_format(response.preco.preco_venda,2,',','.'));
+                $("#produto_preco_total").val(number_format(response.preco.preco_venda,2,',','.'));
+                $("#produto_valor_desconto").val('0,00');
+                $("#produto_fator").val(number_format(response.preco.fator,2,',','.'));
+            }
+        });
+
+        calculaPrecoTotalProduto();
+    }
 }
 
 
 
-$("#produto_id").on("change", function(){
-    if(this.value === '')
-    {
-        $("#div-produto-data").attr("hidden",true);
 
-        $("#produto_erp_id").val("");
-        $("#produto_descricao").val("");
-        $("#produto_quantidade").val("");
-        $("#produto_preco_unitario").val("");
-        $("#produto_preco_venda").val("");
-        $("#produto_valor_desconto").val("");
-        $("#produto_preco_total").val("");
-    }
-    else
-    {
-        $("#div-produto-data").attr("hidden",false);
-        $("#produto_preco_padrao").html("R$ "+number_format($('option:selected', this).attr('preco_unitario'),2,',','.'));
-
-
-        $("#produto_erp_id").val($('option:selected', this).attr('erp_id'));
-        $("#produto_descricao").val($('option:selected', this).attr('descricao'));
-        $("#produto_quantidade").val(1);
-        $("#produto_preco_unitario").val(number_format($('option:selected', this).attr('preco_unitario'),2,',','.'));
-        $("#produto_preco_venda").val(number_format($('option:selected', this).attr('preco_unitario'),2,',','.'));
-        $("#produto_preco_total").val(number_format($('option:selected', this).attr('preco_unitario'),2,',','.'));
-        $("#produto_preco_maximo").val(number_format($('option:selected', this).attr('preco_maximo'),2,',','.'));
-        $("#produto_desconto_maximo").val(number_format($('option:selected', this).attr('valor_desconto'),2,',','.'));
-        $("#produto_valor_desconto").val('0,00');
-        $("#produto_fator").val(number_format($('option:selected', this).attr('fator'),2,',','.'));
-
-        calculaPrecoTotalProduto();
-    }
-});
-
+//---------------------------------------------------------------------------
+//
+// Calcula o preço total do produto a ser adicionado
+//
+//---------------------------------------------------------------------------
 function calculaPrecoTotalProduto()
 {
     var quantidade     = $("#produto_quantidade").val().replace(".","").replace(",",".");
@@ -236,6 +265,11 @@ function calculaPrecoTotalProduto()
 }
 
 
+//---------------------------------------------------------------------------
+//
+// Verifica se o desconto do produto inserido é válido
+//
+//---------------------------------------------------------------------------
 function validaDesconto()
 {
     var quantidade  = $("#produto_quantidade").val().replace(".","").replace(",",".");
@@ -260,6 +294,12 @@ function validaDesconto()
 }
 
 
+
+//---------------------------------------------------------------------------
+//
+// Adiciona produto ao pedido de acordo com lote sugerido no webservice
+//
+//---------------------------------------------------------------------------
 function adicionaProduto()
 {
     var success = true;
@@ -293,19 +333,21 @@ function adicionaProduto()
 
     if(success)
     {
-
         validaDesconto();
+
+        var itemHash = hashGenerator(30,'');
 
         var row = "<tr>";
         row    += "<td style='width: 40%'>";
         row    += "<input type='hidden' name='vxfatipvend_id[]' value=''>";
-        row    += "<input type='hidden' name='produto_id[]' value='"+$("#produto_id").val()+"'>";
-        row    += "<input type='hidden' name='produto_quantidade[]' value='"+$("#produto_quantidade").val()+"'>";
+        row    += "<input type='hidden' id='produto-id-"+itemHash+"' name='produto_id[]' class='item-pedido' value='"+$("#produto_id").val()+"'>";
+        row    += "<input type='hidden' id='produto-tabela-id-"+itemHash+"' name='produto_tabela_id[]' value='"+$("#tabela_preco_id").val()+"'>";
+        row    += "<input type='hidden' id='produto-quantidade-"+itemHash+"' name='produto_quantidade[]' value='"+$("#produto_quantidade").val()+"'>";
         row    += "<input type='hidden' name='produto_preco_unitario[]' value='"+$("#produto_preco_unitario").val()+"'>";
         row    += "<input type='hidden' name='produto_preco_venda[]' value='"+$("#produto_preco_venda").val()+"'>";
         row    += "<input type='hidden' name='produto_valor_desconto[]' value='"+$("#produto_valor_desconto").val()+"'>";
         row    += "<input type='hidden' name='produto_preco_total[]' value='"+$("#produto_preco_total").val()+"'>";
-        row    += "<a title='"+$("#produto_erp_id").val()+"' href='/produtos/"+$("#produto_id").val()+"/show' target='_blank'>"+$("#produto_descricao").val()+"</a>";
+        row    += "<a title='"+$("#produto_id option:selected").attr('erp_id')+"' href='/produtos/"+$("#produto_id").val()+"/show' target='_blank'>"+$("#produto_id option:selected").attr('descricao')+"</a>";
         row    += "</td>";
         row    += "<td style='width: 10%'>"+$("#produto_quantidade").val()+"</td>";
         row    += "<td style='width: 15%'>R$ "+$("#produto_preco_venda").val()+"</td>";
@@ -319,11 +361,9 @@ function adicionaProduto()
         calculaTotalPedido();
 
         //reseta valores da modal
-        $('#produto_id').find('option[value=""]').prop('selected', true);
-        $("#produto_id").material_select();
+        $('#produto_id').val("").trigger("change");
+        $("#tabela_preco_id").val("").trigger("change");
 
-        $("#produto_erp_id").val("");
-        $("#produto_descricao").val("");
         $("#produto_quantidade").val("");
         $("#produto_preco_unitario").val("");
         $("#produto_preco_venda").val("");
@@ -331,9 +371,16 @@ function adicionaProduto()
         $("#produto_preco_total").val("");
 
         $('#modal-produto').closeModal();
+
     }
 }
 
+
+//---------------------------------------------------------------------------
+//
+// Exclui o produto da lista de itens
+//
+//---------------------------------------------------------------------------
 function excluiProduto(row)
 {
     $(row).closest("tr").remove();
@@ -342,6 +389,12 @@ function excluiProduto(row)
 }
 
 
+
+//---------------------------------------------------------------------------
+//
+// Calcula valor total do item
+//
+//---------------------------------------------------------------------------
 function calculaTotalPedido()
 {
     //quantidade
@@ -374,6 +427,45 @@ function calculaTotalPedido()
 }
 
 
+
+//-------------------------------------------------------------------------------
+//
+// Valida se há lotes/estoque disponível dos itens, antes de concluir o pedido
+//
+//-------------------------------------------------------------------------------
+function validaLotes()
+{
+    $(".item-pedido").each(function(){
+        console.log(this.id)
+    })
+    //verifica quais lotes serão utilizados pelo produto
+    var form = new FormData();
+    form.append("produto_id", $("#produto_id").val());
+    form.append("tabela_id", $("#tabela_preco_id").val());
+    form.append("quantidade", $("#produto_quantidade").val());
+
+    var settings = {
+        "url": "/api/v1/lotes/pedidos-itens",
+        "method": "POST",
+        "headers": {
+            "request-ajax": "Token "+ ajaxToken()
+        },
+        "processData": false,
+        "contentType": false,
+        "mimeType": "multipart/form-data",
+        "data": form
+    };
+
+    $.ajax(settings).done(function (response) {
+
+    });
+}
+
+//---------------------------------------------------------------------------
+//
+// Submete o formulário
+//
+//---------------------------------------------------------------------------
 $("#btn-submit").on("click",function(){
     $("#form-pedido").submit();
 });
