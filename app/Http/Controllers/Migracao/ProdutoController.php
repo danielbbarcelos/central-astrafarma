@@ -33,7 +33,7 @@ class ProdutoController extends Controller
 
 
     //model create
-    public static function migracao()
+    public static function migracao($uri = 'all')
     {
         $success = true;
         $log     = '';
@@ -44,7 +44,7 @@ class ProdutoController extends Controller
 
         $assinatura = Assinatura::first();
         $produto    = new Produto();
-        $webservice = $assinatura->webservice_base . $produto->getWebservice().'all';
+        $webservice = $assinatura->webservice_base . $produto->getWebservice() . $uri;
 
         $guzzle  = new Client();
         $result  = $guzzle->request('GET', $webservice);

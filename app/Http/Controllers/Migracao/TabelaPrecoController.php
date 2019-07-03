@@ -36,19 +36,20 @@ class TabelaPrecoController extends Controller
 
 
     //model create
-    public static function migracao()
+    public static function migracao($uri = 'all')
     {
         $success = true;
         $log     = '';
-        $codigo  = '001';
 
         error_reporting(-1);//report all errors
+
+        set_time_limit(600);
 
         ini_set('display_errors', 1);//display errors to standard output
 
         $assinatura = Assinatura::first();
         $tabela     = new TabelaPreco();
-        $webservice = $assinatura->webservice_base . $tabela->getWebservice() . $codigo;
+        $webservice = $assinatura->webservice_base . $tabela->getWebservice() . $uri;
 
         $guzzle  = new Client();
         $result  = $guzzle->request('GET', $webservice);
@@ -81,7 +82,7 @@ class TabelaPrecoController extends Controller
             foreach ($result['result']['PRODUTOS'] as $item)
             {
                 $produto = Produto::where('erp_id', $item['VXGLOPROD_ERP_ID'])->first();
-                
+
                 if(isset($produto))
                 {
                     $preco = new TabelaPrecoProduto();

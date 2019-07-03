@@ -33,7 +33,7 @@ class CondicaoPagamentoController extends Controller
 
 
     //model create
-    public static function migracao()
+    public static function migracao($uri = 'all')
     {
         $success = true;
         $log     = '';
@@ -44,7 +44,7 @@ class CondicaoPagamentoController extends Controller
 
         $assinatura = Assinatura::first();
         $condicao   = new CondicaoPagamento();
-        $webservice = $assinatura->webservice_base . $condicao->getWebservice().'all';
+        $webservice = $assinatura->webservice_base . $condicao->getWebservice() . $uri;
 
         $guzzle  = new Client();
         $result  = $guzzle->request('GET', $webservice);
@@ -70,6 +70,8 @@ class CondicaoPagamentoController extends Controller
                 $condicao->erp_id             = $item['ERP_ID'];
                 $condicao->vxgloempfil_id     = isset($empfil) ? $empfil->id : '1';
                 $condicao->descricao          = $item['DESCRICAO'];
+                $condicao->web                = strtolower($item['STATUS']) == 'nao' ? '0' : '1';
+                $condicao->mobile             = strtolower($item['STATUS']) == 'nao' ? '0' : '1';
                 $condicao->status             = strtolower($item['STATUS']) == 'nao' ? '0' : '1';
                 $condicao->created_at         = new \DateTime();
                 $condicao->updated_at         = new \DateTime();

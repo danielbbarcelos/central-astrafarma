@@ -28,12 +28,15 @@
                                         <option value="vx_glo_cpgto">Condições de pagamento</option>
                                         <option value="vx_glo_prod">Produtos</option>
                                         <option value="vx_fat_tabprc">Tabelas de preços</option>
-                                        <option value="vx_fat_tpprod">Tabelas de preços por produto</option>
                                         <option value="vx_fat_vend">Vendedores</option>
                                     </select>
                                     <label class="active">Tabela a ser migrada</label>
                                 </div>
 
+                                <div class="input-field col s12 m12">
+                                    <input type="text" placeholder="Ex: all, 001..." name="uri" class="validate" maxlength="30"  value="">
+                                    <label>Complemento da URL (opcional) </label>
+                                </div>
                                 <div class="input-field col s12 m12">
                                     <input type="password" placeholder="" name="password" class="validate" maxlength="30" required value="">
                                     <label>Senha </label>

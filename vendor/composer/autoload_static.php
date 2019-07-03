@@ -443,7 +443,6 @@ class ComposerStaticInitf18ce51d7b935ef5d36fe5e1607913b4
         'App\\Http\\Controllers\\Migracao\\CondicaoPagamentoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Migracao/CondicaoPagamentoController.php',
         'App\\Http\\Controllers\\Migracao\\ProdutoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Migracao/ProdutoController.php',
         'App\\Http\\Controllers\\Migracao\\TabelaPrecoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Migracao/TabelaPrecoController.php',
-        'App\\Http\\Controllers\\Migracao\\TabelaPrecoProdutoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Migracao/TabelaPrecoProdutoController.php',
         'App\\Http\\Controllers\\Migracao\\VendedorController' => __DIR__ . '/../..' . '/app/Http/Controllers/Migracao/VendedorController.php',
         'App\\Http\\Controllers\\Mobile\\ArmazemController' => __DIR__ . '/../..' . '/app/Http/Controllers/Mobile/ArmazemController.php',
         'App\\Http\\Controllers\\Mobile\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Mobile/AuthController.php',

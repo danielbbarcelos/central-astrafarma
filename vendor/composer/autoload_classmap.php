@@ -54,7 +54,6 @@ return array(
     'App\\Http\\Controllers\\Migracao\\CondicaoPagamentoController' => $baseDir . '/app/Http/Controllers/Migracao/CondicaoPagamentoController.php',
     'App\\Http\\Controllers\\Migracao\\ProdutoController' => $baseDir . '/app/Http/Controllers/Migracao/ProdutoController.php',
     'App\\Http\\Controllers\\Migracao\\TabelaPrecoController' => $baseDir . '/app/Http/Controllers/Migracao/TabelaPrecoController.php',
-    'App\\Http\\Controllers\\Migracao\\TabelaPrecoProdutoController' => $baseDir . '/app/Http/Controllers/Migracao/TabelaPrecoProdutoController.php',
     'App\\Http\\Controllers\\Migracao\\VendedorController' => $baseDir . '/app/Http/Controllers/Migracao/VendedorController.php',
     'App\\Http\\Controllers\\Mobile\\ArmazemController' => $baseDir . '/app/Http/Controllers/Mobile/ArmazemController.php',
     'App\\Http\\Controllers\\Mobile\\AuthController' => $baseDir . '/app/Http/Controllers/Mobile/AuthController.php',

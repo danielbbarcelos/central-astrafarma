@@ -50,8 +50,10 @@ class MigracaoController extends Controller
         }
         else
         {
+            $uri = $request['uri'] !== null ? $request['uri'] : 'all';
+
             $controller = Aliases::migracaoControllerByTable($request['tabela']);
-            $result     = $controller::migracao();
+            $result     = $controller::migracao($uri);
 
             if($result['success'] == true)
             {

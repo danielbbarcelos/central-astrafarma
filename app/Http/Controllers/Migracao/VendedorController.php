@@ -32,7 +32,7 @@ class VendedorController extends Controller
 
 
     //model create
-    public static function migracao()
+    public static function migracao($uri = 'all')
     {
         $success = true;
         $log     = '';
@@ -43,7 +43,7 @@ class VendedorController extends Controller
 
         $assinatura = Assinatura::first();
         $vendedor   = new Vendedor();
-        $webservice = $assinatura->webservice_base . $vendedor->getWebservice().'all';
+        $webservice = $assinatura->webservice_base . $vendedor->getWebservice() . $uri;
 
         $guzzle  = new Client();
         $result  = $guzzle->request('GET', $webservice);
@@ -59,7 +59,7 @@ class VendedorController extends Controller
         }
         else
         {
-            Vendedor::where('id','>','0')->delete();
+            Vendedor::truncate();
 
             foreach($result['result'] as $item)
             {

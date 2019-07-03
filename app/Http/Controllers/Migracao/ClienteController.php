@@ -34,7 +34,7 @@ class ClienteController extends Controller
 
 
     //model create
-    public static function migracao()
+    public static function migracao($uri = 'all')
     {
         $success = true;
         $log     = '';
@@ -45,7 +45,7 @@ class ClienteController extends Controller
 
         $assinatura = Assinatura::first();
         $cliente    = new Cliente();
-        $webservice = $assinatura->webservice_base . $cliente->getWebservice().'all';
+        $webservice = $assinatura->webservice_base . $cliente->getWebservice() . $uri;
 
         $guzzle  = new Client();
         $result  = $guzzle->request('GET', $webservice);
@@ -68,6 +68,15 @@ class ClienteController extends Controller
             {
                 $empfil = EmpresaFilial::where('filial_erp_id',$item['FILIAL_ID'])->first();
 
+                if(!isset($item['STATUS']))
+                {
+                    $status = '1';
+                }
+                else
+                {
+                    $status = strtolower($item['STATUS']) == 'nao' ? '0' : '1';
+                }
+
                 $cliente = new Cliente();
                 $cliente->erp_id         = $item['ERP_ID'];
                 $cliente->vxgloempfil_id = isset($empfil) ? $empfil->id : '1';
@@ -87,15 +96,12 @@ class ClienteController extends Controller
                 $cliente->fone           = $item['FONE'];
                 $cliente->nome_contato   = $item['NOME_CONTATO'];
                 $cliente->email          = $item['EMAIL'];
-                $cliente->status         = strtolower($item['STATUS']) == 'nao' ? '0' : '1';
+                $cliente->status         = $status;
                 $cliente->created_at     = new \DateTime();
                 $cliente->updated_at     = new \DateTime();
                 $cliente->save();
             }
 
-            DB::table($cliente->getTable())->update([
-                'status' => '1'
-            ]);
 
             $log = count($result['result']). ' clientes cadastrados';
         }
