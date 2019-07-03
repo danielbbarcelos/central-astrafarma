@@ -16,7 +16,7 @@
                         Migração de dados
                     </span><br>
                     <div class="row">
-                        <form method="post">
+                        <form method="post" id="form-migracao">
 
                             {{csrf_field()}}
                             <div class="row row-input">
@@ -24,8 +24,10 @@
                                 <div class="input-field col s12 m12">
                                     <select name="tabela" id="tabela" required class="select2">
                                         <option value="" selected disabled>Selecione...</option>
+                                        <option value="vx_est_armz">Armazéns</option>
                                         <option value="vx_glo_cli">Clientes</option>
                                         <option value="vx_glo_cpgto">Condições de pagamento</option>
+                                        <option value="vx_est_lote">Lotes de produtos</option>
                                         <option value="vx_glo_prod">Produtos</option>
                                         <option value="vx_fat_tabprc">Tabelas de preços</option>
                                         <option value="vx_fat_vend">Vendedores</option>
@@ -62,7 +64,11 @@
 
 @section('page-scripts')
 
-
+    <script>
+        $("#form-migracao").on("submit",function(){
+            $("button[type='submit']").attr("disabled",true).text("Processando...");
+        })
+    </script>
 
 @endsection
 

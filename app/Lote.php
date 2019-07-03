@@ -5,18 +5,18 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Armazem extends Model
+class Lote extends Model
 {
     use SoftDeletes;
 
     //The webservice's prefix of this model
-    protected $webservice = "/rest/vxestarmz";
+    protected $webservice = "/rest/vxestlote";
 
     //The attributes that should be not changed 
     protected $primaryKey = "id";
 
     //Table's name of the model 
-    protected $table = "vx_est_armz";
+    protected $table = "vx_est_lote";
 
     //The attributes that are table's timestamps 
     public $timestamps = ["created_at", "updated_at"];

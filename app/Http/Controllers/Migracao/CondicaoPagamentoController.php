@@ -60,7 +60,7 @@ class CondicaoPagamentoController extends Controller
         }
         else
         {
-            CondicaoPagamento::where('id','>','0')->delete();
+            CondicaoPagamento::truncate();
 
             foreach($result['result'] as $item)
             {

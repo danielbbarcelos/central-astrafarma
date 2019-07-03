@@ -62,7 +62,7 @@ class ClienteController extends Controller
         }
         else
         {
-            Cliente::where('id','>','0')->delete();
+            Cliente::truncate();
 
             foreach($result['result'] as $item)
             {

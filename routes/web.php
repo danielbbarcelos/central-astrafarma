@@ -70,6 +70,14 @@ Route::group(['middleware' => ['auth','status','session']], function() {
     Route::post('/clientes/{cliente_id}/edit',    'Central\ClienteLocator@editaPost');
     Route::get ('/clientes/{cliente_id}/show',    'Central\ClienteLocator@visualiza');
 
+
+    /**
+     * CRUD de condição de pagamento
+     *
+     */
+    Route::get ('/condicoes-pagamentos',   'Central\CondicaoPagamentoLocator@lista');
+
+
     /**
      *  CRUD de configurações gerais
      *

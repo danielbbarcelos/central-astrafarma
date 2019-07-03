@@ -21,6 +21,8 @@ use App\Http\Controllers\Migracao\CondicaoPagamentoController as MigracaoCondica
 use App\Http\Controllers\Migracao\ProdutoController as MigracaoProdutoController;
 use App\Http\Controllers\Migracao\TabelaPrecoController as MigracaoTabelaPrecoController;
 use App\Http\Controllers\Migracao\VendedorController as MigracaoVendedorController;
+use App\Http\Controllers\Migracao\ArmazemController as MigracaoArmazemController;
+use App\Http\Controllers\Migracao\LoteController as MigracaoLoteController;
 
 class Aliases
 {
@@ -80,6 +82,8 @@ class Aliases
             'vx_fat_tabprc' => new MigracaoTabelaPrecoController(),
             'vx_glo_prod'   => new MigracaoProdutoController(),
             'vx_fat_vend'   => new MigracaoVendedorController(),
+            'vx_est_armz'   => new MigracaoArmazemController(),
+            'vx_est_lote'   => new MigracaoLoteController(),
         ];
 
         if(isset($tables[$table]))

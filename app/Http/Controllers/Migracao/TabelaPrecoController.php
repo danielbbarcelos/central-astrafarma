@@ -65,8 +65,8 @@ class TabelaPrecoController extends Controller
         }
         else
         {
-            TabelaPreco::where('id','>','0')->where('erp_id',$result['result']['ERP_ID'])->delete();
-            TabelaPrecoProduto::where('id','>','0')->where('vxfattabprc_erp_id',$result['result']['ERP_ID'])->delete();
+            TabelaPreco::where('id','>','0')->where('erp_id',$result['result']['ERP_ID'])->forceDelete();
+            TabelaPrecoProduto::where('id','>','0')->where('vxfattabprc_erp_id',$result['result']['ERP_ID'])->forceDelete();
 
             $empfil = EmpresaFilial::where('filial_erp_id',$result['result']['FILIAL_ID'])->first();
 
