@@ -101,8 +101,7 @@ function validateStepThree() {
 
         if(success)
         {
-            //$("#form-pedido").submit();
-
+            $("#form-pedido").submit();
         }
     }
 
@@ -184,14 +183,14 @@ $("#tabela_preco_id").on("change", function(){
 
 function alteraValoresPorItem(hidden)
 {
-    $("#div-valores-item").attr('hidden',hidden);
-
     if(hidden === true)
     {
         $("#produto_quantidade").val('0');
         $("#produto_preco_venda").val('0,00');
         $("#produto_valor_desconto").val('0,00');
         $("#produto_preco_total").val('0,00');
+
+        $("#div-valores-item").attr('hidden',hidden);
     }
     else
     {
@@ -230,6 +229,9 @@ function alteraValoresPorItem(hidden)
                 $("#produto_preco_total").val(number_format(response.preco.preco_venda,2,',','.'));
                 $("#produto_valor_desconto").val('0,00');
                 $("#produto_fator").val(number_format(response.preco.fator,2,',','.'));
+
+
+                $("#div-valores-item").attr('hidden',hidden);
             }
         });
 
@@ -435,30 +437,53 @@ function calculaTotalPedido()
 //-------------------------------------------------------------------------------
 function validaLotes()
 {
+    var success = true;
+
+    var total = $(".item-pedido").length;
+    var index = 0;
+
     $(".item-pedido").each(function(){
-        console.log(this.id)
-    })
-    //verifica quais lotes serão utilizados pelo produto
-    var form = new FormData();
-    form.append("produto_id", $("#produto_id").val());
-    form.append("tabela_id", $("#tabela_preco_id").val());
-    form.append("quantidade", $("#produto_quantidade").val());
+        var id    = this.id;
+        var split = id.split('-');
+        var hash  = split[2];
 
-    var settings = {
-        "url": "/api/v1/lotes/pedidos-itens",
-        "method": "POST",
-        "headers": {
-            "request-ajax": "Token "+ ajaxToken()
-        },
-        "processData": false,
-        "contentType": false,
-        "mimeType": "multipart/form-data",
-        "data": form
-    };
+        var produto    = $("#produto-id-"+hash).val();
+        var tabela     = $("#produto-tabela-id-"+hash).val();
+        var quantidade = $("#produto-quantidade-"+hash).val();
 
-    $.ajax(settings).done(function (response) {
+        //verifica se existem lotes disponíveis para o produto
+        var form = new FormData();
+        form.append("produto_id", produto);
+        form.append("tabela_id", tabela);
+        form.append("quantidade", quantidade);
 
+        var settings = {
+            "url": "/api/v1/lotes/pedidos-itens",
+            "method": "POST",
+            "headers": {
+                "request-ajax": "Token "+ ajaxToken()
+            },
+            "processData": false,
+            "contentType": false,
+            "mimeType": "multipart/form-data",
+            "data": form
+        };
+
+        $.ajax(settings).done(function (response) {
+            if(response.success === false)
+            {
+                success = false;
+                Materialize.toast(response.log.error, 5000, 'red');
+            }
+
+            index++;
+        });
     });
+
+
+    return success;
+
+
 }
 
 //---------------------------------------------------------------------------

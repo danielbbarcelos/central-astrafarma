@@ -144,6 +144,8 @@ class PedidoVendaController extends Controller
 
         $rules = [];
 
+        dd($request->all());
+
         $validator = Validator::make($request->all(), $rules, PedidoVenda::$messages);
 
         if ($validator->fails())
@@ -163,6 +165,17 @@ class PedidoVendaController extends Controller
             $condicao = CondicaoPagamento::find($request['vxglocpgto_id']);
             $vendedor = Vendedor::find($this->vendedorId);
             $tabela   = TabelaPreco::find($request['vxfattabprc_id']);
+
+            //gera o array de produtos com lote
+            $produtos = [];
+
+            if(isset($request['produto_id']))
+            {
+                for ($i = 0; $i < count($request['produto_id']); $i++)
+                {
+
+                }
+            }
 
 
             $pedido = new PedidoVenda();
