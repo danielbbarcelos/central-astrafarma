@@ -23,6 +23,21 @@ class LoteLocator extends Controller
     }
 
     /**
+     * @description Lista de lotes
+     * @info Listagem de lotes via API
+     * @param $produto_id, $tabela_preco_id
+     * @return mixed
+     */
+    public function lista(Request $request, $produto_id, $tabela_preco_id)
+    {
+        $controller = new LoteController($request->header('filial'));
+
+        $response   = $controller->lista($request, $produto_id, $tabela_preco_id);
+
+        return Helper::retornoMobile($response);
+    }
+
+    /**
      * @description Cálcula itens por lote
      * @info Retorna itens por lote de acordo com os parâmetros do item no pedido, via API
      * @param Request $request

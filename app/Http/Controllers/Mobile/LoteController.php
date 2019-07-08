@@ -40,6 +40,37 @@ class LoteController extends Controller
         $this->filial = isset($filialId) ? EmpresaFilial::where('filial_erp_id',$filialId)->first() : null;
     }
 
+
+    //retorna array de lotes por produto
+    public function lista(Request $request, $produto_id, $tabela_preco_id)
+    {
+        $success = true;
+        $log     = [];
+
+
+        //busca os armazéns pertencentes a tabela de preço informada
+        $armazens = [];
+
+        foreach(TabelaPrecoArmazem::where('vxfattabprc_id',$tabela_preco_id)->get() as $item)
+        {
+            $armazens[] = $item->vxestarmz_id;
+        }
+
+        $lotes = Lote::whereIn('vxestarmz_id',$armazens)
+            ->where('vxgloprod_id',$produto_id)
+            ->where('saldo','>','0')
+            ->where('dt_valid','!=',null)
+            ->where('dt_valid','>=',Carbon::now()->addDays(1)->format('Y-m-d'))
+            ->orderBy('dt_valid','asc')
+            ->get();
+
+        $response['success']  = $success;
+        $response['log']      = $log;
+        $response['lotes']    = $lotes;
+        return $response;
+    }
+
+
     public function calculaPorItemPost(Request $request)
     {
         $success = true;

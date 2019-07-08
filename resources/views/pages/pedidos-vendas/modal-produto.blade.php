@@ -1,5 +1,5 @@
-<div id="modal-produto" class="modal modal-fixed-footer" style="background-color: #fff; z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
-    <div class="modal-content">
+<div id="modal-produto" class="modal modal-fixed-footer" style="min-height: 500px !important; background-color: #fff; z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
+    <div class="modal-content" style="">
         <h4 class="">Adicionar item</h4>
 
         <div class="flash-message" id="erro-produto" hidden style="margin-bottom: 20px">
@@ -42,25 +42,36 @@
             </div>
         </div>
 
-        <div class="row row-input" id="div-valores-item" hidden>
-            <div class="input-field col s3">
-                <input type="text" value="" class="mask-inteiro-nm" placeholder="" id="produto_quantidade" onkeyup="calculaPrecoTotalProduto()" onfocusout="validaDesconto()">
-                <label>Quantidade</label>
+        <div hidden id="div-lote">
+            <div class="row row-input padding-bottom-10">
+                <div class="input-field col s12">
+                    <select id="lote_id" class="select2" style="width: 100%">
+                        <option value="">Selecione...</option>
+                    </select>
+                    <label class="active">Lote</label>
+                </div>
             </div>
 
-            <div class="input-field col s3">
-                <input type="text" value="" class="mask-decimal" placeholder="" id="produto_preco_venda" readonly>
-                <label>Preço de venda (R$)</label>
-            </div>
+            <div class="row row-input" id="div-valores-item" hidden>
+                <div class="input-field col s3">
+                    <input type="text" value="" class="mask-inteiro-nm" placeholder="" id="produto_quantidade" onkeyup="calculaPrecoTotalProduto()" onfocusout="validaDesconto()">
+                    <label>Quantidade</label>
+                </div>
 
-            <div class="input-field col s3">
-                <input type="text" value="" class="mask-decimal-zero" placeholder="" id="produto_valor_desconto" onkeyup="calculaPrecoTotalProduto()" onfocusout="validaDesconto()">
-                <label>Valor desconto (R$)</label>
-            </div>
+                <div class="input-field col s3">
+                    <input type="text" value="" class="mask-decimal" placeholder="" id="produto_preco_venda" readonly>
+                    <label>Preço de venda (R$)</label>
+                </div>
 
-            <div class="input-field col s3 right-align">
-                <input type="text" value="" readonly placeholder="" id="produto_preco_total">
-                <label>Preço final (R$)</label>
+                <div class="input-field col s3">
+                    <input type="text" value="" class="mask-decimal-zero" placeholder="" id="produto_valor_desconto" onkeyup="calculaPrecoTotalProduto()" onfocusout="validaDesconto()">
+                    <label>Valor desconto (R$)</label>
+                </div>
+
+                <div class="input-field col s3 right-align">
+                    <input type="text" value="" readonly placeholder="" id="produto_preco_total">
+                    <label>Preço final (R$)</label>
+                </div>
             </div>
         </div>
 

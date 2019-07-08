@@ -108,12 +108,12 @@
                                                     <table class="display" style="padding-right: 20px; display: inline-block; overflow-y: auto; width: 100%;margin: 0 auto; max-height:270px;" cellspacing="0">
                                                         <thead style="display: inline-table; width: 100%">
                                                         <tr>
-                                                            <th style="width: 40%">Produto</th>
-                                                            <th style="width: 10%">Quantidade</th>
-                                                            <th style="width: 15%">Preço de venda</th>
-                                                            <th style="width: 15%">Desconto</th>
-                                                            <th style="width: 15%">Valor total</th>
-                                                            <th style="width: 15%">
+                                                            <th style="width: 35%">Produto</th>
+                                                            <th style="width: 10%; text-align: center !important;">Quantidade</th>
+                                                            <th style="width: 15%; text-align: center !important;">Lote</th>
+                                                            <th style="width: 15%; text-align: center !important;">Validade</th>
+                                                            <th style="width: 15%; text-align: center !important;">Valor total</th>
+                                                            <th style="width: 15%; text-align: center !important;">
                                                                 <a id="btn-produto" class="waves-effect waves-light btn blue btn-submit modal-trigger" href="#modal-produto">+ ITEM</a>
                                                             </th>
                                                         </tr>

@@ -61,13 +61,14 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
 
 
         //lotes
-        Route::post('/lotes/pedidos-itens',  'Mobile\LoteLocator@calculaPorItemPost');
+        Route::get ('/lotes/{produto_id}/{tabela_preco_id}',  'Mobile\LoteLocator@lista');
+        Route::post('/lotes/pedidos-itens',                   'Mobile\LoteLocator@calculaPorItemPost');
 
 
         //produtos
-        Route::get ('/produtos',                   'Mobile\ProdutoLocator@lista');
-        Route::get ('/produtos/{produto_id}',      'Mobile\ProdutoLocator@visualiza');
-        Route::get ('/produtos/{produto_id}',      'Mobile\ProdutoLocator@visualiza');
+        Route::get ('/produtos',                     'Mobile\ProdutoLocator@lista');
+        Route::get ('/produtos/{produto_id}',        'Mobile\ProdutoLocator@visualiza');
+        Route::get ('/produtos/{produto_id}',        'Mobile\ProdutoLocator@visualiza');
 
         //tabela de preços
         Route::get ('/tabelas-precos',                                'Mobile\TabelaPrecoLocator@lista');
