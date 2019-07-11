@@ -28,7 +28,7 @@
                                     <th>Cód. ERP</th>
                                     <th>Habilitado</th>
                                     <th>Descrição</th>
-                                    <th>Habilitado no mobile</th>
+                                    <th>Status</th>
                                 </tr>
                                 </thead>
                                 <tbody>

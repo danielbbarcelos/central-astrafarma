@@ -40,7 +40,7 @@
 
 
                             <div class="row row-input">
-                                <div class="input-field col s3">
+                                <div class="input-field col s4">
                                     <input type="text" maxlength="100" readonly
                                            @if($produto->tipo == 'MC')
                                            value="Material de consumo"
@@ -60,20 +60,16 @@
                                     <label>Tipo</label>
                                 </div>
 
-                                <div class="input-field col s3">
+                                <div class="input-field col s4">
                                     <input type="text" maxlength="100" readonly value="{{$produto->unidade_principal or 'Não informado'}}">
                                     <label>Unidade principal</label>
                                 </div>
 
-                                <div class="input-field col s3">
+                                <div class="input-field col s4">
                                     <input type="text" maxlength="100" readonly value="{{$produto->unidade_principal or 'Não informado'}}">
                                     <label>Unidade secundária</label>
                                 </div>
 
-                                <div class="input-field col s3">
-                                    <input type="text" maxlength="100" readonly value="{{'R$ '.number_format($produto->preco_venda,2,',','.')}}">
-                                    <label>Preço de venda</label>
-                                </div>
                             </div>
 
 
