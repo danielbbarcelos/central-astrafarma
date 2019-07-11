@@ -75,7 +75,11 @@ class ProdutoController extends Controller
         {
             $tabelas = [];
 
-            $tabelaPrecoProduto = TabelaPrecoProduto::where('vxgloprod_erp_id',$produto->erp_id)->orderBy('vxfattabprc_erp_id','asc')->orderBy('uf','asc')->get();
+            $tabelaPrecoProduto = TabelaPrecoProduto::where('vxgloprod_erp_id',$produto->erp_id)
+                ->orderBy('vxfattabprc_erp_id','asc')
+                ->orderBy('data_vigencia','desc')
+                ->orderBy('uf','asc')
+                ->get();
 
             foreach($tabelaPrecoProduto as $item)
             {
@@ -83,6 +87,7 @@ class ProdutoController extends Controller
 
                 if(isset($tabela))
                 {
+                    $tabela->data_vigencia  = $item->data_vigencia;
                     $tabela->uf             = $item->uf;
                     $tabela->preco_venda    = $item->preco_venda;
                     $tabela->preco_maximo   = $item->preco_maximo;
@@ -93,7 +98,6 @@ class ProdutoController extends Controller
                 }
 
             }
-
         }
 
         $response['success'] = $success;

@@ -12,6 +12,7 @@ use App\Http\Controllers\Mobile\VexSyncController;
 
 //framework
 use App\Http\Controllers\Controller;
+use App\Vendedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,11 +30,13 @@ use App\Utils\Helper;
 class ClienteController extends Controller
 {
     protected $filial;
+    protected $vendedor;
 
     //construct
-    public function __construct($filialId = null)
+    public function __construct($filialId = null, $user = null)
     {
         $this->filial = isset($filialId) ? EmpresaFilial::where('filial_erp_id',$filialId)->first() : null;
+        $this->vendedor = isset($user->vxfatvend_id) ? Vendedor::find($user->vxfatvend_id) : null;
     }
 
     public function lista(Request $request)
@@ -57,7 +60,7 @@ class ClienteController extends Controller
                 $query->orWhereRaw('cnpj_cpf like "'.$request['termo'].'"');
             }
 
-        })->where('status','1')->orderBy('nome_fantasia','asc')->get();
+        })->where('vxfatvend_erp_id',$this->vendedor->erp_id)->where('status','1')->orderBy('nome_fantasia','asc')->get();
 
         $response['success']  = $success;
         $response['log']      = $log;
@@ -95,6 +98,7 @@ class ClienteController extends Controller
             $cliente->erp_id            = null;
             $cliente->loja              = '01';
             $cliente->vxgloempfil_id    = $this->filial->id;
+            $cliente->vxfatvend_erp_id  = $this->vendedor->erp_id;
             $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
             $cliente->razao_social      = $request['razao_social'];
             $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
@@ -117,7 +121,7 @@ class ClienteController extends Controller
             $cliente->save();
 
             //gera vex sync
-            VexSyncController::adiciona('99,01', 'post', $cliente->getTable(), $cliente->id, $cliente->getWebservice('add'));
+            VexSyncController::adiciona('01,01', 'post', $cliente->getTable(), $cliente->id, $cliente->getWebservice('add'));
 
             $log[]   = ['success' => 'Cliente cadastrado com sucesso'];
 
@@ -179,6 +183,7 @@ class ClienteController extends Controller
             if($success)
             {
                 $cliente->vxgloempfil_id    = $this->filial->id;
+                $cliente->vxfatvend_erp_id  = $this->vendedor->erp_id;
                 $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
                 $cliente->razao_social      = $request['razao_social'];
                 $cliente->nome_fantasia     = $request['nome_fantasia'];
@@ -199,7 +204,7 @@ class ClienteController extends Controller
                 $cliente->save();
     
                 //gera vex sync
-                VexSyncController::adiciona('99,01', 'put', $cliente->getTable(), $cliente->id, $cliente->getWebservice('edit/'.$cliente->erp_id));
+                VexSyncController::adiciona('01,01', 'put', $cliente->getTable(), $cliente->id, $cliente->getWebservice('edit/'.$cliente->erp_id));
     
                 $log[]   = ['success' => 'Cliente atualizado com sucesso'];
     

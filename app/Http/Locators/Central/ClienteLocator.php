@@ -23,6 +23,7 @@ class ClienteLocator extends Controller
     public function __construct()
     {
         $this->middleware('permissions', [ 'except' => []]);
+        $this->middleware('uservend',    [ 'except' => []]);
     }
 
 

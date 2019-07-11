@@ -28,7 +28,7 @@ class ClienteLocator extends Controller
      */
     public function lista(Request $request)
     {
-        $controller = new ClienteController($request->header('filial'));
+        $controller = new ClienteController($request->header('filial'), Helper::JWTAuthorization($request->header('Authorization')));
         
         $response   = $controller->lista($request);
 
@@ -43,7 +43,7 @@ class ClienteLocator extends Controller
      */
     public function adicionaPost(Request $request)
     {
-        $controller = new ClienteController($request->header('filial'));
+        $controller = new ClienteController($request->header('filial'), Helper::JWTAuthorization($request->header('Authorization')));
 
         $response   = $controller->adicionaPost($request);
 
@@ -58,7 +58,7 @@ class ClienteLocator extends Controller
      */
     public function visualiza(Request $request, $cliente_id)
     {
-        $controller = new ClienteController($request->header('filial'));
+        $controller = new ClienteController($request->header('filial'), Helper::JWTAuthorization($request->header('Authorization')));
 
         $response   = $controller->visualiza($cliente_id);
 
@@ -74,7 +74,7 @@ class ClienteLocator extends Controller
      */
     public function editaPost(Request $request, $cliente_id)
     {
-        $controller = new ClienteController($request->header('filial'));
+        $controller = new ClienteController($request->header('filial'), Helper::JWTAuthorization($request->header('Authorization')));
 
         $response   = $controller->editaPost($request, $cliente_id);
 

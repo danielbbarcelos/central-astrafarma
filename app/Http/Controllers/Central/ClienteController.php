@@ -48,7 +48,7 @@ class ClienteController extends Controller
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
 
-        })->orderBy('razao_social','asc')->get();
+        })->where('vxfatvend_erp_id',Auth::user()->vendedor->erp_id)->orderBy('razao_social','asc')->get();
 
         $response['success']  = $success;
         $response['log']      = $log;
@@ -109,6 +109,7 @@ class ClienteController extends Controller
             $cliente = new Cliente();
             $cliente->erp_id            = null;
             $cliente->vxgloempfil_id    = $this->empfilId;
+            $cliente->vxfatvend_erp_id  = Auth::user()->vendedor->erp_id;
             $cliente->loja              = '01';
             $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
             $cliente->razao_social      = $request['razao_social'];
@@ -154,7 +155,7 @@ class ClienteController extends Controller
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
 
-        })->first();
+        })->where('vxfatvend_erp_id',Auth::user()->vendedor->erp_id)->first();
 
         if(!isset($cliente))
         {
@@ -212,6 +213,7 @@ class ClienteController extends Controller
 
             if ($success)
             {
+                $cliente->vxfatvend_erp_id  = Auth::user()->vendedor->erp_id;
                 $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
                 $cliente->razao_social      = $request['razao_social'];
                 $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
@@ -258,7 +260,7 @@ class ClienteController extends Controller
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
 
-        })->first();
+        })->where('vxfatvend_erp_id',Auth::user()->vendedor->erp_id)->first();
 
         if(!isset($cliente))
         {

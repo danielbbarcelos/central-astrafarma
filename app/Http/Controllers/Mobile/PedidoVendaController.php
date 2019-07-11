@@ -229,7 +229,7 @@ class PedidoVendaController extends Controller
             }
 
             //gera vex sync
-            VexSyncController::adiciona('99,01','post',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('add')); // edit,get,delete: rest/ped_venda/$erp_id
+            VexSyncController::adiciona('01,01','post',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('add')); // edit,get,delete: rest/ped_venda/$erp_id
 
             $log[]   = ['success' => 'Pedido cadastrado com sucesso'];
 

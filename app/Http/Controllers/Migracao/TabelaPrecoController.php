@@ -79,26 +79,39 @@ class TabelaPrecoController extends Controller
             $tabela->updated_at     = new \DateTime();
             $tabela->save();
 
+            $index = 1;
+
             foreach ($result['result']['PRODUTOS'] as $item)
             {
                 $produto = Produto::where('erp_id', $item['VXGLOPROD_ERP_ID'])->first();
 
                 if(isset($produto))
                 {
-                    $preco = new TabelaPrecoProduto();
-                    $preco->vxfattabprc_id      = $tabela->id;
-                    $preco->vxfattabprc_erp_id  = $tabela->erp_id;
-                    $preco->vxgloprod_id        = $produto->id;
-                    $preco->vxgloprod_erp_id    = $produto->erp_id;
-                    $preco->preco_venda         = $item['PRECO_VENDA'];
-                    $preco->preco_maximo        = $item['PRECO_MAXIMO'];
-                    $preco->valor_desconto      = $item['VALOR_DESCONTO'];
-                    $preco->fator               = $item['FATOR'];
-                    $preco->uf                  = $item['UF'];
-                    $preco->created_at = new \DateTime();
-                    $preco->updated_at = new \DateTime();
-                    $preco->save();
+                    try
+                    {
+                        $preco = new TabelaPrecoProduto();
+                        $preco->vxfattabprc_id      = $tabela->id;
+                        $preco->vxfattabprc_erp_id  = $tabela->erp_id;
+                        $preco->vxgloprod_id        = $produto->id;
+                        $preco->vxgloprod_erp_id    = $produto->erp_id;
+                        $preco->data_vigencia       = ($item['DATA_VIGENCIA'] !== null and $item['DATA_VIGENCIA'] and $item['DATA_VIGENCIA'] !== '0000-00-00') ? $item['DATA_VIGENCIA'] : null;
+                        $preco->preco_venda         = $item['PRECO_VENDA'];
+                        $preco->preco_maximo        = $item['PRECO_MAXIMO'];
+                        $preco->valor_desconto      = $item['VALOR_DESCONTO'];
+                        $preco->fator               = $item['FATOR'];
+                        $preco->uf                  = $item['UF'];
+                        $preco->created_at = new \DateTime();
+                        $preco->updated_at = new \DateTime();
+                        $preco->save();
+                    }
+                    catch (\Exception $e)
+                    {
+                        dd($index, $item, $e);
+                    }
+
                 }
+
+                $index++;
 
             }
 

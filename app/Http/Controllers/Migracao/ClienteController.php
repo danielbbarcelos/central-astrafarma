@@ -77,29 +77,40 @@ class ClienteController extends Controller
                     $status = strtolower($item['STATUS']) == 'nao' ? '0' : '1';
                 }
 
-                $cliente = new Cliente();
-                $cliente->erp_id         = $item['ERP_ID'];
-                $cliente->vxgloempfil_id = isset($empfil) ? $empfil->id : '1';
-                $cliente->tipo_pessoa    = $item['TIPO_PESSOA'];
-                $cliente->razao_social   = $item['RAZAO_SOCIAL'];
-                $cliente->nome_fantasia  = $item['NOME_FANTASIA'];
-                $cliente->cnpj_cpf       = Helper::removeMascara($item['CNPJ_CPF']);
-                $cliente->loja           = $item['LOJA'];
-                $cliente->tipo_cliente   = $item['TIPO_CLIENTE'];
-                $cliente->endereco       = $item['ENDERECO'];
-                $cliente->bairro         = $item['BAIRRO'];
-                $cliente->cep            = Helper::removeMascara($item['CEP']);
-                $cliente->cod_mun        = $item['COD_MUN'];
-                $cliente->cidade         = $item['CIDADE'];
-                $cliente->uf             = $item['UF'];
-                $cliente->ddd            = (int)$item['DDD'];
-                $cliente->fone           = $item['FONE'];
-                $cliente->nome_contato   = $item['NOME_CONTATO'];
-                $cliente->email          = $item['EMAIL'];
-                $cliente->status         = $status;
-                $cliente->created_at     = new \DateTime();
-                $cliente->updated_at     = new \DateTime();
-                $cliente->save();
+                try
+                {
+                    $cliente = new Cliente();
+                    $cliente->erp_id           = $item['ERP_ID'];
+                    $cliente->vxgloempfil_id   = isset($empfil) ? $empfil->id : '1';
+                    $cliente->vxfatvend_erp_id = isset($item['VXFATVEND_ERP_ID']) ? $item['VXFATVEND_ERP_ID'] : null;
+                    $cliente->tipo_pessoa      = $item['TIPO_PESSOA'];
+                    $cliente->razao_social     = $item['RAZAO_SOCIAL'];
+                    $cliente->nome_fantasia    = $item['NOME_FANTASIA'];
+                    $cliente->cnpj_cpf         = Helper::removeMascara($item['CNPJ_CPF']);
+                    $cliente->loja             = $item['LOJA'];
+                    $cliente->tipo_cliente     = $item['TIPO_CLIENTE'];
+                    $cliente->endereco         = $item['ENDERECO'];
+                    $cliente->bairro           = $item['BAIRRO'];
+                    $cliente->cep              = Helper::removeMascara($item['CEP']);
+                    $cliente->cod_mun          = $item['COD_MUN'];
+                    $cliente->cidade           = $item['CIDADE'];
+                    $cliente->uf               = $item['UF'];
+                    $cliente->ddd              = (int)$item['DDD'];
+                    $cliente->fone             = $item['FONE'];
+                    $cliente->nome_contato     = $item['NOME_CONTATO'];
+                    $cliente->email            = $item['EMAIL'];
+                    $cliente->limite_credito   = Helper::formataDecimal($item['LIMITE_CREDITO']);
+                    $cliente->saldo_devedor    = Helper::formataDecimal($item['SALDO_DEVEDOR']);
+                    $cliente->status           = $status;
+                    $cliente->created_at       = new \DateTime();
+                    $cliente->updated_at       = new \DateTime();
+                    $cliente->save();
+                }
+                catch(\Exception $e)
+                {
+                    dd($item, $e);
+                }
+
             }
 
 
