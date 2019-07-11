@@ -535,17 +535,24 @@ class PedidoVendaController extends Controller
         foreach($pedidosItens as $item)
         {
             $pedidoItem = new \stdClass();
-            $pedidoItem->vxgloprod_erp_id = $item->vxgloprod_erp_id;
-            $pedidoItem->quantidade       = (string) $item->quantidade;
-            $pedidoItem->preco_unitario   = $item->preco_unitario;
-            $pedidoItem->preco_venda      = $item->preco_venda;
-            $pedidoItem->valor_desconto   = $item->valor_desconto;
-            $pedidoItem->valor_total      = $item->valor_total;
+            $pedidoItem->vex_id             = $item->id;
+            $pedidoItem->vxgloprod_erp_id   = $item->vxgloprod_erp_id;
+            $pedidoItem->vxfattabprc_erp_id = $item->vxfattabprc_erp_id;
+            $pedidoItem->vxestarmz_erp_id   = $item->vxestarmz_erp_id;
+            $pedidoItem->vxestlote_erp_id   = $item->vxestlote_erp_id;
+            $pedidoItem->quantidade         = (string) $item->quantidade;
+            $pedidoItem->preco_unitario     = $item->preco_unitario;
+            $pedidoItem->preco_venda        = $item->preco_venda;
+            $pedidoItem->valor_desconto     = $item->valor_desconto;
+            $pedidoItem->valor_total        = $item->valor_total;
 
             $itens[] = $pedidoItem;
         }
 
-        $object->itens = $itens;
+        $object->vex_id = $object->id;
+        $object->itens  = $itens;
+
+        unset($object->cliente_data);
 
         //formata objeto para enviar no vexsync
         $object = Helper::formataSyncObject($object);

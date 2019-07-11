@@ -74,12 +74,12 @@
         </div>
     @endif
 
-    <div class="middle padding-top-20 padding-right-20">
+    {{--<div class="middle padding-top-20 padding-right-20">
         <div class="row no-m-t no-m-b">
             @include('pages.dashboard.pedido-venda')
             @include('pages.dashboard.conexao')
         </div>
-    </div>
+    </div>--}}
 
 
     <form id="form-delete" method="post" action="{{url('/teste-plugin')}}">

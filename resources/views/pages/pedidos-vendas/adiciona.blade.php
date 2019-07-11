@@ -76,14 +76,6 @@
                                                         <div class="col s2 font-weight-600">Cidade:</div>
                                                         <div class="col s10" id="cliente-cidade-uf"></div>
                                                     </div>
-                                                    <!--div class="row">
-                                                        <div class="col s2 font-weight-800">Limite de crédito:</div>
-                                                        <div class="col s10" id="cliente-email">R$ 25.000,00</div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s2 font-weight-800">Saldo devedor:</div>
-                                                        <div class="col s10" id="cliente-email">R$ 5.350,00</div>
-                                                    </div-->
                                                 </div>
                                             </div>
                                         </div>
@@ -161,10 +153,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row padding-top-30">
+                                    <div class="row padding-top-30 padding-bottom-20">
                                         <div class="row row-input">
 
-                                            <div class="input-field col s6">
+                                            <div class="input-field col s4">
                                                 <select name="vxglocpgto_id" id="vxglocpgto_id" class="select2">
                                                     <option value="">Selecione...</option>
                                                     @foreach($condicoes as $item)
@@ -174,20 +166,35 @@
                                                 <label class="active">Condição de pagamento</label>
                                             </div>
 
-                                            <div class="input-field col s6">
+                                            <div class="input-field col s4">
                                                 <input type="text"  value="{{isset($pedido->data_entrega) ? Carbon::createFromFormat('Y-m-d',$pedido->data_entrega)->format('d/m/Y') : ''}}" class="datepicker" placeholder="" id="data_entrega" name="data_entrega">
                                                 <label>Data prevista da entrega</label>
                                             </div>
 
+                                            <div class="input-field col s4">
+                                                <select name="status_entrega" id="status_entrega" class="select2">
+                                                    <option value="">Selecione...</option>
+                                                    <option value="1">1 - Sem programação</option>
+                                                    <option value="2">2 - Programado</option>
+                                                    <option value="3">3 - PGTO</option>
+                                                </select>
+                                                <label class="active">Status da entrega</label>
+                                            </div>
 
-                                            <div class="input-field col s12">
+                                            <div class="input-field col s6">
                                                 <textarea class="materialize-textarea" name="observacao" style="height: 6rem" required id="observacao"
                                                           maxlength="10000" length="10000">{{$pedido->observacao or old('observacao')}}</textarea>
-                                                <label>Observação</label>
+                                                <label>Observação na nota fiscal</label>
+                                            </div>
+
+                                            <div class="input-field col s6">
+                                                <textarea class="materialize-textarea" name="obs_interna" style="height: 6rem" required id="obs_interna"
+                                                          maxlength="10000">{{$pedido->obs_interna or old('obs_interna')}}</textarea>
+                                                <label>Observação interna</label>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="step-actions">
+                                    <div class="step-actions" style="margin-top: 20px !important;">
                                         <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepThree">Concluir</button>
                                         <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
                                     </div>

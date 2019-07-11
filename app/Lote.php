@@ -42,4 +42,10 @@ class Lote extends Model
         return $this->webservice.'/'.$action;
     }
 
+    //belongsTo armazem
+    public function armazem()
+    {
+        return $this->belongsTo('App\Armazem','vxestarmz_erp_id','erp_id');
+    }
+
 }

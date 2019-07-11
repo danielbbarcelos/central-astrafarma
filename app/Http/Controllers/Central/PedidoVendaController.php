@@ -8,6 +8,7 @@ use App\Cliente;
 use App\CondicaoPagamento;
 use App\Files\PedidoVenda\Main;
 use App\Http\Controllers\Mobile\VexSyncController;
+use App\Lote;
 use App\PedidoItem;
 use App\PedidoVenda;
 use App\Configuracao;
@@ -144,8 +145,6 @@ class PedidoVendaController extends Controller
 
         $rules = [];
 
-        dd($request->all());
-
         $validator = Validator::make($request->all(), $rules, PedidoVenda::$messages);
 
         if ($validator->fails())
@@ -164,19 +163,6 @@ class PedidoVendaController extends Controller
             $cliente  = Cliente::find($request['vxglocli_id']);
             $condicao = CondicaoPagamento::find($request['vxglocpgto_id']);
             $vendedor = Vendedor::find($this->vendedorId);
-            $tabela   = TabelaPreco::find($request['vxfattabprc_id']);
-
-            //gera o array de produtos com lote
-            $produtos = [];
-
-            if(isset($request['produto_id']))
-            {
-                for ($i = 0; $i < count($request['produto_id']); $i++)
-                {
-
-                }
-            }
-
 
             $pedido = new PedidoVenda();
             $pedido->situacao_pedido     = "A";
@@ -184,10 +170,11 @@ class PedidoVendaController extends Controller
             $pedido->vxglocli_erp_id     = $cliente->erp_id;
             $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
             $pedido->vxfatvend_erp_id    = $vendedor->erp_id;
-            $pedido->vxfattabprc_erp_id  = $tabela->erp_id;
             $pedido->cliente_data        = json_encode($cliente, JSON_UNESCAPED_UNICODE);
             $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('d/m/Y',$request['data_entrega'])->format('Y-m-d') : null;
+            $pedido->status_entrega      = $request['status_entrega'];
             $pedido->observacao          = isset($request['observacao']) ? $request['observacao'] : '';
+            $pedido->obs_interna         = isset($request['obs_interna']) ? $request['obs_interna'] : '';
             $pedido->created_at          = new \DateTime();
             $pedido->updated_at          = new \DateTime();
             $pedido->save();
@@ -196,19 +183,26 @@ class PedidoVendaController extends Controller
             {
                 for($i = 0; $i < count($request['produto_id']); $i++)
                 {
+                    $tabela  = TabelaPreco::find($request['produto_tabela_id'][$i]);
+
                     $produto = Produto::find($request['produto_id'][$i]);
 
+                    $lote    = Lote::find($request['produto_lote_id'][$i]);
+
                     $pedidoItem = new PedidoItem();
-                    $pedidoItem->vxfatpvenda_id   = $pedido->id;
-                    $pedidoItem->vxgloprod_erp_id = $produto->erp_id;
-                    $pedidoItem->produto_data     = json_encode($produto, JSON_UNESCAPED_UNICODE);
-                    $pedidoItem->quantidade       = $request['produto_quantidade'][$i];
-                    $pedidoItem->preco_unitario   = number_format(Helper::formataDecimal($request['produto_preco_unitario'][$i]),2,'.','');
-                    $pedidoItem->preco_venda      = number_format(Helper::formataDecimal($request['produto_preco_venda'][$i]),2,'.','');
-                    $pedidoItem->valor_desconto   = number_format(Helper::formataDecimal($request['produto_valor_desconto'][$i]),2,'.','');
-                    $pedidoItem->valor_total      = number_format(Helper::formataDecimal($request['produto_preco_total'][$i]),2,'.','');
-                    $pedidoItem->created_at       = new \DateTime();
-                    $pedidoItem->updated_at       = new \DateTime();
+                    $pedidoItem->vxfatpvenda_id     = $pedido->id;
+                    $pedidoItem->vxgloprod_erp_id   = $produto->erp_id;
+                    $pedidoItem->vxfattabprc_erp_id = $tabela->erp_id;
+                    $pedidoItem->vxestarmz_erp_id   = $lote->armazem->erp_id;
+                    $pedidoItem->vxestlote_erp_id   = $lote->erp_id;
+                    $pedidoItem->quantidade         = $request['produto_quantidade'][$i];
+                    $pedidoItem->produto_data       = json_encode($produto, JSON_UNESCAPED_UNICODE);
+                    $pedidoItem->preco_unitario     = number_format(Helper::formataDecimal($request['produto_preco_unitario'][$i]),2,'.','');
+                    $pedidoItem->preco_venda        = number_format(Helper::formataDecimal($request['produto_preco_venda'][$i]),2,'.','');
+                    $pedidoItem->valor_desconto     = number_format(Helper::formataDecimal($request['produto_valor_desconto'][$i]),2,'.','');
+                    $pedidoItem->valor_total        = number_format(Helper::formataDecimal($request['produto_preco_total'][$i]),2,'.','');
+                    $pedidoItem->created_at         = new \DateTime();
+                    $pedidoItem->updated_at         = new \DateTime();
                     $pedidoItem->save();
                 }
             }

@@ -145,6 +145,7 @@ return array(
     'App\\Rules\\Idade' => $baseDir . '/app/Rules/Idade.php',
     'App\\Rules\\Mac' => $baseDir . '/app/Rules/Mac.php',
     'App\\TabelaPreco' => $baseDir . '/app/TabelaPreco.php',
+    'App\\TabelaPrecoArmazem' => $baseDir . '/app/TabelaPrecoArmazem.php',
     'App\\TabelaPrecoProduto' => $baseDir . '/app/TabelaPrecoProduto.php',
     'App\\User' => $baseDir . '/app/User.php',
     'App\\UserDashboard' => $baseDir . '/app/UserDashboard.php',

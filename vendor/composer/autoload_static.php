@@ -534,6 +534,7 @@ class ComposerStaticInitf18ce51d7b935ef5d36fe5e1607913b4
         'App\\Rules\\Idade' => __DIR__ . '/../..' . '/app/Rules/Idade.php',
         'App\\Rules\\Mac' => __DIR__ . '/../..' . '/app/Rules/Mac.php',
         'App\\TabelaPreco' => __DIR__ . '/../..' . '/app/TabelaPreco.php',
+        'App\\TabelaPrecoArmazem' => __DIR__ . '/../..' . '/app/TabelaPrecoArmazem.php',
         'App\\TabelaPrecoProduto' => __DIR__ . '/../..' . '/app/TabelaPrecoProduto.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\UserDashboard' => __DIR__ . '/../..' . '/app/UserDashboard.php',
