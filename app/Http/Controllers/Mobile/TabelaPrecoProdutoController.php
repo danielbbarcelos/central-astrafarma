@@ -44,13 +44,15 @@ class TabelaPrecoProdutoController extends Controller
 
         $preco = TabelaPrecoProduto::where('vxfattabprc_id',$tabela_id)
             ->where('uf',strtoupper($uf))
+            ->where('data_vigencia','!=',null)
+            //->where('data_vigencia','>=',Carbon::now()->format('Y-m-d'))
             ->where('vxgloprod_id',$produto_id)
             ->first();
 
         if(!isset($preco))
         {
             $success = false;
-            $log[]   = ['error' => 'Nenhum preço cadastrado com os parâmetros informados'];
+            $log[]   = ['error' => 'Nenhum preço disponível com os parâmetros informados'];
         }
 
         $response['success'] = $success;

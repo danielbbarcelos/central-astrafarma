@@ -36,6 +36,16 @@ function validateStepOne() {
         return false;
     }
 
+
+    var credito = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
+
+    if(parseFloat(credito) <= 0.00)
+    {
+        Materialize.toast('O cliente não possui crédito disponível', 5000, 'red');
+
+        return false;
+    }
+
     return true;
 }
 
@@ -55,6 +65,24 @@ function validateStepTwo() {
 
         return false;
     }
+
+
+    //calcula o valor restante de crédito do cliente, após adicionar o item no pedido
+    var valorTotal = 0.00;
+    $("#ipvenda-tbody input[name='produto_preco_total[]']").each(function(){
+        valorTotal = parseFloat(valorTotal) + parseFloat($(this).val().replace('.','').replace(',','.'));
+    });
+
+    var credito  = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
+
+    if(parseFloat(valorTotal) > parseFloat(credito))
+    {
+        Materialize.toast('O crédito disponível para o cliente é inferior ao valor do pedido', 5000, 'red');
+
+        return false;
+    }
+
+
 
     return true;
 }
@@ -85,7 +113,7 @@ function validateStepThree() {
 
     if($("#observacao").val() === '')
     {
-        Materialize.toast('Insira as observações do pedido para continuar', 5000, 'red');
+        Materialize.toast('Insira as observações da nota fiscal para continuar', 5000, 'red');
 
         success = false;
     }
@@ -112,7 +140,7 @@ function validateStepThree() {
 
 //---------------------------------------------------------------------------
 //
-// Exibe o resumo do cliente no primeiro passo
+// Exibe o resumo do cliente e dados financeiros no primeiro passo
 //
 //---------------------------------------------------------------------------
 $("#vxglocli_id").on("change",function(){
@@ -129,6 +157,44 @@ $("#vxglocli_id").on("change",function(){
         $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
         $("#cliente-cnpj-cpf").html($("#vxglocli_id option:selected").attr("data-cnpj-cpf"));
         $("#cliente-cidade-uf").html($("#vxglocli_id option:selected").attr("data-cidade-uf"));
+        $("#cliente-limite-credito").html('+ R$ '+number_format($("#vxglocli_id option:selected").attr("data-limite-credito"),2,',','.'));
+        $("#cliente-saldo-devedor").html('- R$ '+number_format($("#vxglocli_id option:selected").attr("data-saldo-devedor"),2,',','.'));
+
+        var credito = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
+        var html    = "";
+
+        if(parseFloat(credito) <= 0.00)
+        {
+            html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
+        }
+        else
+        {
+            html = "<span style='font-weight: 800; color: rgba(19,157,0,0.91)'>= R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
+        }
+
+        $("#cliente-credito-disponivel").html(html);
+
+
+
+        //calcula o valor restante de crédito do cliente, caso a tabela de itens do pedido contenha algum item
+        var valorTotal = 0.00;
+        $("#ipvenda-tbody input[name='produto_preco_total[]']").each(function(){
+            valorTotal = parseFloat(valorTotal) + parseFloat($(this).val().replace('.','').replace(',','.'));
+        });
+
+        var restante = parseFloat(credito) - parseFloat(valorTotal);
+
+        if(parseFloat(restante) <= 0.00)
+        {
+            html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
+        }
+        else
+        {
+            html = "<span style='font-weight: 800; color: rgba(19,157,0,0.91)'>+ R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
+        }
+
+        $("#credito-restante").html(html);
+
     }
 });
 
@@ -474,19 +540,39 @@ function adicionaProduto()
         row    += "<td style='width: 12%; text-align: center !important;'><a style='cursor: pointer' onclick='excluiProduto(this)'>Excluir</a></td>";
         row    += "<tr>";
 
-        //
-
-        /*
-        row    += "<td style='width: 20%; text-align: center !important;'>";
-        row    += "<a class='tooltipped cursor-pointer' data-position='top' data-delay='10' data-tooltip='Lote: "+$("#lote_id option:selected").attr('erp_id')+"' >"+validade+"</a>";
-        row    += "</td>";
-         */
 
         $("#ipvenda-tbody").append(row);
 
         $(".tooltipped").tooltip();
 
         calculaTotalPedido();
+
+
+
+
+        //calcula o valor restante de crédito do cliente, após adicionar o item no pedido
+        var valorTotal = 0.00;
+        $("#ipvenda-tbody input[name='produto_preco_total[]']").each(function(){
+            valorTotal = parseFloat(valorTotal) + parseFloat($(this).val().replace('.','').replace(',','.'));
+        });
+
+        var credito  = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
+        var restante = parseFloat(credito) - parseFloat(valorTotal);
+        var html     = "";
+
+        if(parseFloat(restante) <= 0.00)
+        {
+            html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
+        }
+        else
+        {
+            html = "<span style='font-weight: 800; color: rgba(19,157,0,0.91)'>+ R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
+        }
+
+        $("#credito-restante").html(html);
+
+
+
 
         //reseta valores da modal
         $('#produto_id').val("").trigger("change");
@@ -514,6 +600,30 @@ function excluiProduto(row)
     $(row).closest("tr").remove();
 
     calculaTotalPedido();
+
+
+
+    //calcula o valor restante de crédito do cliente, após excluir o item no pedido
+    var valorTotal = 0.00;
+    $("#ipvenda-tbody input[name='produto_preco_total[]']").each(function(){
+        valorTotal = parseFloat(valorTotal) + parseFloat($(this).val().replace('.','').replace(',','.'));
+    });
+
+    var credito  = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
+    var restante = parseFloat(credito) - parseFloat(valorTotal);
+    var html     = "";
+
+    if(parseFloat(restante) <= 0.00)
+    {
+        html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
+    }
+    else
+    {
+        html = "<span style='font-weight: 800; color: rgba(19,157,0,0.91)'>+ R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
+    }
+
+    $("#credito-restante").html(html);
+
 }
 
 
@@ -551,6 +661,7 @@ function calculaTotalPedido()
     $("#ipvenda-tbody input[name='produto_preco_total[]']").each(function(){
         valorTotal = parseFloat(valorTotal) + parseFloat($(this).val().replace('.','').replace(',','.'));
     });
+
     $(".pedido-valor-total").html('R$ ' + number_format(valorTotal,2,',','.'));
 }
 

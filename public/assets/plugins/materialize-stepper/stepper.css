@@ -129,7 +129,7 @@ ul.stepper > li:not(:last-of-type) {
         position: relative;
         display: flex;
         justify-content: space-between;
-        min-height: 458px;
+        min-height: 600px;
         overflow: hidden; }
     ul.stepper.horizontal::before {
         content: '';
@@ -203,8 +203,8 @@ ul.stepper > li:not(:last-of-type) {
         background-color: red; }
     ul.stepper.horizontal .step .step-content {
         position: absolute;
-        height: calc(100% - 84px);
         top: 84px;
+        height: 90%;
         display: block;
         left: -100%;
         width: 100%;
@@ -215,7 +215,7 @@ ul.stepper > li:not(:last-of-type) {
         /*transition: left 400ms cubic-bezier(0.4, 0, 0.2, 1);*/ }
     ul.stepper.horizontal .step .step-content .step-actions {
         position: absolute;
-        bottom: 0;
+        bottom: 15%;
         left: 0;
         width: 100%;
         padding: 20px 20px 0 0;

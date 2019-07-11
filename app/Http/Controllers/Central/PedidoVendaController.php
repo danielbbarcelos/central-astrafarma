@@ -81,7 +81,7 @@ class PedidoVendaController extends Controller
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
 
-        })->where('status','1')->orderBy('razao_social','asc')->get();
+        })->where('vxfatvend_erp_id',Auth::user()->vendedor->erp_id)->where('status','1')->orderBy('razao_social','asc')->get();
 
         if(count($clientes) == 0)
         {
@@ -255,7 +255,7 @@ class PedidoVendaController extends Controller
                 $query->where('status','1');
                 $query->orWhere('id','=',json_decode($pedido->cliente_data)->id);
 
-            })->orderBy('razao_social','asc')->get();
+            })->where('vxfatvend_erp_id',Auth::user()->vendedor->erp_id)->orderBy('razao_social','asc')->get();
 
             if(count($clientes) == 0)
             {

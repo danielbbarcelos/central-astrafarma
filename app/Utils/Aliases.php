@@ -34,6 +34,7 @@ class Aliases
             'vx_glo_cpgto'  => new ErpCondicaoPagamentoController(),
             'vx_fat_pvenda' => new ErpPedidoVendaController(),
             'vx_fat_tabprc' => new ErpTabelaPrecoController(),
+            'vx_fat_tparmz' => new ErpVendedorController(),
             'vx_glo_prod'   => new ErpProdutoController(),
             'vx_fat_vend'   => new ErpVendedorController(),
             'vx_glo_sync'   => new ErpVexSyncController(),

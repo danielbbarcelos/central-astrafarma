@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 //packages
 
 //extras
+use Illuminate\Support\Facades\Log;
 use Validator;
 use Carbon\Carbon;
 
@@ -110,6 +111,8 @@ class TabelaPrecoController extends Controller
                     }
 
                 }
+
+                Log::info('Tabela de preço item: '.$index);
 
                 $index++;
 

@@ -336,7 +336,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.a1dbe70c23a45c222e40ce3c469080ffee.js"></script>
+    <script src="/assets/js/pages/pedido-venda.2e111889c171b1db3a86a4ab30767826.js"></script>
 
     @if($pedido->situacao_pedido !== 'A')
         <script>
@@ -352,6 +352,23 @@
             $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
             $("#cliente-cnpj-cpf").html($("#vxglocli_id option:selected").attr("data-cnpj-cpf"));
             $("#cliente-cidade-uf").html($("#vxglocli_id option:selected").attr("data-cidade-uf"));
+
+            $("#cliente-limite-credito").html('+ R$ '+number_format($("#vxglocli_id option:selected").attr("data-limite-credito"),2,',','.'));
+            $("#cliente-saldo-devedor").html('- R$ '+number_format($("#vxglocli_id option:selected").attr("data-saldo-devedor"),2,',','.'));
+
+            var credito = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
+            var html    = "";
+
+            if(parseFloat(credito) <= 0.00)
+            {
+                html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
+            }
+            else
+            {
+                html = "<span style='font-weight: 800; color: rgba(19,157,0,0.91)'>+ R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
+            }
+
+            $("#cliente-credito-disponivel").html(html);
 
             //armazena valor para listar produtos da tabela de preço (produtos do mesmo estado do cliente)
             $("#uf-tabela-preco").val($("#vxglocli_id option:selected").attr("data-uf"));

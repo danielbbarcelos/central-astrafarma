@@ -37,7 +37,7 @@ return array(
     'App\\Http\\Controllers\\Central\\DashboardController' => $baseDir . '/app/Http/Controllers/Central/DashboardController.php',
     'App\\Http\\Controllers\\Central\\DispositivoController' => $baseDir . '/app/Http/Controllers/Central/DispositivoController.php',
     'App\\Http\\Controllers\\Central\\EstadoController' => $baseDir . '/app/Http/Controllers/Central/EstadoController.php',
-    'App\\Http\\Controllers\\Central\\MigracaoController' => $baseDir . '/app/Http/Controllers/Central/MIgracaoController.php',
+    'App\\Http\\Controllers\\Central\\MigracaoController' => $baseDir . '/app/Http/Controllers/Central/MigracaoController.php',
     'App\\Http\\Controllers\\Central\\PedidoVendaController' => $baseDir . '/app/Http/Controllers/Central/PedidoVendaController.php',
     'App\\Http\\Controllers\\Central\\PerfilController' => $baseDir . '/app/Http/Controllers/Central/PerfilController.php',
     'App\\Http\\Controllers\\Central\\ProdutoController' => $baseDir . '/app/Http/Controllers/Central/ProdutoController.php',

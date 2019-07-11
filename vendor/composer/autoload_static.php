@@ -426,7 +426,7 @@ class ComposerStaticInitf18ce51d7b935ef5d36fe5e1607913b4
         'App\\Http\\Controllers\\Central\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Central/DashboardController.php',
         'App\\Http\\Controllers\\Central\\DispositivoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Central/DispositivoController.php',
         'App\\Http\\Controllers\\Central\\EstadoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Central/EstadoController.php',
-        'App\\Http\\Controllers\\Central\\MigracaoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Central/MIgracaoController.php',
+        'App\\Http\\Controllers\\Central\\MigracaoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Central/MigracaoController.php',
         'App\\Http\\Controllers\\Central\\PedidoVendaController' => __DIR__ . '/../..' . '/app/Http/Controllers/Central/PedidoVendaController.php',
         'App\\Http\\Controllers\\Central\\PerfilController' => __DIR__ . '/../..' . '/app/Http/Controllers/Central/PerfilController.php',
         'App\\Http\\Controllers\\Central\\ProdutoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Central/ProdutoController.php',

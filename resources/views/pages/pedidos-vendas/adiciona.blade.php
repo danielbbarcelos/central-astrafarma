@@ -24,7 +24,13 @@
 
     <div class="row">
         <div class="col l12 m12 s12">
-            <div class="card-panel">
+            <div class="" style="  transition: box-shadow .25s;
+                    box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.15);
+                    position: relative;
+                    padding: 0 5px 10px 5px;
+                    margin: 0.5rem 0 1rem 0;
+                    border-radius: 2px;
+                    background-color: #fff;">
                 <div class="card-content">
                     <form id="form-pedido" method="post">
 
@@ -49,6 +55,9 @@
                                                             data-cnpj-cpf="{{ Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##') }}"
                                                             data-cidade-uf="{{$item->cidade.'/'.$item->uf}}"
                                                             data-uf="{{$item->uf}}"
+                                                            data-limite-credito="{{$item->limite_credito}}"
+                                                            data-saldo-devedor="{{$item->saldo_devedor}}"
+                                                            data-credito-disponivel="{{$item->limite_credito - $item->saldo_devedor}}"
                                                         >{{$item->erp_id.' - '.($item->razao_social !== '' ? $item->razao_social : 'Razão social não identificada')}}
                                                         </option>
                                                     @endforeach
@@ -57,30 +66,56 @@
 
                                                 <div id="data-cliente" class="padding-top-20" hidden>
                                                     <div class="row">
-                                                        <div class="col s2 font-weight-800">Cód. ERP:</div>
-                                                        <div class="col s10" id="cliente-erp-id"></div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s2 font-weight-800">Razão social:</div>
-                                                        <div class="col s10" id="cliente-razao-social"></div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s2 font-weight-800">Nome fantasia:</div>
-                                                        <div class="col s10" id="cliente-nome-fantasia"></div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s2 font-weight-800">CNPJ/CPF:</div>
-                                                        <div class="col s10" id="cliente-cnpj-cpf"></div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s2 font-weight-600">Cidade:</div>
-                                                        <div class="col s10" id="cliente-cidade-uf"></div>
+                                                        <div class="col s6">
+                                                            <div class="row padding-bottom-20">
+                                                                <div class="col s12 font-weight-800 font-size-16">Dados principais do cliente</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s4 font-weight-800">Cód. ERP:</div>
+                                                                <div class="col s8" id="cliente-erp-id"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s4 font-weight-800">Razão social:</div>
+                                                                <div class="col s8" id="cliente-razao-social"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s4 font-weight-800">Nome fantasia:</div>
+                                                                <div class="col s8" id="cliente-nome-fantasia"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s4 font-weight-800">CNPJ/CPF:</div>
+                                                                <div class="col s8" id="cliente-cnpj-cpf"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s4 font-weight-600">Cidade:</div>
+                                                                <div class="col s8" id="cliente-cidade-uf"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col s6">
+
+                                                            <div class="row padding-bottom-20">
+                                                                <div class="col s12 font-weight-800 font-size-16">Análise financeira</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s5 font-weight-800">Limite de crédito:</div>
+                                                                <div class="col s7 font-weight-600" id="cliente-limite-credito"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s5 font-weight-800">Saldo devedor:</div>
+                                                                <div class="col s7 font-weight-600" id="cliente-saldo-devedor" style="color: rgba(182,11,35,0.8)">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s5 font-weight-800">Crédito disponível:</div>
+                                                                <div class="col s7 font-weight-600" id="cliente-credito-disponivel"></div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="step-actions">
+                                    <div class="step-actions" >
                                         <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepOne">Próximo</button>
                                     </div>
                                 </div>
@@ -92,12 +127,14 @@
                             <li class="step">
                                 <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">Produtos</div>
                                 <div class="step-content" style="overflow-y: hidden">
+
                                     <div class="row ">
+
 
                                         <div class="row row-input">
                                             <div id="ipvenda" class="col s12">
                                                 <div class="row">
-                                                    <table class="display" style="padding-right: 20px; display: inline-block; overflow-y: auto; width: 100%;margin: 0 auto; max-height:270px;" cellspacing="0">
+                                                    <table class="display" style="padding-right: 20px; display: inline-block; overflow-y: auto; width: 100%;margin: 0 auto; max-height:300px;" cellspacing="0">
                                                         <thead style="display: inline-table; width: 100%">
                                                         <tr>
                                                             <th style="width: 35%">Produto</th>
@@ -114,11 +151,25 @@
 
                                                         </tbody>
                                                     </table>
+
+
+                                                    <br>
+                                                    <hr style="border: 0.5px solid #e3e3e3; ">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row" style="margin-top: 20px; margin-bottom: 10px">
+                                                <div class="col s12 font-size-14 font-weight-800" style="margin-bottom: 20px">
+                                                    Valor total do pedido: <span class="pedido-valor-total padding-left-20 font-size-14 font-weight-800">R$ 0,00</span>
+                                                </div>
+                                                <div class="col s12 font-size-14 font-weight-800">
+                                                    Crédito disponível: <span id="credito-restante" class="padding-left-20 font-size-14 font-weight-800">R$ 0,00</span>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="step-actions" style="position: absolute; bottom: 0; ">
+                                        <div class="step-actions" >
                                             <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepTwo">Próximo</button>
                                             <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
                                         </div>
@@ -217,7 +268,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.646288ba278e6c8687646fe3f358d557.js"></script>
+    <script src="/assets/js/pages/pedido-venda.2e111889c171b1db3a86a4ab30767826.js"></script>
 
 @endsection
 
