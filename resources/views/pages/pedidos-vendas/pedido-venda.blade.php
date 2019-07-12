@@ -36,17 +36,17 @@
                                 </span>
 
                                 @if($pedido->situacao_pedido == 'A')
-                                    <i class="tooltipped material-icons font-size" style="z-index: 9999; color: #72bc6e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Aberto">fiber_manual_record</i>
+                                    <i class="tooltipped material-icons" style="color: #fbe053; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Aberto">fiber_manual_record</i>
                                 @elseif($pedido->situacao_pedido == 'B')
-                                    <i class="tooltipped material-icons" style="z-index: 9999; color: #fe8c2d; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio de crédito">fiber_manual_record</i>
-                                @elseif($pedido->situacao_pedido == 'C')
-                                    <i class="tooltipped material-icons" style="z-index: 9999; color: #fbe053; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio comercial">fiber_manual_record</i>
+                                    <i class="tooltipped material-icons" style="color: #1f9dc2; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio de crédito">fiber_manual_record</i>
                                 @elseif($pedido->situacao_pedido == 'E')
-                                    <i class="tooltipped material-icons" style="z-index: 9999; color: #1f9dc2; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio de estoque">fiber_manual_record</i>
+                                    <i class="tooltipped material-icons" style="color: #a3a3a3; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio de estoque">fiber_manual_record</i>
                                 @elseif($pedido->situacao_pedido == 'F')
-                                    <i class="tooltipped material-icons" style="z-index: 9999; color: #e6493e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Faturado">fiber_manual_record</i>
+                                    <i class="tooltipped material-icons" style="color: #e6493e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Faturado">fiber_manual_record</i>
+                                @elseif($pedido->situacao_pedido == 'L')
+                                    <i class="tooltipped material-icons" style="color: #72bc6e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Liberado para faturamento">fiber_manual_record</i>
                                 @elseif($pedido->situacao_pedido == 'S')
-                                    <i class="tooltipped material-icons" style="z-index: 9999; color: #a3a3a3; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Análise de estoque">fiber_manual_record</i>
+                                    <i class="tooltipped material-icons" style="z-index: 9999; color: #fe8c2d; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Pedido em análise de estoque">fiber_manual_record</i>
                                 @endif
                             </h6>
                         </div>
