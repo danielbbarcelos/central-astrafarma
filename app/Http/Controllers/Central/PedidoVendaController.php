@@ -365,7 +365,7 @@ class PedidoVendaController extends Controller
                     $result = json_decode($result, true);
 
 
-                    if($result['situacao_pedido'] !== 'A')
+                    if($result['situacao_pedido'] !== 'A' and $result['situacao_pedido'] !== 'S')
                     {
                         $liberado = false;
                         $success  = false;
@@ -481,7 +481,7 @@ class PedidoVendaController extends Controller
                 $result = Helper::retornoERP($result->result);
                 $result = json_decode($result, true);
 
-                if($result['situacao_pedido'] !== 'A')
+                if($result['situacao_pedido'] !== 'A' and $result['situacao_pedido'] !== 'S')
                 {
                     $liberado = false;
                     $success  = false;

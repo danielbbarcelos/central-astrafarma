@@ -45,6 +45,8 @@
                                     <i class="tooltipped material-icons" style="z-index: 9999; color: #1f9dc2; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio de estoque">fiber_manual_record</i>
                                 @elseif($pedido->situacao_pedido == 'F')
                                     <i class="tooltipped material-icons" style="z-index: 9999; color: #e6493e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Faturado">fiber_manual_record</i>
+                                @elseif($pedido->situacao_pedido == 'S')
+                                    <i class="tooltipped material-icons" style="z-index: 9999; color: #a3a3a3; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Análise de estoque">fiber_manual_record</i>
                                 @endif
                             </h6>
                         </div>
@@ -338,7 +340,7 @@
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
     <script src="/assets/js/pages/pedido-venda.2e111889c171b1db3a86a4ab30767826.js"></script>
 
-    @if($pedido->situacao_pedido !== 'A')
+    @if($pedido->situacao_pedido !== 'A' and $pedido->situacao_pedido !== 'S')
         <script>
              $("input,textarea,select").attr('disabled',true);
         </script>

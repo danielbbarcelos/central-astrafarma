@@ -368,16 +368,45 @@ function buscaLotes(produto_id, tabela_id)
 
             var options = "<option value=''>Selecione...</option>";
 
+            var itens   = 0;
+
             $(response.lotes).each(function(){
 
                 validade = this.dt_valid;
                 validade = validade.split("-").reverse().join("/");
 
-                options += "<option value='"+this.id+"' dt_valid='"+this.dt_valid+"' saldo='"+parseInt(this.saldo)+"' erp_id='"+this.erp_id+"'>"+this.erp_id+" - Validade: "+validade+" - Saldo em estoque: "+parseInt(this.saldo)+"</option>";
+                //verifica se o lote foi adicionado anteriormente, para poder recalcular seu saldo
+                var saldo = this.saldo;
+                $("input[name='produto_lote_erp_id[]'][value='"+this.erp_id+"']").each(function () {
+                    var hash = this.id.split('-')[3];
+                    var qtde = $("#produto-quantidade-"+hash).val();
+                    saldo = parseInt(saldo) - parseInt(qtde);
+                });
+
+                if(saldo > 0)
+                {
+                    options += "<option value='"+this.id+"' dt_valid='"+this.dt_valid+"' saldo='"+parseInt(saldo)+"' erp_id='"+this.erp_id+"'>"+this.erp_id+" - Validade: "+validade+" - Saldo em estoque: "+parseInt(saldo)+"</option>";
+
+                    itens++;
+                }
+
             });
 
-            $("#div-lote").attr("hidden",false);
-            $("#lote_id").html(options).val("").trigger("change");
+            if(itens > 0)
+            {
+                $("#div-lote").attr("hidden",false);
+                $("#lote_id").html(options).val("").trigger("change");
+            }
+            else
+            {
+                $("#erro-produto").attr("hidden",false);
+                $("#erro-produto span").html("Não há lotes com saldo em estoque referente a este produto");
+
+
+                $("#div-lote").attr("hidden",true);
+                $("#lote_id").html("").val("").trigger("change");
+            }
+
         }
     });
 }
@@ -516,6 +545,7 @@ function adicionaProduto()
         row    += "<input type='hidden' id='produto-tabela-id-"+itemHash+"' name='produto_tabela_id[]' value='"+$("#tabela_preco_id").val()+"'>";
         row    += "<input type='hidden' id='produto-quantidade-"+itemHash+"' name='produto_quantidade[]' value='"+$("#produto_quantidade").val()+"'>";
         row    += "<input type='hidden' name='produto_lote_id[]' value='"+$("#lote_id option:selected").val()+"'>";
+        row    += "<input type='hidden' id='produto-erp-id-"+itemHash+"' name='produto_lote_erp_id[]' value='"+$("#lote_id option:selected").attr('erp_id')+"'>";
         row    += "<input type='hidden' name='produto_preco_unitario[]' value='"+$("#produto_preco_unitario").val()+"'>";
         row    += "<input type='hidden' name='produto_preco_venda[]' value='"+$("#produto_preco_venda").val()+"'>";
         row    += "<input type='hidden' name='produto_valor_desconto[]' value='"+$("#produto_valor_desconto").val()+"'>";

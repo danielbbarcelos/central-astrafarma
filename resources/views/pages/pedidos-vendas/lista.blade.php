@@ -52,6 +52,8 @@
                                                 <i class="tooltipped material-icons" style="color: #1f9dc2; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Bloqueio de estoque">fiber_manual_record</i>
                                             @elseif($item->situacao_pedido == 'F')
                                                 <i class="tooltipped material-icons" style="color: #e6493e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Faturado">fiber_manual_record</i>
+                                            @elseif($item->situacao_pedido == 'S')
+                                                <i class="tooltipped material-icons" style="z-index: 9999; color: #a3a3a3; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Análise de estoque">fiber_manual_record</i>
                                             @endif
                                         </td>
                                         <td class="uk-text-center">
