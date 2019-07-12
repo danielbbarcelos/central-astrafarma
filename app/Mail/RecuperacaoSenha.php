@@ -33,7 +33,7 @@ class RecuperacaoSenha extends Mailable
     public function build()
     {
         return $this->view('emails.recuperacao-senha')
-            ->from('no-reply@vexmobile.com','Vex Mobile')
-            ->subject('Vex Admin - Recuperação de Senha');
+            ->from('no-reply@vexmobile.com.br','VEX Mobile')
+            ->subject('VEX Mobile | Recuperação de Senha');
     }
 }
