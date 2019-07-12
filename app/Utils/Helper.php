@@ -149,7 +149,7 @@ class Helper
         if(gettype($object) == 'array')
         {
             foreach($original as $item)
-            {   
+            {
                 $array = [];
 
                 try
@@ -163,11 +163,11 @@ class Helper
                         {
                             if(strtolower($value) == 'sim')
                             {
-                                $array[strtolower($key)] = '0';
+                                $array[strtolower($key)] = '1';
                             }
                             elseif(strtolower($value) == 'nao')
                             {
-                                $array[strtolower($key)] = '1';
+                                $array[strtolower($key)] = '0';
                             }
                         }
                     }
@@ -186,11 +186,11 @@ class Helper
                         {
                             if(strtolower($value) == 'sim')
                             {
-                                $array[strtolower($key)] = '0';
+                                $array[strtolower($key)] = '1';
                             }
                             elseif(strtolower($value) == 'nao')
                             {
-                                $array[strtolower($key)] = '1';
+                                $array[strtolower($key)] = '0';
                             }
                         }
                     }
@@ -213,11 +213,11 @@ class Helper
                 {
                     if(strtolower($value) == 'sim')
                     {
-                        $new[strtolower($key)] = '0';
+                        $new[strtolower($key)] = '1';
                     }
                     elseif(strtolower($value) == 'nao')
                     {
-                        $new[strtolower($key)] = '1';
+                        $new[strtolower($key)] = '0';
                     }
                 }
             }

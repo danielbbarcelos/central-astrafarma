@@ -194,8 +194,10 @@ class VexSyncController extends Controller
             $result  = $guzzle->request('GET', $assinatura->webservice_base . $object->ws);
             $result  = json_decode($result->getBody());
 
+
             $result = Helper::retornoERP($result->result);
             $result = json_decode($result, true);
+
 
             //busca a controller para realizar o insert
             $controller = Aliases::erpControllerByTable($object->tabela);

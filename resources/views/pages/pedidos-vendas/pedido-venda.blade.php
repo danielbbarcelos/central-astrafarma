@@ -14,14 +14,17 @@
     <div class="breadcrumbs">
         <ul class="breadcrumbs-itens breadcrumbs_chevron">
             <li class="breadcrumbs__item"><a href="{{url('/pedidos-vendas')}}" class="breadcrumbs__element">Lista de pedidos</a></li>
-            <li class="breadcrumbs__item breadcrumbs__item_active"><span class="breadcrumbs__element">Novo pedido de venda</span></li>
+            <li class="breadcrumbs__item breadcrumbs__item_active">
+                <span class="breadcrumbs__element">
+                    {{'Pedido de venda '.(isset($pedido->erp_id) ? '#'.$pedido->erp_id : 'em sincronização')}}
+                </span>
+            </li>
         </ul>
     </div>
 
 @endsection
 
 @section('page-content')
-
 
     <div class="row">
         <div class="col l12 m12 s12">
@@ -69,10 +72,15 @@
     </div>
 
 
-
     <div class="row">
         <div class="col l12 m12 s12">
-            <div class="card-panel">
+            <div class="" style="  transition: box-shadow .25s;
+                    box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.15);
+                    position: relative;
+                    padding: 0 5px 10px 5px;
+                    margin: 0.5rem 0 1rem 0;
+                    border-radius: 2px;
+                    background-color: #fff;">
                 <div class="card-content">
                     <form id="form-pedido" method="post" action="{{url('/pedidos-vendas/'.$pedido->id.'/edit')}}">
 
@@ -82,7 +90,7 @@
 
                             <!-- Cliente-->
                             <li class="step active">
-                                <div class="step-title waves-effect waves-dark" onclick="event.stopPropagation();">Cliente</div>
+                                <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">Cliente</div>
                                 <div class="step-content" style="overflow-y: hidden">
                                     <div class="row padding-top-30">
                                         <div class="row row-input">
@@ -91,161 +99,168 @@
                                                     <option value="">Selecione...</option>
                                                     @foreach($clientes as $item)
                                                         <option value="{{$item->id}}"
-                                                                data-erp-id="{{$item->erp_id}}"
-                                                                data-razao-social="{{$item->razao_social}}"
-                                                                data-nome-fantasia="{{$item->nome_fantasia}}"
-                                                                data-cnpj-cpf="{{ Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##') }}"
-                                                                data-cidade-uf="{{$item->cidade.'/'.$item->uf}}"
-                                                                data-uf="{{$item->uf}}"
-                                                                @if($item->erp_id == $pedido->vxglocli_erp_id) selected @endif>{{$item->erp_id.' - '.$item->razao_social}}</option>
+                                                            data-erp-id="{{$item->erp_id}}"
+                                                            data-razao-social="{{$item->razao_social}}"
+                                                            data-nome-fantasia="{{$item->nome_fantasia}}"
+                                                            data-cnpj-cpf="{{ Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##') }}"
+                                                            data-cidade-uf="{{$item->cidade.'/'.$item->uf}}"
+                                                            data-uf="{{$item->uf}}"
+                                                            data-limite-credito="{{$item->limite_credito}}"
+                                                            data-saldo-devedor="{{$item->saldo_devedor}}"
+                                                            data-credito-disponivel="{{$item->limite_credito - $item->saldo_devedor}}"
+                                                        >{{$item->erp_id.' - '.($item->razao_social !== '' ? $item->razao_social : 'Razão social não identificada')}}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                                 <label class="active">Cliente</label>
 
                                                 <div id="data-cliente" class="padding-top-20" hidden>
                                                     <div class="row">
-                                                        <div class="col s2 font-weight-800">Cód. ERP:</div>
-                                                        <div class="col s10" id="cliente-erp-id"></div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s2 font-weight-800">Razão social:</div>
-                                                        <div class="col s10" id="cliente-razao-social"></div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s2 font-weight-800">Nome fantasia:</div>
-                                                        <div class="col s10" id="cliente-nome-fantasia"></div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s2 font-weight-800">CNPJ/CPF:</div>
-                                                        <div class="col s10" id="cliente-cnpj-cpf"></div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s2 font-weight-600">Cidade:</div>
-                                                        <div class="col s10" id="cliente-cidade-uf"></div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s2 font-weight-800">Limite de crédito:</div>
-                                                        <div class="col s10" id="cliente-email">R$ 25.000,00</div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col s2 font-weight-800">Saldo devedor:</div>
-                                                        <div class="col s10" id="cliente-email">R$ 5.350,00</div>
+                                                        <div class="col s6">
+                                                            <div class="row padding-bottom-20">
+                                                                <div class="col s12 font-weight-800 font-size-16">Dados principais do cliente</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s4 font-weight-800">Cód. ERP:</div>
+                                                                <div class="col s8" id="cliente-erp-id"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s4 font-weight-800">Razão social:</div>
+                                                                <div class="col s8" id="cliente-razao-social"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s4 font-weight-800">Nome fantasia:</div>
+                                                                <div class="col s8" id="cliente-nome-fantasia"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s4 font-weight-800">CNPJ/CPF:</div>
+                                                                <div class="col s8" id="cliente-cnpj-cpf"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s4 font-weight-600">Cidade:</div>
+                                                                <div class="col s8" id="cliente-cidade-uf"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col s6">
+
+                                                            <div class="row padding-bottom-20">
+                                                                <div class="col s12 font-weight-800 font-size-16">Análise financeira</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s5 font-weight-800">Limite de crédito:</div>
+                                                                <div class="col s7 font-weight-600" id="cliente-limite-credito"></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s5 font-weight-800">Saldo devedor:</div>
+                                                                <div class="col s7 font-weight-600" id="cliente-saldo-devedor" style="color: rgba(182,11,35,0.8)">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s5 font-weight-800">Crédito disponível:</div>
+                                                                <div class="col s7 font-weight-600" id="cliente-credito-disponivel"></div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="step-actions">
-                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" @if($pedido->situacao_pedido == 'A') data-validator="validateStepOne" @endif>
-                                            Próximo
-                                        </button>
+                                    <div class="step-actions" >
+                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepOne">Próximo</button>
                                     </div>
                                 </div>
                             </li>
-
-
-
-                            <!-- Tabeça de preços -->
-                            <li class="step">
-                                <div class="step-title waves-effect waves-dark" onclick="event.stopPropagation();">Tabela de preços</div>
-                                <div class="step-content" style="overflow-y: hidden">
-                                    <div class="row padding-top-30">
-                                        <div class="row row-input">
-
-                                            <input type="hidden" id="uf-tabela-preco" value="">
-
-                                            <div class="input-field col s12 m12">
-                                                <select name="vxfattabprc_id" id="vxfattabprc_id" class="select2">
-                                                    <option value="">Selecione...</option>
-                                                    @foreach($tabelas as $item)
-                                                        <option value="{{$item->id}}" @if($item->erp_id == $pedido->vxfattabprc_erp_id) selected @endif>{{$item->erp_id.' - '.$item->descricao}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <label class="active">Tabela de preços</label>
-                                            </div>
-                                        </div>
-
-
-                                        <!-- div para resgatar os dados da tabela selecionada -->
-                                        <div hidden>
-                                            @foreach($tabelas as $item)
-                                                <input id="vxfattabprc_{{$item->id}}_descricao" value="{{$item->descricao}}">
-                                                <input id="vxfattabprc_{{$item->id}}_produtos" value="{{json_encode($item->produtos,JSON_UNESCAPED_UNICODE)}}">
-                                            @endforeach
-                                        </div>
-
-
-                                    </div>
-                                    <div class="step-actions">
-                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" @if($pedido->situacao_pedido == 'A') data-validator="validateStepTwo" @endif>
-                                            Próximo
-                                        </button>
-                                        <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
-                                    </div>
-                                </div>
-                            </li>
-
 
 
 
                             <!-- Produtos -->
                             <li class="step">
-                                <div class="step-title waves-effect waves-dark" onclick="event.stopPropagation();">Produtos</div>
+                                <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">Produtos</div>
                                 <div class="step-content" style="overflow-y: hidden">
+
                                     <div class="row ">
+
 
                                         <div class="row row-input">
                                             <div id="ipvenda" class="col s12">
                                                 <div class="row">
-                                                    <table class="display" style="padding-right: 20px; display: inline-block; overflow-y: auto; width: 100%;margin: 0 auto; max-height:270px;" cellspacing="0">
+                                                    <table class="display" style="padding-right: 20px; display: inline-block; overflow-y: auto; width: 100%;margin: 0 auto; max-height:300px;" cellspacing="0">
                                                         <thead style="display: inline-table; width: 100%">
                                                         <tr>
-                                                            <th style="width: 40%">Produto</th>
-                                                            <th style="width: 10%">Quantidade</th>
-                                                            <th style="width: 15%">Preço de venda</th>
-                                                            <th style="width: 15%">Desconto</th>
-                                                            <th style="width: 15%">Valor total</th>
-                                                            @if($pedido->situacao_pedido == 'A')
-                                                                <th style="width: 15%">
+                                                            <th style="width: 35%">Produto</th>
+                                                            <th style="width: 10%; text-align: center !important;">Quantidade</th>
+                                                            <th style="width: 15%; text-align: center !important;">Lote</th>
+                                                            <th style="width: 15%; text-align: center !important;">Validade</th>
+                                                            <th style="width: 15%; text-align: center !important;">Valor total</th>
+                                                            @if($pedido->situacao_pedido == 'A' or $pedido->situacao_pedido == 'S')
+                                                                <th style="width: 15%; text-align: center !important;">
                                                                     <a id="btn-produto" class="waves-effect waves-light btn blue btn-submit modal-trigger" href="#modal-produto">+ ITEM</a>
                                                                 </th>
                                                             @endif
                                                         </tr>
                                                         </thead>
                                                         <tbody id="ipvenda-tbody" style="display: inline-table; width: 100%">
-                                                            @foreach($itens as $item)
-                                                                <tr>
-                                                                    <td style="width: 40%;">
-                                                                        <input type='hidden' name='vxfatipvend_id[]' value='{{$item->id}}'>
-                                                                        <input type='hidden' name='produto_id[]' value='{{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}'>
-                                                                        <input type='hidden' name='produto_quantidade[]' value='{{$item->quantidade}}'>
-                                                                        <input type='hidden' name='produto_preco_unitario[]' value='{{number_format($item->preco_unitario,2,',','.')}}'>
-                                                                        <input type='hidden' name='produto_preco_venda[]' value='{{number_format($item->preco_venda,2,',','.')}}'>
-                                                                        <input type='hidden' name='produto_valor_desconto[]' value='{{number_format($item->valor_desconto,2,',','.')}}'>
-                                                                        <input type='hidden' name='produto_preco_total[]' value='{{number_format($item->valor_total,2,',','.')}}'>
-                                                                        <a href="/produtos/{{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}/show" target="_blank" title="{{isset($item->produto) ? $item->produto->erp_id : json_decode($item->produto_data)->erp_id}}">
-                                                                            {{isset($item->produto) ? $item->produto->descricao : json_decode($item->produto_data)->descricao}}
+                                                        <div hidden>{{$i = 0}}</div>
+                                                        @foreach($itens as $item)
+                                                            <div hidden>{{++$i}}</div>
+                                                            <tr>
+                                                                <td style='width: 35%'>
+                                                                    <input type='hidden' name='vxfatipvend_id[]' value='{{$item->id}}'>
+                                                                    <input type='hidden' id="produto-id-{{$i}}" name='produto_id[]' value='{{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}'>
+                                                                    <input type='hidden' id="produto-tabela-id-{{$i}}" name='produto_tabela_id[]' value='{{$item->tabela->id}}'>
+                                                                    <input type='hidden' id="produto-quantidade-{{$i}}" name='produto_quantidade[]' value='{{$item->quantidade}}'>
+                                                                    <input type='hidden' name='produto_lote_id[]' value='{{$item->lote->id}}'>
+                                                                    <input type='hidden' id="produto-lote-erp-id-{{$i}}" name='produto_lote_erp_id[]' value='{{$item->lote->erp_id}}'>
+                                                                    <input type='hidden' name='produto_preco_unitario[]' value='{{number_format($item->preco_unitario,2,',','.')}}'>
+                                                                    <input type='hidden' name='produto_preco_venda[]' value='{{number_format($item->preco_venda,2,',','.')}}'>
+                                                                    <input type='hidden' name='produto_valor_desconto[]' value='{{number_format($item->valor_desconto,2,',','.')}}'>
+                                                                    <input type='hidden' name='produto_preco_total[]' value='{{number_format($item->valor_total,2,',','.')}}'>
+                                                                    <a href="/produtos/{{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}/show" target="_blank" class='tooltipped cursor-pointer' data-position='top' data-delay='10' data-tooltip="Código: {{isset($item->produto) ? $item->produto->erp_id : json_decode($item->produto_data)->erp_id}}">
+                                                                        {{isset($item->produto) ? $item->produto->descricao : json_decode($item->produto_data)->descricao}}
+                                                                    </a>
+                                                                </td>
+                                                                <td style='width: 10%; text-align: center !important;'>
+                                                                    {{$item->quantidade}}
+                                                                    @if($item->alerta_estoque !== null and $item->alerta_estoque !== '')
+                                                                        <a class="white tooltipped cursor-pointer" data-position="top" data-delay="10" data-tooltip="{{$item->alerta_estoque}}">
+                                                                            <i class="material-icons" style="color: #ff1c1c">error</i>
                                                                         </a>
-                                                                    </td>
-                                                                    <td style="width: 10%">{{$item->quantidade}}</td>
-                                                                    <td style="width: 15%">R$ {{number_format($item->preco_venda,2,',','.')}}</td>
-                                                                    <td style="width: 15%">R$ {{number_format($item->valor_desconto,2,',','.')}}</td>
-                                                                    <td style="width: 15%">R$ {{number_format($item->valor_total,2,',','.')}}</td>
-                                                                    @if($pedido->situacao_pedido == 'A')
-                                                                        <td style="width: 12%"><a style='cursor: pointer' onclick='excluiProduto(this)'>Excluir</a></td>
                                                                     @endif
-                                                                </tr>
-                                                            @endforeach
+                                                                </td>
+                                                                <td style='width: 15%; text-align: center !important;'>{{$item->lote->erp_id}}</td>
+                                                                <td style='width: 15%; text-align: center !important;'>{{Carbon::createFromFormat('Y-m-d',$item->lote->dt_valid)->format('d/m/Y')}}</td>
+                                                                <td style='width: 15%; text-align: center !important;'>
+                                                                    <a class='tooltipped cursor-pointer' data-position='top' data-delay='10' data-html='true' data-tooltip='Preço de venda: R$ {{number_format($item->preco_venda,2,',','.')}}<br>Desconto: R$ {{number_format($item->valor_desconto,2,',','.')}}' >
+                                                                        R$ {{number_format($item->valor_total,2,',','.')}}
+                                                                    </a>
+                                                                </td>
+                                                                @if($pedido->situacao_pedido == 'A' or $pedido->situacao_pedido == 'S')
+                                                                    <td style="width: 12%; text-align: center !important;"><a style='cursor: pointer' onclick='excluiProduto(this)'>Excluir</a></td>
+                                                                @endif
+                                                            </tr>
+                                                        @endforeach
                                                         </tbody>
                                                     </table>
+
+
+                                                    <br>
+                                                    <hr style="border: 0.5px solid #e3e3e3; ">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row" style="margin-top: 20px; margin-bottom: 10px">
+                                                <div class="col s12 font-size-14 font-weight-800" style="margin-bottom: 20px">
+                                                    Valor total do pedido: <span class="pedido-valor-total padding-left-20 font-size-14 font-weight-800">R$ 0,00</span>
+                                                </div>
+                                                <div class="col s12 font-size-14 font-weight-800">
+                                                    Crédito disponível: <span id="credito-restante" class="padding-left-20 font-size-14 font-weight-800">R$ 0,00</span>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="step-actions" style="position: absolute; bottom: 0; ">
-                                            <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" @if($pedido->situacao_pedido == 'A') data-validator="validateStepThree" @endif>
-                                                Próximo
-                                            </button>
+                                        <div class="step-actions" >
+                                            <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" @if($pedido->situacao_pedido == 'A' or $pedido->situacao_pedido == 'S') data-validator="validateStepTwo" @endif>Próximo</button>
                                             <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
                                         </div>
                                     </div>
@@ -279,10 +294,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row padding-top-30">
+                                    <div class="row padding-top-30 padding-bottom-20">
                                         <div class="row row-input">
 
-                                            <div class="input-field col s6">
+                                            <div class="input-field col s4">
                                                 <select name="vxglocpgto_id" id="vxglocpgto_id" class="select2">
                                                     <option value="">Selecione...</option>
                                                     @foreach($condicoes as $item)
@@ -292,22 +307,37 @@
                                                 <label class="active">Condição de pagamento</label>
                                             </div>
 
-                                            <div class="input-field col s6">
+                                            <div class="input-field col s4">
                                                 <input type="text"  value="{{isset($pedido->data_entrega) ? Carbon::createFromFormat('Y-m-d',$pedido->data_entrega)->format('d/m/Y') : ''}}" class="datepicker" placeholder="" id="data_entrega" name="data_entrega">
                                                 <label>Data prevista da entrega</label>
                                             </div>
 
+                                            <div class="input-field col s4">
+                                                <select name="status_entrega" id="status_entrega" class="select2">
+                                                    <option value="">Selecione...</option>
+                                                    <option @if($pedido->status_entrega == "1") selected @endif value="1">1 - Sem programação</option>
+                                                    <option @if($pedido->status_entrega == "2") selected @endif value="2">2 - Programado</option>
+                                                    <option @if($pedido->status_entrega == "3") selected @endif value="3">3 - PGTO</option>
+                                                </select>
+                                                <label class="active">Status da entrega</label>
+                                            </div>
 
-                                            <div class="input-field col s12">
-                                                <textarea class="materialize-textarea" name="observacao" id="observacao" style="height: 6rem" required
+                                            <div class="input-field col s6">
+                                                <textarea class="materialize-textarea" name="observacao" style="height: 6rem" required id="observacao"
                                                           maxlength="10000" length="10000">{{$pedido->observacao or old('observacao')}}</textarea>
-                                                <label>Observação</label>
+                                                <label>Observação na nota fiscal</label>
+                                            </div>
+
+                                            <div class="input-field col s6">
+                                                <textarea class="materialize-textarea" name="obs_interna" style="height: 6rem" required id="obs_interna"
+                                                          maxlength="10000">{{$pedido->obs_interna or old('obs_interna')}}</textarea>
+                                                <label>Observação interna</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="step-actions">
-                                        @if($pedido->situacao_pedido == 'A')
-                                            <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepFour">Concluir</button>
+                                        @if($pedido->situacao_pedido == 'A' or $pedido->situacao_pedido == 'S')
+                                            <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepThree">Concluir</button>
                                         @endif
                                         <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
                                     </div>
@@ -321,15 +351,7 @@
         </div>
     </div>
 
-
     @include('pages.pedidos-vendas.modal-produto')
-
-
-    <!-- form é submetido na confirmação de "onclick" presente na tag "a" de cada item. A action é gerada durante a confirmação da exclusão -->
-    <form id="form-delete" method="post" action="">
-        {{csrf_field()}}
-    </form>
-
 
 @endsection
 
@@ -342,13 +364,15 @@
 
     @if($pedido->situacao_pedido !== 'A' and $pedido->situacao_pedido !== 'S')
         <script>
-             $("input,textarea,select").attr('disabled',true);
+            $("input,textarea,select").attr('disabled',true);
         </script>
     @endif
 
     <script>
         $(document).ready(function(){
+
             $("#data-cliente").attr("hidden",false);
+            $("#vxglocli_id").val('{!! $pedido->cliente->id !!}').trigger("change");
             $("#cliente-erp-id").html($("#vxglocli_id option:selected").attr("data-erp-id"));
             $("#cliente-razao-social").html($("#vxglocli_id option:selected").attr("data-razao-social"));
             $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
@@ -376,6 +400,7 @@
             $("#uf-tabela-preco").val($("#vxglocli_id option:selected").attr("data-uf"));
         })
     </script>
+
 
 @endsection
 

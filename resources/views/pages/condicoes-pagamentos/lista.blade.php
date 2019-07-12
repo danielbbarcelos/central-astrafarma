@@ -80,7 +80,7 @@
                     sSearch: '',
                     sLengthMenu: 'Exibir _MENU_',
                     sLength: 'dataTables_length',
-                    zeroRecords: "Nenhum produto encontrado",
+                    zeroRecords: "Nenhuma condição de pagamento encontrada",
                     info: "Exibindo página _PAGE_ de _PAGES_",
                     infoEmpty: "",
                     infoFiltered: "(filtrado de _MAX_ itens)",

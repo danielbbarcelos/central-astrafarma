@@ -107,7 +107,7 @@
                                     <label>Endereço</label>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <input type="text" placeholder="" name="complemento" id="complemento" class="validate" maxlength="100" value="{{$cliente->complemento or old('complemento')}}">
+                                    <input type="text" placeholder="" name="complemento" id="complemento" class="validate" maxlength="50" value="{{$cliente->complemento or old('complemento')}}">
                                     <label>Complemento</label>
                                 </div>
                             </div>

@@ -117,6 +117,7 @@ class ClienteController extends Controller
             $cliente->cnpj_cpf          = $request['cnpj_cpf'];
             $cliente->tipo_cliente      = strtoupper($request['tipo_cliente']);
             $cliente->endereco          = $request['endereco'];
+            $cliente->complemento       = $request['complemento'];
             $cliente->bairro            = $request['bairro'];
             $cliente->cep               = Helper::removeMascara($request['cep']);
             $cliente->cidade            = $request['cidade'];
@@ -220,6 +221,7 @@ class ClienteController extends Controller
                 $cliente->cnpj_cpf          = $request['cnpj_cpf'];
                 $cliente->tipo_cliente      = strtoupper($request['tipo_cliente']);
                 $cliente->endereco          = $request['endereco'];
+                $cliente->complemento       = $request['complemento'];
                 $cliente->bairro            = $request['bairro'];
                 $cliente->cep               = Helper::removeMascara($request['cep']);
                 $cliente->cidade            = $request['cidade'];

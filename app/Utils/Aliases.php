@@ -4,6 +4,7 @@ namespace App\Utils;
 
 use App\Http\Controllers\Erp\ClienteController as ErpClienteController;
 use App\Http\Controllers\Erp\CondicaoPagamentoController as ErpCondicaoPagamentoController;
+use App\Http\Controllers\Erp\LoteController as ErpLoteController;
 use App\Http\Controllers\Erp\PedidoVendaController as ErpPedidoVendaController;
 use App\Http\Controllers\Erp\TabelaPrecoController as ErpTabelaPrecoController;
 use App\Http\Controllers\Erp\ProdutoController as ErpProdutoController;
@@ -32,6 +33,7 @@ class Aliases
         $tables = [
             'vx_glo_cli'    => new ErpClienteController(),
             'vx_glo_cpgto'  => new ErpCondicaoPagamentoController(),
+            'vx_est_lote'   => new ErpLoteController(),
             'vx_fat_pvenda' => new ErpPedidoVendaController(),
             'vx_fat_tabprc' => new ErpTabelaPrecoController(),
             'vx_fat_tparmz' => new ErpVendedorController(),

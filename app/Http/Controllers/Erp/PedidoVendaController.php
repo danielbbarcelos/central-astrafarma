@@ -46,6 +46,7 @@ class PedidoVendaController extends Controller
 
             unset($vars['empresa_id']);
             unset($vars['filial_id']);
+            unset($vars['vex_id']);
 
             if($empresaId !== null and $filialId !== null)
             {
@@ -96,7 +97,11 @@ class PedidoVendaController extends Controller
                         $pedidoItem->vxfatpvenda_id     = $pedido->id;
                         $pedidoItem->vxfatpvenda_erp_id = $vars['erp_id'];
                         $pedidoItem->vxgloprod_erp_id   = $item->vxgloprod_erp_id;
+                        $pedidoItem->vxfattabprc_erp_id = $item->vxfattabprc_erp_id;
+                        $pedidoItem->vxestarmz_erp_id   = $item->vxestarmz_erp_id;
+                        $pedidoItem->vxestlote_erp_id   = $item->vxestlote_erp_id;
                         $pedidoItem->quantidade         = $item->quantidade;
+                        $pedidoItem->alerta_estoque     = $item->alerta_estoque;
                         $pedidoItem->produto_data       = json_encode($produto, JSON_UNESCAPED_UNICODE);
                         $pedidoItem->preco_unitario     = Helper::formataDecimal($item->preco_unitario);
                         $pedidoItem->preco_venda        = Helper::formataDecimal($item->preco_venda);
@@ -113,6 +118,7 @@ class PedidoVendaController extends Controller
         }
         catch(\Exception $e)
         {
+            dd('Deu erro',$e,$vars,$itens);
             $success = false;
             $log     = 'Ocorreu um erro ao processar os itens';	        
         }

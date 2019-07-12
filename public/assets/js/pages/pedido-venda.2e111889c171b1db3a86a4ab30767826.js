@@ -514,7 +514,7 @@ function adicionaProduto()
         row    += "<input type='hidden' id='produto-tabela-id-"+itemHash+"' name='produto_tabela_id[]' value='"+$("#tabela_preco_id").val()+"'>";
         row    += "<input type='hidden' id='produto-quantidade-"+itemHash+"' name='produto_quantidade[]' value='"+$("#produto_quantidade").val()+"'>";
         row    += "<input type='hidden' name='produto_lote_id[]' value='"+$("#lote_id option:selected").val()+"'>";
-        row    += "<input type='hidden' id='produto-erp-id-"+itemHash+"' name='produto_lote_erp_id[]' value='"+$("#lote_id option:selected").attr('erp_id')+"'>";
+        row    += "<input type='hidden' id='produto-lote-erp-id-"+itemHash+"' name='produto_lote_erp_id[]' value='"+$("#lote_id option:selected").attr('erp_id')+"'>";
         row    += "<input type='hidden' name='produto_preco_unitario[]' value='"+$("#produto_preco_unitario").val()+"'>";
         row    += "<input type='hidden' name='produto_preco_venda[]' value='"+$("#produto_preco_venda").val()+"'>";
         row    += "<input type='hidden' name='produto_valor_desconto[]' value='"+$("#produto_valor_desconto").val()+"'>";

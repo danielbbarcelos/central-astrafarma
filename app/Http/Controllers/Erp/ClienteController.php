@@ -43,6 +43,7 @@ class ClienteController extends Controller
 
             unset($vars['empresa_id']);
             unset($vars['filial_id']);
+            unset($vars['vex_id']);
 
             if($empresaId !== null and $filialId !== null)
             {
@@ -89,6 +90,7 @@ class ClienteController extends Controller
 
             unset($vars['empresa_id']);
             unset($vars['filial_id']);
+            unset($vars['vex_id']);
 
             if($empresaId !== null and $filialId !== null)
             {
@@ -100,9 +102,9 @@ class ClienteController extends Controller
                 }
             }
 
-
             //inclui timestamps
             $vars['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
+
 
             $cliente = Cliente::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                 ->where('erp_id',$vars['erp_id'])

@@ -264,54 +264,51 @@ class PedidoVendaController extends Controller
             }
 
 
-            //busca as tabelas de preço cadastradas
-            $tabelas = [];
+            // Busca os produtos cadastrados
+            $produtos = Produto::where(function($query){
 
-            $precos  = TabelaPreco::where(function($query){
+                $query->where('vxgloempfil_id',$this->empfilId);
+                $query->orWhere('vxgloempfil_id','=',null);
+
+            })->where('status','1')->orderBy('descricao','asc')->get();
+
+            if(count($produtos) == 0)
+            {
+                $success = false;
+                $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não há produtos cadastrados'];
+            }
+
+            // Busca as tabelas de preços cadastradas
+            $tabelas = TabelaPreco::where(function($query){
 
                 $query->where('vxgloempfil_id',$this->empfilId);
                 $query->orWhere('vxgloempfil_id','=',null);
 
             })->orderBy('descricao','asc')->get();
 
-
-            foreach($precos as $tabela)
+            if(count($tabelas) == 0)
             {
-                $tabelaPrecoProduto = TabelaPrecoProduto::where('vxfattabprc_id',$tabela->id)->get();
-
-                $produtos = [];
-
-                foreach($tabelaPrecoProduto as $item)
-                {
-                    $produto = Produto::find($item->vxgloprod_id);
-
-                    if(isset($produto))
-                    {
-                        $produto->uf             = $item->uf;
-                        $produto->preco_venda    = $item->preco_venda;
-                        $produto->preco_maximo   = $item->preco_maximo;
-                        $produto->valor_desconto = $item->valor_desconto;
-                        $produto->fator          = $item->fator;
-
-                        $produtos[] = $produto;
-                    }
-                }
-
-                if(count($produtos) > 0)
-                {
-                    $tabela->produtos = $produtos;
-
-                    $tabelas[] = $tabela;
-                }
+                $success = false;
+                $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não há tabelas de preços cadastradas'];
             }
 
+            // Busca as condições de pagamento cadastradas
+            $condicoes = CondicaoPagamento::where('vxgloempfil_id',$this->empfilId)
+                ->where('web','1')
+                ->where(function($query) use ($pedido){
 
-            $condicoes = CondicaoPagamento::where('vxgloempfil_id',$this->empfilId)->where(function($query) use ($pedido){
+                    $query->where('status','1');
+                    $query->orWhere('erp_id','=',$pedido->vxglocpgto_erp_id);
 
-                $query->where('status','1');
-                $query->orWhere('erp_id','=',$pedido->vxglocpgto_erp_id);
+                })
+                ->orderBy('descricao','asc')
+                ->get();
 
-            })->orderBy('descricao','asc')->get();
+            if(count($condicoes) == 0)
+            {
+                $success = false;
+                $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não é condições de pagamento ativas cadastradas'];
+            }
 
         }
 
@@ -321,6 +318,7 @@ class PedidoVendaController extends Controller
         $response['pedido']    = isset($pedido) ? $pedido : null;
         $response['itens']     = isset($itens) ? $itens : [];
         $response['clientes']  = isset($clientes) ? $clientes : [];
+        $response['produtos']  = isset($produtos) ? $produtos : [];
         $response['tabelas']   = isset($tabelas) ? $tabelas : [];
         $response['condicoes'] = isset($condicoes) ? $condicoes : [];
         return $response;
@@ -387,46 +385,59 @@ class PedidoVendaController extends Controller
 
             if($liberado)
             {
+
+
                 //busca os dados para incluir o ERP ID
                 $cliente  = Cliente::find($request['vxglocli_id']);
                 $condicao = CondicaoPagamento::find($request['vxglocpgto_id']);
                 $vendedor = Vendedor::find($this->vendedorId);
-                $tabela   = TabelaPreco::find($request['vxfattabprc_id']);
 
+                $pedido->situacao_pedido     = "A";
                 $pedido->vxgloempfil_id      = $this->empfilId;
                 $pedido->vxglocli_erp_id     = $cliente->erp_id;
                 $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
                 $pedido->vxfatvend_erp_id    = $vendedor->erp_id;
-                $pedido->vxfattabprc_erp_id  = $tabela->erp_id;
                 $pedido->cliente_data        = json_encode($cliente, JSON_UNESCAPED_UNICODE);
                 $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('d/m/Y',$request['data_entrega'])->format('Y-m-d') : null;
+                $pedido->status_entrega      = $request['status_entrega'];
                 $pedido->observacao          = isset($request['observacao']) ? $request['observacao'] : '';
+                $pedido->obs_interna         = isset($request['obs_interna']) ? $request['obs_interna'] : '';
                 $pedido->updated_at          = new \DateTime();
                 $pedido->save();
 
+
+
                 //exclui os itens de pedido que não foram enviados na requisição
-                PedidoItem::where('vxfatpvenda_id',$pedido_venda_id)->delete();
+                PedidoItem::where('vxfatpvenda_id',$pedido_venda_id)->forceDelete();
 
                 if(isset($request['produto_id']))
                 {
                     for($i = 0; $i < count($request['produto_id']); $i++)
                     {
+                        $tabela  = TabelaPreco::find($request['produto_tabela_id'][$i]);
+
                         $produto = Produto::find($request['produto_id'][$i]);
 
+                        $lote    = Lote::find($request['produto_lote_id'][$i]);
+
                         $pedidoItem = new PedidoItem();
-                        $pedidoItem->vxfatpvenda_id   = $pedido->id;
-                        $pedidoItem->vxgloprod_erp_id = $produto->erp_id;
-                        $pedidoItem->produto_data     = json_encode($produto, JSON_UNESCAPED_UNICODE);
-                        $pedidoItem->quantidade       = $request['produto_quantidade'][$i];
-                        $pedidoItem->preco_unitario   = number_format(Helper::formataDecimal($request['produto_preco_unitario'][$i]),2,'.','');
-                        $pedidoItem->preco_venda      = number_format(Helper::formataDecimal($request['produto_preco_venda'][$i]),2,'.','');
-                        $pedidoItem->valor_desconto   = number_format(Helper::formataDecimal($request['produto_valor_desconto'][$i]),2,'.','');
-                        $pedidoItem->valor_total      = number_format(Helper::formataDecimal($request['produto_preco_total'][$i]),2,'.','');
-                        $pedidoItem->created_at       = new \DateTime();
-                        $pedidoItem->updated_at       = new \DateTime();
+                        $pedidoItem->vxfatpvenda_id     = $pedido->id;
+                        $pedidoItem->vxgloprod_erp_id   = $produto->erp_id;
+                        $pedidoItem->vxfattabprc_erp_id = $tabela->erp_id;
+                        $pedidoItem->vxestarmz_erp_id   = $lote->armazem->erp_id;
+                        $pedidoItem->vxestlote_erp_id   = $lote->erp_id;
+                        $pedidoItem->quantidade         = $request['produto_quantidade'][$i];
+                        $pedidoItem->produto_data       = json_encode($produto, JSON_UNESCAPED_UNICODE);
+                        $pedidoItem->preco_unitario     = number_format(Helper::formataDecimal($request['produto_preco_unitario'][$i]),2,'.','');
+                        $pedidoItem->preco_venda        = number_format(Helper::formataDecimal($request['produto_preco_venda'][$i]),2,'.','');
+                        $pedidoItem->valor_desconto     = number_format(Helper::formataDecimal($request['produto_valor_desconto'][$i]),2,'.','');
+                        $pedidoItem->valor_total        = number_format(Helper::formataDecimal($request['produto_preco_total'][$i]),2,'.','');
+                        $pedidoItem->created_at         = new \DateTime();
+                        $pedidoItem->updated_at         = new \DateTime();
                         $pedidoItem->save();
                     }
                 }
+
 
                 //gera vex sync
                 if(isset($pedido->erp_id))
@@ -583,6 +594,7 @@ class PedidoVendaController extends Controller
             }
             catch(\Exception $exception)
             {
+                dd($exception);
                 $success = false;
                 $log[]   = ['error' => 'Não foi possível imprimir o PDF'];
             }

@@ -99,7 +99,7 @@
         $(document).ready(function(){
 
             $('.datatable').DataTable({
-                order: [[ 1, "asc" ]],
+                order: [[ 0, "desc" ]],
                 language: {
                     searchPlaceholder: 'Procurar',
                     sSearch: '',

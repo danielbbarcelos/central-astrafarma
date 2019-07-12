@@ -44,4 +44,16 @@ class PedidoItem extends Model
         return $this->belongsTo('App\Produto', 'vxgloprod_erp_id','erp_id');
     }
 
+    //belongsTo tabela de preço
+    public function tabela()
+    {
+        return $this->belongsTo('App\TabelaPreco', 'vxfattabprc_erp_id','erp_id');
+    }
+
+    //belongsTo lote
+    public function lote()
+    {
+        return $this->belongsTo('App\Lote', 'vxestlote_erp_id','erp_id');
+    }
+
 }
