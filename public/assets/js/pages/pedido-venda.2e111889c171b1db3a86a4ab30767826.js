@@ -422,49 +422,20 @@ function calculaPrecoTotalProduto()
 {
     var quantidade     = $("#produto_quantidade").val().replace(".","").replace(",",".");
     var preco_unitario = $("#produto_preco_unitario").val().replace(".","").replace(",",".");
-    var valor_desconto = $("#produto_valor_desconto").val().replace(".","").replace(",",".");
+    var preco_venda    = $("#produto_preco_venda").val().replace(".","").replace(",",".");
 
-    var preco_total    = quantidade * preco_unitario - valor_desconto;
+    var preco_total    = quantidade * preco_venda;
 
     $("#produto_preco_total").val(number_format(preco_total,2,',','.'));
 
 
-    //recalcula preço unitário com base no preço total encontrado
-    if(parseInt(quantidade) > 0)
-    {
-        preco_unitario = parseFloat(preco_total) / parseInt(quantidade);
-        $("#produto_preco_venda").val(number_format(preco_unitario.toFixed(2),2,',','.'));
-    }
-}
+    //o valor de desconto é utilizado apenas para destaque
+    var valor_desconto = preco_total - (quantidade * preco_unitario);
 
-
-//---------------------------------------------------------------------------
-//
-// Verifica se o desconto do produto inserido é válido
-//
-//---------------------------------------------------------------------------
-function validaDesconto()
-{
-    var quantidade  = $("#produto_quantidade").val().replace(".","").replace(",",".");
-    var preco_venda = $("#produto_preco_venda").val().replace(".","").replace(",",".");
-    var preco_total = $("#produto_preco_total").val().replace(".","").replace(",",".");
-
-    if(parseInt(quantidade) > 0)
-    {
-        if(parseFloat(parseFloat(preco_venda) * parseInt(quantidade)) !== parseFloat(preco_total))
-        {
-            var ajuste = parseFloat(preco_total) - (parseFloat(preco_venda) * parseInt(quantidade));
-
-            var valor_desconto = $("#produto_valor_desconto").val().replace(".","").replace(",",".");
-
-            $("#produto_valor_desconto").val(number_format(parseFloat(parseFloat(valor_desconto) + parseFloat(ajuste.toFixed(2))),2,',','.'))
-
-            calculaPrecoTotalProduto();
-
-        }
-    }
+    $("#produto_valor_desconto").val(number_format(valor_desconto * -1,2,',','.'));
 
 }
+
 
 
 
@@ -530,8 +501,6 @@ function adicionaProduto()
 
     if(success)
     {
-        validaDesconto();
-
         var itemHash = hashGenerator(30,'');
 
         var validade = $("#lote_id option:selected").attr('dt_valid');
