@@ -29,6 +29,7 @@ $(document).ready(function() {
 //---------------------------------------------------------------------------
 function validateStepOne() {
 
+
     if($("#vxglocli_id").val() === '')
     {
         Materialize.toast('Selecione o cliente para continuar', 5000, 'red');
@@ -301,7 +302,12 @@ function alteraValoresPorItem(hidden)
 
                 //exibe mensagem de erro
                 $("#erro-produto").attr("hidden",false);
-                $("#erro-produto span").html(response.log.error);
+                if (response.log.error){
+                    $("#erro-produto span").html(response.log.error);
+                } else{
+                    $("#erro-produto span").html(response.log[0]);
+                }
+
             }
             else
             {
