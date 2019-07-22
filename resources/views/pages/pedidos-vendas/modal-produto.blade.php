@@ -1,4 +1,4 @@
-<div id="modal-produto" class="modal modal-fixed-footer" style="min-height: 500px !important; background-color: #fff; z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
+<div id="modal-produto" class="modal modal-fixed-footer" style="min-height: 530px !important; background-color: #fff; z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
     <div class="modal-content" style="">
         <h4 class="">Adicionar item</h4>
 
@@ -41,6 +41,15 @@
                 <label class="active">Tabela de preço</label>
             </div>
         </div>
+
+
+        <div class="row row-input" id="div-saldo-total" hidden>
+            <div class="input-field col s12">
+                <input type="text" value="" placeholder="" readonly id="saldo-total">
+                <label>Saldo total em estoque</label>
+            </div>
+        </div>
+
 
         <div hidden id="div-lote">
             <div class="row row-input padding-bottom-10">

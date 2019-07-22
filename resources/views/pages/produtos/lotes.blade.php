@@ -17,12 +17,12 @@
             @foreach($lotes as $item)
                 <tr>
                     <td>
-                        @if($item->dt_valid < Carbon::now()->format('Y-m-d'))
-                            <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #e6493e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Lote vencido">fiber_manual_record</i>
-                        @elseif($item->dt_valid == Carbon::now()->format('Y-m-d'))
-                            <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #fbe053; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Lote a vencer">fiber_manual_record</i>
+                        @if($item->dt_valid < Carbon::now()->addMonths(6)->format('Y-m-d'))
+                            <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #e6493e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Vencimento menor que 6 meses">fiber_manual_record</i>
+                        @elseif($item->dt_valid >= Carbon::now()->addMonths(6)->format('Y-m-d') or $item->dt_valid < Carbon::now()->addMonths(12)->format('Y-m-d'))
+                            <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #fbe053; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Vencimento menor que 1 ano">fiber_manual_record</i>
                         @else
-                            <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #72bc6e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Sem ressalvas">fiber_manual_record</i>
+                            <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #709dad; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Vencimento maior que 1 ano">fiber_manual_record</i>
                         @endif
                     </td>
                     <td>{{$item->erp_id !== null ? $item->erp_id : '-'}}</td>

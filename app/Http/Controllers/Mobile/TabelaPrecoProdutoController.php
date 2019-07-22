@@ -45,9 +45,10 @@ class TabelaPrecoProdutoController extends Controller
         $preco = TabelaPrecoProduto::where('vxfattabprc_id',$tabela_id)
             ->where('uf',strtoupper($uf))
             ->where('data_vigencia','!=',null)
-            //->where('data_vigencia','>=',Carbon::now()->format('Y-m-d'))
+            ->where('data_vigencia','>=',Carbon::now()->format('Y-m-d'))
             ->where('vxgloprod_id',$produto_id)
             ->first();
+
 
         if(!isset($preco))
         {

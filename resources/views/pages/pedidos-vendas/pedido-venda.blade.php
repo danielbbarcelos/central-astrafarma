@@ -269,7 +269,7 @@
 
                             <!-- Conclusão -->
                             <li class="step">
-                                <div class="step-title waves-effect waves-dark" onclick="event.stopPropagation();">Conclusão</div>
+                                <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">Conclusão</div>
                                 <div class="step-content">
                                     <div class="row">
 
@@ -360,7 +360,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.2e111889c171b1db3a86a4ab30767826.js"></script>
+    <script src="/assets/js/pages/pedido-venda.22e111889c171b1db3a86a4ab30767826.js"></script>
 
     @if($pedido->situacao_pedido !== 'A' and $pedido->situacao_pedido !== 'S')
         <script>

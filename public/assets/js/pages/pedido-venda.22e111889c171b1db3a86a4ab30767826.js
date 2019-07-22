@@ -251,8 +251,6 @@ $("#tabela_preco_id").on("change", function(){
 
 function alteraValoresPorItem(hidden)
 {
-    $("#div-saldo-total").attr("hidden",hidden);
-    $("#saldo-total").val("0");
 
     if(hidden === true)
     {
@@ -268,6 +266,9 @@ function alteraValoresPorItem(hidden)
 
 
         $("#div-valores-item").attr('hidden',hidden);
+
+        //não exibe saldo total
+        $("#div-saldo-total").attr("hidden",true);
     }
     else
     {
@@ -306,11 +307,19 @@ function alteraValoresPorItem(hidden)
 
                 //exibe mensagem de erro
                 $("#erro-produto").attr("hidden",false);
-                if (response.log.error){
+
+                if (response.log.error)
+                {
                     $("#erro-produto span").html(response.log.error);
-                } else{
+                }
+                else
+                {
                     $("#erro-produto span").html(response.log[0]);
                 }
+
+
+                //não exibe saldo total
+                $("#div-saldo-total").attr("hidden",true);
 
             }
             else
@@ -329,7 +338,6 @@ function alteraValoresPorItem(hidden)
                 //carrega os lotes disponíveis para o produto
                 buscaLotes(produto_id, tabela_id);
 
-
                 $("#div-valores-item").attr('hidden',hidden);
             }
         });
@@ -347,6 +355,7 @@ function alteraValoresPorItem(hidden)
 //-----------------------------------------------------------------------------------
 function buscaLotes(produto_id, tabela_id)
 {
+    $("#div-saldo-total").attr("hidden",false);
 
     var call = '/api/v1/lotes/'+produto_id+'/'+tabela_id;
 
@@ -368,6 +377,11 @@ function buscaLotes(produto_id, tabela_id)
 
             $("#div-lote").attr("hidden",true);
             $("#lote_id").html("").val("").trigger("change");
+
+
+            //exibe o saldo total em estoque
+            $("#saldo-total").val('0');
+
         }
         else
         {
@@ -378,7 +392,8 @@ function buscaLotes(produto_id, tabela_id)
 
             var options = "<option value=''>Selecione...</option>";
 
-            var itens   = 0;
+            var itens      = 0;
+            var saldoTotal = 0;
 
             $(response.lotes).each(function(){
 
@@ -388,7 +403,7 @@ function buscaLotes(produto_id, tabela_id)
                 //verifica se o lote foi adicionado anteriormente, para poder recalcular seu saldo
                 var saldo = this.saldo;
                 $("input[name='produto_lote_erp_id[]'][value='"+this.erp_id+"']").each(function () {
-                    var hash = this.id.split('-')[3];
+                    var hash = this.id.split('-')[4];
                     var qtde = $("#produto-quantidade-"+hash).val();
                     saldo = parseInt(saldo) - parseInt(qtde);
                 });
@@ -400,7 +415,12 @@ function buscaLotes(produto_id, tabela_id)
                     itens++;
                 }
 
+                saldoTotal = parseInt(saldoTotal) + parseInt(saldo);
+
             });
+
+            //exibe o saldo total em estoque
+            $("#saldo-total").val(saldoTotal);
 
             if(itens > 0)
             {
