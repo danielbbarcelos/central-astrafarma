@@ -85,4 +85,45 @@ class VexSyncController extends Controller
     }
 
 
+    //altera status de item
+    public function alteraStatus($id)
+    {
+        $success = true;
+        $log     = [];
+
+        $sync = VexSync::where('id',$id)->where('sucesso','0')->first();
+
+
+        if(!isset($sync))
+        {
+            $success = false;
+            $log[]   = ['error' => 'Item não encontrado'];
+        }
+        else
+        {
+            if((int)$sync->bloqueado == 1)
+            {
+                $sync->bloqueado  = '0';
+                $sync->updated_at = new \DateTime();
+                $sync->save();
+
+                $log[]   = ['success' => 'Sincronização do item desbloqueada com sucesso'];
+            }
+            else
+            {
+                $sync->bloqueado  = '1';
+                $sync->updated_at = new \DateTime();
+                $sync->save();
+
+                $log[]   = ['success' => 'Sincronização do item bloqueada com sucesso'];
+            }
+        }
+
+
+        $response['success'] = $success;
+        $response['log']     = $log;
+        return $response;
+    }
+
+
 }

@@ -16,6 +16,7 @@
     <link href="{{url('/assets/plugins/material-preloader/css/materialPreloader.min.css')}}" rel="stylesheet">        
     <link href="{{url('/assets/plugins/select2/css/select2.87e4b5ce2fe28308fd9f2a7ba.css')}}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Didact+Gothic|Rubik" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c50e036d64.js"></script>
 
     <!-- CSS especifico das paginas -->
     @yield('page-css')

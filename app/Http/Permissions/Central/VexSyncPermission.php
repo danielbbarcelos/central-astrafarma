@@ -17,7 +17,8 @@ class VexSyncPermission
      */ 
     public static $functions = [
 
-       'lista' => [ 'codigo' => 'CENSYN001', 'prioridade' => '1', 'superior' => null, 'controle' => '1', 'titulo' => 'Sistema > Logs de sincronização', 'descricao' => 'Tela de logs de sincronização'],
+       'lista'        => [ 'codigo' => 'CENSYN001', 'prioridade' => '1', 'superior' => null,        'controle' => '1', 'titulo' => 'Sistema > Logs de sincronização', 'descricao' => 'Tela de logs de sincronização'],
+       'alteraStatus' => [ 'codigo' => 'CENSYN002', 'prioridade' => '0', 'superior' => 'CENSYN001', 'controle' => '1', 'titulo' => 'Sistema > Logs de sincronização', 'descricao' => 'Bloqueio e desbloqueio de sincronização'],
 
     ];
 

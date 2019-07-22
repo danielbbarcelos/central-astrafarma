@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('page-title', 'Logs de syncronização')
+@section('page-title', 'Logs de sincronização')
 
 @section('page-css')
 
@@ -46,18 +46,16 @@
                         <br>
                         <div class="row">
 
-
-
-
-
                             <table class="display responsive-table datatable" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Método</th>
                                     <th>Entidade</th>
-                                    <th>ID da entidade</th>
                                     <th>WebService</th>
+                                    @if(strpos(Request::getRequestUri(), 'sem-sucesso') == true)
+                                        <th>Tentativas</th>
+                                    @endif
                                     <th>Últ. atualização</th>
                                     @if((strpos(Request::getRequestUri(), 'sem-sucesso') == true) and Permission::check('adicionaPost','Chamado','Central'))
                                         <th>Funções</th>
@@ -79,15 +77,28 @@
                                             {{$item->id}}
                                         </td>
                                         <td>{{strtoupper($item->action)}}</td>
-                                        <td>{{Aliases::entityByTable($item->tabela)}}</td>
-                                        <td>{{$item->tabela_id}}</td>
+                                        <td>{{Aliases::entityByTable($item->tabela).' #'.$item->tabela_id}}</td>
                                         <td>{{$item->webservice}}</td>
+                                        @if(strpos(Request::getRequestUri(), 'sem-sucesso') == true)
+                                            <td>{{$item->tentativa}}</td>
+                                        @endif
                                         <td>
                                             <span hidden>{{$item->updated_at}}</span>
                                             {{Carbon::createFromFormat('Y-m-d H:i:s',$item->updated_at)->format('d/m/Y - H:i:s')}}
                                         </td>
                                         @if((strpos(Request::getRequestUri(), 'sem-sucesso') == true) and Permission::check('adicionaPost','Chamado','Central'))
                                             <td class="uk-text-center">
+                                                @if((int)$item->bloqueado == 0)
+                                                    <a href="{{url('/vex-sync/logs/'.$item->id.'/status')}}"
+                                                       class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Bloquear sincronização">
+                                                        <i class="material-icons" style="color: #b60b23">block</i>
+                                                    </a>
+                                                @else
+                                                    <a href="{{url('/vex-sync/logs/'.$item->id.'/status')}}"
+                                                       class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Desbloquear sincronização">
+                                                        <i class="material-icons" style="color: #46ab7f">check</i>
+                                                    </a>
+                                                @endif
                                                 <a onclick="novoChamado('{!! $item->id !!}','{!! strtoupper($item->action) !!}','{!! Aliases::entityByTable($item->tabela) !!}','{!! $item->tabela_id !!}','{!! $item->webservice !!}','{!! Carbon::createFromFormat('Y-m-d H:i:s',$item->updated_at)->format('d/m/Y - H:i:s') !!}','{!! $item->log !!}')"
                                                    class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Abrir chamado">
                                                     <i class="material-icons">help</i>
@@ -106,6 +117,12 @@
     </div>
 
 
+    <div class="fixed-action-btn tooltipped" data-position="top" data-delay="10" data-tooltip="Sincronizar" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red" id="btn-sync">
+            <i id="icon-sync1" class="fa fa-redo-alt" style="display: block"></i>
+            <i id="icon-sync2" class="fa fa-sync-alt fa-spin" style="display: none"></i>
+        </a>
+    </div>
 
 
     <!-- Botão para adicionar -->
@@ -126,7 +143,7 @@
         $(document).ready(function(){
 
             $('.datatable').DataTable({
-                order: [[ 5, "desc" ]],
+                order: [[ 0, "desc" ]],
                 language: {
                     searchPlaceholder: 'Procurar',
                     sSearch: '',
@@ -146,6 +163,14 @@
             });
             $('.dataTables_length select').addClass('browser-default');
 
+        });
+
+
+        $("#btn-sync").on("click",function(){
+           $("#icon-sync1").css("display","none");
+           $("#icon-sync2").css("display","block");
+           $(this).attr("disabled",true);
+           window.location = '/api/v1/vex-sync/sincroniza?web=true'
         });
 
     </script>

@@ -47,6 +47,8 @@ class VexSyncController extends Controller
         $sync->webservice = $webservice;
         $sync->status     = '0';
         $sync->sucesso    = '0';
+        $sync->tentativa  = '0';
+        $sync->bloqueado  = '0';
         $sync->log        = null;
         $sync->created_at = new \DateTime();
         $sync->updated_at = new \DateTime();
@@ -64,12 +66,15 @@ class VexSyncController extends Controller
         $success = true;
         $log     = [];
 
-        $syncs = VexSync::where('sucesso','0')->get();
+        $syncs = VexSync::where('sucesso','0')
+            ->where('bloqueado','0')
+            ->get();
 
         foreach($syncs as $sync)
         {
             //informa que já foi executado
-            $sync->status = '1';
+            $sync->status    = '1';
+            $sync->tentativa = (int) $sync->tentativa + 1;
             $sync->save();
 
 
@@ -92,6 +97,13 @@ class VexSyncController extends Controller
             else 
             {
                 $syncLog = ['data_hora' => Carbon::now()->format('Y-m-d H:i:s'), 'sucesso' => false, 'mensagem' => $action['log']];
+
+
+                //bloquea execução a cada 30 tentativas sem sucesso
+                if($sync->tentativa % 30 == 0)
+                {
+                    $sync->bloqueado = '1';
+                }
             }
 
             $sync->sucesso      = $action['success'] == true ? '1' : '0';

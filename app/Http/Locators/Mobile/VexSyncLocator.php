@@ -38,8 +38,18 @@ class VexSyncLocator extends Controller
 
         $controller::buscaPendencia();
 
-        $response['success'] = true;
-        $response['log']     = [];
-        return Helper::retornoMobile($response);
+        if(isset($request['web']))
+        {
+            $log   = [];
+            $log[] = ['success'=>'Sincronização realizada'];
+
+            return Redirect::back()->with('log',$log);
+        }
+        else
+        {
+            $response['success'] = true;
+            $response['log']     = [];
+            return Helper::retornoMobile($response);
+        }
     }
 }
