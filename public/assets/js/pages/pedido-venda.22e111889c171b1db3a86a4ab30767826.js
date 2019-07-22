@@ -251,6 +251,9 @@ $("#tabela_preco_id").on("change", function(){
 
 function alteraValoresPorItem(hidden)
 {
+    $("#div-saldo-total").attr("hidden",hidden);
+    $("#saldo-total").val("0");
+
     if(hidden === true)
     {
         $("#produto_quantidade").val('0');
@@ -268,6 +271,7 @@ function alteraValoresPorItem(hidden)
     }
     else
     {
+
         $("#produto_erp_id").val($('#produto_id option:selected').attr('erp_id'));
         $("#produto_descricao").val($('#produto_id option:selected').attr('descricao'));
 
@@ -439,7 +443,6 @@ function calculaPrecoTotalProduto()
     var valor_desconto = preco_total - (quantidade * preco_unitario);
 
     $("#produto_valor_desconto").val(number_format(valor_desconto * -1,2,',','.'));
-
 }
 
 
