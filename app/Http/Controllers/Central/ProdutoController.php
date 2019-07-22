@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Central; 
 
 //models and controllers
+use App\Lote;
 use App\Produto;
 
 //mails
@@ -11,6 +12,7 @@ use App\Produto;
 use App\Http\Controllers\Controller;
 use App\TabelaPreco;
 use App\TabelaPrecoProduto;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 //packages
@@ -98,12 +100,18 @@ class ProdutoController extends Controller
                 }
 
             }
+
+            $lotes = Lote::where('vxgloprod_id',$produto_id)
+                ->where('saldo','>','0')
+                ->orderBy('dt_valid','asc')
+                ->get();
         }
 
         $response['success'] = $success;
         $response['log']     = $log;
         $response['produto'] = $produto;
         $response['tabelas'] = isset($tabelas) ? $tabelas : [];
+        $response['lotes']   = isset($lotes) ? $lotes : [];
         return $response;
     }
 
