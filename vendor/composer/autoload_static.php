@@ -436,6 +436,7 @@ class ComposerStaticInitf18ce51d7b935ef5d36fe5e1607913b4
         'App\\Http\\Controllers\\Erp\\ArmazemController' => __DIR__ . '/../..' . '/app/Http/Controllers/Erp/ArmazemController.php',
         'App\\Http\\Controllers\\Erp\\ClienteController' => __DIR__ . '/../..' . '/app/Http/Controllers/Erp/ClienteController.php',
         'App\\Http\\Controllers\\Erp\\CondicaoPagamentoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Erp/CondicaoPagamentoController.php',
+        'App\\Http\\Controllers\\Erp\\LoteController' => __DIR__ . '/../..' . '/app/Http/Controllers/Erp/LoteController.php',
         'App\\Http\\Controllers\\Erp\\PedidoVendaController' => __DIR__ . '/../..' . '/app/Http/Controllers/Erp/PedidoVendaController.php',
         'App\\Http\\Controllers\\Erp\\ProdutoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Erp/ProdutoController.php',
         'App\\Http\\Controllers\\Erp\\TabelaPrecoArmazemController' => __DIR__ . '/../..' . '/app/Http/Controllers/Erp/TabelaPrecoArmazemController.php',

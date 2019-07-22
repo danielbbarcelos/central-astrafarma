@@ -47,6 +47,7 @@ return array(
     'App\\Http\\Controllers\\Erp\\ArmazemController' => $baseDir . '/app/Http/Controllers/Erp/ArmazemController.php',
     'App\\Http\\Controllers\\Erp\\ClienteController' => $baseDir . '/app/Http/Controllers/Erp/ClienteController.php',
     'App\\Http\\Controllers\\Erp\\CondicaoPagamentoController' => $baseDir . '/app/Http/Controllers/Erp/CondicaoPagamentoController.php',
+    'App\\Http\\Controllers\\Erp\\LoteController' => $baseDir . '/app/Http/Controllers/Erp/LoteController.php',
     'App\\Http\\Controllers\\Erp\\PedidoVendaController' => $baseDir . '/app/Http/Controllers/Erp/PedidoVendaController.php',
     'App\\Http\\Controllers\\Erp\\ProdutoController' => $baseDir . '/app/Http/Controllers/Erp/ProdutoController.php',
     'App\\Http\\Controllers\\Erp\\TabelaPrecoArmazemController' => $baseDir . '/app/Http/Controllers/Erp/TabelaPrecoArmazemController.php',
