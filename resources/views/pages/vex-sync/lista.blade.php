@@ -55,6 +55,7 @@
                                     <th>WebService</th>
                                     @if(strpos(Request::getRequestUri(), 'sem-sucesso') == true)
                                         <th>Tentativas</th>
+                                        <th>Status</th>
                                     @endif
                                     <th>Últ. atualização</th>
                                     @if((strpos(Request::getRequestUri(), 'sem-sucesso') == true) and Permission::check('adicionaPost','Chamado','Central'))
@@ -81,6 +82,13 @@
                                         <td>{{$item->webservice}}</td>
                                         @if(strpos(Request::getRequestUri(), 'sem-sucesso') == true)
                                             <td>{{$item->tentativa}}</td>
+                                            <td>
+                                                @if($item->bloqueado == '0')
+                                                    <span style="color: #709dad" class="font-weight-700">Desbloqueado</span>
+                                                @else
+                                                    <span style="color: #b60b23" class="font-weight-700">Bloqueado</span>
+                                                @endif
+                                            </td>
                                         @endif
                                         <td>
                                             <span hidden>{{$item->updated_at}}</span>

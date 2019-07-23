@@ -102,6 +102,36 @@ class PedidoVendaController extends Controller
             $success = false;
             $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não há produtos cadastrados'];
         }
+        else
+        {
+            $itens = [];
+
+            //verifica se os produtos possuem saldo em estoque
+            foreach($produtos as $produto)
+            {
+                $lote = Lote::where('vxgloprod_id',$produto->id)
+                    ->where('saldo','>','0')
+                    ->where('dt_valid','!=',null)
+                    ->where('dt_valid','>=',Carbon::now()->addDays(1)->format('Y-m-d'))
+                    ->first();
+
+                if(isset($lote))
+                {
+                   $itens[] = $produto;
+                }
+            }
+
+            if(count($itens) == 0)
+            {
+                $success = false;
+                $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não há produtos com saldo em estoque'];
+            }
+            else
+            {
+                $produtos = $itens;
+            }
+        }
+
 
         // Busca as tabelas de preços cadastradas
         $tabelas = TabelaPreco::where(function($query){
@@ -258,9 +288,6 @@ class PedidoVendaController extends Controller
         }
         else
         {
-            //busca os itens do pedido de venda
-            $itens = PedidoItem::where('vxfatpvenda_id',$pedido_venda_id)->get();
-
             //busca os clientes cadastrados
             $clientes = Cliente::where(function($query){
 
@@ -294,6 +321,38 @@ class PedidoVendaController extends Controller
                 $success = false;
                 $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não há produtos cadastrados'];
             }
+            else
+            {
+                $itens = [];
+
+                //verifica se os produtos possuem saldo em estoque
+                foreach($produtos as $produto)
+                {
+                    $lote = Lote::where('vxgloprod_id',$produto->id)
+                        ->where('saldo','>','0')
+                        ->where('dt_valid','!=',null)
+                        ->where('dt_valid','>=',Carbon::now()->addDays(1)->format('Y-m-d'))
+                        ->first();
+
+                    if(isset($lote))
+                    {
+                        $itens[] = $produto;
+                    }
+                    else
+                    {
+                        //verifica se o item que não possui saldo, está cadastrado no pedido
+                        $item = PedidoItem::where('vxfatpvenda_id',$pedido_venda_id)->where('vxgloprod_erp_id',$produto->erp_id)->first();
+
+                        if(isset($item))
+                        {
+                            $itens[] = $produto;
+                        }
+                    }
+                }
+
+                $produtos = $itens;
+
+            }
 
             // Busca as tabelas de preços cadastradas
             $tabelas = TabelaPreco::where(function($query){
@@ -326,6 +385,11 @@ class PedidoVendaController extends Controller
                 $success = false;
                 $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não é condições de pagamento ativas cadastradas'];
             }
+
+
+
+            //busca os itens do pedido de venda
+            $itens = PedidoItem::where('vxfatpvenda_id',$pedido_venda_id)->get();
 
         }
 
