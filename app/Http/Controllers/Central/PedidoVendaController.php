@@ -39,12 +39,14 @@ class PedidoVendaController extends Controller
 
     protected $empfilId;
     protected $vendedorId;
+    protected $vendedorErpId;
 
     //construct
     public function __construct()
     {
-        $this->empfilId   = Auth::user()->userEmpresaFilial->empfil->id;
-        $this->vendedorId = isset(Auth::user()->vendedor) ? Auth::user()->vendedor->id : '1';
+        $this->empfilId      = Auth::user()->userEmpresaFilial->empfil->id;
+        $this->vendedorId    = isset(Auth::user()->vendedor) ? Auth::user()->vendedor->id : '1';
+        $this->vendedorErpId = isset(Auth::user()->vendedor) ? Auth::user()->vendedor->erp_id : null;
     }
 
     //retorna array do objeto
@@ -58,7 +60,7 @@ class PedidoVendaController extends Controller
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
 
-        })->orderBy('updated_at','desc')->get();
+        })->where('vxfatvend_erp_id',$this->vendedorErpId)->orderBy('updated_at','desc')->get();
 
         $response['success'] = $success;
         $response['log']     = $log;
@@ -279,7 +281,7 @@ class PedidoVendaController extends Controller
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
 
-        })->first();
+        })->where('vxfatvend_erp_id',$this->vendedorErpId)->first();
 
         if(!isset($pedido))
         {
