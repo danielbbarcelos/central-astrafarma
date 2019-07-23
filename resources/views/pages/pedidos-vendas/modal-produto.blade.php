@@ -73,8 +73,9 @@
                 </div>
 
                 <div class="input-field col s3">
-                    <input type="text" value="" class="mask-decimal-zero" placeholder="" id="produto_valor_desconto" readonly>
-                    <label>Valor desconto (R$)</label>
+                    <input type="hidden" value="" class="mask-decimal-zero" placeholder="" id="produto_valor_desconto" readonly>
+                    <input type="text"   value="" class="mask-decimal-zero" placeholder="" id="produto_percentual_desconto" readonly>
+                    <label>Desconto (%)</label>
                 </div>
 
                 <div class="input-field col s3 right-align">

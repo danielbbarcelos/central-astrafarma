@@ -257,6 +257,7 @@ function alteraValoresPorItem(hidden)
         $("#produto_quantidade").val('0');
         $("#produto_preco_venda").val('0,00');
         $("#produto_valor_desconto").val('0,00');
+        $("#produto_percentual_desconto").val('0,00');
         $("#produto_preco_total").val('0,00');
 
 
@@ -299,6 +300,7 @@ function alteraValoresPorItem(hidden)
                 $("#produto_preco_venda").val(number_format(0.00,2,',','.'));
                 $("#produto_preco_total").val(number_format(0.00,2,',','.'));
                 $("#produto_valor_desconto").val('0,00');
+                $("#produto_percentual_desconto").val('0,00');
                 $("#produto_fator").val(number_format(0.00,2,',','.'));
 
                 //não exibe select para seleção de lote
@@ -329,6 +331,7 @@ function alteraValoresPorItem(hidden)
                 $("#produto_preco_venda").val(number_format(response.preco.preco_venda,2,',','.'));
                 $("#produto_preco_total").val(number_format(response.preco.preco_venda,2,',','.'));
                 $("#produto_valor_desconto").val('0,00');
+                $("#produto_percentual_desconto").val('0,00');
                 $("#produto_fator").val(number_format(response.preco.fator,2,',','.'));
 
                 //esconde mensagem de erro
@@ -458,11 +461,17 @@ function calculaPrecoTotalProduto()
 
     $("#produto_preco_total").val(number_format(preco_total,2,',','.'));
 
-
-    //o valor de desconto é utilizado apenas para destaque
+    //calculamos o valor de desconto aplicado, que será gravado no banco de dados
     var valor_desconto = preco_total - (quantidade * preco_unitario);
-
     $("#produto_valor_desconto").val(number_format(valor_desconto * -1,2,',','.'));
+
+    //calculamos o percentual de desconto aplicado, apenas para exibição da informação
+    var percentual_desconto = 0.00;
+    if(parseFloat(preco_venda) < parseFloat(preco_unitario))
+    {
+        percentual_desconto = 100 - (parseFloat(preco_venda) * 100 / parseFloat(preco_unitario));
+    }
+    $("#produto_percentual_desconto").val(number_format(percentual_desconto,2,',','.'));
 }
 
 
@@ -521,11 +530,11 @@ function adicionaProduto()
         $("#erro-produto").attr("hidden",false);
         $("#erro-produto span").html("O preço máximo tabelado por unidade é R$ "+$("#produto_preco_maximo").val(),2,',','.');
     }
-    else if(parseFloat($("#produto_valor_desconto").val().replace(".","").replace(",",".")) > parseFloat($("#produto_preco_total").val().replace(".","").replace(",",".")))
+    else if(parseFloat($("#produto_percentual_desconto").val().replace(".","").replace(",",".")) >= 100.00)
     {
         success = false;
         $("#erro-produto").attr("hidden",false);
-        $("#erro-produto span").html("O valor de desconto não pode ser maior que o preço total");
+        $("#erro-produto span").html("O desconto deve ser inferior a 100%");
     }
 
     if(success)
@@ -561,9 +570,20 @@ function adicionaProduto()
         row    += validade;
         row    += "</td>";
         //informações de valores
-        row    += "<td style='width: 15%; text-align: center !important;'>";
-        row    += "<a class='tooltipped cursor-pointer' data-position='top' data-delay='10' data-html='true' data-tooltip='Preço de venda: R$ "+$("#produto_preco_venda").val()+"<br>Desconto: R$ "+$("#produto_valor_desconto").val()+"' >R$ "+$("#produto_preco_total").val()+"</a>";
-        row    += "</td>";
+        if(parseFloat($("#produto_preco_venda").val().replace('.',',').replace(',','.')) > parseFloat($("#produto_preco_unitario").val().replace('.',',').replace(',','.')))
+        {
+            var acrescimo = (parseFloat($("#produto_preco_venda").val().replace('.',',').replace(',','.')) * 100 / parseFloat($("#produto_preco_unitario").val().replace('.',',').replace(',','.'))) - 100;
+            acrescimo     = number_format(acrescimo,2,',','.');
+            row    += "<td style='width: 15%; text-align: center !important;'>";
+            row    += "<a class='tooltipped cursor-pointer' data-position='top' data-delay='10' data-html='true' data-tooltip='Preço de venda: R$ "+$("#produto_preco_venda").val()+"<br>Acréscimo: "+acrescimo+" %' >R$ "+$("#produto_preco_total").val()+"</a>";
+            row    += "</td>";
+        }
+        else
+        {
+            row    += "<td style='width: 15%; text-align: center !important;'>";
+            row    += "<a class='tooltipped cursor-pointer' data-position='top' data-delay='10' data-html='true' data-tooltip='Preço de venda: R$ "+$("#produto_preco_venda").val()+"<br>Desconto: "+$("#produto_percentual_desconto").val()+" %' >R$ "+$("#produto_preco_total").val()+"</a>";
+            row    += "</td>";
+        }
         //funções
         row    += "<td style='width: 12%; text-align: center !important;'><a style='cursor: pointer' onclick='excluiProduto(this)'>Excluir</a></td>";
         row    += "<tr>";
@@ -610,6 +630,7 @@ function adicionaProduto()
         $("#produto_preco_unitario").val("");
         $("#produto_preco_venda").val("");
         $("#produto_valor_desconto").val("");
+        $("#produto_percentual_desconto").val("");
         $("#produto_preco_total").val("");
 
         $('#modal-produto').closeModal();
@@ -677,13 +698,6 @@ function calculaTotalPedido()
     });
     $(".pedido-valor-unitario").html('R$ ' + number_format(valorUnitario,2,',','.'));
 
-    //valor desconto
-    var valorDesconto = 0.00;
-    $("#ipvenda-tbody input[name='produto_valor_desconto[]']").each(function(){
-        valorDesconto = parseFloat(valorDesconto) + parseFloat($(this).val().replace('.','').replace(',','.'));
-    });
-    $(".pedido-valor-desconto").html('R$ ' + number_format(valorDesconto,2,',','.'));
-
     //valor total
     var valorTotal = 0.00;
     $("#ipvenda-tbody input[name='produto_preco_total[]']").each(function(){
@@ -691,6 +705,27 @@ function calculaTotalPedido()
     });
 
     $(".pedido-valor-total").html('R$ ' + number_format(valorTotal,2,',','.'));
+
+
+    //percentual de desconto
+    var precoUnitario = 0.00;
+    $("#ipvenda-tbody input[name='produto_preco_unitario[]']").each(function(){
+        precoUnitario = parseFloat(precoUnitario) + parseFloat($(this).val().replace('.','').replace(',','.'));
+    });
+
+    var precoVenda = 0.00;
+    $("#ipvenda-tbody input[name='produto_preco_venda[]']").each(function(){
+        precoVenda = parseFloat(precoVenda) + parseFloat($(this).val().replace('.','').replace(',','.'));
+    });
+
+    var percentualDesconto = 0.00;
+
+    if(parseFloat(precoVenda) < parseFloat(precoUnitario))
+    {
+        percentualDesconto = 100 - (parseFloat(precoVenda) * 100 / parseFloat(precoUnitario));
+    }
+
+    $(".pedido-percentual-desconto").html(number_format(percentualDesconto ,2,',','.')+' %');
 }
 
 

@@ -160,11 +160,35 @@
 
 
                                             <div class="row" style="margin-top: 20px; margin-bottom: 10px">
-                                                <div class="col s12 font-size-14 font-weight-800" style="margin-bottom: 20px">
-                                                    Valor total do pedido: <span class="pedido-valor-total padding-left-20 font-size-14 font-weight-800">R$ 0,00</span>
+                                                <div class="col s12 font-size-14 font-weight-800" style="margin-top: 20px;">
+                                                    <div class="row">
+                                                        <div class="col s3">
+                                                            Valor total do pedido:
+                                                        </div>
+                                                        <div class="col s9">
+                                                            <span class="pedido-valor-total font-size-14 font-weight-800">R$ 0,00</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col s12 font-size-14 font-weight-800">
-                                                    Crédito disponível: <span id="credito-restante" class="padding-left-20 font-size-14 font-weight-800">R$ 0,00</span>
+                                                    <div class="row">
+                                                        <div class="col s3">
+                                                            Desconto aplicado:
+                                                        </div>
+                                                        <div class="col s9">
+                                                            <span class="pedido-percentual-desconto font-size-14 font-weight-800">0,00%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 font-size-14 font-weight-800">
+                                                    <div class="row">
+                                                        <div class="col s3">
+                                                            Crédito disponível:
+                                                        </div>
+                                                        <div class="col s9">
+                                                            <span id="credito-restante" class="font-size-14 font-weight-800">R$ 0,00</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -195,7 +219,7 @@
                                                 </div>
                                                 <div class="col s12 m12 l3 card-simple-widget">
                                                     <span class="font-weight-400 font-size-12">Desconto</span><br>
-                                                    <span class="font-weight-600 font-size-16 pedido-valor-desconto">R$ 0,00</span>
+                                                    <span class="font-weight-600 font-size-16 pedido-percentual-desconto">0,00 %</span>
                                                 </div>
                                                 <div class="col s12 m12 l3 card-simple-widget">
                                                     <span class="font-weight-400 font-size-12">Valor total</span><br>

@@ -189,6 +189,22 @@ class PedidoVendaController extends Controller
 
                     $lote    = Lote::find($request['produto_lote_id'][$i]);
 
+                    if((float) Helper::formataDecimal($request['produto_valor_desconto'][$i]) == 0.00)
+                    {
+                        $desconto  = 0.00;
+                        $acrescimo = 0.00;
+                    }
+                    elseif((float) Helper::formataDecimal($request['produto_valor_desconto'][$i]) > 0.00)
+                    {
+                        $desconto  = (float) Helper::formataDecimal($request['produto_valor_desconto'][$i]);
+                        $acrescimo = 0.00;
+                    }
+                    elseif((float) Helper::formataDecimal($request['produto_valor_desconto'][$i]) < 0.00)
+                    {
+                        $desconto  = 0.00;
+                        $acrescimo = abs((float) Helper::formataDecimal($request['produto_valor_desconto'][$i]));
+                    }
+
                     $pedidoItem = new PedidoItem();
                     $pedidoItem->vxfatpvenda_id     = $pedido->id;
                     $pedidoItem->vxgloprod_erp_id   = $produto->erp_id;
@@ -199,7 +215,8 @@ class PedidoVendaController extends Controller
                     $pedidoItem->produto_data       = json_encode($produto, JSON_UNESCAPED_UNICODE);
                     $pedidoItem->preco_unitario     = number_format(Helper::formataDecimal($request['produto_preco_unitario'][$i]),2,'.','');
                     $pedidoItem->preco_venda        = number_format(Helper::formataDecimal($request['produto_preco_venda'][$i]),2,'.','');
-                    $pedidoItem->valor_desconto     = number_format(Helper::formataDecimal($request['produto_valor_desconto'][$i]),2,'.','');
+                    $pedidoItem->valor_desconto     = $desconto;
+                    $pedidoItem->valor_acrescimo    = $acrescimo;
                     $pedidoItem->valor_total        = number_format(Helper::formataDecimal($request['produto_preco_total'][$i]),2,'.','');
                     $pedidoItem->created_at         = new \DateTime();
                     $pedidoItem->updated_at         = new \DateTime();
@@ -420,6 +437,22 @@ class PedidoVendaController extends Controller
 
                         $lote    = Lote::find($request['produto_lote_id'][$i]);
 
+                        if((float) Helper::formataDecimal($request['produto_valor_desconto'][$i]) == 0.00)
+                        {
+                            $desconto  = 0.00;
+                            $acrescimo = 0.00;
+                        }
+                        elseif((float) Helper::formataDecimal($request['produto_valor_desconto'][$i]) > 0.00)
+                        {
+                            $desconto  = (float) Helper::formataDecimal($request['produto_valor_desconto'][$i]);
+                            $acrescimo = 0.00;
+                        }
+                        elseif((float) Helper::formataDecimal($request['produto_valor_desconto'][$i]) < 0.00)
+                        {
+                            $desconto  = 0.00;
+                            $acrescimo = abs((float) Helper::formataDecimal($request['produto_valor_desconto'][$i]));
+                        }
+
                         $pedidoItem = new PedidoItem();
                         $pedidoItem->vxfatpvenda_id     = $pedido->id;
                         $pedidoItem->vxgloprod_erp_id   = $produto->erp_id;
@@ -430,7 +463,8 @@ class PedidoVendaController extends Controller
                         $pedidoItem->produto_data       = json_encode($produto, JSON_UNESCAPED_UNICODE);
                         $pedidoItem->preco_unitario     = number_format(Helper::formataDecimal($request['produto_preco_unitario'][$i]),2,'.','');
                         $pedidoItem->preco_venda        = number_format(Helper::formataDecimal($request['produto_preco_venda'][$i]),2,'.','');
-                        $pedidoItem->valor_desconto     = number_format(Helper::formataDecimal($request['produto_valor_desconto'][$i]),2,'.','');
+                        $pedidoItem->valor_desconto     = $desconto;
+                        $pedidoItem->valor_acrescimo    = $acrescimo;
                         $pedidoItem->valor_total        = number_format(Helper::formataDecimal($request['produto_preco_total'][$i]),2,'.','');
                         $pedidoItem->created_at         = new \DateTime();
                         $pedidoItem->updated_at         = new \DateTime();

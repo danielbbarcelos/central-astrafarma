@@ -213,7 +213,11 @@
                                                                     <input type='hidden' id="produto-lote-erp-id-{{$i}}" name='produto_lote_erp_id[]' value='{{$item->lote->erp_id}}'>
                                                                     <input type='hidden' name='produto_preco_unitario[]' value='{{number_format($item->preco_unitario,2,',','.')}}'>
                                                                     <input type='hidden' name='produto_preco_venda[]' value='{{number_format($item->preco_venda,2,',','.')}}'>
-                                                                    <input type='hidden' name='produto_valor_desconto[]' value='{{number_format($item->valor_desconto,2,',','.')}}'>
+                                                                    @if((float)$item->valor_acrescimo == 0.00)
+                                                                        <input type='hidden' name='produto_valor_desconto[]' value='{{number_format($item->valor_desconto,2,',','.')}}'>
+                                                                    @else
+                                                                        <input type='hidden' name='produto_valor_desconto[]' value='{{number_format($item->valor_acrescimo * -1,2,',','.')}}'>
+                                                                    @endif
                                                                     <input type='hidden' name='produto_preco_total[]' value='{{number_format($item->valor_total,2,',','.')}}'>
                                                                     <a href="/produtos/{{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}/show" target="_blank" class='tooltipped cursor-pointer' data-position='top' data-delay='10' data-tooltip="Código: {{isset($item->produto) ? $item->produto->erp_id : json_decode($item->produto_data)->erp_id}}">
                                                                         {{isset($item->produto) ? $item->produto->descricao : json_decode($item->produto_data)->descricao}}
@@ -230,9 +234,15 @@
                                                                 <td style='width: 15%; text-align: center !important;'>{{$item->lote->erp_id}}</td>
                                                                 <td style='width: 15%; text-align: center !important;'>{{Carbon::createFromFormat('Y-m-d',$item->lote->dt_valid)->format('d/m/Y')}}</td>
                                                                 <td style='width: 15%; text-align: center !important;'>
-                                                                    <a class='tooltipped cursor-pointer' data-position='top' data-delay='10' data-html='true' data-tooltip='Preço de venda: R$ {{number_format($item->preco_venda,2,',','.')}}<br>Desconto: R$ {{number_format($item->valor_desconto,2,',','.')}}' >
-                                                                        R$ {{number_format($item->valor_total,2,',','.')}}
-                                                                    </a>
+                                                                    @if((float)$item->valor_acrescimo == 0.00)
+                                                                        <a class='tooltipped cursor-pointer' data-position='top' data-delay='10' data-html='true' data-tooltip='Preço de venda: R$ {{number_format($item->preco_venda,2,',','.')}}<br>Desconto: {{number_format(100 - ($item->preco_venda * 100 / $item->preco_unitario),2,',','.')}} %' >
+                                                                            R$ {{number_format($item->valor_total,2,',','.')}}
+                                                                        </a>
+                                                                    @else
+                                                                        <a class='tooltipped cursor-pointer' data-position='top' data-delay='10' data-html='true' data-tooltip='Preço de venda: R$ {{number_format($item->preco_venda,2,',','.')}}<br>Acréscimo: {{number_format(($item->preco_venda * 100 / $item->preco_unitario) - 100,2,',','.')}} %' >
+                                                                            R$ {{number_format($item->valor_total,2,',','.')}}
+                                                                        </a>
+                                                                    @endif
                                                                 </td>
                                                                 @if($pedido->situacao_pedido == 'A' or $pedido->situacao_pedido == 'S')
                                                                     <td style="width: 12%; text-align: center !important;"><a style='cursor: pointer' onclick='excluiProduto(this)'>Excluir</a></td>
@@ -250,11 +260,35 @@
 
 
                                             <div class="row" style="margin-top: 20px; margin-bottom: 10px">
-                                                <div class="col s12 font-size-14 font-weight-800" style="margin-bottom: 20px">
-                                                    Valor total do pedido: <span class="pedido-valor-total padding-left-20 font-size-14 font-weight-800">R$ 0,00</span>
+                                                <div class="col s12 font-size-14 font-weight-800" style="margin-top: 20px;">
+                                                    <div class="row">
+                                                        <div class="col s3">
+                                                            Valor total do pedido:
+                                                        </div>
+                                                        <div class="col s9">
+                                                            <span class="pedido-valor-total font-size-14 font-weight-800">R$ 0,00</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col s12 font-size-14 font-weight-800">
-                                                    Crédito disponível: <span id="credito-restante" class="padding-left-20 font-size-14 font-weight-800">R$ 0,00</span>
+                                                    <div class="row">
+                                                        <div class="col s3">
+                                                            Desconto aplicado:
+                                                        </div>
+                                                        <div class="col s9">
+                                                            <span class="pedido-percentual-desconto font-size-14 font-weight-800">0,00%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 font-size-14 font-weight-800">
+                                                    <div class="row">
+                                                        <div class="col s3">
+                                                            Crédito disponível:
+                                                        </div>
+                                                        <div class="col s9">
+                                                            <span id="credito-restante" class="font-size-14 font-weight-800">R$ 0,00</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -285,7 +319,7 @@
                                                 </div>
                                                 <div class="col s12 m12 l3 card-simple-widget">
                                                     <span class="font-weight-400 font-size-12">Desconto</span><br>
-                                                    <span class="font-weight-600 font-size-16 pedido-valor-desconto">R$ 0,00</span>
+                                                    <span class="font-weight-600 font-size-16 pedido-percentual-desconto">0,00 %</span>
                                                 </div>
                                                 <div class="col s12 m12 l3 card-simple-widget">
                                                     <span class="font-weight-400 font-size-12">Valor total</span><br>

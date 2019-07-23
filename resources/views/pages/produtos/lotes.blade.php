@@ -19,7 +19,7 @@
                     <td>
                         @if($item->dt_valid < Carbon::now()->addMonths(6)->format('Y-m-d'))
                             <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #e6493e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Vencimento menor que 6 meses">fiber_manual_record</i>
-                        @elseif($item->dt_valid >= Carbon::now()->addMonths(6)->format('Y-m-d') or $item->dt_valid < Carbon::now()->addMonths(12)->format('Y-m-d'))
+                        @elseif($item->dt_valid >= Carbon::now()->addMonths(6)->format('Y-m-d') and $item->dt_valid < Carbon::now()->addMonths(12)->format('Y-m-d'))
                             <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #fbe053; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Vencimento menor que 1 ano">fiber_manual_record</i>
                         @else
                             <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #709dad; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Vencimento maior que 1 ano">fiber_manual_record</i>
