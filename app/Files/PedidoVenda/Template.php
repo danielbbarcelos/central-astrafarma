@@ -9,6 +9,7 @@ use App\Configuracao;
 use Illuminate\Support\Facades\Auth;
 use App\Utils\Helper;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 class Template extends FPDF
 {
@@ -23,33 +24,38 @@ class Template extends FPDF
         $this->pedido       = $pedido;
         $this->clienteInfo  = json_decode($pedido->cliente_data);
         $this->configuracao = $configuracao;
+
+
+        //Adiciona Fonte Monteserrat Light
+        if(!File::exists(base_path('vendor/anouar/fpdf/src/Anouar/Fpdf/font/montserrat-regular.php')) or !File::exists(base_path('vendor/anouar/fpdf/src/Anouar/Fpdf/font/montserrat-regular.z')))
+        {
+            File::copy(base_path('public/assets/fonts/montserrat-regular.php'),base_path('vendor/anouar/fpdf/src/Anouar/Fpdf/font/montserrat-regular.php'));
+            File::copy(base_path('public/assets/fonts/montserrat-regular.z'),base_path('vendor/anouar/fpdf/src/Anouar/Fpdf/font/montserrat-regular.z'));
+        }
+
+        if(!File::exists(base_path('vendor/anouar/fpdf/src/Anouar/Fpdf/font/montserrat-semibold.php')) or !File::exists(base_path('vendor/anouar/fpdf/src/Anouar/Fpdf/font/montserrat-semibold.z')))
+        {
+            File::copy(base_path('public/assets/fonts/montserrat-semibold.php'),base_path('vendor/anouar/fpdf/src/Anouar/Fpdf/font/montserrat-semibold.php'));
+            File::copy(base_path('public/assets/fonts/montserrat-semibold.z'),base_path('vendor/anouar/fpdf/src/Anouar/Fpdf/font/montserrat-semibold.z'));
+        }
+
+        $this->AddFont('MontserratRegular','','montserrat-regular.php');
+        $this->AddFont('MontserratSemibold','','montserrat-semibold.php');
+
     }
 
 
     function Header()
     {
+
         if(isset($this->configuracao->pdf_template))
         {
-            $this->Image(base_path("public".$this->configuracao->pdf_template));
+            $this->Image(base_path("public".$this->configuracao->pdf_template), 0, 0);
         }
-    }
 
-
-    function Footer()
-    {
-        $this->SetFont( "MontserratSemibold", "", 8);
-        $this->SetXY( 22, -12);
-        $pagina = $this->PageNo().'/'.count($this->pages);
-        $this->Cell(0,10,utf8_decode('Página '.$pagina),0,0,'C');
-    }
-
-
-    function principal()
-    {
-        $y = 20;
 
         //código do pedido
-        $this->SetXY( 22, $y);
+        $this->SetXY( 22, $this->y);
         $this->SetFont( "MontserratSemibold", "", 24);
         $this->SetTextColor(72,72,70);
         if($this->pedido->erp_id !== null)
@@ -61,9 +67,7 @@ class Template extends FPDF
             $this->MultiCell(0,10,utf8_decode("Pedido de venda"),0,'L', FALSE);
         }
 
-
         //logo da empresa
-
         if(! isset($this->configuracao->logo_empresa))
         {
             $logo = base_path("public/assets/img/logo/vex_splash.png");
@@ -85,53 +89,82 @@ class Template extends FPDF
                 $h = ($height * 40) / $width;
 
                 $this->Image($logo, 155, 20, 40, $h);
-
             }
-
         }
 
-        $y = $y + 4;
+
+        /**
+         *  MultiCell utilizado para quebrar linha com próximo elemento
+         *
+         */
+        $this->MultiCell(0,10,utf8_decode(""),0,'L', FALSE);
+
+    }
+
+
+
+    function Footer()
+    {
+        //impresso por
+        $this->SetFont( "MontserratRegular", "", 8);
+        $this->SetTextColor(72,72,70);
+
+        $this->SetXY(22, 270);
+        $this->MultiCell(0,1.5,utf8_decode("Impressor por: \n\n\n".
+Auth::user()->name."\n\n\n".
+Auth::user()->email."\n\n\n".
+Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
+
+        //paginação
+        $this->SetFont( "MontserratSemibold", "", 8);
+        $this->SetXY( 22, -12);
+        $pagina = $this->PageNo().'/'.count($this->pages);
+        $this->Cell(0,10,utf8_decode('Página '.$this->PageNo().'/{nb}'),0,0,'C');
+    }
+
+
+    function principal()
+    {
+        $y = $this->y;
 
         //empresa
         $this->SetTextColor(72,72,70);
-        $this->SetXY( 22, $y + 12);
+        $this->SetXY( 22, $y);
         $this->SetFont( "MontserratSemibold", "", 10);
         $this->MultiCell(40,10,utf8_decode("Empresa:"),0,'L', FALSE);
-        $this->SetXY( 62, $y + 12);
+        $this->SetXY( 62, $y);
         $this->MultiCell(0,10,utf8_decode($this->pedido->empfil->nome),0,'L', FALSE);
 
         //empresa
         $this->SetTextColor(72,72,70);
-        $this->SetXY( 22, $y + 18);
+        $this->SetXY( 22, $y + 6);
         $this->SetFont( "MontserratSemibold", "", 10);
         $this->MultiCell(40,10,utf8_decode("CNPJ:"),0,'L', FALSE);
-        $this->SetXY( 62, $y + 18);
+        $this->SetXY( 62, $y + 6);
         $this->MultiCell(0,10,utf8_decode(Helper::insereMascara($this->pedido->empfil->cnpj,'##.###.###/####-##')),0,'L', FALSE);
 
         //vendedor
         $this->SetTextColor(72,72,70);
-        $this->SetXY( 22, $y + 24);
+        $this->SetXY( 22, $y + 12);
         $this->SetFont( "MontserratSemibold", "", 10);
         $this->MultiCell(40,10,utf8_decode("Vendedor:"),0,'L', FALSE);
-        $this->SetXY( 62, $y + 24);
+        $this->SetXY( 62, $y + 12);
         $this->MultiCell(0,10,utf8_decode($this->pedido->vendedor->nome),0,'L', FALSE);
 
         //data e hora do pedido
         $this->SetTextColor(72,72,70);
-        $this->SetXY( 22, $y + 30);
+        $this->SetXY( 22, $y + 18);
         $this->SetFont( "MontserratSemibold", "", 10);
         $this->MultiCell(40,10,utf8_decode("Data do pedido:"),0,'L', FALSE);
-        $this->SetXY( 62, $y + 30);
+        $this->SetXY( 62, $y + 18);
         $this->MultiCell(0,10,utf8_decode(Carbon::createFromFormat('Y-m-d H:i:s',$this->pedido->created_at)->format('d/m/Y à\s H:i')),0,'L', FALSE);
     }
 
 
+
     function cliente()
     {
-        $y = 60;
-
-        $fillColor = $this->color('fill');
-        $textColor = $this->color('text');
+        $y = $this->y;
 
         $this->SetFont( "MontserratSemibold", "", 8);
         $this->SetDrawColor(230,230,230);
@@ -233,12 +266,10 @@ class Template extends FPDF
     }
 
 
-
-    function itens()
+    function condicoes()
     {
         $fillColor = $this->color('fill');
         $textColor = $this->color('text');
-
 
 
         $this->y = $this->y + 10;
@@ -260,128 +291,140 @@ class Template extends FPDF
         $this->Cell(60,8,utf8_decode($this->pedido->condicao->descricao),1,0,'C',0);
         $this->SetXY( 137, $this->y);
         $this->Cell(55,8,number_format($this->pedido->valorTotal(),2,',','.'),1,1,'C',0);
+    }
 
 
+    function itens()
+    {
+        $fillColor = $this->color('fill');
 
-        $this->y = $this->y + 10;
-        $this->SetFont( "MontserratSemibold", "", 7);
-        $this->SetDrawColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
-        $this->SetFillColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
-        $this->SetTextColor($textColor['r'], $textColor['g'], $textColor['b']);
-        $this->SetXY( 22, $this->y);
-        $this->Cell(92,8,utf8_decode('  Produto'),0,0,'L',1);
-        $this->SetXY( 114, $this->y);
-        $this->Cell(10,8,utf8_decode('UM'),0,0,'C',1);
-        $this->SetXY( 124, $this->y);
-        $this->Cell(22,8,utf8_decode('Pç unit (R$)'),0,0,'C',1);
-        $this->SetXY( 146, $this->y);
-        $this->Cell(22,8,utf8_decode('Desc. (R$)'),0,0,'C',1);
-        $this->SetXY( 168, $this->y);
-        $this->Cell(25,8,utf8_decode('Pç final (R$)'),0,1,'C',1);
-
-
+        $this->cabecalhoItens($this->y + 10);
 
         $this->SetFont( "MontserratSemibold", "", 8);
         $this->SetDrawColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
         $this->SetFillColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
+        $this->SetDrawColor(210,210,210);
+        $this->SetFillColor(210,210,210);
 
-        //linha
-        //$this->RoundedRect(22, $this->y , 171, 0.03, 0, 'DF');
 
-        $subtotal = 0.00;
-        $desconto = 0.00;
-        $total    = 0.00;
+        $total = 0.00;
+
+        $index = 0;
 
         foreach($this->pedido->itens as $item)
         {
-            $subtotal = $subtotal + ($item->preco_unitario * $item->quantidade);
-            $desconto = $desconto + $item->valor_desconto;
-            $total    = $total    + $item->valor_total;
+            $index++;
 
-            $y = $this->y + 5;
+            $y = $this->y;
+
+            if($index == 1)
+            {
+                $y++;
+            }
+
+            $total = $total + $item->valor_total;
 
 
+            //descrição do produto
             $this->SetFont( "MontserratSemibold", "", 7);
             $this->SetTextColor(72,72,70);
-            $this->SetXY( 22, $this->y + 3);
-            $this->MultiCell(92,3,utf8_decode(json_decode($item->produto_data)->descricao),0,'L',false);
+            $this->SetXY( 22, $y + 1);
+            $this->MultiCell(124,3,utf8_decode(json_decode($item->produto_data)->descricao),0,'L',false);
 
-            $this->SetXY( 22, $y + 7);
+            //código erp e unidade de medida do produto
+            $this->SetXY( 22, $y + 6);
             $this->SetFont( "MontserratRegular", "", 7);
-            $this->Cell(92,2,utf8_decode('Cod: '. json_decode($item->produto_data)->erp_id),0,0,'L');
+            $this->MultiCell(124,3,utf8_decode('Cód: '. json_decode($item->produto_data)->erp_id.'  - Unid: '.json_decode($item->produto_data)->unidade_principal),0,'L', false);
 
+            //lote do produto
             $this->SetXY( 22, $y + 10);
             $this->SetFont( "MontserratRegular", "", 7);
-            $this->Cell(92,2,utf8_decode('Cod: '. json_decode($item->produto_data)->erp_id),0,0,'L');
+            try
+            {
+                $lote   = $item->lote->erp_id;
+                $fabric = Carbon::createFromFormat('Y-m-d',$item->lote->dt_fabric)->format('d/m/Y');
+                $valid  = Carbon::createFromFormat('Y-m-d',$item->lote->dt_valid)->format('d/m/Y');
+                $this->MultiCell(124,3,utf8_decode("Lote: $lote - Dt Fab: $fabric - Dt Valid: $valid"),0, 'L', false);
+            }
+            catch(\Exception $e)
+            {
+                $this->MultiCell(124,3,utf8_decode("Lote não identificado"),0, 'L', false);
+            }
 
-            $this->SetXY( 114, $y + 2);
-            $this->SetFont( "MontserratSemibold", "", 7);
-            $this->Cell(10,5,utf8_decode(json_decode($item->produto_data)->unidade_principal),0,0,'C');
-            $this->SetXY( 124, $y + 2);
-            $this->Cell(22,5,utf8_decode(number_format($item->preco_unitario,2,',','.')),0,0,'C');
+
+            //quantidade
             $this->SetXY( 146, $y + 2);
-            $this->Cell(22,5,utf8_decode(number_format($item->valor_desconto,2,',','.')),0,0,'C');
-            $this->SetXY( 168, $y);
-            $this->Cell(25,10,utf8_decode(number_format($item->valor_total,2,',','.')),0,1,'C');
+            $this->MultiCell(10,9,utf8_decode(number_format($item->quantidade,0,',','')),0,'R', false);
+
+            //preço unitário
+            $this->SetXY( 156, $y + 2);
+            $this->MultiCell(18,9,utf8_decode(number_format($item->preco_unitario,2,',','.')),0,'R', false);
+
+            //preço total do item
+            $this->SetXY( 174, $y + 2);
+            $this->MultiCell(18,9,utf8_decode(number_format($item->valor_total,2,',','.')),0,'R', false);
 
             //linha
-            $this->RoundedRect(22, $this->y, 171, 0.01, 0, 'DF');
+            $this->RoundedRect(22, $y + 15, 171, 0.01, 0, 'DF');
+
+
+            if($this->y > 240 and $index < count($this->pedido->itens))
+            {
+                $this->AddPage();
+                $this->cabecalhoItens($this->y + 10);
+
+                $this->SetFont( "MontserratSemibold", "", 8);
+                $this->SetDrawColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
+                $this->SetFillColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
+                $this->SetDrawColor(210,210,210);
+                $this->SetFillColor(210,210,210);
+
+            }
+            else
+            {
+                $this->y = $this->y + 5;
+            }
 
         }
 
 
+
         $this->SetFont( "MontserratSemibold", "", 8);
-        $y = $this->y + 6;
+        $y = $y + 15;
 
 
-        //subtotal
-        $this->SetTextColor(72,72,70);
-        $this->SetXY( 132, $y + 2);
-        $this->Cell(30,8,utf8_decode('Subtotal:'),0,0,'R');
-        //desconto
-        $this->SetTextColor(252,84,85);
-        $this->SetXY( 132, $y + 10);
-        $this->Cell(30,8,utf8_decode('Desconto:'),0,0,'R');
         //valor
         $this->SetTextColor(72,72,70);
         $this->SetFont( "MontserratSemibold", "", 10);
-        $this->SetXY( 132, $y + 18);
+        $this->SetXY( 132, $y + 2);
         $this->Cell(30,8,utf8_decode('Valor total:'),0,0,'R');
 
-
-        $this->SetFont( "MontserratSemibold", "", 8);
-
-        //subtotal
-        $this->SetTextColor(72,72,70);
-        $this->SetXY( 162, $y + 2);
-        $this->Cell(30,8,utf8_decode('R$  '.number_format($subtotal,2,',','.')),0,0,'R');
-        //desconto
-        $this->SetTextColor(252,84,85);
-        $this->SetXY( 162, $y + 10);
-        $this->Cell(30,8,utf8_decode('R$  '.number_format($desconto,2,',','.')),0,0,'R');
         //valor
         $this->SetTextColor(72,72,70);
-        $this->SetFont( "MontserratSemibold", "", 10);
-        $this->SetXY( 162, $y + 18);
+        $this->SetXY( 162, $y + 2);
         $this->Cell(30,8,utf8_decode('R$  '.number_format($total,2,',','.')),0,0,'R');
 
     }
 
 
-
-    function impressoPor()
+    function cabecalhoItens($y)
     {
-        $this->SetFont( "MontserratRegular", "", 8);
-        $this->SetTextColor(72,72,70);
+        $fillColor = $this->color('fill');
+        $textColor = $this->color('text');
 
-        $this->SetXY(22, 270);
-        $this->MultiCell(0,1.5,utf8_decode("Impressor por: \n\n\n".
-Auth::user()->name."\n\n\n".
-Auth::user()->email."\n\n\n".
-Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
-
+        $this->SetFont( "MontserratSemibold", "", 7);
+        $this->SetDrawColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
+        $this->SetFillColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
+        $this->SetTextColor($textColor['r'], $textColor['g'], $textColor['b']);
+        $this->SetXY( 22, $y);
+        $this->Cell(124,8,utf8_decode('  Produto'),0,0,'L',1);
+        $this->SetXY( 146, $y);
+        $this->Cell(10,8,utf8_decode('Qtd'),0,0,'R',1);
+        $this->SetXY( 156, $y);
+        $this->Cell(18,8,utf8_decode('Pç unit (R$)'),0,0,'R',1);
+        $this->SetXY( 174, $y);
+        $this->Cell(18,8,utf8_decode('Pç final (R$)'),0,1,'R',1);
     }
-
 
 
     function color($type = 'fill')
