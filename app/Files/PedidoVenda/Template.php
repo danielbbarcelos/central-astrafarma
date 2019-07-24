@@ -332,12 +332,12 @@ Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
             $this->MultiCell(124,3,utf8_decode(json_decode($item->produto_data)->descricao),0,'L',false);
 
             //código erp e unidade de medida do produto
-            $this->SetXY( 22, $y + 6);
+            $this->SetXY( 22, $y + 8);
             $this->SetFont( "MontserratRegular", "", 7);
             $this->MultiCell(124,3,utf8_decode('Cód: '. json_decode($item->produto_data)->erp_id.'  - Unid: '.json_decode($item->produto_data)->unidade_principal),0,'L', false);
 
             //lote do produto
-            $this->SetXY( 22, $y + 10);
+            $this->SetXY( 22, $y + 12);
             $this->SetFont( "MontserratRegular", "", 7);
             try
             {
@@ -365,10 +365,10 @@ Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
             $this->MultiCell(18,9,utf8_decode(number_format($item->valor_total,2,',','.')),0,'R', false);
 
             //linha
-            $this->RoundedRect(22, $y + 15, 171, 0.01, 0, 'DF');
+            $this->RoundedRect(22, $y + 18, 171, 0.01, 0, 'DF');
 
 
-            if($this->y > 240 and $index < count($this->pedido->itens))
+            if($this->y > 238 and $index < count($this->pedido->itens))
             {
                 $this->AddPage();
                 $this->cabecalhoItens($this->y + 10);
@@ -382,7 +382,7 @@ Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
             }
             else
             {
-                $this->y = $this->y + 5;
+                $this->y = $this->y + 8;
             }
 
         }
@@ -390,7 +390,7 @@ Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
 
 
         $this->SetFont( "MontserratSemibold", "", 8);
-        $y = $y + 15;
+        $y = $y + 18;
 
 
         //valor
