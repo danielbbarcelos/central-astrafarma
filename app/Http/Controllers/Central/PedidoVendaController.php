@@ -18,6 +18,7 @@ use App\Configuracao;
 //framework
 use App\Http\Controllers\Controller;
 use App\Produto;
+use App\Risco;
 use App\TabelaPreco;
 use App\TabelaPrecoProduto;
 use App\Utils\Helper;
@@ -158,6 +159,10 @@ class PedidoVendaController extends Controller
             $log[]   = ['error' => 'Não é possível gerar um novo pedido, pois não é condições de pagamento ativas cadastradas'];
         }
 
+
+        //busca classificação de risco para verificar máximo de desconto permitido
+        $riscos = Risco::all();
+
         $response['success']   = $success;
         $response['log']       = $log;
         $response['pedido']    = $pedido;
@@ -165,6 +170,7 @@ class PedidoVendaController extends Controller
         $response['produtos']  = $produtos;
         $response['tabelas']   = $tabelas;
         $response['condicoes'] = $condicoes;
+        $response['riscos']    = $riscos;
         return $response;
     }
 
@@ -389,6 +395,9 @@ class PedidoVendaController extends Controller
             }
 
 
+            //busca classificação de risco para verificar máximo de desconto permitido
+            $riscos = Risco::all();
+
 
             //busca os itens do pedido de venda
             $itens = PedidoItem::where('vxfatpvenda_id',$pedido_venda_id)->get();
@@ -404,6 +413,7 @@ class PedidoVendaController extends Controller
         $response['produtos']  = isset($produtos) ? $produtos : [];
         $response['tabelas']   = isset($tabelas) ? $tabelas : [];
         $response['condicoes'] = isset($condicoes) ? $condicoes : [];
+        $response['riscos']    = isset($riscos) ? $riscos : [];
         return $response;
     }
 

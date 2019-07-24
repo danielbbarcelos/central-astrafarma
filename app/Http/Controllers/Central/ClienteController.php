@@ -127,6 +127,7 @@ class ClienteController extends Controller
             $cliente->fone              = Helper::removeMascara($request['fone']);
             $cliente->nome_contato      = $request['nome_contato'];
             $cliente->email             = $request['email'];
+            $cliente->risco             = 'E';
             $cliente->status            = isset($request['status']) ? $request['status'] : 0;
             $cliente->created_at        = new \DateTime();
             $cliente->updated_at        = new \DateTime();

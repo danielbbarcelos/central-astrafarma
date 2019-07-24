@@ -84,6 +84,15 @@ function validateStepTwo() {
     }
 
 
+    //verifica se o desconto aplicado é maior que o desconto permitido
+    var percentualDesconto = calculaDescontoPedido();
+
+    if(parseFloat(percentualDesconto) > parseFloat( $("#vxfatrisco option:selected").text().replace('.','').replace(',','.') ))
+    {
+        Materialize.toast('O desconto máximo permitido para o cliente é de '+$("#vxfatrisco option:selected").text()+' %', 5000, 'red');
+
+        return false;
+    }
 
     return true;
 }
@@ -149,10 +158,13 @@ $("#vxglocli_id").on("change",function(){
     if(this.value === '')
     {
         $("#data-cliente").attr("hidden",true);
+        $("#vxfatrisco").val("").trigger("change");
     }
     else
     {
         $("#data-cliente").attr("hidden",false);
+        $("#vxfatrisco").val($("#vxglocli_id option:selected").attr("data-risco")).trigger("change");
+
         $("#cliente-erp-id").html($("#vxglocli_id option:selected").attr("data-erp-id"));
         $("#cliente-razao-social").html($("#vxglocli_id option:selected").attr("data-razao-social"));
         $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
@@ -160,6 +172,7 @@ $("#vxglocli_id").on("change",function(){
         $("#cliente-cidade-uf").html($("#vxglocli_id option:selected").attr("data-cidade-uf"));
         $("#cliente-limite-credito").html('+ R$ '+number_format($("#vxglocli_id option:selected").attr("data-limite-credito"),2,',','.'));
         $("#cliente-saldo-devedor").html('- R$ '+number_format($("#vxglocli_id option:selected").attr("data-saldo-devedor"),2,',','.'));
+        $("#cliente-desconto-maximo").html( $("#vxfatrisco option:selected").text()+'% (risco '+$("#vxglocli_id option:selected").attr("data-risco")+')' );
 
         var credito = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
         var html    = "";
@@ -708,6 +721,29 @@ function calculaTotalPedido()
 
 
     //percentual de desconto
+    var percentualDesconto = calculaDescontoPedido();
+
+    if(parseFloat(percentualDesconto) > parseFloat( $("#vxfatrisco option:selected").text().replace('.','').replace(',','.') ))
+    {
+        $(".pedido-percentual-desconto").css("color","#b60b23").html(number_format(percentualDesconto ,2,',','.')+' %  <small>(acima dos '+$("#vxfatrisco option:selected").text()+'% permitido)</small>');
+    }
+    else
+    {
+        $(".pedido-percentual-desconto").css("color","#666666").html(number_format(percentualDesconto ,2,',','.')+' %');
+    }
+
+
+}
+
+
+
+//-------------------------------------------------------------------------------
+//
+// Calcula desconto total do pedido
+//
+//-------------------------------------------------------------------------------
+function calculaDescontoPedido()
+{
     var precoUnitario = 0.00;
     $("#ipvenda-tbody input[name='produto_preco_unitario[]']").each(function(){
         precoUnitario = parseFloat(precoUnitario) + parseFloat($(this).val().replace('.','').replace(',','.'));
@@ -725,7 +761,7 @@ function calculaTotalPedido()
         percentualDesconto = 100 - (parseFloat(precoVenda) * 100 / parseFloat(precoUnitario));
     }
 
-    $(".pedido-percentual-desconto").html(number_format(percentualDesconto ,2,',','.')+' %');
+    return percentualDesconto;
 }
 
 

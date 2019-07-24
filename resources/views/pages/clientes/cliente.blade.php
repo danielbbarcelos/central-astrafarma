@@ -61,12 +61,13 @@
                             </div>
 
                             <div class="row row-input">
-                                <div class="input-field col s12 m6">
+                                <div class="input-field col s12 @if($action == 'create') m6 @else m4 @endif">
                                     <input type="text" placeholder="" name="cnpj_cpf" id="cnpj_cpf" value="{{$cliente->cnpj_cpf or old('cnpj_cpf')}}"
                                            class="mask-cpf-cnpj" required>
                                     <label>CNPJ/CPF</label>
                                 </div>
-                                <div class="input-field col s12 m6">
+
+                                <div class="input-field col s12 @if($action == 'create') m6 @else m4 @endif">
                                     <select name="tipo_cliente" class="select2" required style="">
                                         <option value="" disabled selected>Selecione o tipo de cliente</option>
                                         <option value="R" @if($cliente->tipo_cliente == 'R') selected @endif>Revendedor</option>
@@ -77,6 +78,19 @@
                                     </select>
                                     <label class="active">Tipo de cliente</label>
                                 </div>
+
+                                @if($action !== 'create')
+                                    <div class="input-field col s12 m4">
+                                        <select name="tipo_cliente" class="select2" disabled style="">
+                                            <option value="A" @if($cliente->risco == 'A') selected @endif>A</option>
+                                            <option value="B" @if($cliente->risco == 'B') selected @endif>B</option>
+                                            <option value="C" @if($cliente->risco == 'C') selected @endif>C</option>
+                                            <option value="D" @if($cliente->risco == 'D') selected @endif>D</option>
+                                            <option value="E" @if($cliente->risco == 'E') selected @endif>E</option>
+                                        </select>
+                                        <label class="active">Classificação de risco</label>
+                                    </div>
+                                @endif
                             </div>
 
                             <!-- Dados de contato -->

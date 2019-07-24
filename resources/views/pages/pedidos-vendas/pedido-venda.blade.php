@@ -108,11 +108,24 @@
                                                             data-limite-credito="{{$item->limite_credito}}"
                                                             data-saldo-devedor="{{$item->saldo_devedor}}"
                                                             data-credito-disponivel="{{$item->limite_credito - $item->saldo_devedor}}"
+                                                            data-risco="{{$item->risco}}"
                                                         >{{$item->erp_id.' - '.($item->razao_social !== '' ? $item->razao_social : 'Razão social não identificada')}}
                                                         </option>
                                                     @endforeach
                                                 </select>
                                                 <label class="active">Cliente</label>
+
+
+                                                <!-- classificação de risco utilizada para tratativa de desconto -->
+                                                <div hidden>
+                                                    <select id="vxfatrisco" class="select2">
+                                                        <option value=""></option>
+                                                        @foreach($riscos as $item)
+                                                            <option value="{{$item->codigo}}">{{number_format($item->percentual_desconto,2,',','.')}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
 
                                                 <div id="data-cliente" class="padding-top-20" hidden>
                                                     <div class="row">
@@ -158,6 +171,11 @@
                                                             <div class="row">
                                                                 <div class="col s5 font-weight-800">Crédito disponível:</div>
                                                                 <div class="col s7 font-weight-600" id="cliente-credito-disponivel"></div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col s5 font-weight-800">Desconto máximo:</div>
+                                                                <div class="col s7 font-weight-600" id="cliente-desconto-maximo"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -394,7 +412,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.32e111889c171b1db3a86a4ab30767826.js"></script>
+    <script src="/assets/js/pages/pedido-venda.42e111889c171b1db3a86a4ab30767826.js"></script>
 
     @if($pedido->situacao_pedido !== 'A' and $pedido->situacao_pedido !== 'S')
         <script>
@@ -406,7 +424,9 @@
         $(document).ready(function(){
 
             $("#data-cliente").attr("hidden",false);
+
             $("#vxglocli_id").val('{!! $pedido->cliente->id !!}').trigger("change");
+            $("#vxfatrisco").val($("#vxglocli_id option:selected").attr("data-risco")).trigger("change");
             $("#cliente-erp-id").html($("#vxglocli_id option:selected").attr("data-erp-id"));
             $("#cliente-razao-social").html($("#vxglocli_id option:selected").attr("data-razao-social"));
             $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
@@ -415,6 +435,7 @@
 
             $("#cliente-limite-credito").html('+ R$ '+number_format($("#vxglocli_id option:selected").attr("data-limite-credito"),2,',','.'));
             $("#cliente-saldo-devedor").html('- R$ '+number_format($("#vxglocli_id option:selected").attr("data-saldo-devedor"),2,',','.'));
+            $("#cliente-desconto-maximo").html( $("#vxfatrisco option:selected").text()+'% (risco '+$("#vxglocli_id option:selected").attr("data-risco")+')' );
 
             var credito = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
             var html    = "";
@@ -432,6 +453,10 @@
 
             //armazena valor para listar produtos da tabela de preço (produtos do mesmo estado do cliente)
             $("#uf-tabela-preco").val($("#vxglocli_id option:selected").attr("data-uf"));
+
+
+            //calcula novamente o total do pedido para gerar os alertas e informações adicionais na blade
+            calculaTotalPedido();
         })
     </script>
 
