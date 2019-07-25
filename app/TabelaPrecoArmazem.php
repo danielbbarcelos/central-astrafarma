@@ -15,7 +15,7 @@ class TabelaPrecoArmazem extends Model
     use SoftDeletes;
 
     //The webservice's prefix of this model
-    protected $webservice = null;
+    protected $webservice = "/rest/vxfattparmz";
 
     //The attributes that should be not changed 
     protected $primaryKey = "id";

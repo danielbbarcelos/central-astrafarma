@@ -44,8 +44,8 @@ class TabelaPrecoArmazemController extends Controller
         ini_set('display_errors', 1);//display errors to standard output
 
         $assinatura = Assinatura::first();
-        $armazem    = new Armazem();
-        $webservice = $assinatura->webservice_base . $armazem->getWebservice() . $uri;
+        $tpArmazem  = new TabelaPrecoArmazem();
+        $webservice = $assinatura->webservice_base . $tpArmazem->getWebservice() . $uri;
 
         $guzzle  = new Client();
         $result  = $guzzle->request('GET', $webservice);
@@ -62,7 +62,7 @@ class TabelaPrecoArmazemController extends Controller
         else
         {
             TabelaPrecoArmazem::truncate();
-
+	    
             foreach($result['result'] as $item)
             {
                 $empfil  = EmpresaFilial::where('filial_erp_id',$item['FILIAL_ID'])->first();
