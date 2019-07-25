@@ -36,6 +36,7 @@ class PedidoVendaController extends Controller
 {
     protected $filial;
     protected $vendedor;
+    private static $logMessage = "Execução de VEX Sync em Mobile\PedidoVendaController\n\n";
 
     //construct
     public function __construct($filialId = null, $user = null)
@@ -515,7 +516,7 @@ class PedidoVendaController extends Controller
     public static function syncPost($sync)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage;
 
         //busca dados da assinatura
         $assinatura = Assinatura::first();
@@ -553,6 +554,9 @@ class PedidoVendaController extends Controller
 
         //formata objeto para enviar no vexsync
         $object = Helper::formataSyncObject($object);
+
+        //adiciona ao log, objeto a ser enviado
+        $log .= json_encode($object)."\n\n";
 
         //insere item no ERP
         try 
@@ -573,7 +577,7 @@ class PedidoVendaController extends Controller
             if($result->success == false)
             {
                 $success = false;
-                $log     = isset($result->log) ? $result->log : $result->message;
+                $message = isset($result->log) ? $result->log : $result->message;
 
             }
             else 
@@ -590,15 +594,19 @@ class PedidoVendaController extends Controller
                     'vxfatpvenda_erp_id' => $object->erp_id,
                 ]);
 
-                $log = 'Sincronização realizada com sucesso';
+                $message = 'Sincronização realizada com sucesso';
 
             }
+
+            $log .= $message;
+
 
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = $e->getMessage();
+            $log    .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log    .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
 
         $response['success'] = $success;
@@ -611,7 +619,7 @@ class PedidoVendaController extends Controller
     public static function syncPut($sync)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage;
 
         //busca dados da assinatura
         $assinatura = Assinatura::first();
@@ -650,6 +658,8 @@ class PedidoVendaController extends Controller
         //formata objeto para enviar no vexsync
         $object = Helper::formataSyncObject($object);
 
+        //adiciona ao log, objeto a ser enviado
+        $log .= json_encode($object)."\n\n";
 
         //insere item no ERP
         try
@@ -669,18 +679,21 @@ class PedidoVendaController extends Controller
             if($result->success == false)
             {
                 $success = false;
-                $log     = isset($result->log) ? $result->log : $result->message;
+                $message = isset($result->log) ? $result->log : $result->message;
             }
             else
             {
-                $log = 'Sincronização realizada com sucesso';
+                $message = 'Sincronização realizada com sucesso';
             }
+
+            $log .= $message;
 
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = $e->getMessage();
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
 
         $response['success'] = $success;
