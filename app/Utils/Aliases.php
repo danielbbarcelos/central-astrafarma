@@ -23,6 +23,7 @@ use App\Http\Controllers\Migracao\ProdutoController as MigracaoProdutoController
 use App\Http\Controllers\Migracao\TabelaPrecoController as MigracaoTabelaPrecoController;
 use App\Http\Controllers\Migracao\VendedorController as MigracaoVendedorController;
 use App\Http\Controllers\Migracao\ArmazemController as MigracaoArmazemController;
+use App\Http\Controllers\Migracao\TabelaPrecoArmazemController as MigracaoTabelaPrecoArmazemController;
 use App\Http\Controllers\Migracao\LoteController as MigracaoLoteController;
 
 class Aliases
@@ -80,13 +81,14 @@ class Aliases
     public static function migracaoControllerByTable($table)
     {
         $tables = [
-            'vx_glo_cli'    => new MigracaoClienteController(),
-            'vx_glo_cpgto'  => new MigracaoCondicaoPagamentoController(),
-            'vx_fat_tabprc' => new MigracaoTabelaPrecoController(),
-            'vx_glo_prod'   => new MigracaoProdutoController(),
-            'vx_fat_vend'   => new MigracaoVendedorController(),
             'vx_est_armz'   => new MigracaoArmazemController(),
             'vx_est_lote'   => new MigracaoLoteController(),
+            'vx_fat_tabprc' => new MigracaoTabelaPrecoController(),
+            'vx_fat_tparmz' => new MigracaoTabelaPrecoArmazemController(),
+            'vx_fat_vend'   => new MigracaoVendedorController(),
+            'vx_glo_cli'    => new MigracaoClienteController(),
+            'vx_glo_cpgto'  => new MigracaoCondicaoPagamentoController(),
+            'vx_glo_prod'   => new MigracaoProdutoController(),
         ];
 
         if(isset($tables[$table]))

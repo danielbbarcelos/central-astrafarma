@@ -72,26 +72,26 @@ class LoteController extends Controller
             {
                 if($item['VXGLOPROD_ERP_ID'] !== '')
                 {
-                        $empfil = EmpresaFilial::where('filial_erp_id',$item['FILIAL_ID'])->first();
+                    $empfil = EmpresaFilial::where('filial_erp_id',$item['FILIAL_ID'])->first();
 
-                        $armazem = Armazem::where('erp_id',isset($item['VXESTARMZ_ERP_ID']) ? $item['VXESTARMZ_ERP_ID'] : $item['ARMAZEM'])->first();
+                    $armazem = Armazem::where('erp_id',isset($item['VXESTARMZ_ERP_ID']) ? $item['VXESTARMZ_ERP_ID'] : $item['ARMAZEM'])->first();
 
-                        $produto = Produto::where('erp_id',$item['VXGLOPROD_ERP_ID'])->first();
+                    $produto = Produto::where('erp_id',$item['VXGLOPROD_ERP_ID'])->first();
 
-                        $lote = new Lote();
-                        $lote->erp_id             = $item['ERP_ID'];
-                        $lote->vxgloempfil_id     = isset($empfil) ? $empfil->id : '1';
-                        $lote->vxestarmz_id       = isset($armazem) ? $armazem->id : null;
-                        $lote->vxestarmz_erp_id   = isset($armazem) ? $armazem->erp_id : null;
-                        $lote->vxgloprod_id       = isset($produto) ? $produto->id : null;
-                        $lote->vxgloprod_erp_id   = isset($produto) ? $produto->erp_id : null;
-                        $lote->dt_fabric          = $item['DT_FABRIC'] !== '0000-00-00' ? $item['DT_FABRIC'] : null;
-                        $lote->dt_valid           = $item['DT_VALID'] !== '0000-00-00' ? $item['DT_VALID'] : null;
-			$lote->quant_ori          = $item['QUANT_ORI'] !== '' ? $item['QUANT_ORI'] : 0.00;
-			$lote->saldo              = $item['SALDO'] !== '' ? $item['SALDO'] : 0.00;
-                        $lote->created_at         = new \DateTime();
-                        $lote->updated_at         = new \DateTime();
-                        $lote->save();
+                    $lote = new Lote();
+                    $lote->erp_id             = $item['ERP_ID'];
+                    $lote->vxgloempfil_id     = isset($empfil) ? $empfil->id : '1';
+                    $lote->vxestarmz_id       = isset($armazem) ? $armazem->id : null;
+                    $lote->vxestarmz_erp_id   = isset($armazem) ? $armazem->erp_id : null;
+                    $lote->vxgloprod_id       = isset($produto) ? $produto->id : null;
+                    $lote->vxgloprod_erp_id   = isset($produto) ? $produto->erp_id : null;
+                    $lote->dt_fabric          = $item['DT_FABRIC'] !== '0000-00-00' ? $item['DT_FABRIC'] : null;
+                    $lote->dt_valid           = $item['DT_VALID'] !== '0000-00-00' ? $item['DT_VALID'] : null;
+                    $lote->quant_ori          = $item['QUANT_ORI'] !== '' ? $item['QUANT_ORI'] : 0.00;
+                    $lote->saldo              = $item['SALDO'] !== '' ? $item['SALDO'] : 0.00;
+                    $lote->created_at         = new \DateTime();
+                    $lote->updated_at         = new \DateTime();
+                    $lote->save();
                 }
             }
 

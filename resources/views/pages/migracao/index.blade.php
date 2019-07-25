@@ -29,7 +29,8 @@
                                         <option value="vx_glo_cpgto">Condições de pagamento</option>
                                         <option value="vx_est_lote">Lotes de produtos</option>
                                         <option value="vx_glo_prod">Produtos</option>
-                                        <option value="vx_fat_tabprc">Tabelas de preços</option>
+                                        <option value="vx_fat_tabprc">Tabelas de preços dos produtos</option>
+                                        <option value="vx_fat_tparmz">Tabelas de preços dos armazéns</option>
                                         <option value="vx_fat_vend">Vendedores</option>
                                     </select>
                                     <label class="active">Tabela a ser migrada</label>
