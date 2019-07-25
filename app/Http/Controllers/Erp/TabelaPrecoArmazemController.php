@@ -24,6 +24,10 @@ use Carbon\Carbon;
 
 class TabelaPrecoArmazemController extends Controller
 {
+
+    private static $logMessage = "Execução de VEX Sync em Erp\TabelaPrecoArmazemController\n\n";
+
+
     //construct
     public function __construct()
     {
@@ -35,7 +39,7 @@ class TabelaPrecoArmazemController extends Controller
     public static function create($vars)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -71,11 +75,14 @@ class TabelaPrecoArmazemController extends Controller
             $tpArmazem = new TabelaPrecoArmazem();
 
             $tpArmazem->insert($vars);
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
@@ -88,7 +95,7 @@ class TabelaPrecoArmazemController extends Controller
     public static function update($vars)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -122,11 +129,14 @@ class TabelaPrecoArmazemController extends Controller
             TabelaPrecoArmazem::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                 ->where('erp_id',$vars['erp_id'])
                 ->update($vars);
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
@@ -139,7 +149,7 @@ class TabelaPrecoArmazemController extends Controller
     public static function delete($vars, EmpresaFilial $empfil = null)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -148,11 +158,14 @@ class TabelaPrecoArmazemController extends Controller
                 ->first();
 
             $tpArmazem->delete();
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;

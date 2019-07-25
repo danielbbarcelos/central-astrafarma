@@ -25,6 +25,10 @@ use Carbon\Carbon;
 
 class PedidoVendaController extends Controller
 {
+
+    private static $logMessage = "Execução de VEX Sync em Erp\PedidoVendaController\n\n";
+
+
     //construct
     public function __construct()
     {
@@ -36,7 +40,7 @@ class PedidoVendaController extends Controller
     public static function update($vars)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -115,12 +119,14 @@ class PedidoVendaController extends Controller
                     }
                 }
             }
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
-            dd('Deu erro',$e,$vars,$itens);
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';	        
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
@@ -135,7 +141,7 @@ class PedidoVendaController extends Controller
     public static function delete($vars, EmpresaFilial $empfil = null)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try
         {
@@ -148,11 +154,14 @@ class PedidoVendaController extends Controller
             $pedido->delete();
 
             PedidoItem::where('vxfatpvenda_id', $id)->delete();
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
 
         $response['success'] = $success;

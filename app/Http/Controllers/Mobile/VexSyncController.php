@@ -109,7 +109,7 @@ class VexSyncController extends Controller
 
 
             //salva log de sincronização
-            Helper::logFile('vex-sync-central.log', $action['log']);
+            Helper::logFile('vex-sync-central-'.Carbon::now()->format('Y-m-d').'.log', $action['log']);
 
 
             $sync->sucesso      = $action['success'] == true ? '1' : '0';

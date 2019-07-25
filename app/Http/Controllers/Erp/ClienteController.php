@@ -22,6 +22,10 @@ use Carbon\Carbon;
 
 class ClienteController extends Controller
 {
+
+    private static $logMessage = "Execução de VEX Sync em Erp\ClienteController\n\n";
+
+
     //construct
     public function __construct()
     {
@@ -33,7 +37,7 @@ class ClienteController extends Controller
     public static function create($vars)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -63,11 +67,14 @@ class ClienteController extends Controller
             $cliente = new Cliente();
 
             $cliente->insert($vars);
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
@@ -80,7 +87,7 @@ class ClienteController extends Controller
     public static function update($vars)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -122,11 +129,14 @@ class ClienteController extends Controller
                     ->update($vars);
             }
 
+            $log .= "Procedimento realizado com sucesso";
+
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
@@ -139,18 +149,21 @@ class ClienteController extends Controller
     public static function delete($vars, EmpresaFilial $empfil = null)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
             Cliente::where('vxgloempfil_id', isset($empfil) ? $empfil->id : null)
                 ->where('erp_id',$vars['erp_id'])
                 ->delete();
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;

@@ -21,6 +21,10 @@ use Carbon\Carbon;
 
 class CondicaoPagamentoController extends Controller
 {
+
+    private static $logMessage = "Execução de VEX Sync em Erp\CondicaoPagamentoController\n\n";
+
+
     //construct
     public function __construct()
     {
@@ -32,7 +36,7 @@ class CondicaoPagamentoController extends Controller
     public static function create($vars)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -65,11 +69,14 @@ class CondicaoPagamentoController extends Controller
             $condicao = new CondicaoPagamento();
 
             $condicao->insert($vars);
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
@@ -82,9 +89,9 @@ class CondicaoPagamentoController extends Controller
     public static function update($vars)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
-        try 
+        try
         {
             //busca dados da filial caso tenha sido enviada
             $empresaId = isset($vars['empresa_id']) ? $vars['empresa_id'] : null;
@@ -113,11 +120,14 @@ class CondicaoPagamentoController extends Controller
             CondicaoPagamento::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                 ->where('erp_id',$vars['erp_id'])
                 ->update($vars);
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
@@ -130,7 +140,7 @@ class CondicaoPagamentoController extends Controller
     public static function delete($vars, EmpresaFilial $empfil = null)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -139,11 +149,14 @@ class CondicaoPagamentoController extends Controller
                 ->first();
 
             $condicao->delete();
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;

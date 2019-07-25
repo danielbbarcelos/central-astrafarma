@@ -117,7 +117,7 @@ class VexSyncController extends Controller
 
 
                         //salva log de sincronização
-                        Helper::logFile('vex-sync-erp.log', $return['log']);
+                        Helper::logFile('vex-sync-erp'.Carbon::now()->format('Y-m-d').'.log', $return['log']);
                     }
                 }
             }

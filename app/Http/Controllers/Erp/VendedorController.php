@@ -21,6 +21,9 @@ use Carbon\Carbon;
 
 class VendedorController extends Controller
 {
+
+    private static $logMessage = "Execução de VEX Sync em Erp\VendedorController\n\n";
+
     //construct
     public function __construct()
     {
@@ -31,7 +34,7 @@ class VendedorController extends Controller
     public static function create($vars)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -60,11 +63,14 @@ class VendedorController extends Controller
             $vendedor = new Vendedor();
 
             $vendedor->insert($vars);
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
@@ -77,7 +83,7 @@ class VendedorController extends Controller
     public static function update($vars)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -105,11 +111,14 @@ class VendedorController extends Controller
             Vendedor::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                 ->where('erp_id',$vars['erp_id'])
                 ->update($vars);
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
@@ -122,18 +131,21 @@ class VendedorController extends Controller
     public static function delete($vars, EmpresaFilial $empfil = null)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
             Vendedor::where('vxgloempfil_id', isset($empfil) ? $empfil->id : null)
                 ->where('erp_id',$vars['erp_id'])
                 ->delete();
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;

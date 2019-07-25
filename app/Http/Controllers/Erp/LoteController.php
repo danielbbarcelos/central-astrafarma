@@ -23,6 +23,10 @@ use Carbon\Carbon;
 
 class LoteController extends Controller
 {
+
+    private static $logMessage = "Execução de VEX Sync em Erp\LoteController\n\n";
+
+
     //construct
     public function __construct()
     {
@@ -35,7 +39,7 @@ class LoteController extends Controller
     public static function update($array)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($array)."\n\n";
 
         try 
         {
@@ -91,11 +95,14 @@ class LoteController extends Controller
 
             }
 
+            $log .= "Procedimento realizado com sucesso";
+
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
