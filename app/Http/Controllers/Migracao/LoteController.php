@@ -49,7 +49,7 @@ class LoteController extends Controller
         $assinatura = Assinatura::first();
         $lote       = new Lote();
         $webservice = $assinatura->webservice_base . $lote->getWebservice() . $uri;
-
+        
         $guzzle  = new Client();
         $result  = $guzzle->request('GET', $webservice);
 
@@ -64,7 +64,7 @@ class LoteController extends Controller
         }
         else
         {
-            Lote::where('id','>','0')->delete();
+            Lote::truncate();
 
             $error = 0;
 
@@ -72,10 +72,6 @@ class LoteController extends Controller
             {
                 if($item['VXGLOPROD_ERP_ID'] !== '')
                 {
-                    $lote = Lote::where('erp_id',$item['ERP_ID'])->first();
-
-                    if(!isset($lote))
-                    {
                         $empfil = EmpresaFilial::where('filial_erp_id',$item['FILIAL_ID'])->first();
 
                         $armazem = Armazem::where('erp_id',isset($item['VXESTARMZ_ERP_ID']) ? $item['VXESTARMZ_ERP_ID'] : $item['ARMAZEM'])->first();
@@ -91,19 +87,11 @@ class LoteController extends Controller
                         $lote->vxgloprod_erp_id   = isset($produto) ? $produto->erp_id : null;
                         $lote->dt_fabric          = $item['DT_FABRIC'] !== '0000-00-00' ? $item['DT_FABRIC'] : null;
                         $lote->dt_valid           = $item['DT_VALID'] !== '0000-00-00' ? $item['DT_VALID'] : null;
-                        $lote->quant_ori          = $item['QUANT_ORI'];
-                        $lote->saldo              = $item['SALDO'];
+			$lote->quant_ori          = $item['QUANT_ORI'] !== '' ? $item['QUANT_ORI'] : 0.00;
+			$lote->saldo              = $item['SALDO'] !== '' ? $item['SALDO'] : 0.00;
                         $lote->created_at         = new \DateTime();
                         $lote->updated_at         = new \DateTime();
                         $lote->save();
-                    }
-                    else
-                    {
-                        $error++;
-
-                        Log::info($error.') ERP ID '.$item['ERP_ID'].' já encontrado no lote ID '.$lote->id);
-                    }
-
                 }
             }
 

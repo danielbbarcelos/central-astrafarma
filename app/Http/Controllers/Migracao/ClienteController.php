@@ -98,7 +98,8 @@ class ClienteController extends Controller
                     $cliente->ddd              = (int)$item['DDD'];
                     $cliente->fone             = $item['FONE'];
                     $cliente->nome_contato     = $item['NOME_CONTATO'];
-                    $cliente->email            = $item['EMAIL'];
+		    $cliente->email            = $item['EMAIL'];
+		    $cliente->risco            = isset($item['RISCO']) ? $item['RISCO'] : 'E';
                     $cliente->limite_credito   = Helper::formataDecimal($item['LIMITE_CREDITO']);
                     $cliente->saldo_devedor    = Helper::formataDecimal($item['SALDO_DEVEDOR']);
                     $cliente->status           = $status;
