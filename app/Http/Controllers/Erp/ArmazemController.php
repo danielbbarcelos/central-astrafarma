@@ -22,6 +22,10 @@ use Carbon\Carbon;
 
 class ArmazemController extends Controller
 {
+
+    private static $logMessage = "Execução de VEX Sync em Erp\ArmazemController\n\n";
+
+
     //construct
     public function __construct()
     {
@@ -33,7 +37,7 @@ class ArmazemController extends Controller
     public static function create($vars)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -63,11 +67,15 @@ class ArmazemController extends Controller
             $armazem = new Armazem();
 
             $armazem->insert($vars);
+
+            $log .= "Procedimento realizado com sucesso";
+
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
@@ -80,7 +88,7 @@ class ArmazemController extends Controller
     public static function update($vars)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
         try 
         {
@@ -108,11 +116,16 @@ class ArmazemController extends Controller
             Armazem::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                 ->where('erp_id',$vars['erp_id'])
                 ->update($vars);
+
+
+            $log .= "Procedimento realizado com sucesso";
+
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
         
         $response['success'] = $success;
@@ -125,22 +138,26 @@ class ArmazemController extends Controller
     public static function delete($vars, EmpresaFilial $empfil = null)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage . json_encode($vars)."\n\n";
 
-        try 
+        try
         {
             $armazem = Armazem::where('vxgloempfil_id', isset($empfil) ? $empfil->id : null)
                 ->where('erp_id',$vars['erp_id'])
                 ->first();
 
             $armazem->delete();
+
+            $log .= "Procedimento realizado com sucesso";
         }
         catch(\Exception $e)
         {
-            $success = false;
-            $log     = 'Ocorreu um erro ao processar os itens';
+            $success  = false;
+            $log     .= "Ocorreu um erro ao realizar o procedimento.\n\n";
+            $log     .= 'Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
         }
-        
+
+
         $response['success'] = $success;
         $response['log']     = $log;
         return $response;

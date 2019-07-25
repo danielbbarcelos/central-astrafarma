@@ -26,6 +26,8 @@ use App\Utils\Helper;
 class VexSyncController extends Controller
 {
 
+    private static $logMessage = 'VEX Sync via ERP - ID ';
+
     //construct
     public function __construct()
     {
@@ -66,9 +68,6 @@ class VexSyncController extends Controller
                 foreach($objects as $object)
                 {
 
-                    $registro = "Iniciando VEX Sync do registro (ID) ".$object->id."\n\n";
-
-
                     if(strtolower($object->action) == 'create')
                     {
                         $return = VexSyncController::create($object);
@@ -89,14 +88,10 @@ class VexSyncController extends Controller
                         if($return['success'] == true)
                         {
                             $syncLog = ['data_hora' => Carbon::now()->format('Y-m-d H:i:s'), 'sucesso' => '1', 'mensagem' => 'Sincronizacao realizada com sucesso'];
-
-                            $registro .= "Sincronizacao realizada com sucesso \n\n";
                         }
                         else 
                         {
                             $syncLog = ['data_hora' => Carbon::now()->format('Y-m-d H:i:s'), 'sucesso' => '0', 'mensagem' => $return['log']];
-
-                            $registro .= "Erro ao sincronizar na Central VEX: {$return['log']} \n\n";
                         }
 
                         try 
@@ -113,29 +108,22 @@ class VexSyncController extends Controller
                                     'logsync' => json_encode($syncLog),
                                 ])
                             ]);
-
-
-                            $registro .= "VEX Sync atualizado com sucesso no ERP\n\n";
-
                         }
                         catch(\Exception $e2)
                         {
                             $success = false;
                             $log     = $e2->getMessage();
-
-                            $registro .= "\nERRO: Linha: {$e2->getLine()}\nArquivo: {$e2->getFile()}\nCódigo: {$e2->getCode()}\nMensagem {$e2->getMessage()}";
                         }
 
 
-                        Helper::logFile('vex-sync-erp.log', $registro);
-
+                        //salva log de sincronização
+                        Helper::logFile('vex-sync-erp.log', $return['log']);
                     }
                 }
             }
         }
         catch(\Exception $e)
         {
-            Log::info($e->getMessage());
             $success = false;
             $log[]   = ['error' => $e->getMessage()];
 
@@ -150,7 +138,7 @@ class VexSyncController extends Controller
     public static function create($object)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage." $object->id. \n\n";
 
         $assinatura = Assinatura::first();
 
@@ -167,12 +155,12 @@ class VexSyncController extends Controller
             $controller = Aliases::erpControllerByTable($object->tabela);
 
             //executa o processamento no banco de dados
-            $controller::create($result);
+            $log    .= $controller::create($result);
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = $e->getMessage();
+            $log    .= $e->getMessage();
         }
 
         $response['success']    = $success;
@@ -184,7 +172,7 @@ class VexSyncController extends Controller
     public static function update($object)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage." $object->id. \n\n";
 
         $assinatura = Assinatura::first();
 
@@ -203,13 +191,13 @@ class VexSyncController extends Controller
             $controller = Aliases::erpControllerByTable($object->tabela);
 
             //executa o processamento no banco de dados
-            $controller::update($result);
+            $log    .= $controller::update($result);
 
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = $e->getMessage();
+            $log    .= $e->getMessage();
         }
 
         $response['success']    = $success;
@@ -221,7 +209,7 @@ class VexSyncController extends Controller
     public static function delete($object)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage." $object->id. \n\n";
 
         try
         {
@@ -231,12 +219,12 @@ class VexSyncController extends Controller
             //executa o processamento no banco de dados
             $result['erp_id'] = $object->erp_id;
 
-            $controller::delete($result, Helper::converteTenantId($object->tenant));
+            $log    .= $controller::delete($result, Helper::converteTenantId($object->tenant));
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log     = $e->getMessage();
+            $log    .= $e->getMessage();
         }
 
         $response['success']    = $success;

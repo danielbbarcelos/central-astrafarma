@@ -33,7 +33,7 @@ class Helper
         }
 
         $content .= "[".Carbon::now()->format('Y-m-d H:i:s')."] ".$message."\n\n";
-        $content .= str_repeat("=",1000);
+        $content .= str_repeat("=",200);
         $content .= "\n\n";
 
         $file = fopen($path,'w+');

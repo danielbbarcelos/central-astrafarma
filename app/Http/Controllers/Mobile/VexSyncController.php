@@ -25,6 +25,8 @@ use App\Utils\Aliases;
 class VexSyncController extends Controller
 {
 
+    private static $logMessage = 'VEX Sync via Central - ID ';
+
     //construct
     public function __construct()
     {
@@ -88,7 +90,6 @@ class VexSyncController extends Controller
                 $action = VexSyncController::put($sync);
             }
 
-
             //trata o retorno da ação
             if($action['success'])
             {
@@ -106,6 +107,11 @@ class VexSyncController extends Controller
                 }
             }
 
+
+            //salva log de sincronização
+            Helper::logFile('vex-sync-central.log', $action['log']);
+
+
             $sync->sucesso      = $action['success'] == true ? '1' : '0';
             $sync->log          = json_encode($syncLog);
             $sync->updated_at   = new \DateTime();
@@ -122,14 +128,16 @@ class VexSyncController extends Controller
     public static function post(VexSync $sync)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage." $sync->id. \n\n";
 
         //busca a controller para realizar o insert
         $controller = Aliases::mobileControllerByTable($sync->tabela);
 
         //executa o processamento no banco de dados
         $response = $controller::syncPost($sync);
-        
+
+        $response['log'] = $log . $response['log'];
+
         return $response;
     }
 
@@ -138,14 +146,16 @@ class VexSyncController extends Controller
     public static function put(VexSync $sync)
     {
         $success = true;
-        $log     = '';
+        $log     = self::$logMessage." $sync->id. \n\n";
 
         //busca a controller para realizar o insert
         $controller = Aliases::mobileControllerByTable($sync->tabela);
 
         //executa o processamento no banco de dados
         $response = $controller::syncPut($sync);
-        
+
+        $response['log'] = $log . $response['log'];
+
         return $response;
     }
 
