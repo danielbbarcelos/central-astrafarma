@@ -405,6 +405,13 @@
 
     @include('pages.pedidos-vendas.modal-produto')
 
+
+
+    <!-- form é submetido na confirmação de "onclick" presente na tag "a" de cada item. A action é gerada durante a confirmação da exclusão -->
+    <form id="form-delete" method="post" action="">
+        {{csrf_field()}}
+    </form>
+
 @endsection
 
 @section('page-scripts')
