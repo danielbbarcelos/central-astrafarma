@@ -155,7 +155,9 @@ class VexSyncController extends Controller
             $controller = Aliases::erpControllerByTable($object->tabela);
 
             //executa o processamento no banco de dados
-            $log    .= $controller::create($result);
+	    $return = $controller::create($result);
+
+	    $log .= $return['log'];
         }
         catch(\Exception $e)
         {
@@ -191,8 +193,9 @@ class VexSyncController extends Controller
             $controller = Aliases::erpControllerByTable($object->tabela);
 
             //executa o processamento no banco de dados
-            $log    .= $controller::update($result);
+            $return = $controller::update($result);
 
+	    $log .= $return['log'];
         }
         catch(\Exception $e)
         {
@@ -219,7 +222,10 @@ class VexSyncController extends Controller
             //executa o processamento no banco de dados
             $result['erp_id'] = $object->erp_id;
 
-            $log    .= $controller::delete($result, Helper::converteTenantId($object->tenant));
+	    $return = $controller::delete($result, Helper::converteTenantId($object->tenant));
+
+            $log .= $return['log'];
+
         }
         catch(\Exception $e)
         {
