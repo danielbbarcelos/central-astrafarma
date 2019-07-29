@@ -19,7 +19,7 @@
 
 @section('page-content')
 
-    <div class="row">
+    <div class="row padding-right-20">
         <div class="middle col l12 m12 s12">
             <div class="card-panel">
                 <div class="card-content">
@@ -32,12 +32,12 @@
                             {{csrf_field()}}
 
                             <div class="row row-input">
-                                <div class="input-field col s6">
+                                <div class="input-field col s12 m6">
                                     <input type="text" placeholder="" name="descricao" id="descricao" class="validate" maxlength="100" required value="{{$dispositivo->descricao or old('descricao')}}">
                                     <label>Descrição</label>
                                 </div>
 
-                                <div class="input-field col s6">
+                                <div class="input-field col s12 m6">
                                     <input type="text" placeholder="" class="masked" name="device_id" id="device_id" value="{{$dispositivo->device_id or old('device_id')}}" maxlength="50" required>
                                     <label>Device ID</label>
                                 </div>

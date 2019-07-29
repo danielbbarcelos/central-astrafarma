@@ -173,20 +173,28 @@
 
                                             <div class="col s12">
                                                 <p class="">
-                                                    <input class="with-gap" required value="I" name="acao" type="radio" id="tipo1" />
-                                                    <label for="tipo1">
-                                                        <span class="label bg-warning">Apenas interagir</span>
-                                                    </label>
+                                                    <div class="row row-input">
+                                                        <div class="">
+                                                            <input class="with-gap" required value="I" name="acao" type="radio" id="tipo1" />
+                                                            <label for="tipo1">
+                                                                <span class="label bg-warning">Apenas interagir</span>
+                                                            </label>
+                                                        </div>
 
-                                                    <input class="with-gap" value="C" name="acao" type="radio" id="tipo2" />
-                                                    <label for="tipo2">
-                                                        <span class="label bg-danger">Cancelar</span>
-                                                    </label>
+                                                        <div class="padding-top-10">
+                                                            <input class="with-gap" value="C" name="acao" type="radio" id="tipo2" />
+                                                            <label for="tipo2">
+                                                                <span class="label bg-danger">Cancelar</span>
+                                                            </label>
+                                                        </div>
 
-                                                    <input class="with-gap" value="F" name="acao" type="radio" id="tipo3" />
-                                                    <label for="tipo3">
-                                                        <span class="label bg-primary">Solucionar</span>
-                                                    </label>
+                                                        <div class="padding-top-10">
+                                                            <input class="with-gap" value="F" name="acao" type="radio" id="tipo3" />
+                                                            <label for="tipo3">
+                                                                <span class="label bg-primary">Solucionar</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                 </p>
                                             </div>
                                         </div>

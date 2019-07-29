@@ -448,7 +448,12 @@ class UserController extends Controller
         else
         {
             $dashboard = UserDashboard::where('vxwebuser_id',$user_id)->first();
-            $dashboard->assinatura_status = isset($request['assinatura_status']) ? '1' : '0';
+
+            if($user->type !== 'A')
+            {
+                $dashboard->assinatura_status = isset($request['assinatura_status']) ? '1' : '0';
+            }
+
             $dashboard->bi_status         = isset($request['bi_status']) ? '1' : '0';
             $dashboard->bi_url            = $request['bi_url'];
             $dashboard->updated_at        = new \DateTime();

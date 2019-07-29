@@ -4,7 +4,7 @@
 
 @section('page-css')
 
-    <link href="/assets/plugins/materialize-stepper/stepper.css" rel="stylesheet">
+    <link href="/assets/plugins/materialize-stepper/stepper.5ce1026a32c86fdeda9632be1a4244c0.css" rel="stylesheet">
     <link href="/assets/plugins/bm-datepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
 
 @endsection
@@ -22,7 +22,7 @@
 
 @section('page-content')
 
-    <div class="row">
+    <div class="row padding-right-20">
         <div class="col l12 m12 s12">
             <div class="" style="  transition: box-shadow .25s;
                     box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.15);
@@ -40,7 +40,9 @@
 
                             <!-- Cliente-->
                             <li class="step active">
-                                <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">Cliente</div>
+                                <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">
+                                    <span class="hidden-xs">Cliente</span>
+                                </div>
                                 <div class="step-content" style="overflow-y: hidden">
                                     <div class="row padding-top-30">
                                         <div class="row row-input">
@@ -80,52 +82,53 @@
 
                                                 <div id="data-cliente" class="padding-top-20" hidden>
                                                     <div class="row">
-                                                        <div class="col s6">
+                                                        <div class="col s12 m6 l6 hidden-xs">
                                                             <div class="row padding-bottom-20">
                                                                 <div class="col s12 font-weight-800 font-size-16">Dados principais do cliente</div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col s4 font-weight-800">Cód. ERP:</div>
-                                                                <div class="col s8" id="cliente-erp-id"></div>
+                                                                <div class="col s12 m12 l4 font-weight-800">Cód. ERP:</div>
+                                                                <div class="col s12 m12 l8" id="cliente-erp-id"></div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col s4 font-weight-800">Razão social:</div>
-                                                                <div class="col s8" id="cliente-razao-social"></div>
+                                                                <div class="col s12 m12 l4 font-weight-800">Razão social:</div>
+                                                                <div class="col s12 m12 l8" id="cliente-razao-social"></div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col s4 font-weight-800">Nome fantasia:</div>
-                                                                <div class="col s8" id="cliente-nome-fantasia"></div>
+                                                                <div class="col s12 m12 l4 font-weight-800">Nome fantasia:</div>
+                                                                <div class="col s12 m12 l8" id="cliente-nome-fantasia"></div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col s4 font-weight-800">CNPJ/CPF:</div>
-                                                                <div class="col s8" id="cliente-cnpj-cpf"></div>
+                                                                <div class="col s12 m12 l4 font-weight-800">CNPJ/CPF:</div>
+                                                                <div class="col s12 m12 l8" id="cliente-cnpj-cpf"></div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col s4 font-weight-600">Cidade:</div>
-                                                                <div class="col s8" id="cliente-cidade-uf"></div>
+                                                                <div class="col s12 m12 l4 font-weight-600">Cidade:</div>
+                                                                <div class="col s12 m12 l8" id="cliente-cidade-uf"></div>
                                                             </div>
                                                         </div>
-                                                        <div class="col s6">
+                                                        <div class="col s12 m6 l6">
 
                                                             <div class="row padding-bottom-20">
                                                                 <div class="col s12 font-weight-800 font-size-16">Análise financeira</div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col s5 font-weight-800">Limite de crédito:</div>
-                                                                <div class="col s7 font-weight-600" id="cliente-limite-credito"></div>
+                                                                <div class="col s12 m12 l5 font-weight-800">Limite de crédito:</div>
+                                                                <div class="col s12 m12 l7 font-weight-600" id="cliente-limite-credito"></div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col s5 font-weight-800">Saldo devedor:</div>
-                                                                <div class="col s7 font-weight-600" id="cliente-saldo-devedor" style="color: rgba(182,11,35,0.8)">
+                                                                <div class="col s12 m12 l5 font-weight-800">Saldo devedor:</div>
+                                                                <div class="col s12 m12 l7 font-weight-600" id="cliente-saldo-devedor" style="color: rgba(182,11,35,0.8)">
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col s5 font-weight-800">Crédito disponível:</div>
-                                                                <div class="col s7 font-weight-600" id="cliente-credito-disponivel"></div>
+                                                                <div class="col s12 m12 l5 font-weight-800">Crédito disponível:</div>
+                                                                <div class="col s12 m12 l7 font-weight-600" id="cliente-credito-disponivel"></div>
                                                             </div>
+
                                                             <div class="row">
-                                                                <div class="col s5 font-weight-800">Desconto máximo:</div>
-                                                                <div class="col s7 font-weight-600" id="cliente-desconto-maximo"></div>
+                                                                <div class="col s12 m12 l5 font-weight-800">Desconto máximo:</div>
+                                                                <div class="col s12 m12 l7 font-weight-600" id="cliente-desconto-maximo"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -143,7 +146,9 @@
 
                             <!-- Produtos -->
                             <li class="step">
-                                <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">Produtos</div>
+                                <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">
+                                    <span class="hidden-xs">Produtos</span>
+                                </div>
                                 <div class="step-content" style="overflow-y: hidden">
 
                                     <div class="row ">
@@ -152,58 +157,60 @@
                                         <div class="row row-input">
                                             <div id="ipvenda" class="col s12">
                                                 <div class="row">
-                                                    <table class="display" style="padding-right: 20px; display: inline-block; overflow-y: auto; width: 100%;margin: 0 auto; max-height:300px;" cellspacing="0">
-                                                        <thead style="display: inline-table; width: 100%">
-                                                        <tr>
-                                                            <th style="width: 35%">Produto</th>
-                                                            <th style="width: 10%; text-align: center !important;">Quantidade</th>
-                                                            <th style="width: 15%; text-align: center !important;">Lote</th>
-                                                            <th style="width: 15%; text-align: center !important;">Validade</th>
-                                                            <th style="width: 15%; text-align: center !important;">Valor total</th>
-                                                            <th style="width: 15%; text-align: center !important;">
-                                                                <a id="btn-produto" class="waves-effect waves-light btn blue btn-submit modal-trigger" href="#modal-produto">+ ITEM</a>
-                                                            </th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody id="ipvenda-tbody" style="display: inline-table; width: 100%">
+                                                    <div class="table-responsive">
+                                                        <table class="display" style="padding-right: 20px; display: inline-block; overflow-y: auto; width: 100%;margin: 0 auto; max-height:300px;" cellspacing="0">
+                                                            <thead style="display: inline-table; width: 100%">
+                                                            <tr>
+                                                                <th style="width: 35%">Produto</th>
+                                                                <th style="width: 10%; text-align: center !important;">Quantidade</th>
+                                                                <th style="width: 15%; text-align: center !important;">Lote</th>
+                                                                <th style="width: 15%; text-align: center !important;">Validade</th>
+                                                                <th style="width: 15%; text-align: center !important;">Valor total</th>
+                                                                <th style="width: 15%; text-align: center !important;">
+                                                                    <a id="btn-produto" class="waves-effect waves-light btn blue btn-submit modal-trigger" href="#modal-produto">+ ITEM</a>
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody id="ipvenda-tbody" style="display: inline-table; width: 100%">
 
-                                                        </tbody>
-                                                    </table>
+                                                            </tbody>
+                                                        </table>
 
 
-                                                    <br>
-                                                    <hr style="border: 0.5px solid #e3e3e3; ">
+                                                        <br>
+                                                        <hr style="border: 0.5px solid #e3e3e3; ">
+                                                    </div>
                                                 </div>
                                             </div>
 
 
-                                            <div class="row" style="margin-top: 20px; margin-bottom: 10px">
+                                            <div class="row hidden-xs" style="margin-top: 20px; margin-bottom: 10px">
                                                 <div class="col s12 font-size-14 font-weight-800" style="margin-top: 20px;">
                                                     <div class="row">
-                                                        <div class="col s3">
+                                                        <div class="col s12 m6 l3">
                                                             Valor total do pedido:
                                                         </div>
-                                                        <div class="col s9">
+                                                        <div class="col s12 m6 l9">
                                                             <span class="pedido-valor-total font-size-14 font-weight-800">R$ 0,00</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col s12 font-size-14 font-weight-800">
                                                     <div class="row">
-                                                        <div class="col s3">
+                                                        <div class="col s12 m6 l3">
                                                             Desconto aplicado:
                                                         </div>
-                                                        <div class="col s9">
+                                                        <div class="col s12 m6 l9">
                                                             <span class="pedido-percentual-desconto font-size-14 font-weight-800">0,00%</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col s12 font-size-14 font-weight-800">
                                                     <div class="row">
-                                                        <div class="col s3">
+                                                        <div class="col s12 m6 l3">
                                                             Crédito disponível:
                                                         </div>
-                                                        <div class="col s9">
+                                                        <div class="col s12 m6 l9">
                                                             <span id="credito-restante" class="font-size-14 font-weight-800">R$ 0,00</span>
                                                         </div>
                                                     </div>
@@ -221,25 +228,27 @@
 
                             <!-- Conclusão -->
                             <li class="step">
-                                <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">Conclusão</div>
+                                <div class="step-title waves-effect waves-dark" style="cursor: default" onclick="event.stopPropagation();">
+                                    <span class="hidden-xs">Conclusão</span>
+                                </div>
                                 <div class="step-content">
                                     <div class="row">
 
                                         <div class="row row-input">
                                             <div class="col s12">
-                                                <div class="col s12 m12 l3 card-simple-widget">
+                                                <div class="hidden-xs col s6 m3 l3 card-simple-widget">
                                                     <span class="font-weight-400 font-size-12">Qtde de produtos</span><br>
                                                     <span class="font-weight-600 font-size-16 pedido-quantidade-produto">1</span>
                                                 </div>
-                                                <div class="col s12 m12 l3 card-simple-widget">
+                                                <div class="hidden-xs col s6 m3 l3 card-simple-widget">
                                                     <span class="font-weight-400 font-size-12">Valor unitário</span><br>
                                                     <span class="font-weight-600 font-size-16 pedido-valor-unitario">R$ 0,00</span>
                                                 </div>
-                                                <div class="col s12 m12 l3 card-simple-widget">
+                                                <div class="col s6 m3 l3 card-simple-widget">
                                                     <span class="font-weight-400 font-size-12">Desconto</span><br>
                                                     <span class="font-weight-600 font-size-16 pedido-percentual-desconto">0,00 %</span>
                                                 </div>
-                                                <div class="col s12 m12 l3 card-simple-widget">
+                                                <div class="col s6 m3 l3 card-simple-widget">
                                                     <span class="font-weight-400 font-size-12">Valor total</span><br>
                                                     <span class="font-weight-600 font-size-16 pedido-valor-total">R$ 0,00</span>
                                                 </div>
@@ -249,7 +258,7 @@
                                     <div class="row padding-top-30 padding-bottom-20">
                                         <div class="row row-input">
 
-                                            <div class="input-field col s4">
+                                            <div class="input-field col s6 m4">
                                                 <select name="vxglocpgto_id" id="vxglocpgto_id" class="select2">
                                                     <option value="">Selecione...</option>
                                                     @foreach($condicoes as $item)
@@ -259,12 +268,12 @@
                                                 <label class="active">Condição de pagamento</label>
                                             </div>
 
-                                            <div class="input-field col s4">
+                                            <div class="input-field col s6 m4">
                                                 <input type="text"  value="{{isset($pedido->data_entrega) ? Carbon::createFromFormat('Y-m-d',$pedido->data_entrega)->format('d/m/Y') : ''}}" class="datepicker" placeholder="" id="data_entrega" name="data_entrega">
                                                 <label>Data prevista da entrega</label>
                                             </div>
 
-                                            <div class="input-field col s4">
+                                            <div class="input-field col s12 m4">
                                                 <select name="status_entrega" id="status_entrega" class="select2">
                                                     <option value="">Selecione...</option>
                                                     <option value="1">1 - Sem programação</option>
@@ -274,13 +283,13 @@
                                                 <label class="active">Status da entrega</label>
                                             </div>
 
-                                            <div class="input-field col s6">
+                                            <div class="input-field col s12 m6">
                                                 <textarea class="materialize-textarea" name="observacao" style="height: 6rem" required id="observacao"
                                                           maxlength="10000" length="10000">{{$pedido->observacao or old('observacao')}}</textarea>
                                                 <label>Observação na nota fiscal</label>
                                             </div>
 
-                                            <div class="input-field col s6">
+                                            <div class="hidden-xs input-field col s12 m6">
                                                 <textarea class="materialize-textarea" name="obs_interna" style="height: 6rem" required id="obs_interna"
                                                           maxlength="10000">{{$pedido->obs_interna or old('obs_interna')}}</textarea>
                                                 <label>Observação interna</label>

@@ -62,23 +62,23 @@
             </div>
 
             <div class="row row-input" id="div-valores-item" hidden>
-                <div class="input-field col s3">
+                <div class="input-field col s12 m12 l3">
                     <input type="text" value="" class="mask-inteiro-nm" placeholder="" id="produto_quantidade" onkeyup="calculaPrecoTotalProduto()">
                     <label>Quantidade</label>
                 </div>
 
-                <div class="input-field col s3">
+                <div class="input-field col s12 m12 l3">
                     <input type="text" value="" class="mask-decimal" placeholder="" id="produto_preco_venda" onkeyup="calculaPrecoTotalProduto()">
                     <label>Preço de venda (R$)</label>
                 </div>
 
-                <div class="input-field col s3">
+                <div class="input-field col s12 m12 l3">
                     <input type="hidden" value="" class="mask-decimal-zero" placeholder="" id="produto_valor_desconto" readonly>
                     <input type="text"   value="" class="mask-decimal-zero" placeholder="" id="produto_percentual_desconto" readonly>
                     <label>Desconto (%)</label>
                 </div>
 
-                <div class="input-field col s3 right-align">
+                <div class="input-field col s12 m12 l3 right-align">
                     <input type="text" value="" readonly placeholder="" id="produto_preco_total">
                     <label>Preço final (R$)</label>
                 </div>

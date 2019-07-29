@@ -20,8 +20,8 @@
                 <div class="card-panel">
                     <div class="card-content">
                         <span class="card-title">Usuários</span><br>
-                        <div class="">
-                            <table class="display responsive-table datatable" cellspacing="0" width="100%">
+                        <div class="table-responsive">
+                            <table class="display datatable" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
                                     <th>ID</th>

@@ -3,18 +3,18 @@
 <form method="post" enctype="multipart/form-data" action="{{url('/suporte/chamados/add')}}">
     {{csrf_field()}}
 
-    <div id="modal-adiciona" class="modal modal-fixed-footer" style="background-color: #fff; z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
+    <div id="modal-adiciona" class="modal modal-fixed-footer" style="min-height: 530px !important; background-color: #fff; z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 250.516304347826px;">
         <div class="modal-content">
             <h4 class="padding-bottom-20">Novo chamado</h4>
 
             <div class="row row-input">
 
-                <div class="input-field col s7">
+                <div class="input-field col s12 m12 l7">
                     <input type="text" name="assunto" id="assunto" class="validate" maxlength="100" placeholder="" required value="{{old('assunto')}}">
                     <label class="f-bold">Assunto</label>
                 </div>
 
-                <div class="file-field input-field col s5">
+                <div class="file-field input-field col s12 m12 l5">
                     <div class="btn teal lighten-1">
                         <input type="file" name="upload" id="upload">
                         <span>Anexo</span>
@@ -31,27 +31,37 @@
                 </div>
 
                 <div class="row row-input padding-bottom-30">
-                    <div class="">
+                    <div class="padding-top-20">
                         <p class="">
-                            <input class="with-gap" required value="D" name="tipo" type="radio" id="tipo1" checked/>
-                            <label for="tipo1">
-                                <span class="label bg-warning">Dúvida</span>
-                            </label>
+                            <div class="row row-input">
+                                <div class="">
+                                    <input class="with-gap" required value="D" name="tipo" type="radio" id="tipo1" checked/>
+                                    <label for="tipo1">
+                                        <span class="label bg-warning">Dúvida</span>
+                                    </label>
+                                </div>
 
-                            <input class="with-gap" value="E" name="tipo" type="radio" id="tipo2" />
-                            <label for="tipo2">
-                                <span class="label bg-danger">Erro ou problema</span>
-                            </label>
+                                <div class="padding-top-10">
+                                    <input class="with-gap" value="E" name="tipo" type="radio" id="tipo2" />
+                                    <label for="tipo2">
+                                        <span class="label bg-danger">Erro ou problema</span>
+                                    </label>
+                                </div>
 
-                            <input class="with-gap" value="F" name="tipo" type="radio" id="tipo3" />
-                            <label for="tipo3">
-                                <span class="label bg-info">Solicitação de serviço</span>
-                            </label>
+                                <div class="padding-top-10">
+                                    <input class="with-gap" value="F" name="tipo" type="radio" id="tipo3" />
+                                    <label for="tipo3">
+                                        <span class="label bg-info">Solicitação de serviço</span>
+                                    </label>
+                                </div>
 
-                            <input class="with-gap" value="S" name="tipo" type="radio" id="tipo4" />
-                            <label for="tipo4">
-                                <span class="label bg-success">Sugestão</span>
-                            </label>
+                                <div class="padding-top-10">
+                                    <input class="with-gap" value="S" name="tipo" type="radio" id="tipo4" />
+                                    <label for="tipo4">
+                                        <span class="label bg-success">Sugestão</span>
+                                    </label>
+                                </div>
+                            </div>
                         </p>
                     </div>
                 </div>

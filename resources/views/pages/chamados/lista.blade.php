@@ -21,62 +21,64 @@
                     <div class="card-content">
                         <span class="card-title">{{$title}}</span><br>
                         <div class="row">
-                            <table class="display responsive-table datatable" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tipo</th>
-                                    <th>Assunto</th>
-                                    <th>Reclamante</th>
-                                    <th>Status</th>
-                                    <th>Aberto em</th>
-                                    <th>Funções</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($chamados as $item)
+                            <div class="table-responsive">
+                                <table class="display datatable" cellspacing="0" width="100%">
+                                <thead>
                                     <tr>
-                                        <td>{{$item->id}}</td>
-                                        <td>
-                                            @if($item->tipo == 'D')
-                                                <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Dúvida">contact_support</i>
-                                            @elseif($item->tipo == 'E')
-                                                <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Erro ou problema">report</i>
-                                            @elseif($item->tipo == 'F')
-                                                <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Solicitação de serviço">new_releases</i>
-                                            @elseif($item->tipo == 'S')
-                                                <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Sugestão">check_circle</i>
-                                            @endif
-                                        </td>
-                                        <td>{{$item->assunto}}</td>
-                                        <td>{{json_decode($item->responsavel)->name}}</td>
-                                        <td>
-                                            @if($item->status == 'A')
-                                                <span class="label bg-warning">Ag. atendimento</span>
-                                            @elseif($item->status == 'C')
-                                                <span class="label bg-danger">Cancelado</span>
-                                            @elseif($item->status == 'E')
-                                                <span class="label bg-info">Em atendimento</span>
-                                            @elseif($item->status == 'F')
-                                                <span class="label bg-success">Finalizado</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <span hidden>{{$item->created_at}}</span>
-                                            {{Carbon::createFromFormat('Y-m-d H:i:s',$item->created_at)->format('d/m/Y - H:i')}}
-                                        </td>
-                                        <td>
-                                            @if(Permission::check('visualiza','Chamado','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar e interagir" href="{{url('/suporte/chamados/'.$item->id.'/show')}}">
-                                                    <i class="material-icons">chat</i>
-                                                </a>
-                                            @endif
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Tipo</th>
+                                        <th>Assunto</th>
+                                        <th>Reclamante</th>
+                                        <th>Status</th>
+                                        <th>Aberto em</th>
+                                        <th>Funções</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                                
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($chamados as $item)
+                                        <tr>
+                                            <td>{{$item->id}}</td>
+                                            <td>
+                                                @if($item->tipo == 'D')
+                                                    <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Dúvida">contact_support</i>
+                                                @elseif($item->tipo == 'E')
+                                                    <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Erro ou problema">report</i>
+                                                @elseif($item->tipo == 'F')
+                                                    <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Solicitação de serviço">new_releases</i>
+                                                @elseif($item->tipo == 'S')
+                                                    <i class="material-icons tooltipped" data-position="top" data-delay="20" data-tooltip="Sugestão">check_circle</i>
+                                                @endif
+                                            </td>
+                                            <td>{{$item->assunto}}</td>
+                                            <td>{{json_decode($item->responsavel)->name}}</td>
+                                            <td>
+                                                @if($item->status == 'A')
+                                                    <span class="label bg-warning">Ag. atendimento</span>
+                                                @elseif($item->status == 'C')
+                                                    <span class="label bg-danger">Cancelado</span>
+                                                @elseif($item->status == 'E')
+                                                    <span class="label bg-info">Em atendimento</span>
+                                                @elseif($item->status == 'F')
+                                                    <span class="label bg-success">Finalizado</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <span hidden>{{$item->created_at}}</span>
+                                                {{Carbon::createFromFormat('Y-m-d H:i:s',$item->created_at)->format('d/m/Y - H:i')}}
+                                            </td>
+                                            <td>
+                                                @if(Permission::check('visualiza','Chamado','Central'))
+                                                    <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar e interagir" href="{{url('/suporte/chamados/'.$item->id.'/show')}}">
+                                                        <i class="material-icons">chat</i>
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

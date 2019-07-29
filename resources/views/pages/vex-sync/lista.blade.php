@@ -45,78 +45,79 @@
 
                         <br>
                         <div class="row">
-
-                            <table class="display responsive-table datatable" cellspacing="0" width="100%">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Método</th>
-                                    <th>Entidade</th>
-                                    <th>WebService</th>
-                                    @if(strpos(Request::getRequestUri(), 'sem-sucesso') == true)
-                                        <th>Tentativas</th>
-                                        <th>Status</th>
-                                    @endif
-                                    <th>Últ. atualização</th>
-                                    @if((strpos(Request::getRequestUri(), 'sem-sucesso') == true) and Permission::check('adicionaPost','Chamado','Central'))
-                                        <th>Funções</th>
-                                    @endif
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($syncs as $item)
+                            <div class="table-responsive">
+                                <table class="display datatable" cellspacing="0" width="100%">
+                                    <thead>
                                     <tr>
-                                        <td>
-                                            @if(strpos(Request::getRequestUri(), 'com-sucesso') == true)
-                                                <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #72bc6e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Com sucesso">fiber_manual_record</i>
-                                            @elseif(strpos(Request::getRequestUri(), 'pendentes') == true)
-                                                <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #fbe053; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Pendentes">fiber_manual_record</i>
-                                            @elseif(strpos(Request::getRequestUri(), 'sem-sucesso') == true)
-                                                <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #e6493e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Com erros">fiber_manual_record</i>
-                                            @endif
-
-                                            {{$item->id}}
-                                        </td>
-                                        <td>{{strtoupper($item->action)}}</td>
-                                        <td>{{Aliases::entityByTable($item->tabela).' #'.$item->tabela_id}}</td>
-                                        <td>{{$item->webservice}}</td>
+                                        <th>ID</th>
+                                        <th>Método</th>
+                                        <th>Entidade</th>
+                                        <th>WebService</th>
                                         @if(strpos(Request::getRequestUri(), 'sem-sucesso') == true)
-                                            <td>{{$item->tentativa}}</td>
-                                            <td>
-                                                @if($item->bloqueado == '0')
-                                                    <span style="color: #709dad" class="font-weight-700">Desbloqueado</span>
-                                                @else
-                                                    <span style="color: #b60b23" class="font-weight-700">Bloqueado</span>
-                                                @endif
-                                            </td>
+                                            <th>Tentativas</th>
+                                            <th>Status</th>
                                         @endif
-                                        <td>
-                                            <span hidden>{{$item->updated_at}}</span>
-                                            {{Carbon::createFromFormat('Y-m-d H:i:s',$item->updated_at)->format('d/m/Y - H:i:s')}}
-                                        </td>
+                                        <th>Últ. atualização</th>
                                         @if((strpos(Request::getRequestUri(), 'sem-sucesso') == true) and Permission::check('adicionaPost','Chamado','Central'))
-                                            <td class="uk-text-center">
-                                                @if((int)$item->bloqueado == 0)
-                                                    <a href="{{url('/vex-sync/logs/'.$item->id.'/status')}}"
-                                                       class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Bloquear sincronização">
-                                                        <i class="material-icons" style="color: #b60b23">block</i>
-                                                    </a>
-                                                @else
-                                                    <a href="{{url('/vex-sync/logs/'.$item->id.'/status')}}"
-                                                       class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Desbloquear sincronização">
-                                                        <i class="material-icons" style="color: #46ab7f">check</i>
-                                                    </a>
-                                                @endif
-                                                <a onclick="novoChamado('{!! $item->id !!}','{!! strtoupper($item->action) !!}','{!! Aliases::entityByTable($item->tabela) !!}','{!! $item->tabela_id !!}','{!! $item->webservice !!}','{!! Carbon::createFromFormat('Y-m-d H:i:s',$item->updated_at)->format('d/m/Y - H:i:s') !!}','{!! $item->log !!}')"
-                                                   class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Abrir chamado">
-                                                    <i class="material-icons">help</i>
-                                                </a>
-                                            </td>
+                                            <th>Funções</th>
                                         @endif
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($syncs as $item)
+                                        <tr>
+                                            <td>
+                                                @if(strpos(Request::getRequestUri(), 'com-sucesso') == true)
+                                                    <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #72bc6e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Com sucesso">fiber_manual_record</i>
+                                                @elseif(strpos(Request::getRequestUri(), 'pendentes') == true)
+                                                    <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #fbe053; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Pendentes">fiber_manual_record</i>
+                                                @elseif(strpos(Request::getRequestUri(), 'sem-sucesso') == true)
+                                                    <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #e6493e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Com erros">fiber_manual_record</i>
+                                                @endif
+
+                                                {{$item->id}}
+                                            </td>
+                                            <td>{{strtoupper($item->action)}}</td>
+                                            <td>{{Aliases::entityByTable($item->tabela).' #'.$item->tabela_id}}</td>
+                                            <td>{{$item->webservice}}</td>
+                                            @if(strpos(Request::getRequestUri(), 'sem-sucesso') == true)
+                                                <td>{{$item->tentativa}}</td>
+                                                <td>
+                                                    @if($item->bloqueado == '0')
+                                                        <span style="color: #709dad" class="font-weight-700">Desbloqueado</span>
+                                                    @else
+                                                        <span style="color: #b60b23" class="font-weight-700">Bloqueado</span>
+                                                    @endif
+                                                </td>
+                                            @endif
+                                            <td>
+                                                <span hidden>{{$item->updated_at}}</span>
+                                                {{Carbon::createFromFormat('Y-m-d H:i:s',$item->updated_at)->format('d/m/Y - H:i:s')}}
+                                            </td>
+                                            @if((strpos(Request::getRequestUri(), 'sem-sucesso') == true) and Permission::check('adicionaPost','Chamado','Central'))
+                                                <td class="uk-text-center">
+                                                    @if((int)$item->bloqueado == 0)
+                                                        <a href="{{url('/vex-sync/logs/'.$item->id.'/status')}}"
+                                                           class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Bloquear sincronização">
+                                                            <i class="material-icons" style="color: #b60b23">block</i>
+                                                        </a>
+                                                    @else
+                                                        <a href="{{url('/vex-sync/logs/'.$item->id.'/status')}}"
+                                                           class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Desbloquear sincronização">
+                                                            <i class="material-icons" style="color: #46ab7f">check</i>
+                                                        </a>
+                                                    @endif
+                                                    <a onclick="novoChamado('{!! $item->id !!}','{!! strtoupper($item->action) !!}','{!! Aliases::entityByTable($item->tabela) !!}','{!! $item->tabela_id !!}','{!! $item->webservice !!}','{!! Carbon::createFromFormat('Y-m-d H:i:s',$item->updated_at)->format('d/m/Y - H:i:s') !!}','{!! $item->log !!}')"
+                                                       class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Abrir chamado">
+                                                        <i class="material-icons">help</i>
+                                                    </a>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -157,7 +158,7 @@
                     sSearch: '',
                     sLengthMenu: 'Exibir _MENU_',
                     sLength: 'dataTables_length',
-                    zeroRecords: "Nenhum produto encontrado",
+                    zeroRecords: "Nenhum registro encontrado",
                     info: "Exibindo página _PAGE_ de _PAGES_",
                     infoEmpty: "",
                     infoFiltered: "(filtrado de _MAX_ itens)",

@@ -21,40 +21,42 @@
                     <div class="card-content">
                         <span class="card-title">Condições de pagamento</span><br>
                         <div class="row">
-                            <table class="display responsive-table datatable" cellspacing="0" width="100%">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Cód. ERP</th>
-                                    <th>Habilitado</th>
-                                    <th>Descrição</th>
-                                    <th>Status</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($condicoes as $item)
+                            <div class="table-responsive">
+                                <table class="display datatable" cellspacing="0" width="100%">
+                                    <thead>
                                     <tr>
-                                        <td>{{$item->id}}</td>
-                                        <td>{{$item->erp_id !== null ? $item->erp_id : '-'}}</td>
-                                        <td>
-                                            @if($item->mobile == '1')
-                                                <i class="material-icons icon-default tooltipped cursor-pointer" data-position="top" data-delay="20" data-tooltip="Para mobile e Web">phonelink</i>
-                                            @else
-                                                <i class="material-icons icon-default tooltipped cursor-pointer" data-position="top" data-delay="20" data-tooltip="Apenas para web">desktop_mac</i>
-                                            @endif
-                                        </td>
-                                        <td>{{$item->descricao}}</td>
-                                        <td>
-                                            @if($item->status == '1')
-                                                <span class="label bg-success">Ativo</span>
-                                            @else
-                                                <span class="label bg-danger">Inativo</span>
-                                            @endif
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Cód. ERP</th>
+                                        <th>Habilitado</th>
+                                        <th>Descrição</th>
+                                        <th>Status</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($condicoes as $item)
+                                        <tr>
+                                            <td>{{$item->id}}</td>
+                                            <td>{{$item->erp_id !== null ? $item->erp_id : '-'}}</td>
+                                            <td>
+                                                @if($item->mobile == '1')
+                                                    <i class="material-icons icon-default tooltipped cursor-pointer" data-position="top" data-delay="20" data-tooltip="Para mobile e Web">phonelink</i>
+                                                @else
+                                                    <i class="material-icons icon-default tooltipped cursor-pointer" data-position="top" data-delay="20" data-tooltip="Apenas para web">desktop_mac</i>
+                                                @endif
+                                            </td>
+                                            <td>{{$item->descricao}}</td>
+                                            <td>
+                                                @if($item->status == '1')
+                                                    <span class="label bg-success">Ativo</span>
+                                                @else
+                                                    <span class="label bg-danger">Inativo</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

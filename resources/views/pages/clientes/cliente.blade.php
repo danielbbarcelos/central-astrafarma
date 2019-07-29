@@ -23,7 +23,7 @@
 
 @section('page-content')
 
-    <div class="row">
+    <div class="row padding-right-20">
         <div class="middle col l12 m12 s12">
             <div class="card-panel">
                 <div class="card-content">

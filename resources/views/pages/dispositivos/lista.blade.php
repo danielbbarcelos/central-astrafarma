@@ -21,50 +21,52 @@
                     <div class="card-content">
                         <span class="card-title">Dispositivos</span><br>
                         <div class="row">
-                            <table class="display responsive-table datatable" cellspacing="0" width="100%">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Descrição</th>
-                                    <th>Device ID</th>
-                                    <th>Status</th>
-                                    <th>Funções</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($dispositivos as $item)
+                            <div class="table-responsive">
+                                <table class="display datatable" cellspacing="0" width="100%">
+                                    <thead>
                                     <tr>
-                                        <td>{{$item->id}}</td>
-                                        <td>{{$item->descricao}}</td>
-                                        <td>{{$item->device_id}}</td>
-                                        <td>
-                                            @if($item->status == '1')
-                                                <span class="label bg-success">Ativo</span>
-                                            @else
-                                                <span class="label bg-danger">Inativo</span>
-                                            @endif
-
-                                        </td>
-                                        <td class="uk-text-center">
-                                            @if(Permission::check('edita','Dispositivo','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Editar" href="{{url('/dispositivos/'.$item->id.'/edit')}}">
-                                                    <i class="material-icons">edit</i>
-                                                </a>
-                                            @elseif(Permission::check('visualiza','Dispositivo','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar" href="{{url('/dispositivos/'.$item->id.'/show')}}">
-                                                    <i class="material-icons">visibility</i>
-                                                </a>
-                                            @endif
-                                            @if(Permission::check('excluiPost','Dispositivo','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Excluir" onclick="excluiItem('{!! url('/dispositivos/'.$item->id.'/del') !!}')">
-                                                    <i class="material-icons icon-danger">delete_forever</i>
-                                                </a>
-                                            @endif
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Descrição</th>
+                                        <th>Device ID</th>
+                                        <th>Status</th>
+                                        <th>Funções</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($dispositivos as $item)
+                                        <tr>
+                                            <td>{{$item->id}}</td>
+                                            <td>{{$item->descricao}}</td>
+                                            <td>{{$item->device_id}}</td>
+                                            <td>
+                                                @if($item->status == '1')
+                                                    <span class="label bg-success">Ativo</span>
+                                                @else
+                                                    <span class="label bg-danger">Inativo</span>
+                                                @endif
+
+                                            </td>
+                                            <td class="uk-text-center">
+                                                @if(Permission::check('edita','Dispositivo','Central'))
+                                                    <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Editar" href="{{url('/dispositivos/'.$item->id.'/edit')}}">
+                                                        <i class="material-icons">edit</i>
+                                                    </a>
+                                                @elseif(Permission::check('visualiza','Dispositivo','Central'))
+                                                    <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar" href="{{url('/dispositivos/'.$item->id.'/show')}}">
+                                                        <i class="material-icons">visibility</i>
+                                                    </a>
+                                                @endif
+                                                @if(Permission::check('excluiPost','Dispositivo','Central'))
+                                                    <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Excluir" onclick="excluiItem('{!! url('/dispositivos/'.$item->id.'/del') !!}')">
+                                                        <i class="material-icons icon-danger">delete_forever</i>
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

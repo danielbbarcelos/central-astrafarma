@@ -21,43 +21,45 @@
                     <div class="card-content">
                         <span class="card-title">Produtos</span><br>
                         <div class="row">
-                            <table class="display responsive-table datatable" cellspacing="0" width="100%">
-                                <thead>
-                                <tr>
-                                    <th style="width: 5%">ID</th>
-                                    <th style="width: 15%" class="text-center">Cód. ERP</th>
-                                    <th style="width: 50%">Descrição</th>
-                                    <th style="width: 10%" class="text-center">Unidade principal</th>
-                                    <th style="width: 10%">Status</th>
-                                    <th style="width: 10%" class="text-center">Funções</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($produtos as $item)
+                            <div class="table-responsive">
+                                <table class="display datatable" cellspacing="0" width="100%">
+                                    <thead>
                                     <tr>
-                                        <td>{{$item->id}}</td>
-                                        <td class="text-center">{{$item->erp_id !== null ? $item->erp_id : '-'}}</td>
-                                        <td>{{$item->descricao}}</td>
-                                        <td class="text-center">{{$item->unidade_principal}}</td>
-                                        <td>
-                                            @if($item->status == '1')
-                                                <span class="label bg-success">Ativo</span>
-                                            @else
-                                                <span class="label bg-danger">Inativo</span>
-                                            @endif
-
-                                        </td>
-                                        <td class="text-center">
-                                            @if(Permission::check('visualiza','Produto','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar" href="{{url('/produtos/'.$item->id.'/show')}}">
-                                                    <i class="material-icons">visibility</i>
-                                                </a>
-                                            @endif
-                                        </td>
+                                        <th style="width: 5%">ID</th>
+                                        <th style="width: 15%" class="text-center">Cód. ERP</th>
+                                        <th style="width: 50%">Descrição</th>
+                                        <th style="width: 10%" class="text-center">Unidade principal</th>
+                                        <th style="width: 10%">Status</th>
+                                        <th style="width: 10%" class="text-center">Funções</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($produtos as $item)
+                                        <tr>
+                                            <td>{{$item->id}}</td>
+                                            <td class="text-center">{{$item->erp_id !== null ? $item->erp_id : '-'}}</td>
+                                            <td>{{$item->descricao}}</td>
+                                            <td class="text-center">{{$item->unidade_principal}}</td>
+                                            <td>
+                                                @if($item->status == '1')
+                                                    <span class="label bg-success">Ativo</span>
+                                                @else
+                                                    <span class="label bg-danger">Inativo</span>
+                                                @endif
+
+                                            </td>
+                                            <td class="text-center">
+                                                @if(Permission::check('visualiza','Produto','Central'))
+                                                    <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar" href="{{url('/produtos/'.$item->id.'/show')}}">
+                                                        <i class="material-icons">visibility</i>
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

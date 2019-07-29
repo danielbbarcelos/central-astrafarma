@@ -22,11 +22,11 @@
 
                                 {{csrf_field()}}
                                 <div class="row">
-                                    <div class="input-field col s6">
+                                    <div class="input-field col s12 m6">
                                         <input type="password" name="password" class="validate" placeholder="" required>
                                         <label>Nova senha</label>
                                     </div>
-                                    <div class="input-field col s6">
+                                    <div class="input-field col s12 m6">
                                         <input type="password" name="confirm_password" class="validate" placeholder="" required>
                                         <label>Confirmação de senha</label>
                                     </div>

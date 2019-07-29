@@ -19,7 +19,7 @@
 
 @section('page-content')
 
-    <div class="row">
+    <div class="row padding-right-20">
         <div class="middle col l12 m12 s12">
             <div class="card-panel">
                 <div class="card-content">
@@ -60,7 +60,7 @@
                             <div class="row row-input">
                                 <div class="col s12">
                                     <p class="p-v-xs">
-                                        <input type="checkbox" class="filled-in" id="bi_status" name="bi_status" value="1" @if($dashboard->bi_status == '1') checked @endif />
+                                        <input type="checkbox" class="filled-in input-bi" id="bi_status" name="bi_status" value="1" @if($dashboard->bi_status == '1') checked @endif />
                                         <label for="bi_status" class="font-weight-500 text-dark">Exibição de BI do usuário</label>
                                     </p>
                                 </div>
@@ -69,7 +69,7 @@
 
                             <div class="row row-input padding-top-40" @if($dashboard->bi_url == null) hidden @endif id="div-bi">
                                 <div class="input-field col s12">
-                                    <input type="text" placeholder="" name="bi_url" id="bi_url" class="validate" @if($dashboard->bi_url == null) disabled @else required @endif
+                                    <input type="text" placeholder="" name="bi_url" id="bi_url" class="validate input-bi" @if($dashboard->bi_url == null) disabled @else required @endif
                                            value="{{$dashboard->bi_url or old('bi_url')}}">
                                     <label>URL do BI</label>
                                 </div>
@@ -96,7 +96,7 @@
     @if($user->type == 'A')
 
         <script>
-            $("input,select").attr('disabled',true);
+            $("input,select").not(".input-bi").attr('disabled',true);
         </script>
 
     @endif
