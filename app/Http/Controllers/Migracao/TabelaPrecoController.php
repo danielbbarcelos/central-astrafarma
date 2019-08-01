@@ -95,7 +95,7 @@ class TabelaPrecoController extends Controller
             $message  = "TABELA DE PREÇO {$result['result']['ERP_ID']} \n\n";
             $message .= "QUANTIDADE DE PRODUTOS ".count($result['result']['PRODUTOS'])." \n\n";
 
-            Helper::logFile('vex-sync-migracao-'.$tabela->getWebservice().'.log', $message);
+            Helper::logFile('vex-sync-migracao-'.$tabela->getTable().'.log', $message);
 
 
             foreach ($result['result']['PRODUTOS'] as $item)
@@ -140,7 +140,7 @@ class TabelaPrecoController extends Controller
 
 
                 //salva log de sincronização
-                Helper::logFile('vex-sync-migracao-'.$tabela->getWebservice().'.log', $message);
+                Helper::logFile('vex-sync-migracao-'.$tabela->getTable().'.log', $message);
 
                 $index++;
 
