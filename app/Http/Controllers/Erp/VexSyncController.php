@@ -195,7 +195,7 @@ class VexSyncController extends Controller
             //executa o processamento no banco de dados
             $return = $controller::update($result);
 
-	    $log .= $return['log'];
+	        $log .= $return['log'];
         }
         catch(\Exception $e)
         {
@@ -222,7 +222,7 @@ class VexSyncController extends Controller
             //executa o processamento no banco de dados
             $result['erp_id'] = $object->erp_id;
 
-	    $return = $controller::delete($result, Helper::converteTenantId($object->tenant));
+	        $return = $controller::delete($result, Helper::converteTenantId($object->tenant));
 
             $log .= $return['log'];
 

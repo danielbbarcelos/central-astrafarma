@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Produto;
 use App\TabelaPreco;
 use App\TabelaPrecoProduto;
+use App\Utils\Helper;
 use App\Vendedor;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 //packages
 
 //extras
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Validator;
 use Carbon\Carbon;
@@ -69,6 +71,13 @@ class TabelaPrecoController extends Controller
             TabelaPreco::where('id','>','0')->where('erp_id',$result['result']['ERP_ID'])->forceDelete();
             TabelaPrecoProduto::where('id','>','0')->where('vxfattabprc_erp_id',$result['result']['ERP_ID'])->forceDelete();
 
+            if(File::exists(storage_path('logs/vex-sync-migracao-'.$tabela->getWebservice().'.log')))
+            {
+                File::delete(storage_path('logs/vex-sync-migracao-'.$tabela->getWebservice().'.log'));
+            }
+
+
+
             $empfil = EmpresaFilial::where('filial_erp_id',$result['result']['FILIAL_ID'])->first();
 
             $tabela = new TabelaPreco();
@@ -82,8 +91,17 @@ class TabelaPrecoController extends Controller
 
             $index = 1;
 
+
+            $message  = "TABELA DE PREÇO {$result['result']['ERP_ID']} \n\n";
+            $message .= "QUANTIDADE DE PRODUTOS ".count($result['result']['PRODUTOS'])." \n\n";
+
+            Helper::logFile('vex-sync-migracao-'.$tabela->getWebservice().'.log', $message);
+
+
             foreach ($result['result']['PRODUTOS'] as $item)
             {
+                $message = "ERP ID do produto: ".$item['VXGLOPROD_ERP_ID']." \n\n";
+
                 $produto = Produto::where('erp_id', $item['VXGLOPROD_ERP_ID'])->first();
 
                 if(isset($produto))
@@ -104,15 +122,25 @@ class TabelaPrecoController extends Controller
                         $preco->created_at = new \DateTime();
                         $preco->updated_at = new \DateTime();
                         $preco->save();
+
+                        $message .= "STATUS DA MIGRAÇÃO: SUCESSO\n\n";
                     }
                     catch (\Exception $e)
                     {
-                        dd($index, $item, $e);
+                        $message .= "STATUS DA MIGRAÇÃO: ERRO\n\n";
+                        $message .= 'MOTIVO: Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
                     }
 
                 }
+                else
+                {
+                    $message .= "STATUS DA MIGRAÇÃO: ERRO\n\n";
+                    $message .= "MOTIVO: produto não encontrado via ERP_ID \n\n";
+                }
 
-                Log::info('Tabela de preço item: '.$index);
+
+                //salva log de sincronização
+                Helper::logFile('vex-sync-migracao-'.$tabela->getWebservice().'.log', $message);
 
                 $index++;
 
