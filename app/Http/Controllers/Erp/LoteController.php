@@ -67,7 +67,7 @@ class LoteController extends Controller
 
                 //formata datas
                 $vars['dt_fabric'] = ($vars['dt_fabric'] !== '' and $vars['dt_fabric'] !== '0000-00-00') ? $vars['dt_fabric'] : null;
-                $vars['dt_valid']  = ($vars['dt_valid'] !== '' and $vars['dt_valid'] !== '0000-00-00') ? $vars['dt_fabric'] : null;
+                $vars['dt_valid']  = ($vars['dt_valid'] !== '' and $vars['dt_valid'] !== '0000-00-00') ? $vars['dt_valid'] : null;
 
                 //formata chaves
                 $vars['vxestarmz_id'] = Armazem::where('erp_id',$vars['vxestarmz_erp_id'])->first()->id;
