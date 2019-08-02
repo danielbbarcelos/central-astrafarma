@@ -66,7 +66,7 @@
                                     </label>
                                 </a>
                             @endif
-                            @if(Permission::check('excluiPost','PedidoVenda','Central') and $pedido->situacao_pedido == 'A' and $pedido->erp_id !== null)
+                            @if(Permission::check('excluiPost','PedidoVenda','Central') and $pedido->situacao_pedido == 'A')
                                 <a class="waves-effect btn btn-default red btn-submit" onclick="excluiItem('{!! url('/pedidos-vendas/'.$pedido->id.'/del') !!}')">
                                     <label class="cursor-pointer font-weight-800" style="color: white">
                                         <i class="material-icons" style="font-size: 12px">print</i>

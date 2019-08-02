@@ -595,23 +595,25 @@ class PedidoVendaController extends Controller
             {
                 $assinatura = Assinatura::first();
 
-                $guzzle  = new Client();
-                $result  = $guzzle->request('GET', $assinatura->webservice_base . $pedido->getWebservice() . $pedido->erp_id);
-                $result  = json_decode($result->getBody());
-
-                $result = Helper::retornoERP($result->result);
-                $result = json_decode($result, true);
-
-                if($result['situacao_pedido'] !== 'A' and $result['situacao_pedido'] !== 'S')
+                if($pedido->erp_id !== null)
                 {
-                    $liberado = false;
-                    $success  = false;
-                    $log[]    = ['error' => 'Não foi possível excluir o pedido, pois este já se encontra fechado'];
+                    $guzzle  = new Client();
+                    $result  = $guzzle->request('GET', $assinatura->webservice_base . $pedido->getWebservice() . $pedido->erp_id);
+                    $result  = json_decode($result->getBody());
 
-                    //atualizamos os dados do pedido e dos itens, de acordo com o ERP
-                    \App\Http\Controllers\Erp\PedidoVendaController::update($result);
+                    $result = Helper::retornoERP($result->result);
+                    $result = json_decode($result, true);
+
+                    if($result['situacao_pedido'] !== 'A' and $result['situacao_pedido'] !== 'S')
+                    {
+                        $liberado = false;
+                        $success  = false;
+                        $log[]    = ['error' => 'Não foi possível excluir o pedido, pois este já se encontra fechado'];
+
+                        //atualizamos os dados do pedido e dos itens, de acordo com o ERP
+                        \App\Http\Controllers\Erp\PedidoVendaController::update($result);
+                    }
                 }
-
             }
             catch(\Exception $e)
             {
@@ -628,25 +630,29 @@ class PedidoVendaController extends Controller
                 {
                     $assinatura = Assinatura::first();
 
-                    $guzzle  = new Client();
-                    $result  = $guzzle->request('DELETE', $assinatura->webservice_base . $pedido->getWebservice() . $pedido->erp_id, [
-                        'headers'     => [
-                            'Content-Type'  => 'application/json',
-                            'tenantId'      => Helper::formataTenantId($pedido->vxgloempfil_id)
-                        ],
-                        'body' => json_encode([
-                            'erp_id'          => $pedido->erp_id,
-                            'vxglocli_erp_id' => $pedido->vxglocli_erp_id,
-                            'vxglocli_loja'   => json_decode($pedido->cliente_data)->loja,
-                        ])
-                    ]);
-                   $result  = json_decode($result->getBody());
-
-                    if($result->success !== true)
+                    if($pedido->erp_id !== null)
                     {
-                        $success  = false;
-                        $log[]    = ['error' => 'Não foi possível excluir o pedido. Por favor acione a equipe de suporte'];
+                        $guzzle  = new Client();
+                        $result  = $guzzle->request('DELETE', $assinatura->webservice_base . $pedido->getWebservice() . $pedido->erp_id, [
+                            'headers'     => [
+                                'Content-Type'  => 'application/json',
+                                'tenantId'      => Helper::formataTenantId($pedido->vxgloempfil_id)
+                            ],
+                            'body' => json_encode([
+                                'erp_id'          => $pedido->erp_id,
+                                'vxglocli_erp_id' => $pedido->vxglocli_erp_id,
+                                'vxglocli_loja'   => json_decode($pedido->cliente_data)->loja,
+                            ])
+                        ]);
+                        $result  = json_decode($result->getBody());
+
+                        if($result->success !== true)
+                        {
+                            $success  = false;
+                            $log[]    = ['error' => 'Não foi possível excluir o pedido. Por favor acione a equipe de suporte'];
+                        }
                     }
+
                 }
                 catch(\Exception $e)
                 {
@@ -704,7 +710,6 @@ class PedidoVendaController extends Controller
             }
             catch(\Exception $exception)
             {
-                dd($exception);
                 $success = false;
                 $log[]   = ['error' => 'Não foi possível imprimir o PDF'];
             }

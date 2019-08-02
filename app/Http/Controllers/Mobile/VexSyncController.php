@@ -79,43 +79,77 @@ class VexSyncController extends Controller
             $sync->tentativa = (int) $sync->tentativa + 1;
             $sync->save();
 
+            //verifica se entidade ainda possui o registro, antes de sincronizar
+            $entity = DB::table($sync->tabela)->where('id',$sync->tabela_id)->first();
 
-            //verifica qual ação deverá ser executada
-            if($sync->action == 'post')
+            //caso entidade não exista, ou possua deleted_at != null, não executaremos o vex sync
+            $execucao = true;
+
+            if(!isset($entity))
             {
-                $action = VexSyncController::post($sync);
+                $execucao = false;
             }
-            else if($sync->action == 'put')
+            else if($entity->deleted_at !== null)
             {
-                $action = VexSyncController::put($sync);
+                $execucao = false;
             }
 
-            //trata o retorno da ação
-            if($action['success'])
+            if(!$execucao)
             {
-                $syncLog = ['data_hora' => Carbon::now()->format('Y-m-d H:i:s'), 'sucesso' => true, 'mensagem' => 'Sincronização realizada com sucesso'];
+                $message  = self::$logMessage." $sync->id. \n\n";
+                $message .= "Execução de VEX Sync cancelada devido a entidade não encontrada. \n\n";
+
+                //salva log de sincronização
+                Helper::logFile('vex-sync-central-'.Carbon::now()->format('Y-m-d').'.log', $message);
+
+                $syncLog = ['data_hora' => Carbon::now()->format('Y-m-d H:i:s'), 'sucesso' => false, 'mensagem' => 'VEX Sync excluído devido a entidade não encontrada'];
+
+                $sync->sucesso      = '1';
+                $sync->log          = json_encode($syncLog);
+                $sync->updated_at   = new \DateTime();
+                $sync->deleted_at   = new \DateTime();
+                $sync->save();
             }
-            else 
+            else
             {
-                $syncLog = ['data_hora' => Carbon::now()->format('Y-m-d H:i:s'), 'sucesso' => false, 'mensagem' => $action['log']];
-
-
-                //bloquea execução a cada 30 tentativas sem sucesso
-                if($sync->tentativa % 30 == 0)
+                //verifica qual ação deverá ser executada
+                if($sync->action == 'post')
                 {
-                    $sync->bloqueado = '1';
+                    $action = VexSyncController::post($sync);
                 }
+                else if($sync->action == 'put')
+                {
+                    $action = VexSyncController::put($sync);
+                }
+
+                //trata o retorno da ação
+                if($action['success'])
+                {
+                    $syncLog = ['data_hora' => Carbon::now()->format('Y-m-d H:i:s'), 'sucesso' => true, 'mensagem' => 'Sincronização realizada com sucesso'];
+                }
+                else
+                {
+                    $syncLog = ['data_hora' => Carbon::now()->format('Y-m-d H:i:s'), 'sucesso' => false, 'mensagem' => $action['log']];
+
+
+                    //bloquea execução a cada 30 tentativas sem sucesso
+                    if($sync->tentativa % 30 == 0)
+                    {
+                        $sync->bloqueado = '1';
+                    }
+                }
+
+
+                //salva log de sincronização
+                Helper::logFile('vex-sync-central-'.Carbon::now()->format('Y-m-d').'.log', $action['log']);
+
+
+                $sync->sucesso      = $action['success'] == true ? '1' : '0';
+                $sync->log          = json_encode($syncLog);
+                $sync->updated_at   = new \DateTime();
+                $sync->save();
             }
 
-
-            //salva log de sincronização
-            Helper::logFile('vex-sync-central-'.Carbon::now()->format('Y-m-d').'.log', $action['log']);
-
-
-            $sync->sucesso      = $action['success'] == true ? '1' : '0';
-            $sync->log          = json_encode($syncLog);
-            $sync->updated_at   = new \DateTime();
-            $sync->save();
         }
 
         $response['success']  = $success;
