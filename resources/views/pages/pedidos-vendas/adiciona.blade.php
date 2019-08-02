@@ -297,7 +297,7 @@
                                         </div>
                                     </div>
                                     <div class="step-actions" style="margin-top: 20px !important;">
-                                        <button class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepThree">Concluir</button>
+                                        <button id="btn-submit-step" class="waves-effect btn btn-info btn-submit next-step font-weight-800" data-validator="validateStepThree">Concluir</button>
                                         <button class="waves-effect btn btn-default btn-submit previous-step font-weight-800">Voltar</button>
                                     </div>
                                 </div>
@@ -319,7 +319,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.42e111889c171b1db3a86a4ab30767826.js"></script>
+    <script src="/assets/js/pages/pedido-venda.52e111889c171b1db3a86a4ab30767826.js"></script>
 
 @endsection
 

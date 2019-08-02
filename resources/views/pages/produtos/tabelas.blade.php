@@ -11,7 +11,6 @@
                     <th>Data de vigência</th>
                     <th>Descrição</th>
                     <th>Preço de venda</th>
-                    <th>Preço máximo</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,7 +21,6 @@
                         <td>{{$item->data_vigencia !== null ? Carbon::createFromFormat('Y-m-d',$item->data_vigencia)->format('d/m/Y') : '-'}}</td>
                         <td>{{$item->descricao}}</td>
                         <td>R$ {{number_format($item->preco_venda,2,',','.')}}</td>
-                        <td>R$ {{number_format($item->preco_maximo,2,',','.')}}</td>
                     </tr>
                 @endforeach
                 </tbody>

@@ -139,6 +139,7 @@ function validateStepThree() {
 
         if(success)
         {
+            $("#btn-submit-step").text("Processando...").attr("disabled",true);
             $("#form-pedido").submit();
         }
     }
