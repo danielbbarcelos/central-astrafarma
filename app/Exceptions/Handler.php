@@ -58,8 +58,12 @@ class Handler extends ExceptionHandler
          */
         if(env('APP_DD') == true)
         {
-            return parent::render($request, $exception);
-        }
+            dd($exception);
+	}
+	elseif(env('APP_DEBUG') == true)
+	{
+	    return parent::render($request, $exception);
+	}
 
         /*
          * Erros HTTP. Exemplo: 404
