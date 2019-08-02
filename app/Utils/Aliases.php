@@ -7,6 +7,7 @@ use App\Http\Controllers\Erp\CondicaoPagamentoController as ErpCondicaoPagamento
 use App\Http\Controllers\Erp\LoteController as ErpLoteController;
 use App\Http\Controllers\Erp\PedidoVendaController as ErpPedidoVendaController;
 use App\Http\Controllers\Erp\TabelaPrecoController as ErpTabelaPrecoController;
+use App\Http\Controllers\Erp\TabelaPrecoArmazemController as ErpTabelaPrecoArmazemController;
 use App\Http\Controllers\Erp\ProdutoController as ErpProdutoController;
 use App\Http\Controllers\Erp\VendedorController as ErpVendedorController;
 use App\Http\Controllers\Erp\VexSyncController as ErpVexSyncController;
@@ -37,7 +38,7 @@ class Aliases
             'vx_est_lote'   => new ErpLoteController(),
             'vx_fat_pvenda' => new ErpPedidoVendaController(),
             'vx_fat_tabprc' => new ErpTabelaPrecoController(),
-            'vx_fat_tparmz' => new ErpVendedorController(),
+            'vx_fat_tparmz' => new ErpTabelaPrecoArmazemController(),
             'vx_glo_prod'   => new ErpProdutoController(),
             'vx_fat_vend'   => new ErpVendedorController(),
             'vx_glo_sync'   => new ErpVexSyncController(),
