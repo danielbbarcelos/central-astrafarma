@@ -40,14 +40,14 @@ class Helper
         fwrite($file, $content);
         fclose($file);
 
-	try 
-	{
+        try
+        {
           chmod($path, 0777);  //changed to add the zero
         } 
-	catch(\Exception $e)
-	{
-	  //
-	}
+        catch(\Exception $e)
+        {
+          //
+        }
 
         return $path;
     }
