@@ -579,7 +579,7 @@ class PedidoVendaController extends Controller
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
 
-        })->where('erp_id','!=',null)->first();
+        })->first();
 
         if(!isset($pedido))
         {
