@@ -42,7 +42,7 @@ class LoteController extends Controller
 
 
     //retorna array de lotes por produto
-    public function lista(Request $request, $produto_id, $tabela_preco_id)
+    public function lista(Request $request, $produto_id, $tabela_preco_id, $pedido_id = null)
     {
         $success = true;
         $log     = [];
@@ -63,6 +63,28 @@ class LoteController extends Controller
             ->where('dt_valid','>=',Carbon::now()->addDays(1)->format('Y-m-d'))
             ->orderBy('dt_valid','asc')
             ->get();
+
+
+        //retornamos o saldo do lote, com base no saldo - quantidade empenhada
+        $result = [];
+
+        foreach($lotes as $lote)
+        {
+            //caso pedido_id tenha sido informado, realizamos o cálculo de empenho, ignorando os itens do pedido
+            if($pedido_id !== null)
+            {
+                $lote->empenho = \App\Http\Controllers\Central\LoteController::confirmaQuantidadeEmpenhada($lote->erp_id, $pedido_id)['empenho'];
+            }
+
+            $lote->saldo = $lote->saldo - $lote->empenho;
+
+            if($lote->saldo > 0)
+            {
+                $result[] = $lote;
+            }
+        }
+
+        $lotes = $result;
 
         $response['success']  = $success;
         $response['log']      = $log;

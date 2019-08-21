@@ -34,6 +34,8 @@
                 <div class="card-content">
                     <form id="form-pedido" method="post">
 
+                        <input type="hidden" id="pedido_id" value="">
+
                         {{csrf_field()}}
 
                         <ul class="stepper parallel horizontal">
@@ -319,7 +321,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.52e111889c171b1db3a86a4ab30767826.js"></script>
+    <script src="/assets/js/pages/pedido-venda.62e111889c171b1db3a86a4ab30767826.js"></script>
 
 @endsection
 
