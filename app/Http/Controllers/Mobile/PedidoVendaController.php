@@ -587,6 +587,7 @@ class PedidoVendaController extends Controller
                 $object = Helper::retornoERP($result->result);
                 $object = json_decode($object);
 
+
                 DB::table($sync->tabela)->where('id', $sync->tabela_id)->update([
                     'erp_id' => $object->erp_id,
                 ]);
@@ -594,6 +595,28 @@ class PedidoVendaController extends Controller
                 DB::table('vx_fat_ipvend')->where('vxfatpvenda_id', $sync->tabela_id)->update([
                     'vxfatpvenda_erp_id' => $object->erp_id,
                 ]);
+
+                //caso tenha retornado array de itens, significa que um ou mais itens possuem alerta de estoque
+                if(isset($object->itens))
+                {
+                    DB::table($sync->tabela)->where('id', $sync->tabela_id)->update([
+                        'situacao_pedido' => 'S',
+                    ]);
+
+                    foreach($object->itens as $item)
+                    {
+                        $item = json_decode(Helper::retornoERP($item));
+
+                        $pedidoItem = PedidoItem::find($item->vex_id);
+
+                        if(isset($pedidoItem))
+                        {
+                            $pedidoItem->alerta_estoque = $item->alerta_estoque;
+                            $pedidoItem->updated_at     = new \DateTime();
+                            $pedidoItem->save();
+                        }
+                    }
+                }
 
                 $message = 'Sincronização realizada com sucesso';
 
@@ -685,6 +708,28 @@ class PedidoVendaController extends Controller
             }
             else
             {
+                //caso tenha retornado array de itens, significa que um ou mais itens possuem alerta de estoque
+                if(isset($object->itens))
+                {
+                    DB::table($sync->tabela)->where('id', $sync->tabela_id)->update([
+                        'situacao_pedido' => 'S',
+                    ]);
+
+                    foreach($object->itens as $item)
+                    {
+                        $item = json_decode(Helper::retornoERP($item));
+
+                        $pedidoItem = PedidoItem::find($item->vex_id);
+
+                        if(isset($pedidoItem))
+                        {
+                            $pedidoItem->alerta_estoque = $item->alerta_estoque;
+                            $pedidoItem->updated_at     = new \DateTime();
+                            $pedidoItem->save();
+                        }
+                    }
+                }
+
                 $message = 'Sincronização realizada com sucesso';
             }
 

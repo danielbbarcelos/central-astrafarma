@@ -37,6 +37,8 @@
                                 <span style="position: absolute; padding-top: 5px" class="padding-left-30">
                                     @if(isset($pedido->erp_id))
                                         Pedido de venda {{'#'.$pedido->erp_id}}
+                                    @elseif($pedido->situacao_pedido == 'S')
+                                        Pedido em análise de estoque
                                     @else
                                         Sincronizando
                                     @endif
