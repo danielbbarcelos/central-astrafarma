@@ -505,7 +505,6 @@ class PedidoVendaController extends Controller
                 $condicao = CondicaoPagamento::find($request['vxglocpgto_id']);
                 $vendedor = Vendedor::find($this->vendedorId);
 
-                $pedido->situacao_pedido     = "A";
                 $pedido->vxgloempfil_id      = $this->empfilId;
                 $pedido->vxglocli_erp_id     = $cliente->erp_id;
                 $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
@@ -582,6 +581,11 @@ class PedidoVendaController extends Controller
                 {
                     VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'post',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('add')); // edit,get,delete: rest/ped_venda/$erp_id
                 }
+
+                //após gerar o vex sync retornamos o status para "Aberto"
+                $pedido->situacao_pedido = "A";
+                $pedido->updated_at      = new \DateTime();
+                $pedido->save();
 
                 $log[]   = ['success' => 'Pedido atualizado com sucesso'];
             }
