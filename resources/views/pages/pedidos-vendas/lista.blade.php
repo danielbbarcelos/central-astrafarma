@@ -59,8 +59,8 @@
                                             </td>
                                             <td class="uk-text-center">
                                                 @if(Permission::check('visualiza','PedidoVenda','Central'))
-                                                    <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Dados do pedido" href="{{url('/pedidos-vendas/'.$item->id.'/show')}}">
-                                                        <i class="material-icons">assignment</i>
+                                                    <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar e editar" href="{{url('/pedidos-vendas/'.$item->id.'/show')}}">
+                                                        <i class="material-icons">edit</i>
                                                     </a>
                                                 @endif
                                                 @if(Permission::check('imprimePDF','PedidoVenda','Central'))
