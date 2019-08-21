@@ -539,6 +539,7 @@ class PedidoVendaController extends Controller
             $pedidoItem->vxestarmz_erp_id   = $item->vxestarmz_erp_id;
             $pedidoItem->vxestlote_erp_id   = $item->vxestlote_erp_id;
             $pedidoItem->quantidade         = (string) $item->quantidade;
+            $pedidoItem->alerta_estoque     = $item->alerta_estoque;
             $pedidoItem->preco_unitario     = $item->preco_unitario;
             $pedidoItem->preco_venda        = $item->preco_venda;
             $pedidoItem->valor_desconto     = $item->valor_desconto;
@@ -641,6 +642,7 @@ class PedidoVendaController extends Controller
             $pedidoItem->vxfattabprc_erp_id = $item->vxfattabprc_erp_id;
             $pedidoItem->vxestarmz_erp_id   = $item->vxestarmz_erp_id;
             $pedidoItem->vxestlote_erp_id   = $item->vxestlote_erp_id;
+            $pedidoItem->alerta_estoque     = $item->alerta_estoque;
             $pedidoItem->quantidade         = (string) $item->quantidade;
             $pedidoItem->preco_unitario     = $item->preco_unitario;
             $pedidoItem->preco_venda        = $item->preco_venda;
