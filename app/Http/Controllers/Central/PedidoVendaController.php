@@ -578,6 +578,10 @@ class PedidoVendaController extends Controller
                 {
                     VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'put',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('edit/'.$pedido->erp_id));
                 }
+                elseif($pedido->situacao_pedido == 'S')
+                {
+                    VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'post',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('add')); // edit,get,delete: rest/ped_venda/$erp_id
+                }
 
                 $log[]   = ['success' => 'Pedido atualizado com sucesso'];
             }
