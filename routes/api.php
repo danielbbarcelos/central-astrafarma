@@ -61,8 +61,9 @@ Route::group(['prefix' => 'v1','middleware'=>[\Barryvdh\Cors\HandleCors::class]]
 
 
         //lotes
-        Route::get ('/lotes/{produto_id}/{tabela_preco_id}',  'Mobile\LoteLocator@lista');
-        Route::post('/lotes/pedidos-itens',                   'Mobile\LoteLocator@calculaPorItemPost');
+        Route::get ('/lotes/{produto_id}/{tabela_preco_id}',               'Mobile\LoteLocator@lista');
+        Route::get ('/lotes/{produto_id}/{tabela_preco_id}/{pedido_id}',   'Mobile\LoteLocator@lista');
+        Route::post('/lotes/pedidos-itens',                                'Mobile\LoteLocator@calculaPorItemPost');
 
 
         //produtos

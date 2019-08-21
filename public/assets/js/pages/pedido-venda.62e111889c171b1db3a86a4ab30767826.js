@@ -372,9 +372,12 @@ function alteraValoresPorItem(hidden)
 //-----------------------------------------------------------------------------------
 function buscaLotes(produto_id, tabela_id)
 {
+    var pedido_id = $("#pedido_id").val();
+
     $("#div-saldo-total").attr("hidden",false);
 
-    var call = '/api/v1/lotes/'+produto_id+'/'+tabela_id;
+    var call = '/api/v1/lotes/'+produto_id+'/'+tabela_id+'/'+pedido_id;
+
 
     var settings = {
         "url": call,

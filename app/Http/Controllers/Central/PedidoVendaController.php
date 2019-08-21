@@ -120,7 +120,12 @@ class PedidoVendaController extends Controller
 
                 if(isset($lote))
                 {
-                   $itens[] = $produto;
+                    $lote->saldo = $lote->saldo - $lote->empenho;
+
+                    if($lote->saldo > 0)
+                    {
+                        $itens[] = $produto;
+                    }
                 }
             }
 
@@ -259,6 +264,10 @@ class PedidoVendaController extends Controller
                     $pedidoItem->created_at         = new \DateTime();
                     $pedidoItem->updated_at         = new \DateTime();
                     $pedidoItem->save();
+
+
+                    //registra o empenho da quantidade do lote
+                    LoteController::atualizaQuantidadeEmpenhada($lote->erp_id);
                 }
             }
 
@@ -344,7 +353,18 @@ class PedidoVendaController extends Controller
 
                     if(isset($lote))
                     {
-                        $itens[] = $produto;
+                        //caso o pedido não esteja sincronizado, verificamos se o saldo ainda é maior que a quantidade empenhada
+                        if($pedido->erp_id == null)
+                        {
+                            $empenho = LoteController::confirmaQuantidadeEmpenhada($lote->erp_id, $pedido->id)['empenho'];
+
+                            $lote->saldo = $lote->saldo - $empenho;
+                        }
+
+                        if($lote->saldo > 0)
+                        {
+                            $itens[] = $produto;
+                        }
                     }
                     else
                     {
@@ -545,6 +565,10 @@ class PedidoVendaController extends Controller
                         $pedidoItem->created_at         = new \DateTime();
                         $pedidoItem->updated_at         = new \DateTime();
                         $pedidoItem->save();
+
+
+                        //registra o empenho da quantidade do lote
+                        LoteController::atualizaQuantidadeEmpenhada($lote->erp_id);
                     }
                 }
 
@@ -667,7 +691,14 @@ class PedidoVendaController extends Controller
                     //exclui o pedido no banco de dados
                     $pedido->delete();
 
-                    //exclui os itens de pedido que não foram enviados na requisição
+
+                    //atualiza a quantidade empenhada referente ao lote de cada item a ser excluído
+                    foreach(PedidoItem::where('vxfatpvenda_id',$pedido_venda_id)->get() as $item)
+                    {
+                        LoteController::atualizaQuantidadeEmpenhada($item->vxestlote_erp_id);
+                    }
+
+                    //exclui os itens do pedido em questão
                     PedidoItem::where('vxfatpvenda_id',$pedido_venda_id)->delete();
 
 

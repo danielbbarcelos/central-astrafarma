@@ -28,11 +28,11 @@ class LoteLocator extends Controller
      * @param $produto_id, $tabela_preco_id
      * @return mixed
      */
-    public function lista(Request $request, $produto_id, $tabela_preco_id)
+    public function lista(Request $request, $produto_id, $tabela_preco_id, $pedido_id = null)
     {
         $controller = new LoteController($request->header('filial'));
 
-        $response   = $controller->lista($request, $produto_id, $tabela_preco_id);
+        $response   = $controller->lista($request, $produto_id, $tabela_preco_id, $pedido_id);
 
         return Helper::retornoMobile($response);
     }

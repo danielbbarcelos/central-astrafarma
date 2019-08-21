@@ -93,6 +93,10 @@ class LoteController extends Controller
                 }
 
 
+                //verifica se há quantidade a ser empenhada
+                \App\Http\Controllers\Central\LoteController::atualizaQuantidadeEmpenhada($vars['erp_id']);
+
+
             }
 
             $log .= "Procedimento realizado com sucesso";
