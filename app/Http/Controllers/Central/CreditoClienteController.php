@@ -71,7 +71,7 @@ class CreditoClienteController extends Controller
             //atualiza saldo devedor na tabela de cliente
             if($credito->saldo_devedor > $pedido->valorTotal())
             {
-                $diferenca = $cliente->saldo_devedor - $pedido->valorTotal();
+                $diferenca = $credito->saldo_devedor - $pedido->valorTotal();
 
                 $cliente->saldo_devedor = $cliente->saldo_devedor - $diferenca;
                 $cliente->updated_at    = new \DateTime();
@@ -80,7 +80,7 @@ class CreditoClienteController extends Controller
             }
             else if($credito->saldo_devedor < $pedido->valorTotal())
             {
-                $diferenca = $pedido->valorTotal() - $cliente->saldo_devedor;
+                $diferenca = $pedido->valorTotal() - $credito->saldo_devedor;
 
                 $cliente->saldo_devedor = $cliente->saldo_devedor + $diferenca;
                 $cliente->updated_at    = new \DateTime();
