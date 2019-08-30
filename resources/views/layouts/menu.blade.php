@@ -82,7 +82,7 @@
                             @endif
                             @if(Permission::check('adiciona','PedidoVenda','Central'))
                                 <li>
-                                    <a href="{{url('/pedidos-vendas/add')}}">Novo pedido</a>
+                                    <a href="{{url('/pedidos-vendas/add')}}" onclick="pageBlockUI('Por favor aguarde')">Novo pedido</a>
                                 </li>
                             @endif
                         </ul>

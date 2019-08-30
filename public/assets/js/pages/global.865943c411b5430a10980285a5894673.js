@@ -76,6 +76,42 @@ $(document).ready(function(){
 
 // ==========================================================
 //
+// Block UI
+//
+// ==========================================================
+function pageBlockUI(messageBlockUi)
+{
+    $.blockUI({
+        message: '<h6><strong>'+messageBlockUi+'</strong></h6> <br><div class="col s12 m4 center"><div class="preloader-wrapper big active"><div class="spinner-layer spinner-red-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div></div>',
+        timeout: 0,
+        overlayCSS: {
+            backgroundColor: '#1b2024',
+            opacity: 0.8,
+            cursor: 'wait'
+        },
+        css: {
+            border: 0,
+            color: '#fff',
+            padding: 0,
+            backgroundColor: 'transparent',
+            position: 'absolute',
+            'z-index': '1305',
+        }
+    });
+
+
+    $('header').css('background-color','#d3d3d3');
+    $('header, .sidebar').css('filter','brightness(60%)');
+    $('header, .sidebar').css('pointer-events','none');
+    $('html').css('cursor','wait');
+    $('html').css('text-decoration','none');
+    $('html').css('z-index','9999');
+}
+
+
+
+// ==========================================================
+//
 // Função para retornar token do ajax
 //
 // ==========================================================

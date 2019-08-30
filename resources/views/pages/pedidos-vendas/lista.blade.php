@@ -59,7 +59,7 @@
                                             </td>
                                             <td class="uk-text-center">
                                                 @if(Permission::check('visualiza','PedidoVenda','Central'))
-                                                    <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar e editar" href="{{url('/pedidos-vendas/'.$item->id.'/show')}}">
+                                                    <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" onclick="pageBlockUI('Por favor aguarde')" data-position="top" data-delay="10" data-tooltip="Visualizar e editar" href="{{url('/pedidos-vendas/'.$item->id.'/show')}}">
                                                         <i class="material-icons">edit</i>
                                                     </a>
                                                 @endif
@@ -84,7 +84,7 @@
     <!-- Botão para adicionar -->
     @if(Permission::check('adiciona','Cliente','Central'))
         <div class="fixed-action-btn tooltipped" data-position="top" data-delay="20" data-tooltip="Adicionar" style="bottom: 45px; right: 24px;">
-            <a class="btn-floating btn-large red" href="{{url('/pedidos-vendas/add')}}">
+            <a class="btn-floating btn-large red" href="{{url('/pedidos-vendas/add')}}" onclick="pageBlockUI('Por favor aguarde')">
                 <i class="large material-icons">add</i>
             </a>
         </div>
