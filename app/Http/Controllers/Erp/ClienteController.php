@@ -9,6 +9,7 @@ use App\Cliente;
 
 //framework
 use App\EmpresaFilial;
+use App\Http\Controllers\Central\CreditoClienteController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; 
@@ -119,7 +120,6 @@ class ClienteController extends Controller
 
             if(!isset($cliente))
             {
-
                 Cliente::insert($vars);
             }
             else
@@ -127,6 +127,10 @@ class ClienteController extends Controller
                 Cliente::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                     ->where('erp_id',$vars['erp_id'])
                     ->update($vars);
+
+
+                //exclui os logs de saldo devedor cadastrado para os pedidos do cliente
+                CreditoClienteController::excluiPorCliente($cliente);
             }
 
             $log .= "Procedimento realizado com sucesso";

@@ -274,6 +274,11 @@ class PedidoVendaController extends Controller
             //gera vex sync
             VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'post',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('add')); // edit,get,delete: rest/ped_venda/$erp_id
 
+
+            //gera log de saldo devedor para o cliente referente ao pedido
+            CreditoClienteController::adiciona($pedido, $cliente);
+
+
             $log[]   = ['success' => 'Pedido cadastrado com sucesso'];
 
         }
@@ -581,6 +586,11 @@ class PedidoVendaController extends Controller
                 {
                     VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'post',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('add')); // edit,get,delete: rest/ped_venda/$erp_id
                 }
+
+
+                //atualiza log de saldo devedor para o cliente referente ao pedido
+                CreditoClienteController::atualiza($pedido, $cliente);
+
 
                 //após gerar o vex sync retornamos o status para "Aberto"
                 $pedido->situacao_pedido = "A";
