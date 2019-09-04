@@ -102,6 +102,11 @@ Route::group(['middleware' => ['auth','status','session']], function() {
      * CRUD de pedidos
      *
      */
+
+    /* Teste Vue*/
+    Route::get ('/pedidos-vendas/novo',                      function () {return view('pages.pedidos-vendas.novo-pedido');
+    });
+
     Route::get ('/pedidos-vendas',                           'Central\PedidoVendaLocator@lista');
     Route::get ('/pedidos-vendas/add',                       'Central\PedidoVendaLocator@adiciona');
     Route::post('/pedidos-vendas/add',                       'Central\PedidoVendaLocator@adicionaPost');

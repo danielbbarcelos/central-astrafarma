@@ -1,4 +1,3 @@
-
 <!-- Javascripts -->
 <script src="{{url('/assets/plugins/materialize/js/materialize.min.js')}}"></script>
 <script src="{{url('/assets/plugins/material-preloader/js/materialPreloader.min.js')}}"></script>

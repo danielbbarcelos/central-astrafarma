@@ -20,6 +20,7 @@ class PedidoVendaPermission
        'lista'         => [ 'codigo' => 'CENPVE001', 'prioridade' => '1', 'superior' => null,        'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Tela de pedidos de venda'],
        'adiciona'      => [ 'codigo' => 'CENPVE002', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Tela de cadastro de pedido de venda'],
        'adicionaPost'  => [ 'codigo' => 'CENPVE003', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Adicionar pedido de venda'],
+       'novoPedido'    => [ 'codigo' => 'CENPVE103', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Adicionar pedido de venda'],
        'edita'         => [ 'codigo' => 'CENPVE004', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Tela de edição de pedido de venda'],
        'editaPost'     => [ 'codigo' => 'CENPVE005', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Editar pedido de venda'],
        'visualiza'     => [ 'codigo' => 'CENPVE006', 'prioridade' => '0', 'superior' => 'CENPVE001', 'controle' => '1', 'titulo' => 'Vendas > Pedidos', 'descricao' => 'Visualizar pedido de venda'],

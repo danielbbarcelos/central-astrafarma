@@ -47,6 +47,20 @@ class PedidoVendaLocator extends Controller
         return view($this->basePathViews.'lista', $response);
     }
 
+    public function novoPedido()
+    {
+        /*$controller = new PedidoVendaController();
+
+        $response   = $controller->adiciona();
+
+        if(!$response['success'])
+        {
+            return Redirect::back()->withInput()->with('log',$response['log']);
+        }*/
+
+        return view($this->basePathViews.'novo-pedido');
+    }
+
 
     /**
      * @description Tela de geração de pedidos de venda
