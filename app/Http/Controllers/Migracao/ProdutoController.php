@@ -74,6 +74,8 @@ class ProdutoController extends Controller
                 $produto->unidade_principal  = $item['UNIDADE_PRINCIPAL'];
                 $produto->unidade_secundaria = $item['UNIDADE_SECUNDARIA'];
                 $produto->preco_venda        = $item['PRECO_VENDA'] !== '' ? $item['PRECO_VENDA'] : null;
+                $produto->fabricante         = isset($item['FABRICANTE']) ? $item['FABRICANTE'] : null;
+                $produto->qtde_minima        = isset($item['QTDE_MINIMA']) ? $item['QTDE_MINIMA'] : 0;
                 $produto->status             = strtolower($item['STATUS']) == 'nao' ? '0' : '1';
                 $produto->created_at         = new \DateTime();
                 $produto->updated_at         = new \DateTime();

@@ -32,15 +32,19 @@
                             {{csrf_field()}}
 
                             <div class="row row-input">
-                                <div class="input-field col s12">
-                                    <input type="text" maxlength="100" readonly value="{{$produto->descricao or old('descricao')}}">
-                                    <label>Descrição</label>
+                                <div class="input-field col s3">
+                                    <input type="text" maxlength="100" readonly value="{{$produto->erp_id}}">
+                                    <label>Código e Descrição</label>
+                                </div>
+                                <div class="input-field col s9">
+                                    <input type="text" maxlength="100" readonly value="{{$produto->descricao}}">
+                                    <label>Código e Descrição</label>
                                 </div>
                             </div>
 
 
                             <div class="row row-input">
-                                <div class="input-field col s4">
+                                <div class="input-field col s3">
                                     <input type="text" maxlength="100" readonly
                                            @if($produto->tipo == 'MC')
                                            value="Material de consumo"
@@ -60,14 +64,20 @@
                                     <label>Tipo</label>
                                 </div>
 
-                                <div class="input-field col s4">
+                                <div class="input-field col s3">
                                     <input type="text" maxlength="100" readonly value="{{$produto->unidade_principal or 'Não informado'}}">
                                     <label>Unidade principal</label>
                                 </div>
 
-                                <div class="input-field col s4">
+                                <div class="input-field col s3">
                                     <input type="text" maxlength="100" readonly value="{{$produto->unidade_principal or 'Não informado'}}">
                                     <label>Unidade secundária</label>
+                                </div>
+
+
+                                <div class="input-field col s3">
+                                    <input type="text" maxlength="100" readonly value="{{$produto->fabricante or 'Não informado'}}">
+                                    <label>Fabricante</label>
                                 </div>
 
                             </div>
