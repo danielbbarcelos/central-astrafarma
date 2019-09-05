@@ -104,6 +104,8 @@ class ClienteController extends Controller
             $cliente->razao_social      = $request['razao_social'];
             $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
             $cliente->cnpj_cpf          = $request['cnpj_cpf'];
+            $cliente->contribuinte      = $request['contribuinte'];
+            $cliente->insc_estadual     = strtoupper($request['insc_estadual']);
             $cliente->tipo_cliente      = 'F';
             $cliente->endereco          = $request['endereco'];
             $cliente->bairro            = $request['bairro'];
@@ -116,6 +118,8 @@ class ClienteController extends Controller
             $cliente->fone              = $request['fone'];
             $cliente->nome_contato      = $request['nome_contato'];
             $cliente->email             = $request['email'];
+            $cliente->envia_boleto      = $request['envia_boleto'];
+            $cliente->obs_nota          = $request['obs_nota'];
             $cliente->status            = '1';
             $cliente->created_at        = new \DateTime();
             $cliente->updated_at        = new \DateTime();
@@ -189,6 +193,8 @@ class ClienteController extends Controller
                 $cliente->razao_social      = $request['razao_social'];
                 $cliente->nome_fantasia     = $request['nome_fantasia'];
                 $cliente->cnpj_cpf          = $request['cnpj_cpf'];
+                $cliente->contribuinte      = $request['contribuinte'];
+                $cliente->insc_estadual     = strtoupper($request['insc_estadual']);
                 //$cliente->tipo_cliente      = strtoupper($request['tipo_cliente']); utilizado apenas em adicionaPost
                 $cliente->endereco          = $request['endereco'];
                 $cliente->bairro            = $request['bairro'];
@@ -201,6 +207,8 @@ class ClienteController extends Controller
                 $cliente->fone              = $request['fone'];
                 $cliente->nome_contato      = $request['nome_contato'];
                 $cliente->email             = $request['email'];
+                $cliente->envia_boleto      = $request['envia_boleto'];
+                $cliente->obs_nota          = $request['obs_nota'];
                 $cliente->updated_at        = new \DateTime();
                 $cliente->save();
     

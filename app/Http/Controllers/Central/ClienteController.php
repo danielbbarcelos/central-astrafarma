@@ -115,6 +115,8 @@ class ClienteController extends Controller
             $cliente->razao_social      = $request['razao_social'];
             $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
             $cliente->cnpj_cpf          = $request['cnpj_cpf'];
+            $cliente->contribuinte      = $request['contribuinte'];
+            $cliente->insc_estadual     = strtoupper($request['insc_estadual']);
             $cliente->tipo_cliente      = strtoupper($request['tipo_cliente']);
             $cliente->endereco          = $request['endereco'];
             $cliente->complemento       = $request['complemento'];
@@ -127,6 +129,8 @@ class ClienteController extends Controller
             $cliente->fone              = Helper::removeMascara($request['fone']);
             $cliente->nome_contato      = $request['nome_contato'];
             $cliente->email             = $request['email'];
+            $cliente->envia_boleto      = $request['envia_boleto'];
+            $cliente->obs_nota          = $request['obs_nota'];
             $cliente->risco             = 'E';
             $cliente->status            = isset($request['status']) ? $request['status'] : 0;
             $cliente->created_at        = new \DateTime();
@@ -220,6 +224,8 @@ class ClienteController extends Controller
                 $cliente->razao_social      = $request['razao_social'];
                 $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
                 $cliente->cnpj_cpf          = $request['cnpj_cpf'];
+                $cliente->contribuinte      = $request['contribuinte'];
+                $cliente->insc_estadual     = strtoupper($request['insc_estadual']);
                 $cliente->tipo_cliente      = strtoupper($request['tipo_cliente']);
                 $cliente->endereco          = $request['endereco'];
                 $cliente->complemento       = $request['complemento'];
@@ -232,6 +238,8 @@ class ClienteController extends Controller
                 $cliente->fone              = Helper::removeMascara($request['fone']);
                 $cliente->nome_contato      = $request['nome_contato'];
                 $cliente->email             = $request['email'];
+                $cliente->envia_boleto      = $request['envia_boleto'];
+                $cliente->obs_nota          = $request['obs_nota'];
                 $cliente->status            = isset($request['status']) ? $request['status'] : 0;
                 $cliente->updated_at        = new \DateTime();
                 $cliente->save();

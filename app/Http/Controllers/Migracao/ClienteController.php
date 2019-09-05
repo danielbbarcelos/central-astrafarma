@@ -87,6 +87,8 @@ class ClienteController extends Controller
                     $cliente->razao_social     = $item['RAZAO_SOCIAL'];
                     $cliente->nome_fantasia    = $item['NOME_FANTASIA'];
                     $cliente->cnpj_cpf         = Helper::removeMascara($item['CNPJ_CPF']);
+                    $cliente->insc_estadual    = strtoupper($item['INSC_ESTADUAL']);
+                    $cliente->contribuinte     = strtolower($item['CONTRIBUINTE']) == 'nao' ? '0' : '1';
                     $cliente->loja             = $item['LOJA'];
                     $cliente->tipo_cliente     = $item['TIPO_CLIENTE'];
                     $cliente->endereco         = $item['ENDERECO'];
@@ -102,6 +104,8 @@ class ClienteController extends Controller
                     $cliente->risco            = isset($item['RISCO']) ? $item['RISCO'] : 'E';
                     $cliente->limite_credito   = Helper::formataDecimal($item['LIMITE_CREDITO']);
                     $cliente->saldo_devedor    = Helper::formataDecimal($item['SALDO_DEVEDOR']);
+                    $cliente->envia_boleto     = strtolower($item['ENVIA_BOLETO']) == 'nao' ? '0' : '1';
+                    $cliente->obs_nota         = $item['OBS_NOTA'];
                     $cliente->status           = $status;
                     $cliente->created_at       = new \DateTime();
                     $cliente->updated_at       = new \DateTime();

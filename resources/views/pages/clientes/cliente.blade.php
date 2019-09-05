@@ -91,7 +91,35 @@
                                         <label class="active">Classificação de risco</label>
                                     </div>
                                 @endif
+
+                                <div class="input-field col s12 m4">
+                                    <input type="text" placeholder="" name="insc_estadual" id="insc_estadual"
+                                           value="{{$cliente->insc_estadual or old('insc_estadual')}}"
+                                           style="text-transform: uppercase">
+                                    <label>Inscrição Estadual</label>
+                                </div>
+                                <div class="input-field col s12 m4">
+                                    <select name="contribuinte" class="select2" style="">
+                                        <option value="1" @if($cliente->contribuinte == '1') selected @endif>Sim</option>
+                                        <option value="0" @if($cliente->contribuinte == '0') selected @endif>Não</option>
+                                    </select>
+                                    <label class="active">Contribuinte</label>
+                                </div>
+
+
+                                <div class="input-field col s12 m4">
+                                    <select name="envia_boleto" class="select2" style="">
+                                        <option value="1" @if($cliente->envia_boleto == '1') selected @endif>Sim</option>
+                                        <option value="0" @if($cliente->envia_boleto == '0') selected @endif>Não</option>
+                                    </select>
+                                    <label class="active">Envia boleto para o cliente</label>
+                                </div>
+
                             </div>
+
+
+
+
 
                             <!-- Dados de contato -->
                             <div class="row row-input padding-top-20">
@@ -112,6 +140,8 @@
                                     <label>Fone</label>
                                 </div>
                             </div>
+
+
 
 
                             <!-- Endereço -->
@@ -160,8 +190,16 @@
                             </div>
 
 
-                            <div class="row">
-                                <div class="col s12 padding-top-10">
+
+                            <div class="row row-input">
+
+                                <div class="input-field col s12 m12">
+                                    <textarea class="materialize-textarea" name="obs_nota" style="height: 6rem"  id="obs_nota"
+                                              maxlength="10000" length="10000">{{$cliente->obs_nota or old('obs_nota')}}</textarea>
+                                    <label>Observação padrão para NF-e</label>
+                                </div>
+
+                                <div class="col s12">
                                     <p class="p-v-xs">
                                         <input type="checkbox" class="filled-in" id="status" name="status" value="1" @if((int)$cliente->status == 1) checked @endif />
                                         <label for="status">Cliente ativo</label>

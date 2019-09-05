@@ -177,6 +177,8 @@ $("#vxglocli_id").on("change",function(){
         $("#cliente-limite-credito").html('+ R$ '+number_format($("#vxglocli_id option:selected").attr("data-limite-credito"),2,',','.'));
         $("#cliente-saldo-devedor").html('- R$ '+number_format($("#vxglocli_id option:selected").attr("data-saldo-devedor"),2,',','.'));
 
+        $("#observacao").val($("#vxglocli_id option:selected").attr("data-observacao"));
+
         var credito = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
         var html    = "";
 
