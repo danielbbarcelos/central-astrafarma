@@ -112,25 +112,39 @@
                                     <div class="row padding-top-30">
                                         <div class="row row-input">
                                             <div class="input-field col s12 m12">
-                                                <select name="vxglocli_id" id="vxglocli_id" class="select2">
-                                                    <option value="">Selecione...</option>
-                                                    @foreach($clientes as $item)
-                                                        <option value="{{$item->id}}"
-                                                            data-erp-id="{{$item->erp_id}}"
-                                                            data-razao-social="{{$item->razao_social}}"
-                                                            data-nome-fantasia="{{$item->nome_fantasia}}"
-                                                            data-cnpj-cpf="{{ Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##') }}"
-                                                            data-cidade-uf="{{$item->cidade.'/'.$item->uf}}"
-                                                            data-uf="{{$item->uf}}"
-                                                            data-limite-credito="{{$item->limite_credito}}"
-                                                            data-saldo-devedor="{{$item->saldo_devedor}}"
-                                                            data-credito-disponivel="{{$item->limite_credito - $item->saldo_devedor}}"
-                                                            data-risco="{{$item->risco}}"
-                                                        >{{$item->erp_id.' - '.($item->razao_social !== '' ? $item->razao_social : 'Razão social não identificada')}}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                <label class="active">Cliente</label>
+                                                <div class="input-field col s6 m8 padding-bottom-20">
+                                                    <select name="vxglocli_id" id="vxglocli_id" class="select2">
+                                                        <option value="">Selecione...</option>
+                                                        @foreach($clientes as $item)
+                                                            <option value="{{$item->id}}"
+                                                                data-erp-id="{{$item->erp_id}}"
+                                                                data-razao-social="{{$item->razao_social}}"
+                                                                data-nome-fantasia="{{$item->nome_fantasia}}"
+                                                                data-cnpj-cpf="{{ Helper::insereMascara($item->cnpj_cpf, $item->tipo_pessoa == 'J' ? '##.###.###/####-##' : '###.###.###-##') }}"
+                                                                data-cidade-uf="{{$item->cidade.'/'.$item->uf}}"
+                                                                data-uf="{{$item->uf}}"
+                                                                data-limite-credito="{{$item->limite_credito}}"
+                                                                data-saldo-devedor="{{$item->saldo_devedor}}"
+                                                                data-credito-disponivel="{{$item->limite_credito - $item->saldo_devedor}}"
+                                                                data-risco="{{$item->risco}}"
+                                                                @if($pedido->cliente->id == $item->id) selected @endif
+                                                            >{{$item->erp_id.' - '.($item->razao_social !== '' ? $item->razao_social : 'Razão social não identificada')}}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <label class="active">Cliente</label>
+                                                </div>
+
+                                                <div class="input-field col s6 m4 padding-bottom-20">
+                                                    <select name="vxglocpgto_id" id="vxglocpgto_id" class="select2">
+                                                        <option value="">Selecione...</option>
+                                                        @foreach($condicoes as $item)
+                                                            <option value="{{$item->id}}" data-desconto="{{$item->libera_desconto}}" @if($item->erp_id == $pedido->vxglocpgto_erp_id) selected @endif>{{$item->descricao}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <label class="active">Condição de pagamento</label>
+                                                </div>
+
 
 
                                                 <!-- classificação de risco utilizada para tratativa de desconto -->
@@ -372,22 +386,13 @@
                                     <div class="row padding-top-30 padding-bottom-20">
                                         <div class="row row-input">
 
-                                            <div class="input-field col s6 m4">
-                                                <select name="vxglocpgto_id" id="vxglocpgto_id" class="select2">
-                                                    <option value="">Selecione...</option>
-                                                    @foreach($condicoes as $item)
-                                                        <option value="{{$item->id}}" @if($item->erp_id == $pedido->vxglocpgto_erp_id) selected @endif>{{$item->descricao}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <label class="active">Condição de pagamento</label>
-                                            </div>
 
-                                            <div class="input-field col s6 m4">
+                                            <div class="input-field col s6 m6">
                                                 <input type="text"  value="{{isset($pedido->data_entrega) ? Carbon::createFromFormat('Y-m-d',$pedido->data_entrega)->format('d/m/Y') : ''}}" class="datepicker" placeholder="" id="data_entrega" name="data_entrega">
                                                 <label>Data prevista da entrega</label>
                                             </div>
 
-                                            <div class="input-field col s12 m4">
+                                            <div class="input-field col s12 m6">
                                                 <select name="status_entrega" id="status_entrega" class="select2">
                                                     <option value="">Selecione...</option>
                                                     <option @if($pedido->status_entrega == "1") selected @endif value="1">1 - Sem programação</option>
@@ -442,7 +447,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.62e111889c171b1db3a86a4ab30767826.js"></script>
+    <script src="/assets/js/pages/pedido-venda.72e111889c171b1db3a86a4ab30767826.js"></script>
 
     @if($pedido->situacao_pedido !== 'A' and $pedido->situacao_pedido !== 'S')
         <script>
@@ -454,15 +459,11 @@
         $(document).ready(function(){
 
             $("#data-cliente").attr("hidden",false);
-
-            $("#vxglocli_id").val('{!! $pedido->cliente->id !!}').trigger("change");
-            $("#vxfatrisco").val($("#vxglocli_id option:selected").attr("data-risco")).trigger("change");
             $("#cliente-erp-id").html($("#vxglocli_id option:selected").attr("data-erp-id"));
             $("#cliente-razao-social").html($("#vxglocli_id option:selected").attr("data-razao-social"));
             $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
             $("#cliente-cnpj-cpf").html($("#vxglocli_id option:selected").attr("data-cnpj-cpf"));
             $("#cliente-cidade-uf").html($("#vxglocli_id option:selected").attr("data-cidade-uf"));
-
             $("#cliente-limite-credito").html('+ R$ '+number_format($("#vxglocli_id option:selected").attr("data-limite-credito"),2,',','.'));
             $("#cliente-saldo-devedor").html('- R$ '+number_format($("#vxglocli_id option:selected").attr("data-saldo-devedor"),2,',','.'));
             $("#cliente-desconto-maximo").html( $("#vxfatrisco option:selected").text()+'% (risco '+$("#vxglocli_id option:selected").attr("data-risco")+')' );
@@ -470,7 +471,12 @@
             var credito = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
             var html    = "";
 
-            if(parseFloat(credito) <= 0.00)
+
+            if(parseFloat(credito) == 0.00)
+            {
+                html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>= R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
+            }
+            else if(parseFloat(credito) <= 0.00)
             {
                 html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
             }
@@ -487,6 +493,22 @@
 
             //calcula novamente o total do pedido para gerar os alertas e informações adicionais na blade
             calculaTotalPedido();
+
+
+            //exibe a informação de desconto máximo por cliente
+            exibeDescontoMaximo('cliente');
+
+
+            //caso o crédito do cliente seja R$ 0,00, permitimos apenas a seleção da condição de pagamento com libera-desconto = 1
+            if(parseFloat(credito) <= 0.00)
+            {
+                $("#vxglocpgto_id option[data-desconto='0']").attr("disabled",true);
+            }
+            else
+            {
+                $("#vxglocpgto_id option[data-desconto='0']").attr("disabled",false);
+            }
+
         })
     </script>
 

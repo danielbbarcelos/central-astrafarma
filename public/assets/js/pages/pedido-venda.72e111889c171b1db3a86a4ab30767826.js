@@ -29,7 +29,6 @@ $(document).ready(function() {
 //---------------------------------------------------------------------------
 function validateStepOne() {
 
-
     if($("#vxglocli_id").val() === '')
     {
         Materialize.toast('Selecione o cliente para continuar', 5000, 'red');
@@ -38,11 +37,18 @@ function validateStepOne() {
     }
 
 
+    if($("#vxglocpgto_id").val() === '')
+    {
+        Materialize.toast('Selecione a condição de pagamento para continuar', 5000, 'red');
+
+        return false;
+    }
+
     var credito = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
 
-    if(parseFloat(credito) <= 0.00)
+    if(parseFloat(credito) <= 0.00 && $("#vxglocpgto_id option:selected").attr("data-desconto") !== '1')
     {
-        Materialize.toast('O cliente não possui crédito disponível', 5000, 'red');
+        Materialize.toast('Cliente sem crédito disponível para essa condição de pagamento', 5000, 'red');
 
         return false;
     }
@@ -76,7 +82,8 @@ function validateStepTwo() {
 
     var credito  = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
 
-    if(parseFloat(valorTotal) > parseFloat(credito))
+
+    if(parseFloat(valorTotal) > parseFloat(credito) && $("#vxglocpgto_id option:selected").attr("data-desconto") === '0')
     {
         Materialize.toast('O crédito disponível para o cliente é inferior ao valor do pedido', 5000, 'red');
 
@@ -107,12 +114,6 @@ function validateStepThree() {
 
     var success = true;
 
-    if($("#vxglocpgto_id").val() === '')
-    {
-        Materialize.toast('Selecione a condição de pagamento para continuar', 5000, 'red');
-
-        success = false;
-    }
 
     if($("#data_entrega").val() === '')
     {
@@ -164,7 +165,9 @@ $("#vxglocli_id").on("change",function(){
     else
     {
         $("#data-cliente").attr("hidden",false);
-        $("#vxfatrisco").val($("#vxglocli_id option:selected").attr("data-risco")).trigger("change");
+
+        //reseta a condição de pagamento
+        $("#vxglocpgto_id").val("").trigger("change");
 
         $("#cliente-erp-id").html($("#vxglocli_id option:selected").attr("data-erp-id"));
         $("#cliente-razao-social").html($("#vxglocli_id option:selected").attr("data-razao-social"));
@@ -173,12 +176,15 @@ $("#vxglocli_id").on("change",function(){
         $("#cliente-cidade-uf").html($("#vxglocli_id option:selected").attr("data-cidade-uf"));
         $("#cliente-limite-credito").html('+ R$ '+number_format($("#vxglocli_id option:selected").attr("data-limite-credito"),2,',','.'));
         $("#cliente-saldo-devedor").html('- R$ '+number_format($("#vxglocli_id option:selected").attr("data-saldo-devedor"),2,',','.'));
-        $("#cliente-desconto-maximo").html( $("#vxfatrisco option:selected").text()+'% (risco '+$("#vxglocli_id option:selected").attr("data-risco")+')' );
 
         var credito = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
         var html    = "";
 
-        if(parseFloat(credito) <= 0.00)
+        if(parseFloat(credito) == 0.00)
+        {
+            html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>= R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
+        }
+        else if(parseFloat(credito) <= 0.00)
         {
             html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
         }
@@ -191,27 +197,74 @@ $("#vxglocli_id").on("change",function(){
 
 
 
-        //calcula o valor restante de crédito do cliente, caso a tabela de itens do pedido contenha algum item
-        var valorTotal = 0.00;
-        $("#ipvenda-tbody input[name='produto_preco_total[]']").each(function(){
-            valorTotal = parseFloat(valorTotal) + parseFloat($(this).val().replace('.','').replace(',','.'));
-        });
+        //exibe a informação de desconto máximo por cliente
+        exibeDescontoMaximo('cliente');
 
-        var restante = parseFloat(credito) - parseFloat(valorTotal);
 
-        if(parseFloat(restante) <= 0.00)
+
+        //caso o crédito do cliente seja R$ 0,00, permitimos apenas a seleção da condição de pagamento com libera-desconto = 1
+        $("#vxglocpgto_id").select2();
+
+        if(parseFloat(credito) <= 0.00)
         {
-            html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
+            $("#vxglocpgto_id option[data-desconto='0']").attr("disabled",true);
         }
         else
         {
-            html = "<span style='font-weight: 800; color: rgba(19,157,0,0.91)'>+ R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
+            $("#vxglocpgto_id option[data-desconto='0']").attr("disabled",false);
         }
-
-        $("#credito-restante").html(html);
 
     }
 });
+
+
+
+
+//---------------------------------------------------------------------------------------------------------
+//
+// Realiza tratamento em caso de alteração de condição de pagamento
+//
+//---------------------------------------------------------------------------------------------------------
+$("#vxglocpgto_id").on("change",function(){
+
+    exibeDescontoMaximo('condicao')
+
+});
+
+
+
+//---------------------------------------------------------------------------------------------------------
+//
+// Exibe a informação de desconto máximo de acordo com o cliente ou condição de pagamento selecionada
+//
+//---------------------------------------------------------------------------------------------------------
+function exibeDescontoMaximo(tipo)
+{
+    //se o tipo for através de alteração de cliente, verificamos qual o risco do cliente
+    if(tipo === 'cliente' && $("#vxglocpgto_id option:selected").attr("data-desconto") !== '1')
+    {
+        $("#vxfatrisco").val($("#vxglocli_id option:selected").attr("data-risco")).trigger("change");
+
+        $("#cliente-desconto-maximo").html( $("#vxfatrisco option:selected").text()+'% (risco '+$("#vxglocli_id option:selected").attr("data-risco")+')' );
+    }
+    else
+    {
+        if($("#vxglocpgto_id option:selected").attr("data-desconto") === '1')
+        {
+            $("#vxfatrisco").val("A").trigger("change");
+        }
+        else
+        {
+            $("#vxfatrisco").val($("#vxglocli_id option:selected").attr("data-risco")).trigger("change");
+        }
+
+        $("#cliente-desconto-maximo").html( $("#vxfatrisco option:selected").text()+'% (risco '+$("#vxfatrisco option:selected").val()+')' );
+    }
+
+
+    calculaCreditoRestante();
+}
+
 
 
 
@@ -610,32 +663,10 @@ function adicionaProduto()
 
         $(".tooltipped").tooltip();
 
+
         calculaTotalPedido();
 
-
-
-
-        //calcula o valor restante de crédito do cliente, após adicionar o item no pedido
-        var valorTotal = 0.00;
-        $("#ipvenda-tbody input[name='produto_preco_total[]']").each(function(){
-            valorTotal = parseFloat(valorTotal) + parseFloat($(this).val().replace('.','').replace(',','.'));
-        });
-
-        var credito  = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
-        var restante = parseFloat(credito) - parseFloat(valorTotal);
-        var html     = "";
-
-        if(parseFloat(restante) <= 0.00)
-        {
-            html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
-        }
-        else
-        {
-            html = "<span style='font-weight: 800; color: rgba(19,157,0,0.91)'>+ R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
-        }
-
-        $("#credito-restante").html(html);
-
+        calculaCreditoRestante();
 
 
 
@@ -667,28 +698,7 @@ function excluiProduto(row)
 
     calculaTotalPedido();
 
-
-
-    //calcula o valor restante de crédito do cliente, após excluir o item no pedido
-    var valorTotal = 0.00;
-    $("#ipvenda-tbody input[name='produto_preco_total[]']").each(function(){
-        valorTotal = parseFloat(valorTotal) + parseFloat($(this).val().replace('.','').replace(',','.'));
-    });
-
-    var credito  = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
-    var restante = parseFloat(credito) - parseFloat(valorTotal);
-    var html     = "";
-
-    if(parseFloat(restante) <= 0.00)
-    {
-        html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
-    }
-    else
-    {
-        html = "<span style='font-weight: 800; color: rgba(19,157,0,0.91)'>+ R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
-    }
-
-    $("#credito-restante").html(html);
+    calculaCreditoRestante();
 
 }
 
@@ -766,6 +776,51 @@ function calculaDescontoPedido()
     }
 
     return percentualDesconto;
+}
+
+
+
+
+//-------------------------------------------------------------------------------
+//
+// Calcula crédito restante (crédito do cliente - total do pedido)
+//
+//-------------------------------------------------------------------------------
+function calculaCreditoRestante()
+{
+
+    //calcula o valor restante de crédito do cliente, após excluir o item no pedido
+    var valorTotal = 0.00;
+    $("#ipvenda-tbody input[name='produto_preco_total[]']").each(function(){
+        valorTotal = parseFloat(valorTotal) + parseFloat($(this).val().replace('.','').replace(',','.'));
+    });
+
+    var credito  = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
+    var restante = parseFloat(credito) - parseFloat(valorTotal);
+    var html     = "";
+
+    if(parseFloat(restante) <= 0.00)
+    {
+
+        if($("#vxglocpgto_id option:selected").attr("data-desconto") === '1')
+        {
+            var cpgto = $("#vxglocpgto_id option:selected").text();
+
+            html = "<span style='font-weight: 800; color: rgba(148,130,22,0.8)'>- R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
+
+            html += "<small style='margin-left: 10px'>OBS: A condição de pagamento "+cpgto+" permite que o pedido seja concluído, mesmo sem crédito disponível.</small>";
+        }
+        else
+        {
+            html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
+        }
+    }
+    else
+    {
+        html = "<span style='font-weight: 800; color: rgba(19,157,0,0.91)'>+ R$ "+number_format(Math.abs(parseFloat(restante)),2,',','.')+"</span>";
+    }
+
+    $("#credito-restante").html(html);
 }
 
 
