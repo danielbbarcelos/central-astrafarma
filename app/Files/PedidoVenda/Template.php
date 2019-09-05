@@ -106,11 +106,11 @@ class Template extends FPDF
     function Footer()
     {
         //impresso por
-        $this->SetFont( "MontserratRegular", "", 8);
+        $this->SetFont( "MontserratRegular", "", 7);
         $this->SetTextColor(72,72,70);
 
         $this->SetXY(22, 275);
-        $this->MultiCell(0,1.5,utf8_decode("Impressor por: \n\n\n".
+        $this->MultiCell(0,1.5,utf8_decode("Data e hora da impressão: \n\n\n".
 Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
 
         //paginação
