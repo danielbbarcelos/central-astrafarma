@@ -113,6 +113,7 @@ class PedidoVendaController extends Controller
                         $pedidoItem->valor_total        = Helper::formataDecimal($item->valor_total);
                         $pedidoItem->nota_fiscal        = isset($item->nota_fiscal) ? $item->nota_fiscal : null;
                         $pedidoItem->serienf            = isset($item->serienf) ? $item->serienf : null;
+                        $pedidoItem->data_nf            = ($vars['data_nf'] !== '' and $vars['data_nf'] !== '0000-00-00') ? $vars['data_nf'] : null;
                         $pedidoItem->created_at         = new \DateTime();
                         $pedidoItem->updated_at         = new \DateTime();
                         $pedidoItem->save();
