@@ -71,6 +71,8 @@ class VendedorController extends Controller
                 $vendedor->nome           = $item['NOME'];
                 $vendedor->cpf            = $item['CPF'] !== '' ? $item['CPF'] : null;
                 $vendedor->status         = strtolower($item['STATUS']) == 'nao' ? '0' : '1';
+                $vendedor->email          = $item['EMAIL'] !== '' ? $item['EMAIL'] : null;
+                $vendedor->fone           = $item['FONE'] !== '' ? $item['FONE'] : null;
                 $vendedor->created_at     = new \DateTime();
                 $vendedor->updated_at     = new \DateTime();
                 $vendedor->save();
