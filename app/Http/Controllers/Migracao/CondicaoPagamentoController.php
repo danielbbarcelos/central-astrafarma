@@ -70,8 +70,9 @@ class CondicaoPagamentoController extends Controller
                 $condicao->erp_id             = $item['ERP_ID'];
                 $condicao->vxgloempfil_id     = isset($empfil) ? $empfil->id : '1';
                 $condicao->descricao          = $item['DESCRICAO'];
-                $condicao->web                = strtolower($item['STATUS']) == 'nao' ? '0' : '1';
-                $condicao->mobile             = strtolower($item['STATUS']) == 'nao' ? '0' : '1';
+                $condicao->libera_desconto    = strtolower($item['LIBERA_DESCONTO']) == 'nao' ? '0' : '1';
+                $condicao->web                = strtolower($item['WEB'])    == 'nao' ? '0' : '1';
+                $condicao->mobile             = strtolower($item['MOBILE']) == 'nao' ? '0' : '1';
                 $condicao->status             = strtolower($item['STATUS']) == 'nao' ? '0' : '1';
                 $condicao->created_at         = new \DateTime();
                 $condicao->updated_at         = new \DateTime();
