@@ -109,17 +109,16 @@ class Template extends FPDF
         $this->SetFont( "MontserratRegular", "", 8);
         $this->SetTextColor(72,72,70);
 
-        $this->SetXY(22, 270);
+        $this->SetXY(22, 275);
         $this->MultiCell(0,1.5,utf8_decode("Impressor por: \n\n\n".
-Auth::user()->name."\n\n\n".
-Auth::user()->email."\n\n\n".
 Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
 
         //paginação
-        $this->SetFont( "MontserratSemibold", "", 8);
+        $this->SetFont( "MontserratSemibold", "", 6);
         $this->SetXY( 22, -12);
-        $pagina = $this->PageNo().'/'.count($this->pages);
-        $this->Cell(0,10,utf8_decode('Página '.$this->PageNo().'/{nb}'),0,0,'C');
+        $this->Cell(168,10,utf8_decode($this->pedido->empfil->nome.'   -   CNPJ:  '.Helper::insereMascara($this->pedido->empfil->cnpj,'##.###.###/####-##')),0,0,'L');
+        $this->SetFont( "MontserratSemibold", "", 6);
+        $this->Cell(90,10,utf8_decode('Página '.$this->PageNo().'/{nb}'),0,0,'L');
     }
 
 
@@ -131,25 +130,25 @@ Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
         $this->SetTextColor(72,72,70);
         $this->SetXY( 22, $y);
         $this->SetFont( "MontserratSemibold", "", 10);
-        $this->MultiCell(40,10,utf8_decode("Empresa:"),0,'L', FALSE);
+        $this->MultiCell(40,10,utf8_decode("Vendedor(a):"),0,'L', FALSE);
         $this->SetXY( 62, $y);
-        $this->MultiCell(0,10,utf8_decode($this->pedido->empfil->nome),0,'L', FALSE);
+        $this->MultiCell(0,10,utf8_decode($this->pedido->vendedor->nome),0,'L', FALSE);
 
         //empresa
         $this->SetTextColor(72,72,70);
         $this->SetXY( 22, $y + 6);
         $this->SetFont( "MontserratSemibold", "", 10);
-        $this->MultiCell(40,10,utf8_decode("CNPJ:"),0,'L', FALSE);
+        $this->MultiCell(40,10,utf8_decode("Fone de contato:"),0,'L', FALSE);
         $this->SetXY( 62, $y + 6);
-        $this->MultiCell(0,10,utf8_decode(Helper::insereMascara($this->pedido->empfil->cnpj,'##.###.###/####-##')),0,'L', FALSE);
+        $this->MultiCell(0,10,utf8_decode(isset($this->pedido->vendedor->fone) ? $this->pedido->vendedor->fone : '-'),0,'L', FALSE);
 
         //vendedor
         $this->SetTextColor(72,72,70);
         $this->SetXY( 22, $y + 12);
         $this->SetFont( "MontserratSemibold", "", 10);
-        $this->MultiCell(40,10,utf8_decode("Vendedor:"),0,'L', FALSE);
+        $this->MultiCell(40,10,utf8_decode("E-mail de contato:"),0,'L', FALSE);
         $this->SetXY( 62, $y + 12);
-        $this->MultiCell(0,10,utf8_decode($this->pedido->vendedor->nome),0,'L', FALSE);
+        $this->MultiCell(0,10,utf8_decode(isset($this->pedido->vendedor->email) ? $this->pedido->vendedor->email : '-'),0,'L', FALSE);
 
         //data e hora do pedido
         $this->SetTextColor(72,72,70);
@@ -158,6 +157,43 @@ Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
         $this->MultiCell(40,10,utf8_decode("Data do pedido:"),0,'L', FALSE);
         $this->SetXY( 62, $y + 18);
         $this->MultiCell(0,10,utf8_decode(Carbon::createFromFormat('Y-m-d H:i:s',$this->pedido->created_at)->format('d/m/Y à\s H:i')),0,'L', FALSE);
+
+        //notas fiscais emitidas para o pedido
+        $this->SetTextColor(72,72,70);
+        $this->SetXY( 22, $y + 24);
+        $this->SetFont( "MontserratRegular", "", 10);
+        $this->MultiCell(40,10,utf8_decode("Notas emitidas:"),0,'L', FALSE);
+        $this->SetXY( 62, $y + 24);
+
+        $notas = [];
+
+        foreach($this->pedido->itens as $item)
+        {
+            if(!in_array($item->nota_fiscal, $notas) and $item->nota_fiscal !== null and $item->nota_fiscal !== '')
+            {
+                $notas[] = $item->nota_fiscal;
+            }
+        }
+
+        if(count($notas) == 0)
+        {
+            $this->SetFont( "MontserratRegular", "", 8);
+            $this->MultiCell(0,10,utf8_decode('Nenhuma nota fiscal emitida até o momento.'),0,'L', FALSE);
+        }
+        else
+        {
+            $texto = '';
+
+            foreach($notas as $nota)
+            {
+                $texto .= ', '.$nota;
+            }
+
+            $texto = substr($texto, 2).'.';
+
+            $this->SetFont( "MontserratRegular", "", 10);
+            $this->MultiCell(0,10,utf8_decode($texto),0,'L', FALSE);
+        }
     }
 
 
