@@ -370,7 +370,8 @@ Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
             //código erp e unidade de medida do produto
             $this->SetXY( 22, $y + 8);
             $this->SetFont( "MontserratRegular", "", 7);
-            $this->MultiCell(124,3,utf8_decode('Cód: '. json_decode($item->produto_data)->erp_id.'  - Unid: '.json_decode($item->produto_data)->unidade_principal),0,'L', false);
+            $fabricante = isset(json_decode($item->produto_data)->fabricante) ? ' - Fabricante: '.json_decode($item->produto_data)->fabricante : '';
+            $this->MultiCell(124,3,utf8_decode('Cód: '. json_decode($item->produto_data)->erp_id.'  - Unid: '.json_decode($item->produto_data)->unidade_principal . $fabricante),0,'L', false);
 
             //lote do produto
             $this->SetXY( 22, $y + 12);

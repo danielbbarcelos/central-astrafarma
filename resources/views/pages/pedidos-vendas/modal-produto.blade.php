@@ -21,7 +21,12 @@
                 <select id="produto_id" class="select2" style="width: 100%">
                     <option value="">Selecione...</option>
                     @foreach($produtos as $item)
-                        <option value="{{$item->id}}" erp_id="{{$item->erp_id}}" descricao="{{$item->descricao}}">{{$item->erp_id.': '.$item->descricao}}</option>
+                        <option value="{{$item->id}}"
+                                erp_id="{{$item->erp_id}}"
+                                descricao="{{$item->descricao . (isset($item->fabricante) ? ' - '.$item->fabricante : '')}}"
+                                qtde_minima="{{$item->qtde_minima > 0 ? $item->qtde_minima : 1}}">
+                            {{$item->erp_id.': '.$item->descricao . (isset($item->fabricante) ? ' - '.$item->fabricante : '')}}
+                        </option>
                     @endforeach
                 </select>
                 <label class="active">Produto</label>

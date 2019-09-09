@@ -24,6 +24,68 @@ $(document).ready(function() {
 
 //---------------------------------------------------------------------------
 //
+// inicializa tela de edição/visualização de pedido
+//
+//---------------------------------------------------------------------------
+function inicializaEdicao()
+{
+    $("#data-cliente").attr("hidden",false);
+    $("#cliente-erp-id").html($("#vxglocli_id option:selected").attr("data-erp-id"));
+    $("#cliente-razao-social").html($("#vxglocli_id option:selected").attr("data-razao-social"));
+    $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
+    $("#cliente-cnpj-cpf").html($("#vxglocli_id option:selected").attr("data-cnpj-cpf"));
+    $("#cliente-cidade-uf").html($("#vxglocli_id option:selected").attr("data-cidade-uf"));
+    $("#cliente-limite-credito").html('+ R$ '+number_format($("#vxglocli_id option:selected").attr("data-limite-credito"),2,',','.'));
+    $("#cliente-saldo-devedor").html('- R$ '+number_format($("#vxglocli_id option:selected").attr("data-saldo-devedor"),2,',','.'));
+    $("#cliente-desconto-maximo").html( $("#vxfatrisco option:selected").text()+'% (risco '+$("#vxglocli_id option:selected").attr("data-risco")+')' );
+
+    var credito = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
+    var html    = "";
+
+
+    if(parseFloat(credito) == 0.00)
+    {
+        html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>= R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
+    }
+    else if(parseFloat(credito) <= 0.00)
+    {
+        html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
+    }
+    else
+    {
+        html = "<span style='font-weight: 800; color: rgba(19,157,0,0.91)'>+ R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
+    }
+
+    $("#cliente-credito-disponivel").html(html);
+
+    //armazena valor para listar produtos da tabela de preço (produtos do mesmo estado do cliente)
+    $("#uf-tabela-preco").val($("#vxglocli_id option:selected").attr("data-uf"));
+
+
+    //calcula novamente o total do pedido para gerar os alertas e informações adicionais na blade
+    calculaTotalPedido();
+
+
+    //exibe a informação de desconto máximo por cliente
+    exibeDescontoMaximo('cliente');
+
+
+    //caso o crédito do cliente seja R$ 0,00, permitimos apenas a seleção da condição de pagamento com libera-desconto = 1
+    if(parseFloat(credito) <= 0.00)
+    {
+        $("#vxglocpgto_id option[data-desconto='0']").attr("disabled",true);
+    }
+    else
+    {
+        $("#vxglocpgto_id option[data-desconto='0']").attr("disabled",false);
+    }
+
+}
+
+
+
+//---------------------------------------------------------------------------
+//
 // Validação do passo 1 (seleção de cliente)
 //
 //---------------------------------------------------------------------------
@@ -63,6 +125,7 @@ function validateStepOne() {
 //
 //---------------------------------------------------------------------------
 function validateStepTwo() {
+
 
     var valor = $('.pedido-valor-total').html().replace('R$ ','').replace('.','').replace(',','.');
 
@@ -584,11 +647,11 @@ function adicionaProduto()
         $("#erro-produto").attr("hidden",false);
         $("#erro-produto span").html("Lote não selecionado");
     }
-    else if($("#produto_quantidade").val() < 1)
+    else if($("#produto_quantidade").val() < parseInt($('#produto_id option:selected').attr('qtde_minima')))
     {
         success = false;
         $("#erro-produto").attr("hidden",false);
-        $("#erro-produto span").html("A quantidade do produto não pode ser menor que 1");
+        $("#erro-produto span").html("Para adicionar ao pedido, insira pelo menos "+$('#produto_id option:selected').attr('qtde_minima')+" unidades desse produto");
     }
     else if($("#produto_quantidade").val() > parseInt($("#lote_id option:selected").attr("saldo")))
     {

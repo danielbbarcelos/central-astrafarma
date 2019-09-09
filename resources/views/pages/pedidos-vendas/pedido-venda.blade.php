@@ -273,7 +273,7 @@
                                                                         @endif
                                                                         <input type='hidden' name='produto_preco_total[]' value='{{number_format($item->valor_total,2,',','.')}}'>
                                                                         <a href="/produtos/{{isset($item->produto) ? $item->produto->id : json_decode($item->produto_data)->id}}/show" target="_blank" class='tooltipped cursor-pointer' data-position='top' data-delay='10' data-tooltip="Código: {{isset($item->produto) ? $item->produto->erp_id : json_decode($item->produto_data)->erp_id}}">
-                                                                            {{isset($item->produto) ? $item->produto->descricao : json_decode($item->produto_data)->descricao}}
+                                                                            {{isset($item->produto) ? ($item->produto->descricao . (isset($item->produto->fabricante) ? ' - '.$item->produto->fabricante : '')) : (json_decode($item->produto_data)->descricao  . (isset(json_decode($item->produto_data)->fabricante) ? ' - '.json_decode($item->produto_data)->fabricante : ''))}}
                                                                         </a>
                                                                     </td>
                                                                     <td style='width: 10%; text-align: center !important;'>
@@ -448,7 +448,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.82e111889c171b1db3a86a4ab30767826.js"></script>
+    <script src="/assets/js/pages/pedido-venda.92e111889c171b1db3a86a4ab30767826.js"></script>
 
     @if($pedido->situacao_pedido !== 'A' and $pedido->situacao_pedido !== 'S')
         <script>
@@ -459,56 +459,7 @@
     <script>
         $(document).ready(function(){
 
-            $("#data-cliente").attr("hidden",false);
-            $("#cliente-erp-id").html($("#vxglocli_id option:selected").attr("data-erp-id"));
-            $("#cliente-razao-social").html($("#vxglocli_id option:selected").attr("data-razao-social"));
-            $("#cliente-nome-fantasia").html($("#vxglocli_id option:selected").attr("data-nome-fantasia"));
-            $("#cliente-cnpj-cpf").html($("#vxglocli_id option:selected").attr("data-cnpj-cpf"));
-            $("#cliente-cidade-uf").html($("#vxglocli_id option:selected").attr("data-cidade-uf"));
-            $("#cliente-limite-credito").html('+ R$ '+number_format($("#vxglocli_id option:selected").attr("data-limite-credito"),2,',','.'));
-            $("#cliente-saldo-devedor").html('- R$ '+number_format($("#vxglocli_id option:selected").attr("data-saldo-devedor"),2,',','.'));
-            $("#cliente-desconto-maximo").html( $("#vxfatrisco option:selected").text()+'% (risco '+$("#vxglocli_id option:selected").attr("data-risco")+')' );
-
-            var credito = $("#vxglocli_id option:selected").attr("data-credito-disponivel");
-            var html    = "";
-
-
-            if(parseFloat(credito) == 0.00)
-            {
-                html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>= R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
-            }
-            else if(parseFloat(credito) <= 0.00)
-            {
-                html = "<span style='font-weight: 800; color: rgba(182,11,35,0.8)'>- R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
-            }
-            else
-            {
-                html = "<span style='font-weight: 800; color: rgba(19,157,0,0.91)'>+ R$ "+number_format(Math.abs(parseFloat(credito)),2,',','.')+"</span>";
-            }
-
-            $("#cliente-credito-disponivel").html(html);
-
-            //armazena valor para listar produtos da tabela de preço (produtos do mesmo estado do cliente)
-            $("#uf-tabela-preco").val($("#vxglocli_id option:selected").attr("data-uf"));
-
-
-            //calcula novamente o total do pedido para gerar os alertas e informações adicionais na blade
-            calculaTotalPedido();
-
-
-            //exibe a informação de desconto máximo por cliente
-            exibeDescontoMaximo('cliente');
-
-
-            //caso o crédito do cliente seja R$ 0,00, permitimos apenas a seleção da condição de pagamento com libera-desconto = 1
-            if(parseFloat(credito) <= 0.00)
-            {
-                $("#vxglocpgto_id option[data-desconto='0']").attr("disabled",true);
-            }
-            else
-            {
-                $("#vxglocpgto_id option[data-desconto='0']").attr("disabled",false);
-            }
+            inicializaEdicao();
 
         })
     </script>
