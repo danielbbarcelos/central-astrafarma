@@ -19,7 +19,7 @@
 
     <!-- Theme Styles -->
     <link href="{{url('/assets/css/alpha.c4ca4238a0b923820dcc509a6f75849b.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{url('/assets/css/custom.1ceccbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url('/assets/css/custom.2ceccbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
 
 
 </head>
@@ -60,7 +60,15 @@
                 </div>
             </div>
         </main>
-    </div>  
+    </div>
+
+
+
+    @if(env('APP_TEST') == true)
+        @include("layouts.footer-homologacao")
+    @endif
+
+
 
     <!-- Javascripts -->
     <script src="{{url('/assets/plugins/jquery/jquery-2.2.0.min.js')}}"></script>

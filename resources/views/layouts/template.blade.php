@@ -23,7 +23,7 @@
 
     <!-- Theme Styles -->
     <link href="{{url('/assets/css/alpha.c4ca4238a0b923820dcc509a6f75849b.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{url('/assets/css/custom.1ceccbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url('/assets/css/custom.2ceccbc87e4b5ce2fe28308fd9f2a7baf3.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{url('/assets/css/ribbon.css')}}" rel="stylesheet" type="text/css"/>
 
     <!-- Jquery -->
@@ -53,6 +53,10 @@
         
     </div>
     <div class="left-sidebar-hover"></div>
+
+    @if(env('APP_TEST') == true)
+        @include("layouts.footer-homologacao")
+    @endif
 
     @include("layouts.modal-dialog")
     @include("layouts.scripts")

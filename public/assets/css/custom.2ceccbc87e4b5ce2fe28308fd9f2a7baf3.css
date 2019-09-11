@@ -949,3 +949,25 @@ hr{
     -webkit-transition : -webkit-filter 600ms linear
 }
 
+
+
+/* Footer exibido no ambiente de homologacao */
+#footer-homologacao{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 35px;
+    background-color: #656e76;
+    color: white;
+    text-align: center;
+    z-index: 10000
+}
+
+#footer-homologacao label{
+    margin-top: 10px;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+}
+
