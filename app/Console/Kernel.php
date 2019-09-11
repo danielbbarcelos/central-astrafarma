@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        //ativa vex sync
         if(env('VEXSYNC') == true)
         {
             $schedule->call(function(){
@@ -36,6 +37,23 @@ class Kernel extends ConsoleKernel
             $schedule->call(function(){
                 MobileVexSync::sincroniza();
             })->everyMinute();
+        }
+
+
+        //reinicia o mysql
+        if(env('APP_ENV') == 'production')
+        {
+            $schedule->call(function(){
+
+                exec('service mysql restart');
+
+            })->dailyAt('06:00');
+
+            $schedule->call(function(){
+
+                exec('service mysql restart');
+
+            })->dailyAt('20:00');
         }
 
     }
