@@ -101,11 +101,14 @@ class ClienteController extends Controller
                     $cliente->fone             = $item['FONE'];
                     $cliente->nome_contato     = $item['NOME_CONTATO'];
                     $cliente->email            = $item['EMAIL'];
+                    $cliente->email_con        = $item['EMAIL_CON'];
+                    $cliente->email_fin        = $item['EMAIL_fin'];
                     $cliente->risco            = isset($item['RISCO']) ? $item['RISCO'] : 'E';
                     $cliente->limite_credito   = Helper::formataDecimal($item['LIMITE_CREDITO']);
                     $cliente->saldo_devedor    = Helper::formataDecimal($item['SALDO_DEVEDOR']);
                     $cliente->envia_boleto     = strtolower($item['ENVIA_BOLETO']) == 'nao' ? '0' : '1';
                     $cliente->obs_nota         = $item['OBS_NOTA'];
+                    $cliente->obs_interna      = $item['OBS_INTERNA'];
                     $cliente->status           = $status;
                     $cliente->created_at       = new \DateTime();
                     $cliente->updated_at       = new \DateTime();

@@ -126,8 +126,9 @@
                                                                 data-limite-credito="{{$item->limite_credito}}"
                                                                 data-saldo-devedor="{{$item->saldo_devedor}}"
                                                                 data-credito-disponivel="{{$item->limite_credito - $item->saldo_devedor}}"
-                                                                data-observacao="{{$item->obs_nota}}"
                                                                 data-risco="{{$item->risco}}"
+                                                                data-observacao-nota="{{$item->obs_nota}}"
+                                                                data-observacao-interna="{{$item->obs_interna}}"
                                                                 @if($pedido->cliente->id == $item->id) selected @endif
                                                             >{{$item->erp_id.' - '.($item->razao_social !== '' ? $item->razao_social : 'Razão social não identificada')}}
                                                             </option>
@@ -448,7 +449,7 @@
     <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/assets/plugins/materialize-stepper/stepper.js"></script>
     <script src="/assets/plugins/bm-datepicker/js/bootstrap-material-datetimepicker.js"></script>
-    <script src="/assets/js/pages/pedido-venda.92e111889c171b1db3a86a4ab30767826.js"></script>
+    <script src="/assets/js/pages/pedido-venda.102e111889c171b1db3a86a4ab30767826.js"></script>
 
     @if($pedido->situacao_pedido !== 'A' and $pedido->situacao_pedido !== 'S')
         <script>

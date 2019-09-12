@@ -70,8 +70,8 @@
                                 </div>
 
                                 <div class="input-field col s3">
-                                    <input type="text" maxlength="100" readonly value="{{$produto->unidade_principal or 'Não informado'}}">
-                                    <label>Unidade secundária</label>
+                                    <input type="text" maxlength="100" readonly value="{{(int)$produto->qtde_minima > 0 ? $produto->qtde_minima : '1'}}">
+                                    <label>Qtde. mínima por pedido</label>
                                 </div>
 
 

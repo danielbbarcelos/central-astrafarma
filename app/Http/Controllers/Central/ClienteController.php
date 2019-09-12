@@ -129,8 +129,11 @@ class ClienteController extends Controller
             $cliente->fone              = Helper::removeMascara($request['fone']);
             $cliente->nome_contato      = $request['nome_contato'];
             $cliente->email             = $request['email'];
+            $cliente->email_con         = $request['email_con'];
+            $cliente->email_fin         = $request['email_fin'];
             $cliente->envia_boleto      = $request['envia_boleto'];
             $cliente->obs_nota          = $request['obs_nota'];
+            $cliente->obs_interna       = $request['obs_interna'];
             $cliente->risco             = 'E';
             $cliente->status            = isset($request['status']) ? $request['status'] : 0;
             $cliente->created_at        = new \DateTime();
@@ -238,8 +241,11 @@ class ClienteController extends Controller
                 $cliente->fone              = Helper::removeMascara($request['fone']);
                 $cliente->nome_contato      = $request['nome_contato'];
                 $cliente->email             = $request['email'];
+                $cliente->email_con         = $request['email_con'];
+                $cliente->email_fin         = $request['email_fin'];
                 $cliente->envia_boleto      = $request['envia_boleto'];
                 $cliente->obs_nota          = $request['obs_nota'];
+                $cliente->obs_interna       = $request['obs_interna'];
                 $cliente->status            = isset($request['status']) ? $request['status'] : 0;
                 $cliente->updated_at        = new \DateTime();
                 $cliente->save();

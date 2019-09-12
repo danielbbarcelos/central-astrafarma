@@ -128,7 +128,7 @@
                                     <label>Nome do contato</label>
                                 </div>
                                 <div class="input-field col s12 m4">
-                                    <input type="email" placeholder="" required name="email" id="email" class="validate" maxlength="100" value="{{$cliente->email or old('email')}}">
+                                    <input type="email" placeholder="" required name="email_con" id="email_con" class="validate" maxlength="100" value="{{$cliente->email_con or old('email_con')}}">
                                     <label>E-mail de contato</label>
                                 </div>
                                 <div class="input-field col s12 m1">
@@ -138,6 +138,15 @@
                                 <div class="input-field col s12 m3">
                                     <input type="text" placeholder="" name="fone" id="fone" class="mask-fone" maxlength="10" value="{{$cliente->fone or old('fone')}}">
                                     <label>Fone</label>
+                                </div>
+
+                                <div class="input-field col s12 m6">
+                                    <input type="email" placeholder="" required name="email_fin" id="email_fin" class="validate" maxlength="100" value="{{$cliente->email_fin or old('email_fin')}}">
+                                    <label>E-mail do financeiro</label>
+                                </div>
+                                <div class="input-field col s12 m6">
+                                    <input type="email" placeholder="" required name="email" id="email" class="validate" maxlength="100" value="{{$cliente->email or old('email')}}">
+                                    <label>E-mail de envio de NF-e</label>
                                 </div>
                             </div>
 
@@ -193,10 +202,16 @@
 
                             <div class="row row-input">
 
-                                <div class="input-field col s12 m12">
+                                <div class="input-field col s12 m6">
                                     <textarea class="materialize-textarea" name="obs_nota" style="height: 6rem"  id="obs_nota"
                                               maxlength="10000" length="10000">{{$cliente->obs_nota or old('obs_nota')}}</textarea>
                                     <label>Observação padrão para NF-e</label>
+                                </div>
+
+                                <div class="input-field col s12 m6">
+                                    <textarea class="materialize-textarea" name="obs_interna" style="height: 6rem"  id="obs_interna"
+                                              maxlength="10000" length="10000">{{$cliente->obs_interna or old('obs_interna')}}</textarea>
+                                    <label>Observação interna</label>
                                 </div>
 
                                 <div class="col s12">
