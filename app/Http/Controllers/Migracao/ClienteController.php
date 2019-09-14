@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 //packages
 
 //extras
+use Illuminate\Support\Facades\Log;
 use Validator;
 use Carbon\Carbon;
 
@@ -103,7 +104,7 @@ class ClienteController extends Controller
                     $cliente->nome_contato       = $item['NOME_CONTATO'];
                     $cliente->email              = $item['EMAIL'];
                     $cliente->email_con          = $item['EMAIL_CON'];
-                    $cliente->email_fin          = $item['EMAIL_fin'];
+                    $cliente->email_fin          = $item['EMAIL_FIN'];
                     $cliente->risco              = isset($item['RISCO']) ? $item['RISCO'] : 'E';
                     $cliente->limite_credito     = Helper::formataDecimal($item['LIMITE_CREDITO']);
                     $cliente->saldo_devedor      = Helper::formataDecimal($item['SALDO_DEVEDOR']);
@@ -117,7 +118,7 @@ class ClienteController extends Controller
                 }
                 catch(\Exception $e)
                 {
-                    dd($item, $e);
+                    Log::info('ERRO migração do cliente: '.json_encode($item));
                 }
 
             }
