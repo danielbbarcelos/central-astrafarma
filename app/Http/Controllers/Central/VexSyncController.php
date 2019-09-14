@@ -126,4 +126,33 @@ class VexSyncController extends Controller
     }
 
 
+    //post para excluir um objeto
+    public function excluiPost(Request $request, $id)
+    {
+        $success = true;
+        $log     = [];
+
+        $sync = VexSync::where('id',$id)->first();
+
+        if(!isset($sync))
+        {
+            $success = false;
+            $log[]   = ['error' => 'Item não encontrado'];
+        }
+        else
+        {
+
+            $sync->delete();
+
+            $log[]   = ['success' => 'VEX Sync excluído com sucesso'];
+
+        }
+
+        $response['success'] = $success;
+        $response['log']     = $log;
+        return $response;
+    }
+
+
+
 }

@@ -49,7 +49,7 @@ class VexSyncLocator extends Controller
     /**
      * @description Alteração de status do VEX Sync
      * @info Bloqueio e desbloqueio de item sincronizado no VEX Sync via CentralVEX
-     * @param Request $request
+     * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function alteraStatus($id)
@@ -57,6 +57,22 @@ class VexSyncLocator extends Controller
         $controller = new VexSyncController();
 
         $response   = $controller->alteraStatus($id);
+
+        return Redirect::back()->withInput()->with('log',$response['log']);
+
+    }
+
+    /**
+     * @description Exclusão de log do VEX Sync
+     * @info Exclusão de log no VEX Sync via CentralVEX
+     * @param Request $request, $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function excluiPost(Request $request, $id)
+    {
+        $controller = new VexSyncController();
+
+        $response   = $controller->excluiPost($request, $id);
 
         return Redirect::back()->withInput()->with('log',$response['log']);
 

@@ -95,23 +95,33 @@
                                                 <span hidden>{{$item->updated_at}}</span>
                                                 {{Carbon::createFromFormat('Y-m-d H:i:s',$item->updated_at)->format('d/m/Y - H:i:s')}}
                                             </td>
-                                            @if((strpos(Request::getRequestUri(), 'sem-sucesso') == true) and Permission::check('adicionaPost','Chamado','Central'))
+                                            @if((strpos(Request::getRequestUri(), 'sem-sucesso') == true))
                                                 <td class="uk-text-center">
-                                                    @if((int)$item->bloqueado == 0)
-                                                        <a href="{{url('/vex-sync/logs/'.$item->id.'/status')}}"
-                                                           class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Bloquear sincronização">
-                                                            <i class="material-icons" style="color: #b60b23">block</i>
-                                                        </a>
-                                                    @else
-                                                        <a href="{{url('/vex-sync/logs/'.$item->id.'/status')}}"
-                                                           class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Desbloquear sincronização">
-                                                            <i class="material-icons" style="color: #46ab7f">check</i>
+                                                    @if(Permission::check('alteraStatus','VexSync','Central'))
+                                                        @if((int)$item->bloqueado == 0)
+                                                            <a href="{{url('/vex-sync/logs/'.$item->id.'/status')}}"
+                                                               class="waves-effect margin-5 white tooltipped waves-light btn btn-sm m-b-xs" data-position="top" data-delay="10" data-tooltip="Bloquear sincronização">
+                                                                <i class="material-icons" style="color: #b60b23">block</i>
+                                                            </a>
+                                                        @else
+                                                            <a href="{{url('/vex-sync/logs/'.$item->id.'/status')}}"
+                                                               class="waves-effect margin-5 white tooltipped waves-light btn btn-sm m-b-xs" data-position="top" data-delay="10" data-tooltip="Desbloquear sincronização">
+                                                                <i class="material-icons" style="color: #46ab7f">check</i>
+                                                            </a>
+                                                        @endif
+                                                    @endif
+                                                    @if(Permission::check('excluiPost','VexSync','Central'))
+                                                        <a class="waves-effect margin-5 white tooltipped waves-light btn btn-sm m-b-xs" data-position="top" data-delay="10" data-tooltip="Excluir" onclick="excluiItem('{!! url('/vex-sync/logs/'.$item->id.'/del') !!}')">
+                                                            <i class="material-icons icon-danger">delete_forever</i>
                                                         </a>
                                                     @endif
-                                                    <a onclick="novoChamado('{!! $item->id !!}','{!! strtoupper($item->action) !!}','{!! Aliases::entityByTable($item->tabela) !!}','{!! $item->tabela_id !!}','{!! $item->webservice !!}','{!! Carbon::createFromFormat('Y-m-d H:i:s',$item->updated_at)->format('d/m/Y - H:i:s') !!}','{!! $item->log !!}')"
-                                                       class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Abrir chamado">
-                                                        <i class="material-icons">help</i>
-                                                    </a>
+                                                    @if(Permission::check('adicionaPost','Chamado','Central'))
+                                                        <a onclick="novoChamado('{!! $item->id !!}','{!! strtoupper($item->action) !!}','{!! Aliases::entityByTable($item->tabela) !!}','{!! $item->tabela_id !!}','{!! $item->webservice !!}','{!! Carbon::createFromFormat('Y-m-d H:i:s',$item->updated_at)->format('d/m/Y - H:i:s') !!}','{!! $item->log !!}')"
+                                                           class="waves-effect margin-5 white tooltipped waves-light btn btn-sm m-b-xs" data-position="top" data-delay="10" data-tooltip="Abrir chamado">
+                                                            <i class="material-icons">help</i>
+                                                        </a>
+                                                    @endif
+
                                                 </td>
                                             @endif
                                         </tr>
@@ -140,6 +150,11 @@
         @include('pages.chamados.modal-adiciona')
     @endif
 
+
+    <!-- form é submetido na confirmação de "onclick" presente na tag "a" de cada item. A action é gerada durante a confirmação da exclusão -->
+    <form id="form-delete" method="post" action="">
+        {{csrf_field()}}
+    </form>
 
 @endsection
 

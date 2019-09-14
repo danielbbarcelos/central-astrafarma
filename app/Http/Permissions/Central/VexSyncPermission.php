@@ -19,6 +19,7 @@ class VexSyncPermission
 
        'lista'        => [ 'codigo' => 'CENSYN001', 'prioridade' => '1', 'superior' => null,        'controle' => '1', 'titulo' => 'Sistema > Logs de sincronização', 'descricao' => 'Tela de logs de sincronização'],
        'alteraStatus' => [ 'codigo' => 'CENSYN002', 'prioridade' => '0', 'superior' => 'CENSYN001', 'controle' => '1', 'titulo' => 'Sistema > Logs de sincronização', 'descricao' => 'Bloqueio e desbloqueio de sincronização'],
+       'excluiPost'   => [ 'codigo' => 'CENSYN003', 'prioridade' => '0', 'superior' => 'CENSYN001', 'controle' => '1', 'titulo' => 'Sistema > Logs de sincronização', 'descricao' => 'Excluir log de sincronização'],
 
     ];
 
