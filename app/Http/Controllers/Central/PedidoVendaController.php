@@ -551,12 +551,10 @@ class PedidoVendaController extends Controller
                 //busca os dados para incluir o ERP ID
                 $cliente  = Cliente::find($request['vxglocli_id']);
                 $condicao = CondicaoPagamento::find($request['vxglocpgto_id']);
-                $vendedor = Vendedor::find($this->vendedorId);
 
                 $pedido->vxgloempfil_id      = $this->empfilId;
                 $pedido->vxglocli_erp_id     = $cliente->erp_id;
                 $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
-                $pedido->vxfatvend_erp_id    = $vendedor->erp_id;
                 $pedido->cliente_data        = json_encode($cliente, JSON_UNESCAPED_UNICODE);
                 $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('d/m/Y',$request['data_entrega'])->format('Y-m-d') : null;
                 $pedido->status_entrega      = $request['status_entrega'];
