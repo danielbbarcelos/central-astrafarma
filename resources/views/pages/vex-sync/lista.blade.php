@@ -67,6 +67,7 @@
                                     @foreach($syncs as $item)
                                         <tr>
                                             <td>
+                                                <span hidden>{{$item->id}}</span>
                                                 @if(strpos(Request::getRequestUri(), 'com-sucesso') == true)
                                                     <i class="tooltipped material-icons" style="font-size: 14px; z-index: 9999; color: #72bc6e; cursor: pointer" data-position="top" data-delay="10" data-tooltip="Com sucesso">fiber_manual_record</i>
                                                 @elseif(strpos(Request::getRequestUri(), 'pendentes') == true)
@@ -176,10 +177,9 @@
 
 
         $("#btn-sync").on("click",function(){
-           $("#icon-sync1").css("display","none");
-           $("#icon-sync2").css("display","block");
-           $(this).attr("disabled",true);
-           window.location = '/api/v1/vex-sync/sincroniza?web=true'
+            pageBlockUI('Por favor aguarde. VEX Sync em execução...');
+
+            window.location = '/api/v1/vex-sync/sincroniza?web=true'
         });
 
     </script>
