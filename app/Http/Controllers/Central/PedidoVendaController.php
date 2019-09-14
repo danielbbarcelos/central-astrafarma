@@ -65,9 +65,12 @@ class PedidoVendaController extends Controller
 
             })->where(function($query){
 
-                $query->where('vx_fat_pvenda.vxfatvend_erp_id',$this->vendedorErpId);
-                $query->orWhere('vx_glo_cli.vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
-                $query->orWhere('vx_glo_cli.vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+                if((int)Auth::user()->vxwebperfil_id !== 1)
+                {
+                    $query->where('vx_fat_pvenda.vxfatvend_erp_id',$this->vendedorErpId);
+                    $query->orWhere('vx_glo_cli.vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
+                    $query->orWhere('vx_glo_cli.vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+                }
 
             })->orderBy('vx_fat_pvenda.updated_at','desc')->get();
 
@@ -94,8 +97,11 @@ class PedidoVendaController extends Controller
 
         })->where(function($query){
 
-            $query->where('vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
-            $query->orWhere('vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+            if((int)Auth::user()->vxwebperfil_id !== 1)
+            {
+                $query->where('vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
+                $query->orWhere('vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+            }
 
         })->where('status','1')->orderBy('razao_social','asc')->get();
 
@@ -320,9 +326,12 @@ class PedidoVendaController extends Controller
 
             })->where(function($query){
 
-                $query->where('vx_fat_pvenda.vxfatvend_erp_id',$this->vendedorErpId);
-                $query->orWhere('vx_glo_cli.vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
-                $query->orWhere('vx_glo_cli.vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+                if((int)Auth::user()->vxwebperfil_id !== 1)
+                {
+                    $query->where('vx_fat_pvenda.vxfatvend_erp_id',$this->vendedorErpId);
+                    $query->orWhere('vx_glo_cli.vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
+                    $query->orWhere('vx_glo_cli.vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+                }
 
             })->first();
 
@@ -777,10 +786,13 @@ class PedidoVendaController extends Controller
 
             })->where(function($query){
 
-                $query->where('vx_fat_pvenda.vxfatvend_erp_id',$this->vendedorErpId);
-                $query->orWhere('vx_glo_cli.vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
-                $query->orWhere('vx_glo_cli.vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
-
+                if((int)Auth::user()->vxwebperfil_id !== 1)
+                {
+                    $query->where('vx_fat_pvenda.vxfatvend_erp_id',$this->vendedorErpId);
+                    $query->orWhere('vx_glo_cli.vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
+                    $query->orWhere('vx_glo_cli.vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+                }
+                
             })->first();
 
 

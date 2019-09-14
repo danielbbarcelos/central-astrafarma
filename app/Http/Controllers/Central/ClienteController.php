@@ -50,8 +50,11 @@ class ClienteController extends Controller
 
         })->where(function($query){
 
-            $query->where('vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
-            $query->orWhere('vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+            if((int)Auth::user()->vxwebperfil_id !== 1)
+            {
+                $query->where('vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
+                $query->orWhere('vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+            }
 
         })->orderBy('razao_social','asc')->get();
 
@@ -171,8 +174,11 @@ class ClienteController extends Controller
 
         })->where(function($query){
 
-            $query->where('vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
-            $query->orWhere('vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+            if((int)Auth::user()->vxwebperfil_id !== 1)
+            {
+                $query->where('vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
+                $query->orWhere('vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+            }
 
         })->first();
 
@@ -288,8 +294,11 @@ class ClienteController extends Controller
 
         })->where(function($query){
 
-            $query->where('vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
-            $query->orWhere('vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+            if((int)Auth::user()->vxwebperfil_id !== 1)
+            {
+                $query->where('vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
+                $query->orWhere('vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+            }
 
         })->first();
 
