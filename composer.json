@@ -9,6 +9,7 @@
         "anouar/fpdf": "^2.0",
         "barryvdh/laravel-cors": "^0.11.2",
         "daniel2mind/laravel-locators": "^1.1",
+        "doctrine/dbal": "^2.9",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.5.*",

@@ -48,7 +48,12 @@ class ClienteController extends Controller
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
 
-        })->where('vxfatvend_erp_id',Auth::user()->vendedor->erp_id)->orderBy('razao_social','asc')->get();
+        })->where(function($query){
+
+            $query->where('vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
+            $query->orWhere('vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+
+        })->orderBy('razao_social','asc')->get();
 
         $response['success']  = $success;
         $response['log']      = $log;
@@ -107,37 +112,37 @@ class ClienteController extends Controller
         if ($success)
         {
             $cliente = new Cliente();
-            $cliente->erp_id            = null;
-            $cliente->vxgloempfil_id    = $this->empfilId;
-            $cliente->vxfatvend_erp_id  = Auth::user()->vendedor->erp_id;
-            $cliente->loja              = '01';
-            $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
-            $cliente->razao_social      = $request['razao_social'];
-            $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
-            $cliente->cnpj_cpf          = $request['cnpj_cpf'];
-            $cliente->contribuinte      = $request['contribuinte'];
-            $cliente->insc_estadual     = strtoupper($request['insc_estadual']);
-            $cliente->tipo_cliente      = strtoupper($request['tipo_cliente']);
-            $cliente->endereco          = $request['endereco'];
-            $cliente->complemento       = $request['complemento'];
-            $cliente->bairro            = $request['bairro'];
-            $cliente->cep               = Helper::removeMascara($request['cep']);
-            $cliente->cidade            = $request['cidade'];
-            $cliente->cod_mun           = $request['cidade'] !== null ? Cidade::where('nome',$cliente->cidade)->first()->cod_mun : null;
-            $cliente->uf                = $request['uf'];
-            $cliente->ddd               = Helper::removeMascara($request['ddd']);
-            $cliente->fone              = Helper::removeMascara($request['fone']);
-            $cliente->nome_contato      = $request['nome_contato'];
-            $cliente->email             = $request['email'];
-            $cliente->email_con         = $request['email_con'];
-            $cliente->email_fin         = $request['email_fin'];
-            $cliente->envia_boleto      = $request['envia_boleto'];
-            $cliente->obs_nota          = $request['obs_nota'];
-            $cliente->obs_interna       = $request['obs_interna'];
-            $cliente->risco             = 'E';
-            $cliente->status            = isset($request['status']) ? $request['status'] : 0;
-            $cliente->created_at        = new \DateTime();
-            $cliente->updated_at        = new \DateTime();
+            $cliente->erp_id             = null;
+            $cliente->vxgloempfil_id     = $this->empfilId;
+            $cliente->vxfatvend_erp_id_1 = Auth::user()->vendedor->erp_id;
+            $cliente->loja               = '01';
+            $cliente->tipo_pessoa        = strtoupper($request['tipo_pessoa']);
+            $cliente->razao_social       = $request['razao_social'];
+            $cliente->nome_fantasia      = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
+            $cliente->cnpj_cpf           = $request['cnpj_cpf'];
+            $cliente->contribuinte       = $request['contribuinte'];
+            $cliente->insc_estadual      = strtoupper($request['insc_estadual']);
+            $cliente->tipo_cliente       = strtoupper($request['tipo_cliente']);
+            $cliente->endereco           = $request['endereco'];
+            $cliente->complemento        = $request['complemento'];
+            $cliente->bairro             = $request['bairro'];
+            $cliente->cep                = Helper::removeMascara($request['cep']);
+            $cliente->cidade             = $request['cidade'];
+            $cliente->cod_mun            = $request['cidade'] !== null ? Cidade::where('nome',$cliente->cidade)->first()->cod_mun : null;
+            $cliente->uf                 = $request['uf'];
+            $cliente->ddd                = Helper::removeMascara($request['ddd']);
+            $cliente->fone               = Helper::removeMascara($request['fone']);
+            $cliente->nome_contato       = $request['nome_contato'];
+            $cliente->email              = $request['email'];
+            $cliente->email_con          = $request['email_con'];
+            $cliente->email_fin          = $request['email_fin'];
+            $cliente->envia_boleto       = $request['envia_boleto'];
+            $cliente->obs_nota           = $request['obs_nota'];
+            $cliente->obs_interna        = $request['obs_interna'];
+            $cliente->risco              = 'E';
+            $cliente->status             = isset($request['status']) ? $request['status'] : 0;
+            $cliente->created_at         = new \DateTime();
+            $cliente->updated_at         = new \DateTime();
             $cliente->save();
 
             //gera vex sync
@@ -164,7 +169,12 @@ class ClienteController extends Controller
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
 
-        })->where('vxfatvend_erp_id',Auth::user()->vendedor->erp_id)->first();
+        })->where(function($query){
+
+            $query->where('vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
+            $query->orWhere('vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+
+        })->first();
 
         if(!isset($cliente))
         {
@@ -222,7 +232,6 @@ class ClienteController extends Controller
 
             if ($success)
             {
-                $cliente->vxfatvend_erp_id  = Auth::user()->vendedor->erp_id;
                 $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
                 $cliente->razao_social      = $request['razao_social'];
                 $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
@@ -277,7 +286,12 @@ class ClienteController extends Controller
             $query->where('vxgloempfil_id',$this->empfilId);
             $query->orWhere('vxgloempfil_id','=',null);
 
-        })->where('vxfatvend_erp_id',Auth::user()->vendedor->erp_id)->first();
+        })->where(function($query){
+
+            $query->where('vxfatvend_erp_id_1',Auth::user()->vendedor->erp_id);
+            $query->orWhere('vxfatvend_erp_id_2',Auth::user()->vendedor->erp_id);
+
+        })->first();
 
         if(!isset($cliente))
         {
