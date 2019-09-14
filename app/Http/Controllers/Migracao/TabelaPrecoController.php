@@ -128,6 +128,7 @@ class TabelaPrecoController extends Controller
                     catch (\Exception $e)
                     {
                         $message .= "STATUS DA MIGRAÇÃO: ERRO\n\n";
+                        $message .= "VARIÁVEIS: ".json_encode($item)."\n\n";
                         $message .= 'MOTIVO: Code '.$e->getFile().' - File: '.$e->getFile().' ('.$e->getLine().') - Message: '.$e->getMessage()."\n\n";
                     }
 
@@ -135,6 +136,7 @@ class TabelaPrecoController extends Controller
                 else
                 {
                     $message .= "STATUS DA MIGRAÇÃO: ERRO\n\n";
+                    $message .= "VARIÁVEIS: ".json_encode($item)."\n\n";
                     $message .= "MOTIVO: produto não encontrado via ERP_ID \n\n";
                 }
 
