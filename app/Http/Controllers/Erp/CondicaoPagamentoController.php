@@ -47,6 +47,12 @@ class CondicaoPagamentoController extends Controller
             unset($vars['empresa_id']);
             unset($vars['filial_id']);
 
+            $vars['web']    = $vars['vexweb'];
+            $vars['mobile'] = $vars['vexmobile'];
+            unset($vars['vexweb']);
+            unset($vars['vexmobile']);
+
+
             if($empresaId !== null and $filialId !== null)
             {
                 $empfil = EmpresaFilial::where('filial_erp_id',$filialId)->first();
@@ -99,6 +105,11 @@ class CondicaoPagamentoController extends Controller
 
             unset($vars['empresa_id']);
             unset($vars['filial_id']);
+
+            $vars['web']    = $vars['vexweb'];
+            $vars['mobile'] = $vars['vexmobile'];
+            unset($vars['vexweb']);
+            unset($vars['vexmobile']);
 
             if($empresaId !== null and $filialId !== null)
             {
