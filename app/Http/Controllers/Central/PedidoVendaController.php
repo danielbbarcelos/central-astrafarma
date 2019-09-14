@@ -320,7 +320,7 @@ class PedidoVendaController extends Controller
 
         $pedido = PedidoVenda::join('vx_glo_cli','vx_glo_cli.erp_id','=','vx_fat_pvenda.vxglocli_erp_id')
             ->select('vx_fat_pvenda.*','vx_glo_cli.vxfatvend_erp_id_1','vx_glo_cli.vxfatvend_erp_id_2')
-            ->where('id',$pedido_venda_id)
+            ->where('vx_fat_pvenda.id',$pedido_venda_id)
             ->where(function($query){
 
                 $query->where('vx_fat_pvenda.vxgloempfil_id',$this->empfilId);
@@ -784,7 +784,7 @@ class PedidoVendaController extends Controller
 
         $pedido = PedidoVenda::join('vx_glo_cli','vx_glo_cli.erp_id','=','vx_fat_pvenda.vxglocli_erp_id')
             ->select('vx_fat_pvenda.*','vx_glo_cli.vxfatvend_erp_id_1','vx_glo_cli.vxfatvend_erp_id_2')
-            ->where('id',$pedido_venda_id)
+            ->where('vx_fat_pvenda.id',$pedido_venda_id)
             ->where(function($query){
 
                 $query->where('vx_fat_pvenda.vxgloempfil_id',$this->empfilId);
