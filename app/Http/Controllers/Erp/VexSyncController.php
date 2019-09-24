@@ -147,12 +147,12 @@ class VexSyncController extends Controller
         {
             $guzzle  = new Client();
             $result  = $guzzle->request('GET', $assinatura->webservice_base . $object->ws);
-            /*$result  = json_decode($result->getBody());*/
             $result  = (string)$result->getBody();
             $result  = mb_convert_encoding($result, 'UTF-8');
+	    $result  = json_decode($result);
 
-            $result = Helper::retornoERP($result->result);
-            $result = json_decode($result, true);
+            $result  = Helper::retornoERP($result->result);
+            $result  = json_decode($result, true);
 
             //busca a controller para realizar o insert
             $controller = Aliases::erpControllerByTable($object->tabela);
@@ -162,7 +162,7 @@ class VexSyncController extends Controller
 
             $log .= $return['log'];
         }
-        catch(\Exception $e)
+        catch(\Throwable $e)
         {
             $success = false;
             $log    .= $e->getFile().':'.$e->getLine()."\n\n".$e->getCode().' - '.$e->getMessage();
@@ -185,9 +185,9 @@ class VexSyncController extends Controller
         {
             $guzzle  = new Client();
             $result  = $guzzle->request('GET', $assinatura->webservice_base . $object->ws);
-            /*$result  = json_decode($result->getBody());*/
             $result  = (string)$result->getBody();
             $result  = mb_convert_encoding($result, 'UTF-8');
+	    $result  = json_decode($result);
 
             $result = Helper::retornoERP($result->result);
             $result = json_decode($result, true);
@@ -201,7 +201,7 @@ class VexSyncController extends Controller
 
 	        $log .= $return['log'];
         }
-        catch(\Exception $e)
+        catch(\Throwable $e)
         {
             $success = false;
             $log    .= $e->getFile().':'.$e->getLine()."\n\n".$e->getCode().' - '.$e->getMessage();
