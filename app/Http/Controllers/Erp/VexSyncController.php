@@ -148,10 +148,8 @@ class VexSyncController extends Controller
             $guzzle  = new Client();
             $result  = $guzzle->request('GET', $assinatura->webservice_base . $object->ws);
             /*$result  = json_decode($result->getBody());*/
-            $type    = $result->getHeader('content-type');
-            $parsed  = parse_header($type);
             $result  = (string)$result->getBody();
-            $result  = mb_convert_encoding($result, 'UTF-8', $parsed[0]['charset'] ?: 'UTF-8');
+            $result  = mb_convert_encoding($result, 'UTF-8');
 
             $result = Helper::retornoERP($result->result);
             $result = json_decode($result, true);
@@ -188,10 +186,8 @@ class VexSyncController extends Controller
             $guzzle  = new Client();
             $result  = $guzzle->request('GET', $assinatura->webservice_base . $object->ws);
             /*$result  = json_decode($result->getBody());*/
-            $type    = $result->getHeader('content-type');
-            $parsed  = parse_header($type);
             $result  = (string)$result->getBody();
-            $result  = mb_convert_encoding($result, 'UTF-8', $parsed[0]['charset'] ?: 'UTF-8');
+            $result  = mb_convert_encoding($result, 'UTF-8');
 
             $result = Helper::retornoERP($result->result);
             $result = json_decode($result, true);
