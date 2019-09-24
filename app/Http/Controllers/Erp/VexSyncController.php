@@ -22,6 +22,7 @@ use Validator;
 use Carbon\Carbon;
 use App\Utils\Aliases;
 use App\Utils\Helper;
+use function GuzzleHttp\Psr7\parse_header;
 
 class VexSyncController extends Controller
 {
@@ -146,7 +147,11 @@ class VexSyncController extends Controller
         {
             $guzzle  = new Client();
             $result  = $guzzle->request('GET', $assinatura->webservice_base . $object->ws);
-            $result  = json_decode($result->getBody());
+            /*$result  = json_decode($result->getBody());*/
+            $type    = $result->getHeader('content-type');
+            $parsed  = parse_header($type);
+            $result  = (string)$result->getBody();
+            $result  = mb_convert_encoding($result, 'UTF-8', $parsed[0]['charset'] ?: 'UTF-8');
 
             $result = Helper::retornoERP($result->result);
             $result = json_decode($result, true);
@@ -155,14 +160,14 @@ class VexSyncController extends Controller
             $controller = Aliases::erpControllerByTable($object->tabela);
 
             //executa o processamento no banco de dados
-	    $return = $controller::create($result);
+            $return = $controller::create($result);
 
-	    $log .= $return['log'];
+            $log .= $return['log'];
         }
         catch(\Exception $e)
         {
             $success = false;
-            $log    .= $e->getMessage();
+            $log    .= $e->getFile().':'.$e->getLine()."\n\n".$e->getCode().' - '.$e->getMessage();
         }
 
         $response['success']    = $success;
@@ -182,8 +187,11 @@ class VexSyncController extends Controller
         {
             $guzzle  = new Client();
             $result  = $guzzle->request('GET', $assinatura->webservice_base . $object->ws);
-            $result  = json_decode($result->getBody());
-
+            /*$result  = json_decode($result->getBody());*/
+            $type    = $result->getHeader('content-type');
+            $parsed  = parse_header($type);
+            $result  = (string)$result->getBody();
+            $result  = mb_convert_encoding($result, 'UTF-8', $parsed[0]['charset'] ?: 'UTF-8');
 
             $result = Helper::retornoERP($result->result);
             $result = json_decode($result, true);
@@ -200,7 +208,7 @@ class VexSyncController extends Controller
         catch(\Exception $e)
         {
             $success = false;
-            $log    .= $e->getMessage();
+            $log    .= $e->getFile().':'.$e->getLine()."\n\n".$e->getCode().' - '.$e->getMessage();
         }
 
         $response['success']    = $success;
@@ -230,7 +238,7 @@ class VexSyncController extends Controller
         catch(\Exception $e)
         {
             $success = false;
-            $log    .= $e->getMessage();
+            $log    .= $e->getFile().':'.$e->getLine()."\n\n".$e->getCode().' - '.$e->getMessage();
         }
 
         $response['success']    = $success;
