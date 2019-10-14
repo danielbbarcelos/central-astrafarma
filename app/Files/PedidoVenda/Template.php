@@ -3,6 +3,7 @@
 namespace App\Files\PedidoVenda;
 
 use Anouar\Fpdf\Fpdf;
+use App\CondicaoPagamento;
 use App\Models\Site\Garantia;
 use App\PedidoVenda;
 use App\Configuracao;
@@ -319,12 +320,21 @@ Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
         $this->SetXY( 137, $this->y);
         $this->Cell(55,8,'Valor total (R$)',1,1,'C',1);
 
+
+        //verifica se condição está cadastrada no banco de dados
+        $condicao = $this->pedido->condicao;
+
+        if($condicao == null)
+        {
+            $condicao = CondicaoPagamento::withTrashed()->where('erp_id',$this->pedido->vxglocpgto_erp_id)->first();
+        }
+
         $this->SetTextColor(72,72,70);
         $this->SetFont( "MontserratSemibold", "", 8);
         $this->SetXY( 22, $this->y);
         $this->Cell(55,8,Carbon::createFromFormat('Y-m-d',$this->pedido->data_entrega)->format('d/m/Y'),1,0,'C',0);
         $this->SetXY( 77, $this->y);
-        $this->Cell(60,8,utf8_decode($this->pedido->condicao->descricao),1,0,'C',0);
+        $this->Cell(60,8,utf8_decode($condicao->descricao),1,0,'C',0);
         $this->SetXY( 137, $this->y);
         $this->Cell(55,8,number_format($this->pedido->valorTotal(),2,',','.'),1,1,'C',0);
     }
