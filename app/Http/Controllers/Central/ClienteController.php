@@ -140,8 +140,8 @@ class ClienteController extends Controller
             $cliente->email_con          = $request['email_con'];
             $cliente->email_fin          = $request['email_fin'];
             $cliente->envia_boleto       = $request['envia_boleto'];
-            $cliente->obs_nota           = $request['obs_nota'];
-            $cliente->obs_interna        = $request['obs_interna'];
+            $cliente->obs_nota           = $request['obs_nota'] !== null ? $request['obs_nota'] : '';
+            $cliente->obs_interna        = $request['obs_interna'] !== null ? $request['obs_interna'] : '';
             $cliente->risco              = 'E';
             $cliente->status             = isset($request['status']) ? $request['status'] : 0;
             $cliente->created_at         = new \DateTime();
@@ -259,8 +259,8 @@ class ClienteController extends Controller
                 $cliente->email_con         = $request['email_con'];
                 $cliente->email_fin         = $request['email_fin'];
                 $cliente->envia_boleto      = $request['envia_boleto'];
-                $cliente->obs_nota          = $request['obs_nota'];
-                $cliente->obs_interna       = $request['obs_interna'];
+                $cliente->obs_nota          = $request['obs_nota'] !== null ? $request['obs_nota'] : '';
+                $cliente->obs_interna       = $request['obs_interna'] !== null ? $request['obs_interna'] : '';
                 $cliente->status            = isset($request['status']) ? $request['status'] : 0;
                 $cliente->updated_at        = new \DateTime();
                 $cliente->save();

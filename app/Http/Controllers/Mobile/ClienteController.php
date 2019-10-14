@@ -119,7 +119,8 @@ class ClienteController extends Controller
             $cliente->nome_contato      = $request['nome_contato'];
             $cliente->email             = $request['email'];
             $cliente->envia_boleto      = $request['envia_boleto'];
-            $cliente->obs_nota          = $request['obs_nota'];
+            $cliente->obs_nota          = $request['obs_nota'] !== null ? $request['obs_nota'] : '';
+            $cliente->obs_interna       = $request['obs_interna'] !== null ? $request['obs_interna'] : '';
             $cliente->status            = '1';
             $cliente->created_at        = new \DateTime();
             $cliente->updated_at        = new \DateTime();
@@ -208,7 +209,8 @@ class ClienteController extends Controller
                 $cliente->nome_contato      = $request['nome_contato'];
                 $cliente->email             = $request['email'];
                 $cliente->envia_boleto      = $request['envia_boleto'];
-                $cliente->obs_nota          = $request['obs_nota'];
+                $cliente->obs_nota          = $request['obs_nota'] !== null ? $request['obs_nota'] : '';
+                $cliente->obs_interna       = $request['obs_interna'] !== null ? $request['obs_interna'] : '';
                 $cliente->updated_at        = new \DateTime();
                 $cliente->save();
     
