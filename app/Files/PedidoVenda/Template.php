@@ -405,7 +405,7 @@ Carbon::now()->format('d/m/Y - H:i:s')."\n"),0,'L', FALSE);
 
             //preço unitário
             $this->SetXY( 156, $y + 2);
-            $this->MultiCell(18,9,utf8_decode(number_format($item->preco_unitario,2,',','.')),0,'R', false);
+            $this->MultiCell(18,9,utf8_decode(number_format($item->preco_venda,2,',','.')),0,'R', false);
 
             //preço total do item
             $this->SetXY( 174, $y + 2);
