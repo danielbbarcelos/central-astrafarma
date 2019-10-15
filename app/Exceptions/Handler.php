@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class Handler extends ExceptionHandler
@@ -56,6 +57,15 @@ class Handler extends ExceptionHandler
          * Caso esteja em produção, as exceptions serão tratadas
          *
          */
+        if(Auth::user() !== null)
+        {
+            if(Auth::user()->type == 'S')
+            {
+                dd($exception);
+            }
+        }
+
+
         if(env('APP_DD') == true)
         {
             dd($exception);
