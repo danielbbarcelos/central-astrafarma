@@ -102,6 +102,7 @@ class TabelaPrecoController extends Controller
                 $preco->vxgloprod_id        = $produto->id;
                 $preco->vxgloprod_erp_id    = $produto->erp_id;
                 $preco->uf                  = $item->uf;
+                $preco->data_vigencia       = ($item->data_vigencia !== null and $item->data_vigencia !== '' and $item->data_vigencia !== '0000-00-00') ? $item->data_vigencia : null;
                 $preco->preco_venda         = number_format((float) $item->preco_venda,2,'.','');
                 $preco->preco_maximo        = number_format((float) $item->preco_maximo,2,'.','');
                 $preco->valor_desconto      = number_format((float) $item->valor_desconto,2,'.','');
@@ -168,7 +169,7 @@ class TabelaPrecoController extends Controller
                 ->update($vars);
 
             $tabela = TabelaPreco::where('erp_id',$vars['erp_id'])->first();
-            
+
 
             foreach($produtos as $item)
             {

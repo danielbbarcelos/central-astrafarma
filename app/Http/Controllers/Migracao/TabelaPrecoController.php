@@ -113,7 +113,7 @@ class TabelaPrecoController extends Controller
                         $preco->vxfattabprc_erp_id  = $tabela->erp_id;
                         $preco->vxgloprod_id        = $produto->id;
                         $preco->vxgloprod_erp_id    = $produto->erp_id;
-                        $preco->data_vigencia       = ($item['DATA_VIGENCIA'] !== null and $item['DATA_VIGENCIA'] and $item['DATA_VIGENCIA'] !== '0000-00-00') ? $item['DATA_VIGENCIA'] : null;
+                        $preco->data_vigencia       = ($item['DATA_VIGENCIA'] !== null and $item['DATA_VIGENCIA'] !== '' and $item['DATA_VIGENCIA'] !== '0000-00-00') ? $item['DATA_VIGENCIA'] : null;
                         $preco->preco_venda         = $item['PRECO_VENDA'];
                         $preco->preco_maximo        = $item['PRECO_MAXIMO'];
                         $preco->valor_desconto      = $item['VALOR_DESCONTO'];
