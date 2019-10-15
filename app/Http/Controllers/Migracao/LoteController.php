@@ -79,7 +79,7 @@ class LoteController extends Controller
                     $produto = Produto::where('erp_id',$item['VXGLOPROD_ERP_ID'])->first();
 
                     $lote = new Lote();
-                    $lote->erp_id             = str_replace($item['ERP_ID'],'_','/');
+                    $lote->erp_id             = str_replace('_','/',$item['ERP_ID']);
                     $lote->vxgloempfil_id     = isset($empfil) ? $empfil->id : '1';
                     $lote->vxestarmz_id       = isset($armazem) ? $armazem->id : null;
                     $lote->vxestarmz_erp_id   = isset($armazem) ? $armazem->erp_id : null;
