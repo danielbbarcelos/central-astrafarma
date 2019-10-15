@@ -176,8 +176,21 @@ class AuthController extends Controller
                 //caso o usuário não tenha uma filial selecionada, selecionamos a primeira filial cadastrada
                 if($user->vxwebuseref_id == null)
                 {
-                    $user->vxwebuseref_id = UserEmpresaFilial::first()->id;
-                    $user->save();
+                    $userEmpfil = UserEmpresaFilial::where('vxwebuser_id',$user->id)->first();
+
+                    if(!isset($userEmpfil))
+                    {
+                        $success = false;
+                        $log[]   = ['error' => 'O seu usuário não está vinculado a nenhuma filial. Por favor, acione o administrador do seu sistema'];
+
+                        Auth::logout();
+                    }
+                    else
+                    {
+                        $user->vxwebuseref_id = $userEmpfil->id;
+                        $user->save();
+                    }
+
                 }
             }
 
