@@ -36,7 +36,7 @@ class UserLocator extends Controller
     {
         $controller = new UserController();
 
-        $response   = $controller->lista();
+        $response   = $controller->lista($request);
 
         if(!$response['success'])
         {
@@ -102,7 +102,7 @@ class UserLocator extends Controller
     {
         $controller = new UserController();
 
-        $response   = $controller->edita($user_id);
+        $response   = $controller->edita($request, $user_id);
 
         if(!$response['success'])
         {
@@ -147,7 +147,7 @@ class UserLocator extends Controller
     {
         $controller = new UserController();
 
-        $response   = $controller->visualiza($user_id);
+        $response   = $controller->visualiza($request, $user_id);
 
         if(!$response['success'])
         {
@@ -187,11 +187,11 @@ class UserLocator extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function configuracao($user_id)
+    public function configuracao(Request $request, $user_id)
     {
         $controller = new UserController();
 
-        $response   = $controller->configuracao($user_id);
+        $response   = $controller->configuracao($request, $user_id);
 
         if(!$response['success'])
         {

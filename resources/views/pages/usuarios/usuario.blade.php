@@ -10,7 +10,7 @@
 
     <div class="middle breadcrumbs">
         <ul class="breadcrumbs-itens breadcrumbs_chevron">
-            <li class="breadcrumbs__item"><a href="{{url('/usuarios')}}" class="breadcrumbs__element">Lista de usuários</a></li>
+            <li class="breadcrumbs__item"><a href="{{url('/usuarios'.($user->type == 'S' ? '?suporte=1' : ''))}}" class="breadcrumbs__element">Lista de usuários</a></li>
             <li class="breadcrumbs__item breadcrumbs__item_active"><span class="breadcrumbs__element">Cadastro de usuário</span></li>
         </ul>
     </div>

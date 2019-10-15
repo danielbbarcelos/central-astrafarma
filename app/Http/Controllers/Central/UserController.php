@@ -34,12 +34,25 @@ class UserController extends Controller
 
 
     //retorna array do objeto
-    public function lista()
+    public function lista(Request $request)
     {
         $success = true;
         $log     = [];
 
-        $users = User::orderBy('name','asc')->get();
+
+        $users = User::orderBy('name','asc')->where(function($query) use ($request){
+
+            if($request['suporte'] == '1')
+            {
+                $query->where('type','=','S');
+            }
+            else
+            {
+                $query->where('type','!=','S');
+            }
+
+        })->get();
+
 
         $response['success'] = $success;
         $response['log']     = $log;
@@ -137,7 +150,7 @@ class UserController extends Controller
             {
                 $assinatura = Assinatura::first();
 
-                $users = count(User::select('id')->where('status','1')->where('web','1')->get());
+                $users = count(User::select('id')->where('status','1')->where('type','!=','S')->where('web','1')->get());
 
                 if($users > (int) $assinatura->quantidade_web_user)
                 {
@@ -158,12 +171,23 @@ class UserController extends Controller
 
 
     //chamada da tela para editar um objeto
-    public function edita($user_id)
+    public function edita(Request $request, $user_id)
     {
         $success = true;
         $log     = [];
 
-        $user = User::find($user_id);
+        $user = User::where('id',$user_id)->where(function($query) use ($request){
+
+            if($request['suporte'] == '1')
+            {
+                $query->where('type','=','S');
+            }
+            else
+            {
+                $query->where('type','!=','S');
+            }
+
+        })->first();
 
         if(!isset($user))
         {
@@ -201,7 +225,18 @@ class UserController extends Controller
         $success = true;
         $log     = [];
 
-        $user = User::find($user_id);
+        $user = User::where('id',$user_id)->where(function($query) use ($request){
+
+            if($request['suporte'] == '1')
+            {
+                $query->where('type','=','S');
+            }
+            else
+            {
+                $query->where('type','!=','S');
+            }
+
+        })->first();
 
         if(!isset($user))
         {
@@ -289,7 +324,7 @@ class UserController extends Controller
                     {
                         $assinatura = Assinatura::first();
 
-                        $users = count(User::select('id')->where('status','1')->where('web','1')->get());
+                        $users = count(User::select('id')->where('status','1')->where('type','!=','S')->where('web','1')->get());
 
                         if($users > (int) $assinatura->quantidade_web_user)
                         {
@@ -313,12 +348,24 @@ class UserController extends Controller
 
 
     //chamada da tela para visualizar um objeto
-    public function visualiza($user_id)
+    public function visualiza(Request $request, $user_id)
     {
         $success = true;
         $log     = [];
 
-        $user = User::find($user_id);
+        $user = User::where('id',$user_id)->where(function($query) use ($request){
+
+            if($request['suporte'] == '1')
+            {
+                $query->where('type','=','S');
+            }
+            else
+            {
+                $query->where('type','!=','S');
+            }
+
+        })->first();
+
 
         if(!isset($user))
         {
@@ -357,7 +404,19 @@ class UserController extends Controller
         $success = true;
         $log     = [];
 
-        $user = User::find($user_id);
+        $user = User::where('id',$user_id)->where(function($query) use ($request){
+
+            if($request['suporte'] == '1')
+            {
+                $query->where('type','=','S');
+            }
+            else
+            {
+                $query->where('type','!=','S');
+            }
+
+        })->first();
+
 
         if(!isset($user))
         {
@@ -395,12 +454,24 @@ class UserController extends Controller
 
 
     //chamada da tela para configurar itens gerais do usuário
-    public function configuracao($user_id)
+    public function configuracao(Request $request, $user_id)
     {
         $success = true;
         $log     = [];
 
-        $user = User::find($user_id);
+        $user = User::where('id',$user_id)->where(function($query) use ($request){
+
+            if($request['suporte'] == '1')
+            {
+                $query->where('type','=','S');
+            }
+            else
+            {
+                $query->where('type','!=','S');
+            }
+
+        })->first();
+
 
         if(!isset($user))
         {
@@ -438,7 +509,19 @@ class UserController extends Controller
         $log     = [];
 
 
-        $user = User::find($user_id);
+        $user = User::where('id',$user_id)->where(function($query) use ($request){
+
+            if($request['suporte'] == '1')
+            {
+                $query->where('type','=','S');
+            }
+            else
+            {
+                $query->where('type','!=','S');
+            }
+
+        })->first();
+
 
         if(!isset($user))
         {

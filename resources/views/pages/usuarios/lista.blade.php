@@ -52,6 +52,8 @@
 
                                             @if($item->type == 'A')
                                                 <i class="material-icons icon-warning font-size-14">grade</i>
+                                            @elseif($item->type == 'S')
+                                                <i class="material-icons icon-danger font-size-14">build</i>
                                             @endif
                                         </td>
                                         <td>{{$item->email}}</td>
@@ -64,21 +66,21 @@
                                         </td>
                                         <td>
                                             @if(Permission::check('configuracao','User','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Configurações gerais" href="{{url('/usuarios/'.$item->id.'/configuracoes')}}">
+                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Configurações gerais" href="{{url('/usuarios/'.$item->id.'/configuracoes'.($item->type == 'S' ? '?suporte=1' : ''))}}">
                                                     <i class="material-icons">settings</i>
                                                 </a>
                                             @endif
                                             @if(Permission::check('edita','User','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Cadastro" href="{{url('/usuarios/'.$item->id.'/edit')}}">
+                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Cadastro" href="{{url('/usuarios/'.$item->id.'/edit'.($item->type == 'S' ? '?suporte=1' : ''))}}">
                                                     <i class="material-icons">edit</i>
                                                 </a>
                                             @elseif(Permission::check('visualiza','User','Central'))
-                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar" href="{{url('/usuarios/'.$item->id.'/show')}}">
+                                                <a class="waves-effect margin-5 white tooltipped waves-light btn m-b-xs" data-position="top" data-delay="10" data-tooltip="Visualizar" href="{{url('/usuarios/'.$item->id.'/show'.($item->type == 'S' ? '?suporte=1' : ''))}}">
                                                     <i class="material-icons">visibility</i>
                                                 </a>
                                             @endif
                                             @if(Permission::check('excluiPost','User','Central'))
-                                                <a class="waves-effect margin-5 white @if($item->type !== 'A') tooltipped @endif waves-light btn m-b-xs" @if($item->type == 'A') disabled="" @else data-position="top" data-delay="10" data-tooltip="Excluir" onclick="excluiItem('{!! url('/usuarios/'.$item->id.'/del') !!}')" @endif>
+                                                <a class="waves-effect margin-5 white @if($item->type !== 'A') tooltipped @endif waves-light btn m-b-xs" @if($item->type == 'A') disabled="" @else data-position="top" data-delay="10" data-tooltip="Excluir" onclick="excluiItem('{!! url('/usuarios/'.$item->id.'/del'.($item->type == 'S' ? '?suporte=1' : '')) !!}')" @endif>
                                                     <i class="material-icons icon-danger">delete_forever</i>
                                                 </a>
                                             @endif
