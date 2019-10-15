@@ -80,14 +80,21 @@ class LoteController extends Controller
                     ->where('erp_id',$vars['erp_id'])
                     ->first();
 
+
+
                 if(!isset($lote))
                 {
+                    $log  .= 'Novo lote: '.json_encode($vars)."\n\n";
+
+
                     $vars['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
                     Lote::insert($vars);
                 }
                 else
                 {
+                    $log  .= 'Atualização de lote: '.json_encode($vars)."\n\n";
+
                     Lote::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                         ->where('erp_id',$vars['erp_id'])
                         ->where('vxgloprod_id',$vars['vxgloprod_id'])
