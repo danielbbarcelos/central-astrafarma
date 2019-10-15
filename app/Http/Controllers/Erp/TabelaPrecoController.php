@@ -168,9 +168,7 @@ class TabelaPrecoController extends Controller
                 ->update($vars);
 
             $tabela = TabelaPreco::where('erp_id',$vars['erp_id'])->first();
-
-            //exclui o relacionamento com os produtos e os cadastra novamente
-            TabelaPrecoProduto::where('vxfattabprc_id',$tabela->id)->forceDelete();
+            
 
             foreach($produtos as $item)
             {
@@ -190,17 +188,25 @@ class TabelaPrecoController extends Controller
                     $produto = Produto::where('erp_id', $item->vxgloprod_erp_id)->first();
                 }
 
-                $preco = new TabelaPrecoProduto();
-                $preco->vxfattabprc_id      = $tabela->id;
-                $preco->vxfattabprc_erp_id  = $tabela->erp_id;
-                $preco->vxgloprod_id        = $produto->id;
-                $preco->vxgloprod_erp_id    = $produto->erp_id;
-                $preco->uf                  = $item->uf;
+
+                $preco = TabelaPrecoProduto::where('uf',$item->uf)->where('vxfattabprc_id',$tabela->id)->where('vxgloprod_id',$produto->id)->first();
+
+                if(!isset($preco))
+                {
+                    $preco = new TabelaPrecoProduto();
+                    $preco->vxfattabprc_id      = $tabela->id;
+                    $preco->vxfattabprc_erp_id  = $tabela->erp_id;
+                    $preco->vxgloprod_id        = $produto->id;
+                    $preco->vxgloprod_erp_id    = $produto->erp_id;
+                    $preco->uf                  = $item->uf;
+                    $preco->created_at          = new \DateTime();
+                }
+
+                $preco->data_vigencia       = ($item->data_vigencia !== null and $item->data_vigencia !== '' and $item->data_vigencia !== '0000-00-00') ? $item->data_vigencia : null;
                 $preco->preco_venda         = number_format((float) $item->preco_venda,2,'.','');
                 $preco->preco_maximo        = number_format((float) $item->preco_maximo,2,'.','');
                 $preco->valor_desconto      = number_format((float) $item->valor_desconto,2,'.','');
                 $preco->fator               = number_format((float) $item->fator,2,'.','');
-                $preco->created_at          = new \DateTime();
                 $preco->updated_at          = new \DateTime();
                 $preco->save();
             }
