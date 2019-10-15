@@ -73,6 +73,8 @@ class LoteController extends Controller
                 $vars['vxestarmz_id'] = Armazem::where('erp_id',$vars['vxestarmz_erp_id'])->first()->id;
                 $vars['vxgloprod_id'] = Produto::where('erp_id',$vars['vxgloprod_erp_id'])->first()->id;
 
+                //formata ERP ID
+                $vars['erp_id'] = str_replace($vars['erp_id'],'_','/');
 
                 $lote = Lote::where('vxgloempfil_id', isset($vars['vxgloempfil_id']) ? $vars['vxgloempfil_id'] : null)
                     ->where('erp_id',$vars['erp_id'])
