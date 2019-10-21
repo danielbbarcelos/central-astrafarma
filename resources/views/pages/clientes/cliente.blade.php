@@ -49,11 +49,11 @@
 
                             <div class="row row-input">
                                 <div class="input-field col s12 m8">
-                                    <input type="text" placeholder="" name="razao_social" id="razao_social" class="validate" maxlength="100" required value="{{$cliente->razao_social or old('razao_social')}}">
+                                    <input type="text" placeholder="" name="razao_social" id="razao_social" class="validate unmask-input" maxlength="100" required value="{{$cliente->razao_social or old('razao_social')}}">
                                     <label id="label_razao_social">@if($cliente->tipo_pessoa == 'F') Nome completo @else Razão social @endif</label>
                                 </div>
                                 <div class="input-field col s12 m4">
-                                    <input type="text" name="nome_fantasia" id="nome_fantasia" class="validate" maxlength="100" placeholder=""
+                                    <input type="text" name="nome_fantasia" id="nome_fantasia" class="validate unmask-input" maxlength="100" placeholder=""
                                            @if($cliente->tipo_pessoa == 'F') disabled @else required @endif
                                            value="{{$cliente->nome_fantasia or old('nome_fantasia')}}">
                                     <label>Nome fantasia</label>
@@ -93,7 +93,7 @@
                                 @endif
 
                                 <div class="input-field col s12 m4">
-                                    <input type="text" placeholder="" name="insc_estadual" id="insc_estadual"
+                                    <input type="text" placeholder="" name="insc_estadual" id="insc_estadual" class="unmask-input"
                                            value="{{$cliente->insc_estadual or old('insc_estadual')}}"
                                            style="text-transform: uppercase">
                                     <label>Inscrição Estadual</label>
@@ -124,11 +124,11 @@
                             <!-- Dados de contato -->
                             <div class="row row-input padding-top-20">
                                 <div class="input-field col s12 m4">
-                                    <input type="text" placeholder="" required name="nome_contato" id="nome_contato" class="masked" maxlength="100" value="{{$cliente->nome_contato or old('nome_contato')}}">
+                                    <input type="text" placeholder="" required name="nome_contato" id="nome_contato" class="masked unmask-input" maxlength="100" value="{{$cliente->nome_contato or old('nome_contato')}}">
                                     <label>Nome do contato</label>
                                 </div>
                                 <div class="input-field col s12 m4">
-                                    <input type="email" placeholder="" required name="email_con" id="email_con" class="validate" maxlength="100" value="{{$cliente->email_con or old('email_con')}}">
+                                    <input type="email" placeholder="" required name="email_con" id="email_con" class="validate unmask-input" maxlength="100" value="{{$cliente->email_con or old('email_con')}}">
                                     <label>E-mail de contato</label>
                                 </div>
                                 <div class="input-field col s12 m1">
@@ -156,18 +156,18 @@
                             <!-- Endereço -->
                             <div class="row row-input">
                                 <div class="input-field col s12 m6">
-                                    <input type="text" placeholder="" required name="endereco" id="endereco" class="validate" maxlength="200" value="{{$cliente->endereco or old('endereco')}}">
+                                    <input type="text" placeholder="" required name="endereco" id="endereco" class="validate unmask-input" maxlength="200" value="{{$cliente->endereco or old('endereco')}}">
                                     <label>Endereço</label>
                                 </div>
                                 <div class="input-field col s12 m6">
-                                    <input type="text" placeholder="" name="complemento" id="complemento" class="validate" maxlength="50" value="{{$cliente->complemento or old('complemento')}}">
+                                    <input type="text" placeholder="" name="complemento" id="complemento" class="validate unmask-input" maxlength="50" value="{{$cliente->complemento or old('complemento')}}">
                                     <label>Complemento</label>
                                 </div>
                             </div>
 
                             <div class="row row-input">
                                 <div class="input-field col s12 m4">
-                                    <input type="text" placeholder="" required name="bairro" id="bairro" class="validate" maxlength="100" value="{{$cliente->bairro or old('bairro')}}">
+                                    <input type="text" placeholder="" required name="bairro" id="bairro" class="validate unmask-input" maxlength="100" value="{{$cliente->bairro or old('bairro')}}">
                                     <label>Bairro</label>
                                 </div>
                                 <div class="input-field col s12 m2">
@@ -203,13 +203,13 @@
                             <div class="row row-input">
 
                                 <div class="input-field col s12 m6">
-                                    <textarea class="materialize-textarea" name="obs_nota" style="height: 6rem"  id="obs_nota"
+                                    <textarea class="materialize-textarea unmask-input" name="obs_nota" style="height: 6rem"  id="obs_nota"
                                               maxlength="10000" length="10000">{{$cliente->obs_nota or old('obs_nota')}}</textarea>
                                     <label>Observação padrão para NF-e</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <textarea class="materialize-textarea" name="obs_interna" style="height: 6rem"  id="obs_interna"
+                                    <textarea class="materialize-textarea unmask-input" name="obs_interna" style="height: 6rem"  id="obs_interna"
                                               maxlength="10000" length="10000">{{$cliente->obs_interna or old('obs_interna')}}</textarea>
                                     <label>Observação interna</label>
                                 </div>

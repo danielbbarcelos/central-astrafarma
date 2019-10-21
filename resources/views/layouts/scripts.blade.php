@@ -11,6 +11,6 @@
 @yield("extra-scripts")
 
 <script src="{{url('/assets/js/alpha.a36c299926dedd08c3f48d5f546a683e6.js')}}"></script>
-<script src="{{url('/assets/js/pages/global.865943c411b5430a10980285a5894673.js')}}"></script>
+<script src="{{url('/assets/js/pages/global.965943c411b5430a10980285a5894673.js')}}"></script>
 
 @yield("page-scripts")

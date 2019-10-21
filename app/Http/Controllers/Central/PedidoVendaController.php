@@ -236,8 +236,8 @@ class PedidoVendaController extends Controller
             $pedido->cliente_data        = json_encode($cliente, JSON_UNESCAPED_UNICODE);
             $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('d/m/Y',$request['data_entrega'])->format('Y-m-d') : null;
             $pedido->status_entrega      = $request['status_entrega'];
-            $pedido->observacao          = $request['observacao'] !== null ? $request['observacao'] : '';
-            $pedido->obs_interna         = $request['obs_interna'] !== null ? $request['obs_interna'] : '';
+            $pedido->observacao          = Helper::formataString($request['observacao'] !== null ? $request['observacao'] : '');
+            $pedido->obs_interna         = Helper::formataString($request['obs_interna'] !== null ? $request['obs_interna'] : '');
             $pedido->created_at          = new \DateTime();
             $pedido->updated_at          = new \DateTime();
             $pedido->save();
@@ -558,8 +558,8 @@ class PedidoVendaController extends Controller
                 $pedido->cliente_data        = json_encode($cliente, JSON_UNESCAPED_UNICODE);
                 $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('d/m/Y',$request['data_entrega'])->format('Y-m-d') : null;
                 $pedido->status_entrega      = $request['status_entrega'];
-                $pedido->observacao          = $request['observacao'] !== null  ? $request['observacao'] : '';
-                $pedido->obs_interna         = $request['obs_interna'] !== null ? $request['obs_interna'] : '';
+                $pedido->observacao          = Helper::formataString($request['observacao'] !== null ? $request['observacao'] : '');
+                $pedido->obs_interna         = Helper::formataString($request['obs_interna'] !== null ? $request['obs_interna'] : '');
                 $pedido->updated_at          = new \DateTime();
                 $pedido->save();
 

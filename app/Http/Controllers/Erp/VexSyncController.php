@@ -187,7 +187,7 @@ class VexSyncController extends Controller
             $result  = $guzzle->request('GET', $assinatura->webservice_base . $object->ws);
             $result  = (string)$result->getBody();
             $result  = mb_convert_encoding($result, 'UTF-8');
-	    $result  = json_decode($result);
+            $result  = json_decode($result);
 
             $result = Helper::retornoERP($result->result);
             $result = json_decode($result, true);

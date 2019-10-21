@@ -9,6 +9,19 @@ $(document).ready(function(){
     $('.select-material').material_select();
     $('.select2').select2();
 
+
+    // ========================================
+    //
+    // remove acentuação
+    //
+    // ========================================
+    $(".unmask-input").on("input",function(i){
+        var value = $(this).val().toString().replace(/[^a-zA-Z_0-9 .,-]/gi, '');
+        value     = value.toString().replace('/', '');
+        $(this).val(value);
+    });
+
+
     // ========================================
     //
     // Inicializa máscaras dos campos
@@ -31,7 +44,6 @@ $(document).ready(function(){
         $('.mask-agencia').inputmask(['9','99','999','9999']);
         $('.mask-conta').inputmask(['9999','99999','999999','9999999','99999999','999999999','9999999999']);
         $('.mask-digito-verificador').inputmask('9');
-
         $(".mask-decimal").maskMoney({thousands:'.', decimal:',', symbolStay: true});
         $(".mask-inteiro").maskMoney({thousands:'.', decimal:',', symbolStay: true,  precision: 0});
         $(".mask-inteiro-nm").maskMoney({thousands: '', decimal: '', symbolStay: false,  precision: 0}); //sem mÃ¡scara para unidades de milhar

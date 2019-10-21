@@ -268,8 +268,6 @@ class Helper
     //Retira acentuação das string para envio de XML's
     public static function formataString($string)
     {
-
-
         $string = str_replace(array("Ç","ç"),array("C","c"), $string);
 
         $formated = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/",
@@ -277,7 +275,6 @@ class Helper
             "/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"),($string));
 
         return $formated;
-
     }
 
 

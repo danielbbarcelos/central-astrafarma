@@ -294,13 +294,13 @@
                                             </div>
 
                                             <div class="input-field col s12 m6">
-                                                <textarea class="materialize-textarea" name="observacao" style="height: 6rem" required id="observacao"
+                                                <textarea class="materialize-textarea unmask-input" name="observacao" style="height: 6rem" required id="observacao"
                                                           maxlength="10000" length="10000">{{$pedido->observacao or old('observacao')}}</textarea>
                                                 <label>Observação na nota fiscal</label>
                                             </div>
 
                                             <div class="hidden-xs input-field col s12 m6">
-                                                <textarea class="materialize-textarea" name="obs_interna" style="height: 6rem" required id="obs_interna"
+                                                <textarea class="materialize-textarea unmask-input" name="obs_interna" style="height: 6rem" required id="obs_interna"
                                                           maxlength="10000">{{$pedido->obs_interna or old('obs_interna')}}</textarea>
                                                 <label>Observação interna</label>
                                             </div>
