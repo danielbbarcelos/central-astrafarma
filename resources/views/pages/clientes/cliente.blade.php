@@ -128,7 +128,7 @@
                                     <label>Nome do contato</label>
                                 </div>
                                 <div class="input-field col s12 m4">
-                                    <input type="email" placeholder="" required name="email_con" id="email_con" class="validate unmask-input" maxlength="100" value="{{$cliente->email_con or old('email_con')}}">
+                                    <input type="email" placeholder="" required name="email_con" id="email_con" class="validate" maxlength="100" value="{{$cliente->email_con or old('email_con')}}">
                                     <label>E-mail de contato</label>
                                 </div>
                                 <div class="input-field col s12 m1">
