@@ -124,7 +124,7 @@ class ClienteController extends Controller
             $cliente->nome_fantasia      = Helper::formataString(isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social']);
             $cliente->cnpj_cpf           = $request['cnpj_cpf'];
             $cliente->contribuinte       = $request['contribuinte'];
-            $cliente->insc_estadual      = Helper::formataString(strtoupper($request['insc_estadual']));
+            $cliente->insc_estadual     = (int)$cliente->contribuinte == 0 ? 'ISENTO' : Helper::formataString(strtoupper($request['insc_estadual']));
             $cliente->tipo_cliente       = strtoupper($request['tipo_cliente']);
             $cliente->endereco           = Helper::formataString($request['endereco']);
             $cliente->complemento        = Helper::formataString($request['complemento']);
@@ -244,7 +244,7 @@ class ClienteController extends Controller
                 $cliente->nome_fantasia     = Helper::formataString(isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social']);
                 $cliente->cnpj_cpf          = $request['cnpj_cpf'];
                 $cliente->contribuinte      = $request['contribuinte'];
-                $cliente->insc_estadual     = Helper::formataString(strtoupper($request['insc_estadual']));
+                $cliente->insc_estadual     = (int)$cliente->contribuinte == 0 ? 'ISENTO' : Helper::formataString(strtoupper($request['insc_estadual']));
                 $cliente->tipo_cliente      = strtoupper($request['tipo_cliente']);
                 $cliente->endereco          = Helper::formataString($request['endereco']);
                 $cliente->complemento       = Helper::formataString($request['complemento']);

@@ -105,7 +105,7 @@ class ClienteController extends Controller
             $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
             $cliente->cnpj_cpf          = $request['cnpj_cpf'];
             $cliente->contribuinte      = $request['contribuinte'];
-            $cliente->insc_estadual     = strtoupper($request['insc_estadual']);
+            $cliente->insc_estadual     = (int)$cliente->contribuinte == 0 ? 'ISENTO' : Helper::formataString(strtoupper($request['insc_estadual']));
             $cliente->tipo_cliente      = 'F';
             $cliente->endereco          = $request['endereco'];
             $cliente->bairro            = $request['bairro'];
@@ -195,7 +195,7 @@ class ClienteController extends Controller
                 $cliente->nome_fantasia     = $request['nome_fantasia'];
                 $cliente->cnpj_cpf          = $request['cnpj_cpf'];
                 $cliente->contribuinte      = $request['contribuinte'];
-                $cliente->insc_estadual     = strtoupper($request['insc_estadual']);
+                $cliente->insc_estadual     = (int)$cliente->contribuinte == 0 ? 'ISENTO' : Helper::formataString(strtoupper($request['insc_estadual']));
                 //$cliente->tipo_cliente      = strtoupper($request['tipo_cliente']); utilizado apenas em adicionaPost
                 $cliente->endereco          = $request['endereco'];
                 $cliente->bairro            = $request['bairro'];
