@@ -166,7 +166,7 @@ class Helper
                         $array[strtolower($key)] = $value;
 
                         //converte valor sim/nao caso seja campo status. Os valores referem-se a "bloqueado sim ou nao"
-                        if(strtolower($key) == 'status')
+                        if(strtolower($key) == 'status' or strtolower($key) == 'contribuinte' or strtolower($key) == 'envia_boleto')
                         {
                             if(strtolower($value) == 'sim')
                             {
@@ -189,7 +189,7 @@ class Helper
                         $array[strtolower($key)] = $value;
 
                         //converte valor sim/nao caso seja campo status. Os valores referem-se a "bloqueado sim ou nao"
-                        if(strtolower($key) == 'status')
+                        if(strtolower($key) == 'status' or strtolower($key) == 'contribuinte' or strtolower($key) == 'envia_boleto')
                         {
                             if(strtolower($value) == 'sim')
                             {
@@ -216,7 +216,7 @@ class Helper
                 $new[strtolower($key)] = $value;
 
                 //converte valor sim/nao caso seja campo status. Os valores referem-se a "bloqueado sim ou nao"
-                if(strtolower($key) == 'status')
+                if(strtolower($key) == 'status' or strtolower($key) == 'contribuinte' or strtolower($key) == 'envia_boleto')
                 {
                     if(strtolower($value) == 'sim')
                     {
