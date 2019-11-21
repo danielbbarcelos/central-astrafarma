@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
 //extras
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 
@@ -29,7 +30,11 @@ class MigracaoController extends Controller
         $success = true;
         $log     = [];
 
-        //
+        if(Auth::user()->type !== 'S')
+        {
+            $success = false;
+            $log[]   = ['error' => 'Requisição inválida'];
+        }
 
         $response['success']  = $success;
         $response['log']      = $log;
@@ -43,7 +48,13 @@ class MigracaoController extends Controller
         $success = true;
         $log     = [];
 
-        if(!env('DATA_MIGRATION_MD5') == md5($request['password']))
+
+        if(Auth::user()->type !== 'S')
+        {
+            $success = false;
+            $log[]   = ['error' => 'Requisição inválida'];
+        }
+        else if(!env('DATA_MIGRATION_MD5') == md5($request['password']))
         {
             $success = false;
             $log[]   = ['error' => 'A senha está incorreta'];

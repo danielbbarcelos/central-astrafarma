@@ -241,6 +241,21 @@ class Helper
     }
 
 
+    //Formata bytes to kb, mb, gb, tb
+    public static function formataBytes($size, $precision = 2)
+    {
+        if ($size > 0) {
+            $size = (int) $size;
+            $base = log($size) / log(1024);
+            $suffixes = array(' bytes', ' KB', ' MB', ' GB', ' TB');
+
+            return round(pow(1024, $base - floor($base)), $precision) . $suffixes[floor($base)];
+        } else {
+            return $size;
+        }
+    }
+
+
     //Insere máscara
     public static function insereMascara($val, $mask)
     {

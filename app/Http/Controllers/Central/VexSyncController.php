@@ -14,6 +14,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use App\UserDashboard;
 use App\UserEmpresaFilial;
+use App\Utils\Helper;
 use App\Vendedor;
 use App\VexSync;
 use Illuminate\Http\Request;
@@ -22,7 +23,8 @@ use Illuminate\Support\Facades\Auth;
 //packages
 
 //extras
-use Validator; 
+use Illuminate\Support\Facades\File;
+use Validator;
 
 class VexSyncController extends Controller
 {
@@ -154,5 +156,83 @@ class VexSyncController extends Controller
     }
 
 
+    //tela para realizar download dos arquivos de log
+    public function listaArquivo()
+    {
+        $success  = true;
+        $log      = [];
+        $arquivos = [];
+
+        if(Auth::user()->type !== 'S')
+        {
+            $success = false;
+            $log[]   = ['error' => 'Requisição inválida'];
+        }
+        else
+        {
+            $path  = storage_path('logs');
+
+            $files = File::allFiles($path);
+
+
+            foreach($files as $file)
+            {
+                if(strpos($file->getFilename(),'sync-central') !== false)
+                {
+                    $arquivos['Central VEX'][$file->getFilename()] = $file;
+                }
+                else if(strpos($file->getFilename(),'sync-erp') !== false)
+                {
+                    $arquivos['ERP'][$file->getFilename()] = $file;
+                }
+            }
+        }
+
+        //ordena array em ordem decrescente
+        foreach($arquivos as $tipo => $itens)
+        {
+            krsort($itens, SORT_STRING);
+            $arquivos[$tipo] = $itens;
+        }
+
+        $response['success']  = $success;
+        $response['log']      = $log;
+        $response['arquivos'] = $arquivos;
+        return $response;
+    }
+
+
+
+    //realiza download dos arquivos de log
+    public function downloadArquivo($filename)
+    {
+        $success  = true;
+        $log      = [];
+        $path     = null;
+
+
+        if(Auth::user()->type !== 'S')
+        {
+            $success = false;
+            $log[]   = ['error' => 'Requisição inválida'];
+        }
+        else
+        {
+            $path  = storage_path('logs').'/'.$filename;
+
+            if(!File::exists($path))
+            {
+                $success = false;
+                $log[]   = ['error' => 'Aquivo não encontrado'];
+            }
+
+        }
+
+
+        $response['success']  = $success;
+        $response['log']      = $log;
+        $response['path']     = $path;
+        return $response;
+    }
 
 }

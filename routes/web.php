@@ -166,11 +166,19 @@ Route::group(['middleware' => ['auth','status','session']], function() {
     Route::post('/vex-sync/logs/{id}/del',      'Central\VexSyncLocator@excluiPost');
 
 
+    /**
+     * Funções exclusivas da Equipe VEX
+     *
+     */
     if(env('DATA_MIGRATION_ACTIVE') == true)
     {
-        Route::get ('/migracao-dados', 'Central\MigracaoLocator@index');
-        Route::post('/migracao-dados', 'Central\MigracaoLocator@migracaoPost');
+        Route::get ('/equipe-vex/migracao-dados', 'Central\MigracaoLocator@index');
+        Route::post('/equipe-vex/migracao-dados', 'Central\MigracaoLocator@migracaoPost');
     }
+
+    Route::get ('/equipe-vex/logs',                     'Central\VexSyncLocator@listaArquivo');
+    Route::post('/equipe-vex/logs',                     'Central\VexSyncLocator@migracaoPost');
+    Route::get ('/equipe-vex/logs/{filename}/download', 'Central\VexSyncLocator@downloadArquivo');
 
 });
 

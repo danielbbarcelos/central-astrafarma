@@ -22,7 +22,7 @@ class MigracaoLocator extends Controller
     //construct
     public function __construct()
     {
-        //
+        $this->middleware('permissions', [ 'except' => ['index','migracaoPost']]);
     }
 
 

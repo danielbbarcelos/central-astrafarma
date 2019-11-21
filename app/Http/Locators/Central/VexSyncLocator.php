@@ -22,7 +22,7 @@ class VexSyncLocator extends Controller
     //construct
     public function __construct()
     {
-        $this->middleware('permissions', [ 'except' => []]);
+        $this->middleware('permissions', [ 'except' => ['listaArquivo','downloadArquivo']]);
     }
 
 
@@ -75,6 +75,49 @@ class VexSyncLocator extends Controller
         $response   = $controller->excluiPost($request, $id);
 
         return Redirect::back()->withInput()->with('log',$response['log']);
+
+    }
+
+    /**
+     * @description Lista de arquivos de log
+     * @info Lista de arquivos de log para a equipe VEX via CentralVEX
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function listaArquivo(Request $request)
+    {
+        $controller = new VexSyncController();
+
+        $response   = $controller->listaArquivo();
+
+        if(!$response['success'])
+        {
+            return Redirect::back()->withInput()->with('log',$response['log']);
+        }
+
+        return view($this->basePathViews.'arquivos', $response);
+
+    }
+
+
+    /**
+     * @description Download de arquivos de log
+     * @info Download de arquivos de log pela a equipe VEX via CentralVEX
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function downloadArquivo(Request $request, $filename)
+    {
+        $controller = new VexSyncController();
+
+        $response   = $controller->downloadArquivo($filename);
+
+        if(!$response['success'])
+        {
+            return Redirect::back()->withInput()->with('log',$response['log']);
+        }
+
+        return response()->download($response['path'])->deleteFileAfterSend(false);
 
     }
 

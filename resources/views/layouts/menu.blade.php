@@ -142,6 +142,27 @@
                 </li>
             @endif
 
+
+            <!-- equipe vex -->
+            @if(Auth::user()->type == 'S')
+                <li class="no-padding">
+                    <a class="collapsible-header waves-effect waves-grey" style="bottom: 10px">
+                        <img src="{{url('/assets/img/logo/vex_icon.png')}}" width="20" style="top: 5px; margin-right: 16px">
+                        <span style="bottom: 10px !important; ">Equipe VEX</span>
+                    </a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>
+                                <a href="{{url('/equipe-vex/logs')}}">Arquivos de logs</a>
+                            </li>
+                            <li>
+                                <a href="{{url('/equipe-vex/migracao-dados')}}">Migração de dados</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endif
+
         </ul>
 
         <div class="footer row">
