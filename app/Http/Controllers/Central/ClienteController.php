@@ -127,8 +127,8 @@ class ClienteController extends Controller
             $cliente->insc_estadual     = (int)$cliente->contribuinte == 0 ? 'ISENTO' : Helper::formataString(strtoupper($request['insc_estadual']));
             $cliente->tipo_cliente       = strtoupper($request['tipo_cliente']);
             $cliente->endereco           = Helper::formataString($request['endereco']);
-            $cliente->complemento        = Helper::formataString($request['complemento']);
             $cliente->bairro             = Helper::formataString($request['bairro']);
+            $cliente->complemento        = Helper::formataString($request['complemento']);
             $cliente->cep                = Helper::removeMascara($request['cep']);
             $cliente->cidade             = Helper::formataString($request['cidade']);
             $cliente->cod_mun            = $request['cidade'] !== null ? Cidade::where('nome',$cliente->cidade)->first()->cod_mun : null;
@@ -147,7 +147,6 @@ class ClienteController extends Controller
             $cliente->created_at         = new \DateTime();
             $cliente->updated_at         = new \DateTime();
             $cliente->save();
-
 
             //gera vex sync
             VexSyncController::adiciona(Helper::formataTenantId($this->empfilId), 'post', $cliente->getTable(), $cliente->id, $cliente->getWebservice('add'));
@@ -244,7 +243,7 @@ class ClienteController extends Controller
                 $cliente->nome_fantasia     = Helper::formataString(isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social']);
                 $cliente->cnpj_cpf          = $request['cnpj_cpf'];
                 $cliente->contribuinte      = $request['contribuinte'];
-                $cliente->insc_estadual     = (int)$cliente->contribuinte == 0 ? 'ISENTO' : Helper::formataString(strtoupper($request['insc_estadual']));
+                $cliente->insc_estadual     =  (int)$cliente->contribuinte == 0 ? 'ISENTO' : Helper::formataString(strtoupper($request['insc_estadual']));
                 $cliente->tipo_cliente      = strtoupper($request['tipo_cliente']);
                 $cliente->endereco          = Helper::formataString($request['endereco']);
                 $cliente->complemento       = Helper::formataString($request['complemento']);

@@ -61,7 +61,14 @@ class ClienteController extends Controller
                 $query->orWhereRaw('cnpj_cpf like "'.$request['termo'].'"');
             }
 
-        })->where('vxfatvend_erp_id',$this->vendedor->erp_id)->where('status','1')->orderBy('nome_fantasia','asc')->get();
+        })->where(function($query){
+
+            $query->where('vxfatvend_erp_id_1',$this->vendedor->erp_id);
+            $query->orWhere('vxfatvend_erp_id_2',$this->vendedor->erp_id);
+
+        })->where('status','1')->orderBy('nome_fantasia','asc')->get();
+
+
 
         $response['success']  = $success;
         $response['log']      = $log;
@@ -96,34 +103,37 @@ class ClienteController extends Controller
         if($success)
         {
             $cliente = new Cliente();
-            $cliente->erp_id            = null;
-            $cliente->loja              = '01';
-            $cliente->vxgloempfil_id    = $this->filial->id;
-            $cliente->vxfatvend_erp_id  = $this->vendedor->erp_id;
-            $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
-            $cliente->razao_social      = $request['razao_social'];
-            $cliente->nome_fantasia     = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
-            $cliente->cnpj_cpf          = $request['cnpj_cpf'];
-            $cliente->contribuinte      = $request['contribuinte'];
-            $cliente->insc_estadual     = (int)$cliente->contribuinte == 0 ? 'ISENTO' : Helper::formataString(strtoupper($request['insc_estadual']));
-            $cliente->tipo_cliente      = 'F';
-            $cliente->endereco          = $request['endereco'];
-            $cliente->bairro            = $request['bairro'];
-            $cliente->complemento       = $request['complemento'];
-            $cliente->cep               = $request['cep'];
-            $cliente->cod_mun           = $request['cod_mun'];
-            $cliente->cidade            = $request['cidade'];
-            $cliente->uf                = $request['uf'];
-            $cliente->ddd               = $request['ddd'];
-            $cliente->fone              = $request['fone'];
-            $cliente->nome_contato      = $request['nome_contato'];
-            $cliente->email             = $request['email'];
-            $cliente->envia_boleto      = $request['envia_boleto'];
-            $cliente->obs_nota          = $request['obs_nota'] !== null ? $request['obs_nota'] : '';
-            $cliente->obs_interna       = $request['obs_interna'] !== null ? $request['obs_interna'] : '';
-            $cliente->status            = '1';
-            $cliente->created_at        = new \DateTime();
-            $cliente->updated_at        = new \DateTime();
+            $cliente->erp_id              = null;
+            $cliente->vxgloempfil_id      = $this->filial->id;
+            $cliente->vxfatvend_erp_id_2  = $this->vendedor->erp_id;
+            $cliente->loja                = '01';
+            $cliente->tipo_pessoa         = strtoupper($request['tipo_pessoa']);
+            $cliente->razao_social        = $request['razao_social'];
+            $cliente->nome_fantasia       = isset($request['nome_fantasia']) ? $request['nome_fantasia'] : $request['razao_social'];
+            $cliente->cnpj_cpf            = $request['cnpj_cpf'];
+            $cliente->contribuinte        = $request['contribuinte'];
+            $cliente->insc_estadual       = (int)$cliente->contribuinte == 0 ? 'ISENTO' : Helper::formataString(strtoupper($request['insc_estadual']));
+            $cliente->tipo_cliente        = 'F';
+            $cliente->endereco            = $request['endereco'];
+            $cliente->bairro              = $request['bairro'];
+            $cliente->complemento         = $request['complemento'];
+            $cliente->cep                 = $request['cep'];
+            $cliente->cidade              = $request['cidade'];
+            $cliente->cod_mun             = $request['cod_mun'];
+            $cliente->uf                  = $request['uf'];
+            $cliente->ddd                 = $request['ddd'];
+            $cliente->fone                = $request['fone'];
+            $cliente->nome_contato        = $request['nome_contato'];
+            $cliente->email              = $request['email'];
+            $cliente->email_con          = $request['email_con'];
+            $cliente->email_fin          = $request['email_fin'];
+            $cliente->envia_boleto        = $request['envia_boleto'];
+            $cliente->obs_nota            = Helper::formataString($request['obs_nota'] !== null ? $request['obs_nota'] : '');
+            $cliente->obs_interna         = Helper::formataString($request['obs_interna'] !== null ? $request['obs_interna'] : '');
+            $cliente->risco               = 'E';
+            $cliente->status              = '1';
+            $cliente->created_at          = new \DateTime();
+            $cliente->updated_at          = new \DateTime();
             $cliente->save();
 
             //gera vex sync
@@ -188,30 +198,32 @@ class ClienteController extends Controller
     
             if($success)
             {
-                $cliente->vxgloempfil_id    = $this->filial->id;
-                $cliente->vxfatvend_erp_id  = $this->vendedor->erp_id;
-                $cliente->tipo_pessoa       = strtoupper($request['tipo_pessoa']);
-                $cliente->razao_social      = $request['razao_social'];
-                $cliente->nome_fantasia     = $request['nome_fantasia'];
-                $cliente->cnpj_cpf          = $request['cnpj_cpf'];
-                $cliente->contribuinte      = $request['contribuinte'];
-                $cliente->insc_estadual     = (int)$cliente->contribuinte == 0 ? 'ISENTO' : Helper::formataString(strtoupper($request['insc_estadual']));
-                //$cliente->tipo_cliente      = strtoupper($request['tipo_cliente']); utilizado apenas em adicionaPost
-                $cliente->endereco          = $request['endereco'];
-                $cliente->bairro            = $request['bairro'];
-                $cliente->complemento       = $request['complemento'];
-                $cliente->cep               = $request['cep'];
-                $cliente->cod_mun           = $request['cod_mun'];
-                $cliente->cidade            = $request['cidade'];
-                $cliente->uf                = $request['uf'];
-                $cliente->ddd               = $request['ddd'];
-                $cliente->fone              = $request['fone'];
-                $cliente->nome_contato      = $request['nome_contato'];
-                $cliente->email             = $request['email'];
-                $cliente->envia_boleto      = $request['envia_boleto'];
-                $cliente->obs_nota          = $request['obs_nota'] !== null ? $request['obs_nota'] : '';
-                $cliente->obs_interna       = $request['obs_interna'] !== null ? $request['obs_interna'] : '';
-                $cliente->updated_at        = new \DateTime();
+                $cliente->vxgloempfil_id      = $this->filial->id;
+                $cliente->vxfatvend_erp_id_2  = $this->vendedor->erp_id;
+                $cliente->tipo_pessoa         = strtoupper($request['tipo_pessoa']);
+                $cliente->razao_social        = $request['razao_social'];
+                $cliente->nome_fantasia       = $request['nome_fantasia'];
+                $cliente->cnpj_cpf            = $request['cnpj_cpf'];
+                $cliente->contribuinte        = $request['contribuinte'];
+                $cliente->insc_estadual       = (int)$cliente->contribuinte == 0 ? 'ISENTO' : Helper::formataString(strtoupper($request['insc_estadual']));
+                //$cliente->tipo_cliente        = strtoupper($request['tipo_cliente']); utilizado apenas em adicionaPost
+                $cliente->endereco            = $request['endereco'];
+                $cliente->complemento         = $request['complemento'];
+                $cliente->bairro              = $request['bairro'];
+                $cliente->cep                 = $request['cep'];
+                $cliente->cidade              = $request['cidade'];
+                $cliente->cod_mun             = $request['cod_mun'];
+                $cliente->uf                  = $request['uf'];
+                $cliente->ddd                 = $request['ddd'];
+                $cliente->fone                = $request['fone'];
+                $cliente->nome_contato        = $request['nome_contato'];
+                $cliente->email               = $request['email'];
+                $cliente->email_con           = $request['email_con'];
+                $cliente->email_fin           = $request['email_fin'];
+                $cliente->envia_boleto        = $request['envia_boleto'];
+                $cliente->obs_nota            = Helper::formataString($request['obs_nota'] !== null ? $request['obs_nota'] : '');
+                $cliente->obs_interna         = Helper::formataString($request['obs_interna'] !== null ? $request['obs_interna'] : '');
+                $cliente->updated_at          = new \DateTime();
                 $cliente->save();
     
                 //gera vex sync
