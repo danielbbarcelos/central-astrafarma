@@ -41,11 +41,11 @@ class ProdutoLocator extends Controller
      * @param $produto_id
      * @return mixed
      */
-    public function visualiza($produto_id)
+    public function visualiza(Request $request, $produto_id)
     {
         $controller = new ProdutoController();
 
-        $response   = $controller->visualiza($produto_id);
+        $response   = $controller->visualiza($request, $produto_id);
 
         return Helper::retornoMobile($response);
     }

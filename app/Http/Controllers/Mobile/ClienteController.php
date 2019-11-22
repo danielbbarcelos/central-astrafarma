@@ -12,6 +12,7 @@ use App\Http\Controllers\Mobile\VexSyncController;
 
 //framework
 use App\Http\Controllers\Controller;
+use App\Risco;
 use App\Vendedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -67,6 +68,13 @@ class ClienteController extends Controller
             $query->orWhere('vxfatvend_erp_id_2',$this->vendedor->erp_id);
 
         })->where('status','1')->orderBy('nome_fantasia','asc')->get();
+
+
+        //retorna desconto máximo dos clientes
+        foreach ($clientes as $cliente)
+        {
+            $cliente->desconto_maximo = Risco::where('codigo',$cliente->risco)->first()->percentual_desconto;
+        }
 
 
 
@@ -156,6 +164,16 @@ class ClienteController extends Controller
         $log     = [];
 
         $cliente = Cliente::find($cliente_id);
+
+        if(!isset($cliente))
+        {
+            $success = false;
+            $log[]   = ['error' => 'Item não encontrado'];
+        }
+        else
+        {
+            $cliente->desconto_maximo = Risco::where('codigo',$cliente->risco)->first()->percentual_desconto;
+        }
 
         $response['success'] = $success;
         $response['log']     = $log;

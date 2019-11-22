@@ -182,4 +182,30 @@ class LoteController extends Controller
     }
 
 
+    //retorna saldo por produto
+    public function saldoPorProduto($produto_id)
+    {
+        $success = true;
+        $log     = [];
+
+        $saldo = 0;
+
+        $lotes = Lote::where('dt_valid','>',Carbon::now()->format('Y-m-d'))->where('vxgloprod_id',$produto_id)->get();
+
+        foreach($lotes as $lote)
+        {
+            $saldo = $saldo + ($lote->saldo - $lote->empenho);
+        }
+
+        if($saldo < 0)
+        {
+            $saldo = 0;
+        }
+
+        $response['success'] = $success;
+        $response['log']     = $log;
+        $response['saldo']   = (int)$saldo;
+        return $response;
+    }
+
 }
