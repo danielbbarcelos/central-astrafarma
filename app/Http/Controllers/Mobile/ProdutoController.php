@@ -107,7 +107,6 @@ class ProdutoController extends Controller
             $produto->tabelas = $tabelas;
 
 
-            dd(json_decode(json_encode($produto)));
         }
 
         $response['success'] = $success;
