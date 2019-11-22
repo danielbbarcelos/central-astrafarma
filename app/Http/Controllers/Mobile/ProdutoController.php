@@ -87,9 +87,9 @@ class ProdutoController extends Controller
 
 
             //retorna os preços do produto
-            $tabelas = TabelaPreco::all();
+            $tabelas = [];
 
-            foreach($tabelas as $tabela)
+            foreach(TabelaPreco::all() as $tabela)
             {
                 $precos = TabelaPrecoProduto::where('vxfattabprc_id',$tabela->id)->where(function($query) use ($request){
 
@@ -101,7 +101,12 @@ class ProdutoController extends Controller
 
                 })->where('vxgloprod_id',$produto_id)->orderBy('uf','asc')->get();
 
-                $tabela->precos = $precos;
+                if(count($precos) > 0)
+                {
+                    $tabela->precos = $precos;
+
+                    $tabelas[] = $tabelas;
+                }
             }
 
             $produto->tabelas = $tabelas;
