@@ -100,12 +100,12 @@ class ProdutoController extends Controller
                     }
 
                 })->where('vxgloprod_id',$produto_id)->orderBy('uf','asc')->get();
-
+		
                 if(count($precos) > 0)
                 {
                     $tabela->precos = $precos;
 
-                    $tabelas[] = $tabelas;
+                    $tabelas[] = $tabela;
                 }
             }
 
