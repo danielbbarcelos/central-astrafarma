@@ -8,6 +8,7 @@ use App\Cliente;
 use App\CondicaoPagamento;
 use App\EmpresaFilial;
 use App\Http\Controllers\Mobile\VexSyncController;
+use App\Lote;
 use App\PedidoVenda;
 use App\PedidoItem;
 use App\Produto;
@@ -160,7 +161,6 @@ class PedidoVendaController extends Controller
         $rules = [
             'cliente_id'             => ['required'],
             'condicao_pagamento_id'  => ['required'],
-            'tabela_preco_id'        => ['required'],
         ];
 
         $validator = Validator::make($request->all(), $rules, PedidoVenda::$messages);
@@ -177,60 +177,160 @@ class PedidoVendaController extends Controller
 
         if($success)
         {
-            //busca os dados para incluir o ERP ID
-            $cliente  = Cliente::find($request['cliente_id']);
-            $condicao = CondicaoPagamento::find($request['condicao_pagamento_id']);
-            $vendedor = $this->vendedor;
-            $preco    = TabelaPreco::find($request['tabela_preco_id']);
-
-
-            $pedido = new PedidoVenda();
-            $pedido->erp_id              = null;
-            $pedido->vxgloempfil_id      = $this->filial->id;
-            $pedido->vxglocli_erp_id     = $cliente->erp_id;
-            $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
-            $pedido->vxfatvend_erp_id    = $vendedor->erp_id;
-            $pedido->vxfattabprc_erp_id  = $preco->erp_id;
-            $pedido->situacao_pedido     = "A";
-            $pedido->cliente_data        = json_encode($cliente,JSON_UNESCAPED_UNICODE);
-            $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::createFromFormat('Y-m-d',$request['data_entrega'])->format('Y-m-d') : null;
-            $pedido->observacao          = isset($request['observacao']) ? $request['observacao'] : '';
-            $pedido->created_at          = new \DateTime();
-            $pedido->updated_at          = new \DateTime();
-            $pedido->save();
-
-            if(isset($request['itens']))
+            //--------------------------------------------------------------------------------------------------------//
+            // - Formata os itens enviados, escolhendo automaticamente os lotes a serem utilizados na venda,
+            // de acordo com saldo e data de validade
+            //--------------------------------------------------------------------------------------------------------//
+            if(!isset($request['itens']))
             {
-                $itens = [];
-
-                foreach($request['itens'] as $item)
+                $success = false;
+                $log[]   = ['error' => 'Itens não informados'];
+            }
+            else
+            {
+                if(count($request['itens']) == 0)
                 {
-                   
-                    $produto = Produto::find($item['produto_id']);
-
-                    $pedidoItem = new PedidoItem();
-                    $pedidoItem->vxfatpvenda_id   = $pedido->id;
-                    $pedidoItem->vxgloprod_erp_id = $produto->erp_id;
-                    $pedidoItem->produto_data     = json_encode($produto, JSON_UNESCAPED_UNICODE);
-                    $pedidoItem->quantidade       = $item['quantidade'];
-                    $pedidoItem->preco_unitario   = number_format(Helper::formataDecimal($item['preco_unitario']),2,'.','');
-                    $pedidoItem->preco_venda      = number_format(Helper::formataDecimal($item['preco_venda']),2,'.','');
-                    $pedidoItem->valor_desconto   = number_format(Helper::formataDecimal($item['valor_desconto']),2,'.','');
-                    $pedidoItem->valor_total      = number_format(Helper::formataDecimal($item['preco_total']),2,'.','');
-                    $pedidoItem->created_at       = new \DateTime();
-                    $pedidoItem->updated_at       = new \DateTime();
-                    $pedidoItem->save();
-
-                    $itens[] = $pedidoItem;
+                    $success = false;
+                    $log[]   = ['error' => 'Nenhum item enviado'];
                 }
+                else
+                {
+                    $itens = [];
 
-                $pedido->itens = $itens;
+                    $lotesUtilizados = [];
+
+                    for($i = 0; $i < count($request['itens']); $i++)
+                    {
+                        $produtoId        = $request['itens'][$i]['id'];
+                        $tabelaId         = $request['itens'][$i]['tabela_id'];
+                        $produtoDescricao = $request['itens'][$i]['descricao'];
+                        $precoOriginal    = $request['itens'][$i]['preco_original'];
+                        $precoAplicado    = $request['itens'][$i]['preco_aplicado'];
+                        $quantidade       = $request['itens'][$i]['quantidade'];
+                        $pendente         = $quantidade;
+
+                        while($pendente > 0)
+                        {
+                            $lote = Lote::select('vx_est_lote.*',DB::raw('(saldo - empenho) as saldo_real'))
+                                ->where('vxgloprod_id',$produtoId)
+                                ->where('dt_valid','>',Carbon::now()->format('Y-m-d'))
+                                ->where(DB::raw('(saldo - empenho)'),'>','0')
+                                ->whereNotIn('id',$lotesUtilizados)
+                                ->orderBy('dt_valid','asc')
+                                ->first();
+
+                            if(isset($lote))
+                            {
+                                $success = false;
+                                $log[]   = ['error' => 'Não há saldo suficiente para o produto '.$produtoDescricao];
+                            }
+                            else
+                            {
+                                $itens[] = [
+                                    'produto_id' => $produtoId,
+                                    'lote_id' => $lote->id,
+                                    'tabela_id' => $tabelaId,
+                                    'preco_original' => $precoOriginal,
+                                    'preco_aplicado' => $precoAplicado,
+                                    'quantidade' => $quantidade,
+                                ];
+
+                                $pendente = $pendente - $lote->saldo_real;
+
+                                $lotesUtilizados[] = $lote->id;
+                            }
+                        }
+                    }
+                }
             }
 
-            //gera vex sync
-            VexSyncController::adiciona('01,01','post',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('add')); // edit,get,delete: rest/ped_venda/$erp_id
 
-            $log[]   = ['success' => 'Pedido cadastrado com sucesso'];
+
+            //caso não tenha ocorrido problemas, cadastramos o pedido e os itens do pedido
+            if($success)
+            {
+
+                //busca os dados para incluir o ERP ID
+                $cliente  = Cliente::find($request['cliente_id']);
+                $condicao = CondicaoPagamento::find($request['condicao_pagamento_id']);
+
+                $pedido = new PedidoVenda();
+                $pedido->situacao_pedido     = "A";
+                $pedido->vxgloempfil_id      = $this->filial->id;
+                $pedido->vxglocli_erp_id     = $cliente->erp_id;
+                $pedido->vxglocpgto_erp_id   = $condicao->erp_id;
+                $pedido->vxfatvend_erp_id    = $this->vendedor->erp_id;
+                $pedido->cliente_data        = json_encode($cliente, JSON_UNESCAPED_UNICODE);
+                $pedido->data_entrega        = isset($request['data_entrega']) ? Carbon::parse($request['data_entrega'])->format('Y-m-d') : null;
+                $pedido->status_entrega      = isset($request['status_entrega']) ? $request['status_entrega'] : '1';
+                $pedido->observacao          = Helper::formataString($request['observacao_nota'] !== null ? $request['observacao_nota'] : '');
+                $pedido->obs_interna         = Helper::formataString($request['observacao_interna'] !== null ? $request['observacao_interna'] : 'Nenhuma observacao inserida pelo usuario');
+                $pedido->created_at          = new \DateTime();
+                $pedido->updated_at          = new \DateTime();
+                $pedido->save();
+
+
+                for($i = 0; $i < count($itens); $i++)
+                {
+
+                    //formata as variáveis enviadas
+                    $tabelaId      = $itens[$i]['tabela_id'];
+                    $produtoId     = $itens[$i]['produto_id'];
+                    $loteId        = $itens[$i]['lote_id'];
+                    $precoOriginal = (float) Helper::formataDecimal($itens[$i]['preco_original']);
+                    $precoAplicado = (float) Helper::formataDecimal($itens[$i]['preco_aplicado']);
+                    $quantidade    = (int) $itens[$i]['quantidade'];
+
+                    //busca os objetos relacionados e executa os cálculos dos valores
+                    $tabela  = TabelaPreco::find($tabelaId);
+                    $produto = Produto::find($produtoId);
+                    $lote    = Lote::find($loteId);
+
+                    if($precoOriginal == $precoAplicado)
+                    {
+                        $desconto  = 0.00;
+                        $acrescimo = 0.00;
+                    }
+                    else if($precoAplicado < $precoOriginal)
+                    {
+                        $desconto  = abs( ($quantidade * $precoOriginal) - ($quantidade * $precoAplicado) );
+                        $acrescimo = 0.00;
+                    }
+                    else if($precoAplicado > $precoOriginal)
+                    {
+                        $desconto  = 0.00;
+                        $acrescimo = abs( ($quantidade * $precoAplicado) - ($quantidade * $precoOriginal) );
+                    }
+
+                    $pedidoItem = new PedidoItem();
+                    $pedidoItem->vxfatpvenda_id     = $pedido->id;
+                    $pedidoItem->vxgloprod_erp_id   = $produto->erp_id;
+                    $pedidoItem->vxfattabprc_erp_id = $tabela->erp_id;
+                    $pedidoItem->vxestarmz_erp_id   = $lote->armazem->erp_id;
+                    $pedidoItem->vxestlote_erp_id   = $lote->erp_id;
+                    $pedidoItem->quantidade         = $quantidade;
+                    $pedidoItem->produto_data       = json_encode($produto, JSON_UNESCAPED_UNICODE);
+                    $pedidoItem->preco_unitario     = $precoOriginal;
+                    $pedidoItem->preco_venda        = $precoAplicado;
+                    $pedidoItem->valor_desconto     = $desconto;
+                    $pedidoItem->valor_acrescimo    = $acrescimo;
+                    $pedidoItem->valor_total        = $quantidade * $precoAplicado;
+                    $pedidoItem->created_at         = new \DateTime();
+                    $pedidoItem->updated_at         = new \DateTime();
+                    $pedidoItem->save();
+
+
+                    //registra o empenho da quantidade do lote
+                    LoteController::atualizaQuantidadeEmpenhada($lote->erp_id);
+                }
+
+
+                //gera vex sync
+                VexSyncController::adiciona('01,01','post',  $pedido->getTable(), $pedido->id,  $pedido->getWebservice('add')); // edit,get,delete: rest/ped_venda/$erp_id
+
+                $log[]   = ['success' => 'Pedido cadastrado com sucesso'];
+
+            }
 
         }
 

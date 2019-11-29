@@ -242,6 +242,7 @@ class PedidoVendaController extends Controller
             $pedido->updated_at          = new \DateTime();
             $pedido->save();
 
+
             if(isset($request['produto_id']))
             {
                 for($i = 0; $i < count($request['produto_id']); $i++)

@@ -35,7 +35,6 @@ class PedidoVenda extends Model
         'cliente_id.required'             => 'Cliente não informado',
         'condicao_pagamento_id.required'  => 'Condição de pagamento não informado',
         'tabela_preco_id.required'        => 'Preço não informado',
-        'vendedorid.required'             => 'Vendedor não informado',
     ];
 
     //return table's name of this model
