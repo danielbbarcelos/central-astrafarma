@@ -223,6 +223,8 @@ class PedidoVendaController extends Controller
                             {
                                 $success = false;
                                 $log[]   = ['error' => 'Não há saldo suficiente para o produto '.$produtoDescricao];
+
+                                break;
                             }
                             else
                             {
@@ -245,9 +247,14 @@ class PedidoVendaController extends Controller
                                     'quantidade' => $quantidadeLote,
                                 ];
 
-                                $pendente = $pendente - $lote->saldo_real;
+                                $pendente = (int)$pendente - (int)$lote->saldo_real;
 
                                 $lotesUtilizados[] = $lote->id;
+
+                                if((int) $pendente <= 0)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
