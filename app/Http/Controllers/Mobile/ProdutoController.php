@@ -58,6 +58,17 @@ class ProdutoController extends Controller
 
         })->where('status','1')->orderBy('descricao','asc')->get();
 
+
+        //caso a requisição tenha sido realizada com o parâmetro "termo", retornamos os saldos dos produtos
+        foreach($produtos as $produto)
+        {
+            //retorna o saldo em estoque do produto
+            $loteController = new LoteController();
+            $resultado      = $loteController->saldoPorProduto($produto->id);
+            $produto->saldo = $resultado['saldo'];
+        }
+
+
         $response['success'] = $success;
         $response['log']     = $log;
         $response['produtos'] = $produtos;
