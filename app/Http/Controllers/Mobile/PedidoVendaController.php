@@ -226,13 +226,23 @@ class PedidoVendaController extends Controller
                             }
                             else
                             {
+                                if((int) $lote->saldo_real == (int) $pendente or (int) $lote->saldo_real > (int)$pendente)
+                                {
+                                    $quantidadeLote = (int) $pendente;
+                                }
+                                else
+                                {
+                                    $quantidadeLote = (int) $lote->saldo_real;
+                                }
+
+
                                 $itens[] = [
                                     'produto_id' => $produtoId,
                                     'lote_id' => $lote->id,
                                     'tabela_id' => $tabelaId,
                                     'preco_original' => $precoOriginal,
                                     'preco_aplicado' => $precoAplicado,
-                                    'quantidade' => $quantidade,
+                                    'quantidade' => $quantidadeLote,
                                 ];
 
                                 $pendente = $pendente - $lote->saldo_real;
