@@ -219,7 +219,7 @@ class PedidoVendaController extends Controller
                                 ->orderBy('dt_valid','asc')
                                 ->first();
 
-                            if(isset($lote))
+                            if(!isset($lote))
                             {
                                 $success = false;
                                 $log[]   = ['error' => 'Não há saldo suficiente para o produto '.$produtoDescricao];
