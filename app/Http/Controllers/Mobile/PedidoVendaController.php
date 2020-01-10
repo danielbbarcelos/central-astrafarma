@@ -66,6 +66,7 @@ class PedidoVendaController extends Controller
 
                 if(isset($request['termo']))
                 {
+                    $query->orWhereRaw('vx_fat_pvenda.id like "%'.$request['termo'].'%"');
                     $query->orWhereRaw('vx_fat_pvenda.erp_id like "%'.$request['termo'].'%"');
                     $query->orWhereRaw('vx_glo_cli.razao_social like "%'.$request['termo'].'%"');
                     $query->orWhereRaw('vx_glo_cli.nome_fantasia like "%'.$request['termo'].'%"');
